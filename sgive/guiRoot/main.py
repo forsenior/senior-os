@@ -5,22 +5,25 @@ import json
 """
 Written by: RYUseless, BPC-IBE
 """
+
+def screenResMath(tk):
+    print("Pocitanicko")
+    screen_width = tk.winfo_screenwidth()
+    screen_height = tk.winfo_screenheight()
+    res = "{a}x{b}".format(a=int(screen_width), b=int(screen_height))
+    return [res,int(screen_width/6),int(screen_height/6)]#fullRes->0    width/6->1  Height/6->2
+
 class JsonActions():
-    def __init__(self,resolution,font,size,weight):
+    def __init__(self,resolution,appResolution,font,size,weight):
         self.resolution = resolution
+        self.appResolution = appResolution
         self.font = font
         self.size = size
         self.weight = weight
 
-        print("\n")
-        print("res:",resolution)
-        print("font:",font)
-        print("size:",size)
-        print("weight:",weight)
-        print("\n")
-
         dictionary = {
             "screenResolution": resolution,
+            "appResolution" : appResolution,
             "fontName": font,
             "fontSize": size,
             "fontWeight": weight
@@ -31,7 +34,6 @@ class JsonActions():
         with open("CoolEpicName.json", "w") as outfile:
             outfile.write(json_object)
 
-
 class MenuFrame:
     def __init__(self, masterFrame):
         self.browserButton = None
@@ -40,7 +42,10 @@ class MenuFrame:
         self.menuButton = None
         self.masterFrame = masterFrame
 
-        __fontSize = font.Font(family='Halvetica', size=36, weight=font.BOLD)
+        self.fontSize = font.Font(family='Halvetica', size=36, weight=font.BOLD)
+
+        sixWidth =  screenResMath(masterFrame)[1]
+        sixHeight = screenResMath(masterFrame)[2]
 
         def menuClicked(): #schová "MENU" a ukáže "BACK"
             print("menuClicked")
@@ -59,30 +64,30 @@ class MenuFrame:
         def createMenuButtons(fontSize):
             print("we craftin menu")
             self.menuButton = tkinter.Button(menuBar, text="MENU", command=menuClicked)
-            self.menuButton['width'] = int(masterFrame.winfo_screenwidth() / 6)
-            self.menuButton['height']= int(masterFrame.winfo_screenwidth() / 6)
+            self.menuButton['width'] = sixWidth
+            self.menuButton['height']= sixHeight
             self.menuButton['font']= fontSize
             self.menuButton.pack()
             self.backButton = tkinter.Button(menuBar, text="BACK", command=backClicked)
-            self.backButton['width'] = int(masterFrame.winfo_screenwidth() / 6)
-            self.backButton['height'] = int(masterFrame.winfo_screenheight() / 6)
+            self.backButton['width'] = sixWidth
+            self.backButton['height'] = sixHeight
             self.backButton['font'] = fontSize
 
         def createExitButton(fontSize):
             print("we craftin exit")
             exitButtonPokus = tkinter.Button(exitBar, text="EXIT",command=self.masterFrame.destroy)
-            exitButtonPokus['width'] = int(masterFrame.winfo_screenwidth() / 6)
-            exitButtonPokus['height']= int(masterFrame.winfo_screenwidth() / 6)
+            exitButtonPokus['width'] = sixWidth
+            exitButtonPokus['height']= sixHeight
             exitButtonPokus['font'] = fontSize
             exitButtonPokus.pack()
 
         def createOptionsButtons(fontSize):
             print("we craftin options")
             self.emailButton = tkinter.Button(optionsBar, text="EMAIL",command=lambda : print("email"))
-            self.emailButton['height']= int(masterFrame.winfo_screenwidth() / 6)
+            self.emailButton['height']= sixHeight
             self.emailButton['font'] = fontSize
             self.browserButton = tkinter.Button(optionsBar, text="BROWSER",command=lambda : print("browser"))
-            self.browserButton['height']= int(masterFrame.winfo_screenwidth() / 6)
+            self.browserButton['height']= sixHeight
             self.browserButton['font'] = fontSize
 
         # Main frame
@@ -91,12 +96,12 @@ class MenuFrame:
         masterBar.pack(side=TOP, fill=X)
 
         # sekce pro menu
-        menuBar = Frame(masterBar, width=int(masterFrame.winfo_screenwidth() / 6))
+        menuBar = Frame(masterBar, width=sixWidth)
         menuBar.pack_propagate(False)
         menuBar.pack(side=LEFT, fill=Y)
 
         # sekce pro exit
-        exitBar = Frame(masterBar, width=int(masterFrame.winfo_screenwidth() / 6))
+        exitBar = Frame(masterBar, width=sixWidth)
         exitBar.pack_propagate(False)
         exitBar.pack(side=RIGHT, fill=Y)
 
@@ -106,14 +111,12 @@ class MenuFrame:
         optionsBar.pack(expand=True, fill=BOTH)
 
         #volání defů pro tlačítka
-        createMenuButtons(__fontSize)
-        createOptionsButtons(__fontSize)
-        createExitButton(__fontSize)
+        createMenuButtons(self.fontSize)
+        createOptionsButtons(self.fontSize)
+        createExitButton(self.fontSize)
 
-        pokusValue = masterBar.winfo_reqheight()
-        print("velikost:",pokusValue)
-    def __str__(self):
-        return 'Halvetica;36;BOLD'
+    def font(self):
+        return self.fontSize
 
 class ApplicationsFrame:
     def __init__(self, applicationsFrame):
@@ -124,31 +127,23 @@ class ApplicationsFrame:
         applicationFrame = Frame(applicationsFrame,height=heighNum,bg="#bababa")
         applicationFrame.pack_propagate(False)
         applicationFrame.pack(fill=X)
-        print("velikost appSvine:",heighNum,"vs",applicationFrame.winfo_height())
+
+        self.valueHeight = heighNum
+        self.valueWidth = applicationFrame.winfo_screenwidth()
+    def __str__(self):
+        return f"{self.valueWidth}x{self.valueHeight}"
 class App:
     def __init__(self, masterWindow):
         self.masterWindow = masterWindow
         masterWindow.title("for senior")
-
-        screen_width = masterWindow.winfo_screenwidth()
-        screen_height = masterWindow.winfo_screenheight()
-        self.res = "{a}x{b}".format(a=int(screen_width), b=int(screen_height))
-        #todo: zapsat do json dokumentu
-
-        masterWindow.geometry(self.res)
-        masterWindow.overrideredirect(True)
-
-    def __str__(self):
-        return self.res
-
+        masterWindow.attributes('-fullscreen', True)
 
 if __name__ == '__main__':
     root = Tk()
     my_gui = App(root)
     menuframe = MenuFrame(root)
     appframe = ApplicationsFrame(root)
-
-    pokusValue = str(menuframe).split(';')
-    pokusJson = JsonActions(str(my_gui),pokusValue[0],pokusValue[1],pokusValue[2])
+    pokusValue = menuframe.font()
+    pokusJson = JsonActions(screenResMath(root)[0],str(appframe), pokusValue.cget('family'), pokusValue.cget('size'), pokusValue.cget('weight'))
 
     root.mainloop()
