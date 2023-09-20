@@ -12,7 +12,6 @@ def screenResMath(tk):
     screen_height = tk.winfo_screenheight()
     res = "{a}x{b}".format(a=int(screen_width), b=int(screen_height))
     return [res,int(screen_width/6),int(screen_height/6)]#fullRes->0    width/6->1  Height/6->2
-
 class JsonActions():
     def __init__(self,resolution,appResolution,font,size,weight):
         self.resolution = resolution
@@ -33,7 +32,6 @@ class JsonActions():
 
         with open("CoolEpicName.json", "w") as outfile:
             outfile.write(json_object)
-
 class MenuFrame:
     def __init__(self, masterFrame):
         self.browserButton = None
@@ -41,9 +39,7 @@ class MenuFrame:
         self.backButton = None
         self.menuButton = None
         self.masterFrame = masterFrame
-
         self.fontSize = font.Font(family='Halvetica', size=36, weight=font.BOLD)
-
         sixWidth =  screenResMath(masterFrame)[1]
         sixHeight = screenResMath(masterFrame)[2]
 
@@ -91,7 +87,7 @@ class MenuFrame:
             self.browserButton['font'] = fontSize
 
         # Main frame
-        masterBar = Frame(masterFrame, height=int(masterFrame.winfo_screenheight() / 6))
+        masterBar = Frame(masterFrame, height=sixHeight)
         masterBar.pack_propagate(False)  # zakazuje, aby se velikost baru fixne scaloval podle velikosti tlacitka
         masterBar.pack(side=TOP, fill=X)
 
