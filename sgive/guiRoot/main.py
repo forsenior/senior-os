@@ -2,7 +2,9 @@ import tkinter
 from tkinter import *
 import tkinter.font as font
 import json
-
+"""
+Written by: RYUseless, BPC-IBE
+"""
 class JsonActions():
     def __init__(self,resolution,font,size,weight):
         self.resolution = resolution
@@ -148,7 +150,5 @@ if __name__ == '__main__':
 
     pokusValue = str(menuframe).split(';')
     pokusJson = JsonActions(str(my_gui),pokusValue[0],pokusValue[1],pokusValue[2])
-
-
 
     root.mainloop()
