@@ -3,7 +3,6 @@ from tkinter import *
 import tkinter.font as font
 import json
 import screeninfo
-screeninfo.get_monitors()
 """
 Written by: RYUseless, BPC-IBE
 """
@@ -139,6 +138,8 @@ class App:
         masterWindow.attributes('-fullscreen', True)
 
 if __name__ == '__main__':
+    screeninfo.get_monitors()
+
     root = Tk()
     my_gui = App(root)
     menuframe = MenuFrame(root)
