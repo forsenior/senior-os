@@ -2,12 +2,20 @@ import tkinter
 from tkinter import *
 import tkinter.font as font
 import json
+import screeninfo
+screeninfo.get_monitors()
 """
 Written by: RYUseless, BPC-IBE
 """
+def get_monitor_from_coord(x, y):
+    monitors = screeninfo.get_monitors()
+
+    for m in reversed(monitors):
+        if m.x <= x <= m.width + m.x and m.y <= y <= m.height + m.y:
+            return m
+    return monitors[0]
 
 def screenResMath(tk):
-    print("Pocitanicko")
     screen_width = tk.winfo_screenwidth()
     screen_height = tk.winfo_screenheight()
     res = "{a}x{b}".format(a=int(screen_width), b=int(screen_height))
@@ -58,7 +66,6 @@ class MenuFrame:
             self.backButton.pack_forget()
 
         def createMenuButtons(fontSize):
-            print("we craftin menu")
             self.menuButton = tkinter.Button(menuBar, text="MENU", command=menuClicked)
             self.menuButton['width'] = sixWidth
             self.menuButton['height']= sixHeight
@@ -70,7 +77,6 @@ class MenuFrame:
             self.backButton['font'] = fontSize
 
         def createExitButton(fontSize):
-            print("we craftin exit")
             exitButtonPokus = tkinter.Button(exitBar, text="EXIT",command=self.masterFrame.destroy)
             exitButtonPokus['width'] = sixWidth
             exitButtonPokus['height']= sixHeight
@@ -78,7 +84,6 @@ class MenuFrame:
             exitButtonPokus.pack()
 
         def createOptionsButtons(fontSize):
-            print("we craftin options")
             self.emailButton = tkinter.Button(optionsBar, text="EMAIL",command=lambda : print("email"))
             self.emailButton['height']= sixHeight
             self.emailButton['font'] = fontSize
@@ -118,7 +123,6 @@ class ApplicationsFrame:
     def __init__(self, applicationsFrame):
         self.applicationsFrame = applicationsFrame
 
-        print("app frame")
         heighNum = int(applicationsFrame.winfo_screenheight()-(applicationsFrame.winfo_screenheight()/6))
         applicationFrame = Frame(applicationsFrame,height=heighNum,bg="#bababa")
         applicationFrame.pack_propagate(False)
@@ -142,4 +146,11 @@ if __name__ == '__main__':
     pokusValue = menuframe.font()
     pokusJson = JsonActions(screenResMath(root)[0],str(appframe), pokusValue.cget('family'), pokusValue.cget('size'), pokusValue.cget('weight'))
 
+    # Get the screen which contains top
+    current_screen = get_monitor_from_coord(root.winfo_x(), root.winfo_y())
+
+    # Get the monitor's size
+    print("resolution get pokus:",current_screen.width, current_screen.height)
+
     root.mainloop()
+
