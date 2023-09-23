@@ -1,0 +1,13 @@
+class ApplicationsFrame:
+    def __init__(self, applicationsFrame):
+        self.applicationsFrame = applicationsFrame
+
+        heighNum = int(applicationsFrame.winfo_screenheight()-(applicationsFrame.winfo_screenheight()/6))
+        applicationFrame = Frame(applicationsFrame,height=heighNum,bg="#bababa")
+        applicationFrame.pack_propagate(False)
+        applicationFrame.pack(fill=X)
+
+        self.valueHeight = heighNum
+        self.valueWidth = applicationFrame.winfo_screenwidth()
+    def __str__(self):
+        return f"{self.valueWidth}x{self.valueHeight}"
