@@ -1,23 +1,24 @@
+"""
+Written by: RYUseless, BPC-IBE
+"""
 import tkinter
 from tkinter import *
 import tkinter.font as font
 import json
 import screeninfo
 import GUI1
-"""
-Written by: RYUseless, BPC-IBE
-"""
-def get_monitor_from_coord(x, y):
-    monitors = screeninfo.get_monitors()
 
+
+def get_monitor_from_coord(x, y): #testing for dualMonitor setup(where sometimes tkinter fails)
+    monitors = screeninfo.get_monitors()
     for m in reversed(monitors):
         if m.x <= x <= m.width + m.x and m.y <= y <= m.height + m.y:
             return m
     return monitors[0]
 
 def applications_launcher():
-    #udělat singleInstanceLock
-    GUI1.GUI()
+    gui1 = GUI1.GUI()
+    gui1.pack(fill=tkinter.X)  # if width for x fails
 
 def screenResMath(tk):
     screen_width = tk.winfo_screenwidth()
@@ -49,6 +50,7 @@ class JsonActions():
 
         with open("config.json", "w") as outfile:
             outfile.write(json_object)
+
 class MenuFrame:
     def __init__(self, masterFrame):
         self.browserButton = None
