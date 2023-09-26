@@ -1,0 +1,14 @@
+[build-system]
+requires = ["setuptools"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "seniorOS"
+authors = [ { name = "RYUseless" } ]
+description = "Application for seniors, developed fo <insert favorite linux distro>"
+requires-python = ">=3.9"
+#dependencies = [""]
+dynamic = ["version"]
+
+[project.scripts]
+graphical-interface = "graphical_interface.App:main"

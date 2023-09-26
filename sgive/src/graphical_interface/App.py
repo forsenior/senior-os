@@ -6,11 +6,12 @@ from tkinter import *
 import tkinter.font as font
 import json
 import os
-#from app_entry import GUI1
+#for testing ↓
+from ui_app import GUI1
 def applications_launcher():
     print("placeholder")
-    #gui1 = GUI1.GUI()
-    #gui1.pack(fill=tkinter.X)  # if width for x fails
+    gui1 = GUI1.GUI()
+    gui1.pack(fill=tkinter.X)  # if width for x fails
 
 def screenResMath(tk):
     screen_width = tk.winfo_screenwidth()
