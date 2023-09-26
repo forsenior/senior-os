@@ -1,24 +1,25 @@
 import tkinter as tk
 import json
 import os
-
 def json_read():
     path = os.getcwd()
-    pwd = os.getcwd()
-    isExist = os.path.exists(f"{pwd}/JSON_conf")
+    isExist = os.path.exists(f"{path}/JSON_conf")
 
     if not isExist:
         path = os.path.normpath(os.getcwd() + os.sep + os.pardir)
+        #pwd && cd ..
 
     f = open(f'{path}/JSON_conf/config.json')
 
     data = json.load(f)
     value = data['data']['appResolution-Y']
     valueX = data['data']['appResolution-X']
-    print(value)
     f.close()
     return [value, valueX]
+
+#value
 _is_running = False
+
 class GUI(tk.Frame):
     def __init__(self):
         tk.Frame.__init__(self)

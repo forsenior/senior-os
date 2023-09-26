@@ -1,1 +1,0 @@
-__all__ = ['App','app_entry']

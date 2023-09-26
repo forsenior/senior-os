@@ -6,13 +6,11 @@ from tkinter import *
 import tkinter.font as font
 import json
 import os
-from app_entry import GUI1
-
-
+#from app_entry import GUI1
 def applications_launcher():
-
-    gui1 = GUI1.GUI()
-    gui1.pack(fill=tkinter.X)  # if width for x fails
+    print("placeholder")
+    #gui1 = GUI1.GUI()
+    #gui1.pack(fill=tkinter.X)  # if width for x fails
 
 def screenResMath(tk):
     screen_width = tk.winfo_screenwidth()
@@ -142,12 +140,11 @@ class App:
 
 def main():
     root = Tk()
-    my_gui = App(root)
+    App(root)
     menu_frame = MenuFrame(root)
     frame_value = menu_frame.font()
     JsonActions(screenResMath(root)[0], screenResMath(root)[3], screenResMath(root)[4], frame_value.cget('family'),
                 frame_value.cget('size'), frame_value.cget('weight'))
-
     root.mainloop()
 
 if __name__ == '__main__':
