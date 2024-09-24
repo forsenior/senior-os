@@ -1,0 +1,35 @@
+Below is a list of images used in this project, along with their respective attributions:
+
+---
+Image: SMAIL_CL_PERSON_1.PNG
+Author: wayhomestudio - Freepik.com
+Source: https://www.freepik.com/free-photo/portrait-young-woman-wearing-striped-blouse_11014693.htm
+License: Free for commercial use WITH ATTRIBUTION license
+---
+Image: SMAIL_CL_PERSON_3.PNG
+Author: Freepik
+Source: https://www.freepik.com/free-photo/portrait-smiling-blonde-woman_5701128.htm
+License: Free for commercial use WITH ATTRIBUTION license
+---
+Image: SMAIL_CL_PERSON_4.PNG
+Author: nakaridore - Freepik.com
+Source: https://www.freepik.com/free-photo/photo-as-passport-young-man-with-stylish-hair-cut_10543604.htm
+License: Free for commercial use WITH ATTRIBUTION license
+---
+Image: SMAIL_CL_PERSON_5.PNG
+Author: Freepik
+Source: https://www.freepik.com/free-photo/portrait-business-man-wearing-for-mal-suit_13698352.htm
+License: Free for commercial use WITH ATTRIBUTION license
+---
+Image: SMAIL_CL_PERSON_6.PNG
+Author: shurkin_son - Freepik.com
+Source: https://www.freepik.com/free-photo/expressive-senior-woman-posing_11196440.htm
+License: Free for commercial use WITH ATTRIBUTION license
+---
+Image: SMAIL_EXIT_1.png
+Author: Moqaccino Resources - Flaticon
+Source: https://www.flaticon.com/free-icons/exit
+License: Free for commercial use WITH ATTRIBUTION license
+---
+
+

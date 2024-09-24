@@ -1,0 +1,44 @@
+Below is a list of images used in this project, along with their respective attributions:
+
+---
+Image: SWEB_WWW1.PNG
+Author: icon-icons.com
+Source: https://icon-icons.com/icon/cnn-logo/170361
+License: Free for commercial use WITH ATTRIBUTION license
+---
+Image: SWEB_WWW2.PNG
+Author: Aleš Vavřík - iROZHLAS.cz
+Source: https://informace.rozhlas.cz/novy-web-irozhlascz-nabizi-spolehlive-a-rychle-zpravodajstvi-se-znackou-ceskeho-7738845#&gid=1&pid=1
+License: Free for commercial use WITH ATTRIBUTION license
+---
+Image: SWEB_WWW3.JPG
+Author: Tinti Nodarse- iconfinder.com
+Source: https://www.iconfinder.com/icons/7123025/logo_google_g_icon
+License: Free for commercial use WITH ATTRIBUTION license
+---
+Image: SWEB_WWW4.PNG
+Author: Aktuálně.cz
+Source: https://www.facebook.com/Aktualne.cz/photos/a.431686449386/10153274531484387/?type=3
+License: Free for commercial use WITH ATTRIBUTION license
+---
+Image: SWEB_WWW5.PNG
+Author: denik.cz
+Source: https://www.google.com/search?q=icon+for+denik.cz&tbm=isch&ved=2ahUKEwj2pqP79v2BAxUEcaQEHQazC4MQ2-cCegQIABAA&oq=icon+for+denik&gs_lcp=CgNpbWcQARgAMgQIIxAnUN8EWKwGYNQMaABwAHgAgAFDiAHBAZIBATOYAQCgAQGqAQtnd3Mtd2l6LWltZ8ABAQ&sclient=img&ei=l-8uZbb_O4TikdUPhuaumAg&bih=738&biw=832#imgrc=DiljThnL6nKf3M
+License: Free for commercial use WITH ATTRIBUTION license
+---
+Image: SWEB_GITHUB_LOGO.PNG
+Author: Project Jupyter - blog.jupyter.org
+Source: https://blog.jupyter.org/rendering-notebooks-on-github-f7ac8736d686
+License: Free for commercial use WITH ATTRIBUTION license
+---
+Image: SWEB_FEKT_VUT_LOGO.PNG
+Author: gaudeamus.cz
+Source: https://gaudeamus.cz/fakulty/detail-fakulty/facultyHash:5607126ba2b5260e99e6c9aa8d524a79
+License: Free for commercial use WITH ATTRIBUTION license
+---
+Image: SWEB_BACKGROUNDHOME.PNG
+Author: ING. ARCH. JANA VALCHOVÁ - fekt.vut.cz
+Source: https://www.fekt.vut.cz/o_fakulte/akce/213824
+License: Free for commercial use WITH ATTRIBUTION license
+
+
