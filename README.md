@@ -8,7 +8,7 @@ Working environment for late seniors and cognitive challenged users
 
 Late seniors and cognitive challenged users encounter difficulties when using common desktop systems and require assistance from their caregivers. They are also easy targets for cyber criminals. This project aims to provide a working environment suitable for such users and improve their security protection.
 
-This work is in progress.
+**This work is in progress.**
 
 ## Key features
 
