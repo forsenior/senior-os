@@ -79,7 +79,7 @@ This area will be made up of five buttons with uniform size, color, and detailin
  * Button margin:           10px, 10px, 10px, 12px (Left, Top, Right, Bottom)
 
 <h4>Scaling</h4>
-The scaling behavior of the Menu bar is following. The bar and buttons must ramain at the top of the screen with consistant marging of ```10px, 10px, 10px, 12px (Left, Top, Right, Bottom)```. The button size (Width and Height) must scale acordingly to the size of the screen, the original value of 204x107 is minimum size requirement.
+The scaling behavior of the Menu bar is following. The bar and buttons must ramain at the top of the screen with consistant marging of ```10px, 10px, 10px, 12px (Left, Top, Right, Bottom)```. The button size (Width and Height) must stay the same and center, only thing scaling will be the MenuBar Background container which will create uniform gray line accross the screen.
 
 <h3>Main application area</h3>
 
@@ -124,7 +124,7 @@ Menu bar and Main application window to adhear to the global guideline written a
  * Border corner radius: 0px
 
 <h4>Scaling</h4>
-Same as global guideline.
+Global guideline for scaling Menu bar aplies in this instance, only change in this instance is that the container containing the message scales with the size of the screen, while rest of the control fields remain the same.
 
 <h3>SMAIL default view - writing email</h3>
 
@@ -223,3 +223,21 @@ Message viewer area of the application is composed of two components, label and 
     - Border corner radius: 8px
     - Text margin: 10px, 5px (Left and Right ,Top and Bottom)
     - Text allignment: Left
+
+
+<h2>SHELP</h2>
+The Menu bar and the Main application window must adhear to the previously stated global desin guideline. Rest of the UI will be described in the sections below.
+
+<h3>SHELP global guidelines (applicable to all states of smail)</h3>
+
+Menu bar and Main application window to adhear to the global guideline written above.
+
+<h4>Text </h3>
+ 
+ * Font family:             Inter (google font)
+ * Font size:               16px
+ * Font:                    Regular
+ * Font color:              00000 (hex)
+ * Position:                Allignet to the left
+
+![SHELP global screen](/images/Regular%201280x720%20SHELP.png)
