@@ -30,9 +30,9 @@ Each application, be it SWEB, SHELP or SMAIL will consist of two distinct areas,
 <h3>Menu bar</h3>
 This area will be made up of five buttons with uniform size, color, and detailing. This guideline must be applied to SHELP, SWEB, and SMAIL, any application specific guidelines are defined in separate sections. Therefore following shall be adheard to:</br>
 
-![MenuBar NormalState](/images/MenuBar_NormalState.png)<br>
+![MenuBar NormalState](images/MenuBar_NormalState.png)<br>
 
-![MenuBar PhishingState](/images/MenuBar_PhishingState.png)</br>
+![MenuBar PhishingState](images/MenuBar_PhishingState.png)</br>
 
 <h4>Menu bar</h4>
  
@@ -83,7 +83,7 @@ The scaling behavior of the Menu bar is following. The bar and buttons must rama
 
 <h3>Main application area</h3>
 
-![Final design of the main window](/images/MainWindow.png)
+![Final design of the main window](images/MainWindow.png)
 
 This area of the application must be uniform accross all of the applications of the SOS, with exception being SHELP and the starting menue of the SOS. Those two cases will have their own special sections defining their design guidelines.
 
@@ -130,7 +130,7 @@ Global guideline for scaling Menu bar aplies in this instance, only change in th
 
 Default view of the SMAIL shall present the user with the interface described and shown bellow.
 
-![Deafult view of the SMAIL](/images/Regular%201280x720%20SMAIL.png)
+![Deafult view of the SMAIL](images/Regular%201280x720%20SMAIL.png)
 
 <h4> Received email </h4>
 Received email area is composed of two components, label and list
@@ -180,7 +180,7 @@ Message writer area is composed of two components, label and text block
 <h3>SMAIL reading message</h3>
 View of the SMAIl when reading received email.
 
-![SMAIL reading messages](/images/Regular%201280x720%20SMAIL%20-%20Message.png)
+![SMAIL reading messages](images/Regular%201280x720%20SMAIL%20-%20Message.png)
 
 <h4> Received email </h4>
 Received email area is composed of two components, label and list
@@ -240,4 +240,4 @@ Menu bar and Main application window to adhear to the global guideline written a
  * Font color:              00000 (hex)
  * Position:                Allignet to the left
 
-![SHELP global screen](/images/Regular%201280x720%20SHELP.png)
+![SHELP global screen](images/Regular%201280x720%20SHELP.png)
