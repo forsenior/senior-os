@@ -8,7 +8,8 @@ audio support, multilingual options, and robust security measures to guard again
 Below is the design concept for the web browser:
 
 > [!NOTE]
-> My Contribution to the Project: 
+> My Contribution to the Project:
+
 > Please note that I did not design the application from scratch. My role is to modify and enhance the app, making it more user-friendly while improving its security features.
 
 ## Content
