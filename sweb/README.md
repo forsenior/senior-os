@@ -20,7 +20,7 @@ Below is the design concept for the web browser:
 
 ---------------------------------------
 
-# Current state of the solution
+## Current state of the solution
 <a name="current-state"></a>
 
 The following functionalities are already implemented:
@@ -32,11 +32,11 @@ The following functionalities are already implemented:
 
       
 
-# The demonstration video
+## The demonstration video
 <a name="demo-video"></a>
 
 # How to Contribute
 Feel free to submit pull requests or raise issues if you encounter any problems or have suggestions for improvement.
 
-# License
+## License
 This project is licensed under the MIT License.
