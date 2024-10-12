@@ -7,6 +7,9 @@ Its goal is to create a more user-friendly environment for older adults by offer
 audio support, multilingual options, and robust security measures to guard against phishing websites. 
 Below is the design concept for the web browser:
 
+## My Contribution to the Project: 
+
+Please note that I did not design the application from scratch. My role is to modify and enhance the app, making it more user-friendly while improving its security features.
 
 
 
@@ -17,9 +20,9 @@ Below is the design concept for the web browser:
 
 The following functionalities are already implemented:
 
- - [x] 1
-   - [x] 1
-   - [x] 1
+ - [x] Remove the audio from the application
+ - [x] Config the app to read the configuration from the sconf file.
+ - [x] 
    - [x] 1
  - [x] 2
    - [x] 2
