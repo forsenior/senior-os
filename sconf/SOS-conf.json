@@ -1,0 +1,57 @@
+{
+    "language": "en",
+    "colorMode": "light",
+    "protectionLevel": 1,
+    "menuBarConfiguration": {
+        "backGroundFill": "",
+        "borderFill": "",
+        "textConfiguration": {
+            "fontFamily": "Inter",
+            "fontSize": 40,
+            "fontWeight": "Regular",
+            "fontColor": "FFFFFF"
+        },
+        "buttonConfiguration": {
+            "buttonSize": [
+                244,
+                107
+            ],
+            "buttonCornerRadius": 3,
+            "buttonBorderThickness": 1,
+            "buttonFill": "949494",
+            "borderColor": "797979",
+            "alertFill": "F90000",
+            "alertBorderColor": "797979"
+        }
+    },
+    "mainWindowConfiguration": {
+        "windowSize": [
+            1260,
+            580
+        ],
+        "backgroundColor": "FFFFFF",
+        "borderCornerRadius": 3,
+        "borderThickness": 3,
+        "borderColor": "000000"
+    },
+    "swebConfiguration": {
+        "urlsForWebsites": [
+            "https://seznam.cz",
+            "https://google.com",
+            "https://vut.cz"
+        ],
+        "picturePaths": [
+            "",
+            "",
+            ""
+        ],
+        "sendPhishingWarning": true,
+        "phishingFormular": true,
+        "seniorWebsitePosting": true,
+        "allowedWebsites": [
+            "https://seznam.cz",
+            "https://google.com",
+            "https://vut.cz"
+        ]
+    }
+}
