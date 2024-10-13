@@ -119,8 +119,8 @@ The following functionalities are already implemented:
     - [x] Font family: Inter (google font)
     - [x] Font size: 40px
     - [x] Font: Regular
-    - [ ] Font color: FFFFFF (hex) ??????
-    - [ ] Position: Center, Center
+    - [x] Font color: FFFFFF (hex) ??????
+    - [x] Position: Center, Center
 - [ ] Bar background (Normal State)
     - [ ] Bar fill: Transparent
     - [ ] Border fill Transparent
@@ -148,6 +148,8 @@ The following functionalities are already implemented:
     - [ ] Button margin: 10px, 10px, 10px, 12px (Left, Top, Right, Bottom)
     
 - [ ] Enable sending mail through the terminal
+> [!NOTE]
+> Do not have enough info from the smail side
 
 
       
