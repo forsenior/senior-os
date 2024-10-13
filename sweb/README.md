@@ -32,14 +32,13 @@ The following functionalities are already implemented:
  - [x] Remove the audio from the application
  - [ ] Config the app to read the configuration from the sconf file.
 
-   Menu text settings
+ - [ ] Menu text settings
     - [ ] Font family: Inter (google font)
     - [ ] Font size: 40px
     - [ ] Font: Regular
     - [ ] Font color: FFFFFF (hex)
     - [ ] Position: Center, Center
-          
-Bar background (Normal State)
+- [ ] Bar background (Normal State)
     - [ ] Bar fill: Transparent
     - [ ] Border fill Transparent
     - [ ] Border thickness 0px
@@ -52,7 +51,7 @@ Bar background (Normal State)
     - [ ] Icon/Text position: Center/Center
     - [ ] Button margin: 10px, 10px, 10px, 12px (Left, Top, Right, Bottom)
     
- Bar bacground (Phishing State)
+- [ ] Bar bacground (Phishing State)
     - [ ] Bar fill: FF0000 (hex)
     - [ ] Border fill: F90000 (hex)
     - [ ] Border thickness: 1px
