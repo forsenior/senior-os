@@ -17,6 +17,10 @@ Below is the design concept for the web browser:
 2. [The demonstration video](#demo-video)
 
 
+## Remove the audio from the application
+
+
+## Config the app to read the configuration from the sconf file.
 
 ---------------------------------------
 
@@ -27,7 +31,37 @@ The following functionalities are already implemented:
 
  - [x] Remove the audio from the application
  - [ ] Config the app to read the configuration from the sconf file.
- - [ ] Enable sending mail through the terminal
+   Menu text settings
+    - [ ] Font family: Inter (google font)
+    - [ ] Font size: 40px
+    - [ ] Font: Regular
+    - [ ] Font color: FFFFFF (hex)
+    - [ ] Position: Center, Center
+Bar background (Normal State)
+    - [ ] Bar fill: Transparent
+    - [ ] Border fill Transparent
+    - [ ] Border thickness 0px
+    - [ ] Buttons (Normal State)
+    - [ ] Button size (Minimal): 244x107 (WxH)
+    - [ ] Button corner radius: 3px
+    - [ ] Button border thickness: 1px
+    - [ ] Button fill: 949494 (hex)
+    - [ ] Border color: 797979 (hex)
+    - [ ] Icon/Text position: Center/Center
+    - [ ] Button margin: 10px, 10px, 10px, 12px (Left, Top, Right, Bottom)
+ Bar bacground (Phishing State)
+    - [ ] Bar fill: FF0000 (hex)
+    - [ ] Border fill: F90000 (hex)
+    - [ ] Border thickness: 1px
+    - [ ] Buttons (Phishing State)
+    - [ ] Button size (Minimal): 244x107 (WxH)
+    - [ ] Button corner radius: 3px
+    - [ ] Button border thickness: 1px
+    - [ ] Button fill: F90000 (hex)
+    - [ ] Border color: 797979 (hex)
+    - [ ] Icon/Text position: Center, Center
+    - [ ] Button margin: 10px, 10px, 10px, 12px (Left, Top, Right, Bottom)
+- [ ] Enable sending mail through the terminal
 
 
       
