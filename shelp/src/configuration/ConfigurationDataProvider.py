@@ -15,14 +15,14 @@ class ConfigurationProvider:
         self._configFileName = configFileName
         self._configStoragePath = configStoragePath
 
-        self.__loadConfiguration()
+        self.__load_configuration()
 
-    def __updateSavedConfiguration(self):
+    def __update_saved_configuration(self):
         return True
 
-    def __loadConfiguration(self):
+    def __load_configuration(self):
         with open(os.path.join(self._configStoragePath, self._configFileName), 'r') as sourceFile:
             self._configuration = json.load(sourceFile)
 
-    def getGlobalConfiguration(self):
+    def get_configuration(self):
         return self._configuration

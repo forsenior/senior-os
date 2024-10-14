@@ -1,4 +1,4 @@
-from shelp.src.configuration.Models import SwebConfiguration
+from shelp.src.configuration.Models import SwebConfiguration, SmailConfiguration
 from dataclasses import dataclass, field
 
 
@@ -47,3 +47,5 @@ class GlobalConfiguration:
     mainWindowConfiguration: MainWindowConfiguration = field(default_factory=lambda: MainWindowConfiguration())
     swebConfiguration: SwebConfiguration.SwebConfiguration = field(default_factory=lambda: SwebConfiguration
                                                                    .SwebConfiguration())
+    smailConfiguration: SmailConfiguration.SmailConfiguration = field(default_factory=lambda: SmailConfiguration
+                                                                      .SmailConfiguration())
