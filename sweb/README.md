@@ -9,7 +9,6 @@ Below is the design concept for the web browser:
 
 > [!NOTE]
 > My Contribution to the Project:
-
 > Please note that I did not design the application from scratch. My role is to modify and enhance the app, making it more user-friendly while improving its security features.
 
 ## Content
@@ -103,6 +102,8 @@ def update_ui_audio(self):  <----
 
 
 ## Config the app to read the configuration from the sconf file.
+
+It depends on the created config file, now the sweb read the configuration from json file.
 
 ---------------------------------------
 
