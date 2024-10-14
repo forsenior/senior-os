@@ -1,0 +1,48 @@
+Logging phishing URL from Browser
+2024-10-07 21:35:12 : WEBBROWSER-INFORMATIONAL -> main <security> : Connection to https://www.seznam.cz/
+2024-10-07 21:47:14 : WEBBROWSER-INFORMATIONAL -> main <security> : Connection to https://www.seznam.cz/
+2024-10-07 21:47:18 : WEBBROWSER-INFORMATIONAL -> main <security> : Connection to https://edition.cnn.com
+2024-10-07 21:47:19 : WEBBROWSER-INFORMATIONAL -> main <security> : Connection to https://edition.cnn.com/
+2024-10-07 21:47:30 : WEBBROWSER-INFORMATIONAL -> main <security> : Connection to https://google.com
+2024-10-07 21:47:31 : WEBBROWSER-INFORMATIONAL -> main <security> : Connection to https://www.google.com/
+2024-10-07 21:49:53 : WEBBROWSER-INFORMATIONAL -> main <security> : Connection to https://www.seznam.cz/
+2024-10-07 21:49:58 : WEBBROWSER-INFORMATIONAL -> main <security> : Connection to https://edition.cnn.com
+2024-10-07 21:50:00 : WEBBROWSER-INFORMATIONAL -> main <security> : Connection to https://edition.cnn.com/
+2024-10-07 21:50:15 : WEBBROWSER-CRITICAL -> main <security> : Application did not work
+2024-10-07 21:52:03 : WEBBROWSER-INFORMATIONAL -> main <security> : Connection to https://www.seznam.cz/
+2024-10-07 21:52:04 : WEBBROWSER-INFORMATIONAL -> main <security> : Connection to https://edition.cnn.com
+2024-10-07 21:52:05 : WEBBROWSER-INFORMATIONAL -> main <security> : Connection to https://edition.cnn.com/
+2024-10-07 21:52:19 : WEBBROWSER-INFORMATIONAL -> main <security> : Connection to https://www.seznam.cz/
+2024-10-07 21:52:31 : WEBBROWSER-INFORMATIONAL -> main <security> : Connection to https://www.denik.cz
+2024-10-07 21:52:32 : WEBBROWSER-INFORMATIONAL -> main <security> : Connection to https://www.denik.cz/
+2024-10-12 09:29:58 : WEBBROWSER-INFORMATIONAL -> main <security> : Connection to https://www.seznam.cz/
+2024-10-13 14:01:07 : WEBBROWSER-INFORMATIONAL -> main <security> : Connection to https://www.seznam.cz/?cwtkn=aGB9eXRtaGB9eXRtaGB9eXRtPDo_NTU_PTU7OiM9OzttaGB9eXRtW0dSSVc1QlhrZXo
+2024-10-13 14:47:09 : WEBBROWSER-INFORMATIONAL -> main <security> : Connection to https://www.seznam.cz/
+2024-10-13 15:09:34 : WEBBROWSER-INFORMATIONAL -> main <security> : Connection to https://www.seznam.cz/
+2024-10-13 17:33:20 : WEBBROWSER-INFORMATIONAL -> main <security> : Connection to https://www.seznam.cz/
+2024-10-13 17:42:34 : WEBBROWSER-INFORMATIONAL -> main <security> : Connection to https://www.seznam.cz/
+2024-10-13 17:44:00 : WEBBROWSER-INFORMATIONAL -> main <security> : Connection to https://www.vut.cz/
+2024-10-13 17:52:31 : WEBBROWSER-INFORMATIONAL -> main <security> : Connection to https://www.vut.cz/
+2024-10-13 17:52:52 : WEBBROWSER-INFORMATIONAL -> main <security> : Connection to https://www.vut.cz/#main
+2024-10-13 17:52:56 : WEBBROWSER-INFORMATIONAL -> main <security> : Connection to https://www.vut.cz/
+2024-10-13 17:52:56 : WEBBROWSER-INFORMATIONAL -> main <security> : Connection to https://www.vut.cz/#ch2-settings
+2024-10-13 17:52:56 : WEBBROWSER-INFORMATIONAL -> main <security> : Connection to https://www.vut.cz/
+2024-10-13 17:52:59 : WEBBROWSER-INFORMATIONAL -> main <security> : Connection to https://edition.cnn.com
+2024-10-13 17:52:59 : WEBBROWSER-INFORMATIONAL -> main <security> : Connection to https://edition.cnn.com/
+2024-10-13 17:53:39 : WEBBROWSER-INFORMATIONAL -> main <security> : Connection to https://www.vut.cz/
+2024-10-13 19:15:21 : WEBBROWSER-INFORMATIONAL -> main <security> : Connection to https://www.vut.cz/
+2024-10-13 20:24:06 : WEBBROWSER-INFORMATIONAL -> main <security> : Connection to https://www.vut.cz/
+2024-10-13 20:38:24 : WEBBROWSER-INFORMATIONAL -> main <security> : Connection to https://www.vut.cz/
+2024-10-13 20:47:07 : WEBBROWSER-INFORMATIONAL -> main <security> : Connection to https://www.vut.cz/
+2024-10-13 20:59:40 : WEBBROWSER-CRITICAL -> main <security> : Application did not work
+2024-10-13 21:00:20 : WEBBROWSER-CRITICAL -> main <security> : Application did not work
+2024-10-13 21:00:56 : WEBBROWSER-CRITICAL -> main <security> : Application did not work
+2024-10-13 21:01:32 : WEBBROWSER-CRITICAL -> main <security> : Application did not work
+2024-10-13 21:02:55 : WEBBROWSER-INFORMATIONAL -> main <security> : Connection to https://www.vut.cz/
+2024-10-13 21:04:19 : WEBBROWSER-CRITICAL -> main <security> : Application did not work
+2024-10-13 21:06:34 : WEBBROWSER-CRITICAL -> main <security> : Application did not work
+2024-10-13 21:06:57 : WEBBROWSER-CRITICAL -> main <security> : Application did not work
+2024-10-13 21:07:06 : WEBBROWSER-INFORMATIONAL -> main <security> : Connection to https://www.vut.cz/
+2024-10-13 21:08:18 : WEBBROWSER-INFORMATIONAL -> main <security> : Connection to https://www.vut.cz/
+2024-10-13 21:10:26 : WEBBROWSER-INFORMATIONAL -> main <security> : Connection to https://www.vut.cz/
+2024-10-13 21:11:33 : WEBBROWSER-INFORMATIONAL -> main <security> : Connection to https://www.vut.cz/
