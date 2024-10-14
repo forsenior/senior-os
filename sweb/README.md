@@ -103,7 +103,7 @@ def update_ui_audio(self):  <----
 
 ## Config the app to read the configuration from the sconf file.
 
-It depends on the created config file, now the sweb read the configuration from json file.
+It depends on the configuration file created, now the website will load the configuration from the json file.
 
 ---------------------------------------
 
