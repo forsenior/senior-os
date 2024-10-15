@@ -9,7 +9,6 @@ Below is the design concept for the web browser:
 
 > [!NOTE]
 > My Contribution to the Project:
-
 > Please note that I did not design the application from scratch. My role is to modify and enhance the app, making it more user-friendly while improving its security features.
 
 ## Content
@@ -104,6 +103,8 @@ def update_ui_audio(self):  <----
 
 ## Config the app to read the configuration from the sconf file.
 
+It depends on the configuration file created, now the website will load the configuration from the json file.
+
 ---------------------------------------
 
 ## Current state of the solution
@@ -115,7 +116,7 @@ The following functionalities are already implemented:
      - [x]  Remove pygame package to disable  playing the sounds
  - [ ] Config the app to read the configuration from the sconf file.
 
- - [ ] Menu text settings
+ - [x] Menu text settings
     - [x] Font family: Inter (google font)
     - [x] Font size: 40px
     - [x] Font: Regular

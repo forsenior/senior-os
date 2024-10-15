@@ -4,6 +4,7 @@ from PyQt5.QtWidgets import QLineEdit, QPushButton, QToolBar, QWidget
 from PyQt5.QtWebEngineWidgets import QWebEnginePage, QWebEngineView, QWebEngineProfile
 from PyQt5.QtCore import QEvent, QUrl, Qt, QTimer, QSize, pyqtSignal, QObject, pyqtSlot
 from PyQt5.QtGui import QIcon
+from PyQt5.QtWidgets import QSizePolicy
 # Library for creating channel for monitoring input keyboard
 from PyQt5.QtWebChannel import QWebChannel
 # Library for parsing URL value
@@ -131,6 +132,7 @@ class MyWebEnginePage(QWebEnginePage):
         self.profile().setHttpUserAgent(user_agent)
     
 # This class is used for detecting and calculating user monitor
+##Tarik, this class is used for getting the height and width of the monitor
 class GetMonitorHeightAndWidth:
     def __init__(self):
         template_config = load_sweb_config_json()
@@ -202,8 +204,9 @@ class MyBrowser(QMainWindow):
         # Sound control attribute
         self.sound_mixer_control_for_button = None
         
-        self.path_to_alert_phishing_music = my_config_data["audio"]["sweb_cz_alert_phishing"]
-        self.path_to_url_music = my_config_data["audio"]["sweb_cz_url"]
+        ##Tarik, remove the sound
+        #self.path_to_alert_phishing_music = my_config_data["audio"]["sweb_cz_alert_phishing"]
+        #self.path_to_url_music = my_config_data["audio"]["sweb_cz_url"]
         
         # Get parameter from file sconf/TEMPLATE.json
         self.font_family_info = my_config_data["template"]["fontFamily"]
@@ -231,16 +234,40 @@ class MyBrowser(QMainWindow):
         self.path_to_image_www5 = my_config_data["image"]["sweb_image_www5"]
         
         # Create a toolbar for saving menu and buttons
+
         self.menu_1_toolbar = QToolBar("Menu 1")
         self.addToolBar(self.menu_1_toolbar)
         self.menu_1_toolbar.setMovable(False)
+        self.menu_1_toolbar.setFixedSize(1850, 220)
         
+        ##Tarik, set the bar in the middle.
+        '''
+        # Add a spacer to the left of the toolbar
+        left_spacer = QWidget()
+        left_spacer.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Preferred)
+        self.menu_1_toolbar.addWidget(left_spacer)
+
+        # Add the buttons to the toolbar
+        self.setup_initial_menu_1()
+
+        # Add a spacer to the right of the toolbar
+        right_spacer = QWidget()
+        right_spacer.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Preferred)
+        self.menu_1_toolbar.addWidget(right_spacer)
+        '''
+        #Tarik, set the bar in thh middle.
+        # Add a spacer to the left of the toolbar
+        #left_spacer = QWidget()
+        #left_spacer.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Preferred)
+        #self.menu_1_toolbar.addWidget(left_spacer)
         self.permitted_website_list = load_permitted_website_from_sgive(self.data_in_my_config_data)
         
+
         # Create a toolbar for saving menu and buttons
         self.menu_2_toolbar = QToolBar("Menu 2")
         self.addToolBar(self.menu_2_toolbar)
         self.menu_2_toolbar.setMovable(False)
+        self.menu_2_toolbar.setFixedSize(1850, 220)
         
         self.addToolBarBreak()
         
@@ -324,6 +351,7 @@ class MyBrowser(QMainWindow):
     def setup_initial_menu_1(self):
         # Create first Menu
         self.menu1_button = QPushButton(self)
+        self.menu1_button.setFixedSize(360, 210) # Set size to 360x210
         # Create Menu QvBoxLayout
         menu1_news_layout = QVBoxLayout(self.menu1_button)
         self.menu1_new_text_label = QLabel("Menu 1", self.menu1_button)
@@ -349,12 +377,13 @@ class MyBrowser(QMainWindow):
 
         # Add Exit button
         self.menu1Exit = QPushButton(self)
+        self.menu1Exit.setFixedSize(360, 210)  # Set size to 360x210
         # Create Home QvBoxLayout
         menu1Exit_layout = QVBoxLayout(self.menu1Exit)
         # Set Icon for Exit
         menu1Exit_icon = QIcon(self.path_to_image_exit)
         menu1Exit_label = QLabel(self.menu1Exit)
-        menu1Exit_label.setPixmap(menu1Exit_icon.pixmap(QSize(int(self.buttons_width_info/(1.5)),int(self.buttons_height_info/(1.5)))))
+        menu1Exit_label.setPixmap(menu1Exit_icon.pixmap(QSize(int(self.buttons_width_info/(2)),int(self.buttons_height_info/(2)))))
         menu1Exit_layout.addWidget(menu1Exit_label)
         # Align text and icon in the center
         menu1Exit_layout.setAlignment(menu1Exit_label,Qt.AlignCenter)
@@ -369,11 +398,12 @@ class MyBrowser(QMainWindow):
         
         # Add back button
         self.back_btn = QPushButton(self)
+        self.back_btn.setFixedSize(360, 210)  # Set size to 360x210
         back_layout = QVBoxLayout(self.back_btn)
         # Set icon for Language
         back_icon = self.style().standardIcon(QStyle.SP_ArrowBack)
         back_label = QLabel(self.back_btn)
-        back_label.setPixmap(back_icon.pixmap(QSize(int(self.buttons_width_info/(1.5)),int(self.buttons_height_info/(1.5)))))
+        back_label.setPixmap(back_icon.pixmap(QSize(int(self.buttons_width_info/(2)),int(self.buttons_height_info/(2)))))
         back_layout.addWidget(back_label)
         # Change to hand when click cursor
         self.back_btn.setCursor(Qt.PointingHandCursor)
@@ -389,11 +419,12 @@ class MyBrowser(QMainWindow):
         
         # Add Menu1_WWW1 button
         self.menu1WWW1 = QPushButton(self)
+        self.menu1WWW1.setFixedSize(360, 210)  # Set size to 360x210
         menu1WWW1_layout = QVBoxLayout(self.menu1WWW1)
         # Icon for Ceska televize
         menu1WWW1_icon = QIcon(self.path_to_image_www1)
         menu1WWW1_label = QLabel(self.menu1WWW1)
-        menu1WWW1_label.setPixmap(menu1WWW1_icon.pixmap(QSize(int(self.buttons_width_info/(1.5)),int(self.buttons_height_info/(1.5)))))
+        menu1WWW1_label.setPixmap(menu1WWW1_icon.pixmap(QSize(int(self.buttons_width_info/(2)),int(self.buttons_height_info/(2)))))
         menu1WWW1_layout.addWidget(menu1WWW1_label)
         # Align icon in the center
         menu1WWW1_layout.setAlignment(menu1WWW1_label,Qt.AlignCenter)
@@ -408,21 +439,24 @@ class MyBrowser(QMainWindow):
         
         # Add Menu1_WWW2 button
         self.menu1WWW2 = QPushButton(self)
+        self.menu1WWW2.setFixedSize(360, 210)  # Set size to 360x210
         menu1WWW2_layout = QVBoxLayout(self.menu1WWW2)
         # Icon for Irozhlas
         menu1WWW2_icon = QIcon(self.path_to_image_www2)
         menu1WWW2_label = QLabel(self.menu1WWW2)
-        menu1WWW2_label.setPixmap(menu1WWW2_icon.pixmap(QSize(int(self.buttons_width_info/(1.5)),int(self.buttons_height_info/(1.5)))))
+        menu1WWW2_label.setPixmap(menu1WWW2_icon.pixmap(QSize(int(self.buttons_width_info/(2)),int(self.buttons_height_info/(2)))))
         menu1WWW2_layout.addWidget(menu1WWW2_label)
         # Align icon in the center
         menu1WWW2_layout.setAlignment(menu1WWW2_label,Qt.AlignCenter)
         self.menu1WWW2.clicked.connect(self.navigate_www2)
         self.menu1WWW2.setCursor(Qt.PointingHandCursor)
         self.menu_1_toolbar.addWidget(self.menu1WWW2)
-    
+        
+
     def setup_initial_menu_2(self):
         # Create second Menu2
         self.menu2_button = QPushButton(self)
+        self.menu2_button.setFixedSize(360, 210) # Set size to 360x210
         # Create Home QvBoxLayout
         menu2_news_layout = QVBoxLayout(self.menu2_button)
         self.menu2_new_text_label = QLabel("Menu 2", self.menu2_button)
@@ -431,12 +465,13 @@ class MyBrowser(QMainWindow):
         menu2_news_layout.setAlignment(self.menu2_new_text_label,Qt.AlignCenter)
         # Set font color for menu2
         font_color = self.data_in_my_config_data["template"]["fontcolor"]
-        self.menu1_new_text_label.setStyleSheet(f"color: {font_color};")
+        self.menu2_new_text_label.setStyleSheet(f"color: {font_color};")
         # Change to hand when click cursor
         self.menu2_button.setCursor(Qt.PointingHandCursor)
-        # Show menu 1 when clicked
+        # Show menu 2 when clicked
         self.menu2_button.clicked.connect(self.toggle_between_toolbar)
         self.menu_2_toolbar.addWidget(self.menu2_button)
+
         
         # Add a bliak space between two button
         spacer5 = QWidget()
@@ -445,11 +480,12 @@ class MyBrowser(QMainWindow):
         
         # Add Menu2_WWW3 button
         self.menu2WWW3 = QPushButton(self)
+        self.menu2WWW3.setFixedSize(360, 210) # Set size to 360x210
         menu2WWW3_layout = QVBoxLayout(self.menu2WWW3)
         # Icon for idnes
         menu2WWW3_icon = QIcon(self.path_to_image_www3)
         menu2WWW3_label = QLabel(self.menu2WWW3)
-        menu2WWW3_label.setPixmap(menu2WWW3_icon.pixmap(QSize(int(self.buttons_width_info/(1.5)),int(self.buttons_height_info/(1.5)))))
+        menu2WWW3_label.setPixmap(menu2WWW3_icon.pixmap(QSize(int(self.buttons_width_info/(2)),int(self.buttons_height_info/(2)))))
         menu2WWW3_layout.addWidget(menu2WWW3_label)
         # Align text and icon in the center
         menu2WWW3_layout.setAlignment(menu2WWW3_label,Qt.AlignCenter)
@@ -464,11 +500,12 @@ class MyBrowser(QMainWindow):
         
         # Add Menu2_WWW4 button
         self.menu2WWW4 = QPushButton(self)
+        self.menu2WWW4.setFixedSize(360, 210) # Set size to 360x210
         menu2WWW4_layout = QVBoxLayout(self.menu2WWW4)
         # Icon for aktualne.cz
         menu2WWW4_icon = QIcon(self.path_to_image_www4)
         menu2WWW4_label = QLabel(self.menu2WWW4)
-        menu2WWW4_label.setPixmap(menu2WWW4_icon.pixmap(QSize(int(self.buttons_width_info/(1.5)),int(self.buttons_height_info/(1.5)))))
+        menu2WWW4_label.setPixmap(menu2WWW4_icon.pixmap(QSize(int(self.buttons_width_info/(2)),int(self.buttons_height_info/(2)))))
         menu2WWW4_layout.addWidget(menu2WWW4_label)
         # Align text and icon in the center
         menu2WWW4_layout.setAlignment(menu2WWW4_label,Qt.AlignCenter)
@@ -483,11 +520,12 @@ class MyBrowser(QMainWindow):
         
         # Add Menu2_WWW5 button
         self.menu2WWW5 = QPushButton(self)
+        self.menu2WWW5.setFixedSize(360, 210) # Set size to 360x210
         menu2WWW5_layout = QVBoxLayout(self.menu2WWW5)
         # Icon for denik.cz
         menu2WWW5_icon = QIcon(self.path_to_image_www5)
         menu2WWW5_label = QLabel(self.menu2WWW5)
-        menu2WWW5_label.setPixmap(menu2WWW5_icon.pixmap(QSize(int(self.buttons_width_info/(1.5)),int(self.buttons_height_info/(1.5)))))
+        menu2WWW5_label.setPixmap(menu2WWW5_icon.pixmap(QSize(int(self.buttons_width_info/(2)),int(self.buttons_height_info/(2)))))
         menu2WWW5_layout.addWidget(menu2WWW5_label)
         # Align text and icon in the center
         menu2WWW5_layout.setAlignment(menu2WWW5_label,Qt.AlignCenter)
@@ -502,9 +540,11 @@ class MyBrowser(QMainWindow):
         
         # Add Menu2_Address button
         self.menu2Address = QPushButton(self)
+        self.menu2Address.setFixedSize(360, 210) # Set size to 360x210
         # Create Home QvBoxLayout
         menu2Address_layout = QVBoxLayout(self.menu2Address)
         self.menu2_addres_new_text_label = QLabel("My page", self.menu2_button)
+        self.menu2Address.setStyleSheet(f"color: {font_color};")
         #self.menu2_addres_new_text_label.setWordWrap(True)
         self.menu2_addres_new_text_label.setAlignment(Qt.AlignCenter)
         menu2Address_layout.addWidget(self.menu2_addres_new_text_label)
@@ -590,16 +630,16 @@ class MyBrowser(QMainWindow):
         check_result = any(permitted_website in url_in_browser_value for permitted_website in permitted_website_list)
         if check_result:
             if "homepage.html" not in url_in_browser_value:
-                self.main_browser.setZoomFactor(1.5)
+                self.main_browser.setZoomFactor(1.1)
                 # Wait 1 second for loading, after 1 second, connect to change web content (HTML injection)
                 QTimer.singleShot(250, lambda: self.html_injection_to_web_content())
         elif self.toggle_phishing_webpage:
-            self.main_browser.setZoomFactor(1.5)
+            self.main_browser.setZoomFactor(1.1)
             # Wait 1 second for loading, after 1 second, connect to change web content (HTML injection)
             QTimer.singleShot(250, lambda: self.html_injection_to_phishing_web_content())
         else:
             if "enable" in senior_website_posting_option:
-                self.main_browser.setZoomFactor(1.5)
+                self.main_browser.setZoomFactor(1.1)
                 # Wait 1 second for loading, after 1 second, connect to change web content (HTML injection)
                 QTimer.singleShot(250, lambda: self.html_injection_to_web_content_strict())
             else:
@@ -918,7 +958,10 @@ if __name__ == "__main__":
         # Load config data from JSON file
         sweb_config = load_sweb_config_json()
         main_window = MyBrowser(sweb_config, input_url_from_terminal) # Set parametr for main browser window
-        main_window.show_app_full_screen() # Call main browser window
+        ##Tarik
+        main_window.resize(1700, 1100)
+        main_window.show() 
+        #main_window.show_app_full_screen() # Call main browser window, this set the full screen.
         sys.exit(qApplication.exec_())
     except Exception as excep:
         url_logger = URLLogger()
