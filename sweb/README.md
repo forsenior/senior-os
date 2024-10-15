@@ -116,7 +116,7 @@ The following functionalities are already implemented:
      - [x]  Remove pygame package to disable  playing the sounds
  - [ ] Config the app to read the configuration from the sconf file.
 
- - [ ] Menu text settings
+ - [x] Menu text settings
     - [x] Font family: Inter (google font)
     - [x] Font size: 40px
     - [x] Font: Regular
