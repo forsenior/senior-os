@@ -1,8 +1,8 @@
 import os.path
 import json
 import dataclasses
-import shelp.src.configuration.Models.GlobalConfiguration as globalConfig
-import shelp.src.configuration.Models.SwebConfiguration as swebConfig
+import shelp.src.configuration.models.GlobalConfiguration as globalConfig
+import shelp.src.configuration.models.SwebConfiguration as swebConfig
 
 from shelp.src.decorators.Decorators import singleton
 
@@ -13,16 +13,30 @@ class ConfigurationWriter:
     _configStoragePath: str = ""
 
     def __init__(self, configFileName: str, configStoragePath: str):
+        """
+        Class providing ability to save the configuration into the persistent storage
+        :param configFileName: Name of the SOS configuration file
+        :param configStoragePath: Expected folder path from which the configuration can be loaded into memory
+        """
         self._configFileName = configFileName
         self._configStoragePath = configStoragePath
 
-        self.__validateAndCreateDefaultConfig()
+        self.__validate_and_create_default_config()
 
-    def updateConfiguration(self, configuration: globalConfig.GlobalConfiguration):
+    def update_configuration(self, configuration: globalConfig.GlobalConfiguration):
+        """
+        Method allowing the caller to save GlobalConfiguration into persistent storage as a python
+        :param configuration: :py:class: `GlobalConfiguration`
+        :return:
+        """
         configuration_json = json.dumps(configuration)
-        self.__writeConfigToJson(configuration_json)
+        self.__save_configuration(configuration_json)
 
-    def __validateAndCreateDefaultConfig(self):
+    def __validate_and_create_default_config(self):
+        """
+        Private method creating default configuration os SOS if the specified file is not present
+        :return:
+        """
         if not os.path.isfile(os.path.join(self._configStoragePath, self._configFileName)):
             default_config = globalConfig.GlobalConfiguration(
                 language="en",
@@ -70,16 +84,19 @@ class ConfigurationWriter:
                 )
             )
 
-            self.__writeConfigToJson(json.dumps(default_config, indent=4, cls=EnhancedJSONEncoder))
+            self.__save_configuration(json.dumps(default_config, indent=4, cls=EnhancedJSONEncoder))
 
         pass
 
-    def __writeConfigToJson(self, config: str):
+    def __save_configuration(self, config: str):
         with open(os.path.join(self._configStoragePath, self._configFileName), "w+", encoding='utf-8') as outfile:
             outfile.write(config)
 
 
 class EnhancedJSONEncoder(json.JSONEncoder):
+    """
+    JSON Encoder allowing json dump to process @dataclass models
+    """
     def default(self, o):
         if dataclasses.is_dataclass(o):
             return dataclasses.asdict(o)

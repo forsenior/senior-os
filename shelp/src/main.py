@@ -13,6 +13,7 @@ SUBFOLDER_NAME = "sconf"
 _dataProvider: dataProvider.ConfigurationProvider
 _dataWriter: dataWriter.ConfigurationWriter
 
+
 def main():
     current_location = os.getcwd()
     path_split = current_location.split("shelp")
@@ -33,4 +34,3 @@ def main():
 if __name__ == '__main__':
     #Initialize the main method
     main()
-

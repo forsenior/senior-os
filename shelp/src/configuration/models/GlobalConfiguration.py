@@ -1,4 +1,4 @@
-from shelp.src.configuration.Models import SwebConfiguration, SmailConfiguration
+from shelp.src.configuration.models import SwebConfiguration, SmailConfiguration
 from dataclasses import dataclass, field
 
 

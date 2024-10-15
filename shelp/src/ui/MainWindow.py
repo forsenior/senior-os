@@ -1,6 +1,6 @@
 from PyQt5.QtWidgets import QMainWindow, QWidget, QVBoxLayout, QAction, QHBoxLayout, QGridLayout, QLabel, QComboBox, \
     QLineEdit
-from shelp.src.ui.uiComponents.Menu import MenuBar, MenuButton
+from shelp.src.ui.components.Menu import MenuBar, MenuButton
 
 
 class ContentWidget(QWidget):
