@@ -3,6 +3,7 @@ import json
 import dataclasses
 import shelp.src.configuration.models.GlobalConfiguration as globalConfig
 import shelp.src.configuration.models.SwebConfiguration as swebConfig
+import shelp.src.configuration.models.SmailConfiguration as smailConfig
 
 from shelp.src.decorators.Decorators import singleton
 
@@ -23,7 +24,7 @@ class ConfigurationWriter:
 
         self.__validate_and_create_default_config()
 
-    def update_configuration(self, configuration: globalConfig.GlobalConfiguration):
+    def update_configuration(self, configuration: globalConfig.SOSConfiguration):
         """
         Method allowing the caller to save GlobalConfiguration into persistent storage as a python
         :param configuration: :py:class: `GlobalConfiguration`
@@ -38,36 +39,15 @@ class ConfigurationWriter:
         :return:
         """
         if not os.path.isfile(os.path.join(self._configStoragePath, self._configFileName)):
-            default_config = globalConfig.GlobalConfiguration(
-                language="en",
-                colorMode="light",
-                protectionLevel=1,
-                menuBarConfiguration=globalConfig.MenuBarConfiguration(
-                    backGroundFill="",
-                    borderFill="",
-                    buttonConfiguration=globalConfig.MenuButtonConfiguration(
-                        buttonSize=[244, 107],
-                        buttonCornerRadius=3,
-                        buttonBorderThickness=1,
-                        buttonFill="949494",
-                        borderColor="797979",
-                        alertFill="F90000",
-                        alertBorderColor="797979"
-                    ),
-                    textConfiguration=globalConfig.MenuBarTextConfiguration(
-                        fontFamily="Inter",
-                        fontSize=40,
-                        fontWeight="Regular",
-                        fontColor="FFFFFF"
-                    )
+            default_config = globalConfig.SOSConfiguration(
+                globalConfiguration=globalConfig.GlobalConfiguration(
+                    language="en",
+                    colorMode="light",
+                    alertColor="#FF0000",
+                    highlightColor="#48843F",
+                    protectionLevel=1,
                 ),
-                mainWindowConfiguration=globalConfig.MainWindowConfiguration(
-                    windowSize=[1260, 580],
-                    backgroundColor="FFFFFF",
-                    borderCornerRadius=3,
-                    borderThickness=3,
-                    borderColor="000000"
-                ),
+                smailConfiguration=smailConfig.SmailConfiguration(),
                 swebConfiguration=swebConfig.SwebConfiguration(
                     urlsForWebsites=["https://seznam.cz",
                                      "https://google.com",
@@ -95,8 +75,9 @@ class ConfigurationWriter:
 
 class EnhancedJSONEncoder(json.JSONEncoder):
     """
-    JSON Encoder allowing json dump to process @dataclass models
+    JSON Encoder allowing json dump to process @dataclass viewModels
     """
+
     def default(self, o):
         if dataclasses.is_dataclass(o):
             return dataclasses.asdict(o)

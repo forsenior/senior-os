@@ -1,7 +1,7 @@
 import json
 import os.path
 
-from shelp.src.configuration.models.GlobalConfiguration import GlobalConfiguration
+from shelp.src.configuration.models.GlobalConfiguration import SOSConfiguration
 from shelp.src.decorators.Decorators import singleton
 
 
@@ -9,7 +9,7 @@ from shelp.src.decorators.Decorators import singleton
 class ConfigurationProvider:
     _configFileName: str = ""
     _configStoragePath: str = ""
-    _configuration: GlobalConfiguration
+    _configuration: SOSConfiguration
 
     def __init__(self, configFileName: str, configStoragePath: str):
         """
@@ -28,14 +28,14 @@ class ConfigurationProvider:
 
     def __load_configuration(self):
         with open(os.path.join(self._configStoragePath, self._configFileName), 'r') as sourceFile:
-            self._configuration: GlobalConfiguration = json.load(sourceFile)
+            self._configuration: SOSConfiguration = json.load(sourceFile)
 
     def get_configuration(self):
         """
         This method allows any caller to retrieve configuration information for the SWEB and SMAIL from the memory
 
         To Use:
-            1. Import data models from shelp/src/configuration/models
+            1. Import data viewModels from shelp/src/configuration/viewModels
             2. Call this method
             3. Either map it to the model or use as it is
         :return: :py:class:`GlobalConfiguration`
