@@ -1,5 +1,9 @@
+import sys
+
 from PyQt5.QtGui import QFont
 from PyQt5.QtWidgets import QWidget, QVBoxLayout, QHBoxLayout, QPushButton, QStackedWidget
+
+from shelp.src.ui.styles.GlobalStyleSheets import get_main_window_style, get_default_menu_button_style
 
 from shelp.src.ui.view.GlobalSettingsView import GlobalSettingsView
 from shelp.src.ui.view.SmailSettingsView import MailSettingsView
@@ -13,33 +17,9 @@ class MainWindow(QWidget):
         # Set main window properties
         self.setWindowTitle("Main Window")
         self.setFixedSize(1260, 580)
-        self.setStyleSheet("""
-                    QMainWindow {
-                        background-color: #FFFFFF;
-                        border: 3px solid #000000;
-                        border-radius: 3px;
-                    }
-                    QPushButton {
-                        text-align:center;
-                        font-family: Inter;
-                        font-size: 40px;
-                        color: #000000;
-                        padding: 5px;
-                        background-color: #949494;
-                        border: 1px solid #797979;
-                        border-radius: 3px;
-                        color: #FFFFFF;
-                        margin-left: 10px;
-                        margin-top: 10px;
-                        margin-right: 10px;
-                        margin-bottom: 12px;
-                    }
-                    QPushButton:hover {
-                        background-color: #48843F;
-                    }
-                    QPushButton:open {
-                        background-color: #48843F;
-                    }
+        self.setStyleSheet(f"""
+                    {get_main_window_style()}
+                    {get_default_menu_button_style()}
                 """)
         self.setFont(QFont('Inter', 20))
         # Main layout
@@ -51,7 +31,7 @@ class MainWindow(QWidget):
         # Creating the menu buttons
         self.menu_buttons = {
             "Menu": QPushButton("Menu"),
-            "x": QPushButton("X"),
+            "X": QPushButton("X"),
             "Global": QPushButton("Global"),
             "Web": QPushButton("Web"),
             "Mail": QPushButton("Mail")
@@ -80,6 +60,7 @@ class MainWindow(QWidget):
         self.main_layout.addWidget(self.stacked_widget)
 
         # Connecting menu buttons to their respective actions
+        self.menu_buttons["X"].clicked.connect(self.terminate_shelp)
         self.menu_buttons["Global"].clicked.connect(self.show_global_view)
         self.menu_buttons["Web"].clicked.connect(self.show_web_view)
         self.menu_buttons["Mail"].clicked.connect(self.show_mail_view)
@@ -112,6 +93,15 @@ class MainWindow(QWidget):
             """
 
         return base_style
+
+    # Slot to terminate the application
+    # TODO: To implement what is written here
+    # 1. Save the configuration into the file
+    # 2. Make data provider update its in memory storage
+    # 3. Start the SOS launcher if not already running
+    # 4. Terminate the SHELP
+    def terminate_shelp(self):
+        sys.exit(0)
 
     # Slot to switch to Global view
     def show_global_view(self):

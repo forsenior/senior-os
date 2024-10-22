@@ -1,5 +1,8 @@
 from PyQt5.QtWidgets import QWidget, QVBoxLayout, QLabel, QComboBox, QLineEdit, QGridLayout
 
+from shelp.src.ui.styles.GlobalStyleSheets import get_default_label_style, get_default_input_box_style, \
+    get_default_dropdown_style
+
 
 class GlobalSettingsView(QWidget):
     def __init__(self):
@@ -40,20 +43,8 @@ class GlobalSettingsView(QWidget):
         self.setLayout(grid_layout)
 
         # Apply styling
-        self.setStyleSheet("""
-                    QLabel {
-                        font-family: Inter;
-                        font-size: 18px;
-                        color: #000000;
-                        padding: 5px;
-                    }
-                    QComboBox, QLineEdit {
-                        font-family: Inter;
-                        font-size: 16px;
-                        padding: 5px;
-                        border: 1px solid #000000;
-                        border-radius: 3px;
-                        width: 513px;
-                        height: 30px
-                    }
-                """)
+        self.setStyleSheet(f"""
+                            {get_default_label_style()}
+                            {get_default_input_box_style()}
+                            {get_default_dropdown_style()}
+                        """)
