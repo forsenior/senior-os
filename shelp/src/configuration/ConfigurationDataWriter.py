@@ -1,6 +1,7 @@
 import os.path
 import json
 import dataclasses
+import shelp.src.configuration.models.SosConfiguration as sosConfiguration
 import shelp.src.configuration.models.GlobalConfiguration as globalConfig
 import shelp.src.configuration.models.SwebConfiguration as swebConfig
 import shelp.src.configuration.models.SmailConfiguration as smailConfig
@@ -24,7 +25,7 @@ class ConfigurationWriter:
 
         self.__validate_and_create_default_config()
 
-    def update_configuration(self, configuration: globalConfig.SOSConfiguration):
+    def update_configuration(self, configuration: sosConfiguration.SOSConfiguration):
         """
         Method allowing the caller to save GlobalConfiguration into persistent storage as a python
         :param configuration: :py:class: `GlobalConfiguration`
@@ -39,7 +40,7 @@ class ConfigurationWriter:
         :return:
         """
         if not os.path.isfile(os.path.join(self._configStoragePath, self._configFileName)):
-            default_config = globalConfig.SOSConfiguration(
+            default_config = sosConfiguration.SOSConfiguration(
                 globalConfiguration=globalConfig.GlobalConfiguration(
                     language="en",
                     colorMode="light",

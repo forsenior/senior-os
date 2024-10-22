@@ -1,7 +1,7 @@
 import json
 import os.path
 
-from shelp.src.configuration.models.GlobalConfiguration import SOSConfiguration
+from shelp.src.configuration.models.SosConfiguration import SOSConfiguration
 from shelp.src.decorators.Decorators import singleton
 
 

@@ -1,5 +1,4 @@
-from shelp.src.configuration.models import SwebConfiguration, SmailConfiguration
-from dataclasses import dataclass, field
+from dataclasses import dataclass
 
 
 @dataclass
@@ -9,12 +8,3 @@ class GlobalConfiguration:
     alertColor: str = ""
     highlightColor: str = ""
     protectionLevel: int = "1"
-
-
-@dataclass
-class SOSConfiguration:
-    globalConfiguration: GlobalConfiguration = field(default_factory=lambda: GlobalConfiguration())
-    swebConfiguration: SwebConfiguration.SwebConfiguration = field(default_factory=lambda: SwebConfiguration
-                                                                   .SwebConfiguration())
-    smailConfiguration: SmailConfiguration.SmailConfiguration = field(default_factory=lambda: SmailConfiguration
-                                                                      .SmailConfiguration())
