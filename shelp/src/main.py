@@ -5,7 +5,7 @@ from PyQt5.QtWidgets import QApplication
 
 import configuration.ConfigurationDataWriter as dataWriter
 import configuration.ConfigurationDataProvider as dataProvider
-from shelp.src.ui.view.MainWindow import MainWindow
+from shelp.src.ui.view.MainWindowView import MainWindow
 
 CONFIG_FILE_NAME = 'SOS-conf.json'
 SUBFOLDER_NAME = "sconf"
@@ -21,11 +21,11 @@ def main():
 
     _dataWriter = dataWriter.ConfigurationWriter(configFileName=CONFIG_FILE_NAME, configStoragePath=config_folder)
     _dataProvider = dataProvider.ConfigurationProvider(configFileName=CONFIG_FILE_NAME, configStoragePath=config_folder)
-    test = _dataProvider.get_configuration()
+    test = _dataProvider.get_main_configuration()
     print(test)
 
     app = QApplication(sys.argv)
-    window = MainWindow()
+    window = MainWindow(_dataProvider)
     window.show()
     sys.exit(app.exec_())
 

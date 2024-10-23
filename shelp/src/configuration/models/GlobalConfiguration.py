@@ -3,7 +3,7 @@ from dataclasses import dataclass
 
 @dataclass
 class GlobalConfiguration:
-    language: str = "en"
+    language: str = "English"
     colorMode: str = "light"
     alertColor: str = ""
     highlightColor: str = ""

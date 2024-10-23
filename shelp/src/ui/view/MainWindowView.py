@@ -3,6 +3,9 @@ import sys
 from PyQt5.QtGui import QFont
 from PyQt5.QtWidgets import QWidget, QVBoxLayout, QHBoxLayout, QPushButton, QStackedWidget
 
+from shelp.src.configuration.ConfigurationDataProvider import ConfigurationProvider
+from shelp.src.configuration.ConfigurationDataWriter import ConfigurationWriter
+
 from shelp.src.ui.styles.GlobalStyleSheets import get_main_window_style, get_default_menu_button_style
 
 from shelp.src.ui.view.GlobalSettingsView import GlobalSettingsView
@@ -11,7 +14,7 @@ from shelp.src.ui.view.SwebSettingsView import WebSettingsView
 
 
 class MainWindow(QWidget):
-    def __init__(self):
+    def __init__(self, configurationProvider: ConfigurationProvider):
         super().__init__()
 
         # Set main window properties
@@ -47,7 +50,7 @@ class MainWindow(QWidget):
         self.stacked_widget = QStackedWidget()
 
         # Creating views for different sections
-        self.global_view = GlobalSettingsView()
+        self.global_view = GlobalSettingsView(configurationProvider.get_main_configuration().globalConfiguration)
         self.web_view = WebSettingsView()
         self.mail_view = MailSettingsView()
 
@@ -101,6 +104,9 @@ class MainWindow(QWidget):
     # 3. Start the SOS launcher if not already running
     # 4. Terminate the SHELP
     def terminate_shelp(self):
+        ConfigurationWriter().update_configuration(
+            configuration=ConfigurationProvider().get_main_configuration()
+        )
         sys.exit(0)
 
     # Slot to switch to Global view
