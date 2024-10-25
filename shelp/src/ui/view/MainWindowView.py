@@ -14,8 +14,14 @@ from shelp.src.ui.view.SwebSettingsView import WebSettingsView
 
 
 class MainWindow(QWidget):
-    def __init__(self, configurationProvider: ConfigurationProvider):
+    _configurationProvider: ConfigurationProvider
+    _configurationWriter: ConfigurationWriter
+
+    def __init__(self, configurationProvider: ConfigurationProvider, configurationWriter: ConfigurationWriter):
         super().__init__()
+
+        self._configurationProvider = configurationProvider
+        self._configurationWriter = configurationWriter
 
         # Set main window properties
         self.setWindowTitle("Main Window")
@@ -50,9 +56,9 @@ class MainWindow(QWidget):
         self.stacked_widget = QStackedWidget()
 
         # Creating views for different sections
-        self.global_view = GlobalSettingsView(configurationProvider.get_main_configuration().globalConfiguration)
-        self.web_view = WebSettingsView()
-        self.mail_view = MailSettingsView()
+        self.global_view = GlobalSettingsView(configurationProvider.get_global_configuration())
+        self.web_view = WebSettingsView(configurationProvider.get_sweb_configuration())
+        self.mail_view = MailSettingsView(configurationProvider.get_smail_configuration())
 
         # Adding views to the stacked widget
         self.stacked_widget.addWidget(self.global_view)  # Index 0
@@ -104,8 +110,8 @@ class MainWindow(QWidget):
     # 3. Start the SOS launcher if not already running
     # 4. Terminate the SHELP
     def terminate_shelp(self):
-        ConfigurationWriter().update_configuration(
-            configuration=ConfigurationProvider().get_main_configuration()
+        self._configurationWriter.update_configuration(
+            configuration=self._configurationProvider.get_main_configuration()
         )
         sys.exit(0)
 

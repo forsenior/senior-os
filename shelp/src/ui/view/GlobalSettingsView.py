@@ -1,7 +1,6 @@
 from PyQt5.QtCore import pyqtSlot
 from PyQt5.QtWidgets import QWidget, QLabel, QComboBox, QLineEdit, QGridLayout
 
-from shelp.src.configuration.ConfigurationDataProvider import ConfigurationProvider
 from shelp.src.configuration.models.GlobalConfiguration import GlobalConfiguration
 
 from shelp.src.ui.styles.GlobalStyleSheets import get_default_label_style, get_default_input_box_style, \
@@ -10,16 +9,17 @@ from shelp.src.ui.styles.GlobalStyleSheets import get_default_label_style, get_d
 from shelp.src.ui.viewModels.GlobalSettingsViewModel import GlobalViewModel
 
 
+# TODO: Once initial presentation is done change this to correct binding with the view model
 class GlobalSettingsView(QWidget):
-    _global_view_model: GlobalViewModel
-    _global_configuration: GlobalConfiguration
+    _globalViewModel: GlobalViewModel
+    _globalConfiguration: GlobalConfiguration
 
     def __init__(self, global_configuration: GlobalConfiguration):
         super().__init__()
         # Create layout for labels and input fields
         grid_layout = QGridLayout()
-        self._global_configuration = global_configuration
-        self._global_view_model = GlobalViewModel()
+        self._globalConfiguration = global_configuration
+        self._globalViewModel = GlobalViewModel(global_configuration)
 
         # Labels
         label_language = QLabel("Language")
@@ -31,20 +31,20 @@ class GlobalSettingsView(QWidget):
         combo_language = QComboBox()
         combo_language.addItems(["English", "Spanish", "French"])
         combo_language.setObjectName("language")
-        combo_language.setCurrentText(self._global_configuration.language)
+        combo_language.setCurrentText(self._globalConfiguration['language'])
 
         input_alert_color = QLineEdit(f"Select value of the alert in hex values (current is "
-                                      f"{self._global_configuration.alertColor})")
+                                      f"{self._globalConfiguration['alertColor']})")
         input_alert_color.setObjectName("alertColor")
 
         input_highlight_color = QLineEdit(f"Select value of the alert in hex values (current is "
-                                          f"{self._global_configuration.highlightColor})")
+                                          f"{self._globalConfiguration['highlightColor']})")
         input_highlight_color.setObjectName("highlightColor")
 
         combo_protection_level = QComboBox()
         combo_protection_level.addItems(["PL1", "PL2", "PL3"])
         combo_protection_level.setObjectName("protectionLevel")
-        combo_language.setCurrentText(self._global_configuration.protectionLevel)
+        combo_language.setCurrentText(f"{self._globalConfiguration['protectionLevel']}")
 
         # Add widgets to the grid
         grid_layout.addWidget(label_language, 0, 0)
@@ -59,10 +59,10 @@ class GlobalSettingsView(QWidget):
         grid_layout.addWidget(label_protection_level, 3, 0)
         grid_layout.addWidget(combo_protection_level, 3, 1)
 
-        combo_language.currentIndexChanged.connect(self.__handle_event)
-        input_alert_color.textEdited.connect(self.__handle_event)
-        input_highlight_color.textEdited.connect(self.__handle_event)
-        combo_protection_level.currentIndexChanged.connect(self.__handle_event)
+        combo_language.currentIndexChanged.connect(self.__on_input_change)
+        input_alert_color.textChanged.connect(self.__on_input_change)
+        input_highlight_color.textChanged.connect(self.__on_input_change)
+        combo_protection_level.currentIndexChanged.connect(self.__on_input_change)
 
         # Set widget layout
         self.setLayout(grid_layout)
@@ -75,14 +75,12 @@ class GlobalSettingsView(QWidget):
                         """)
 
     @pyqtSlot()
-    def __handle_event(self):
+    def __on_input_change(self):
         sender = self.sender()
 
         if isinstance(sender, QLineEdit):
-            self._global_view_model.update_model(sender.objectName(),
-                                                 sender.text())
-
+            self._globalViewModel.update_model(sender.objectName(),
+                                               sender.text())
         if isinstance(sender, QComboBox):
-            self._global_view_model.update_model(sender.objectName(),
-                                                 sender.currentText())
-
+            self._globalViewModel.update_model(sender.objectName(),
+                                               sender.currentText())

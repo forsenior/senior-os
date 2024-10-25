@@ -21,11 +21,9 @@ def main():
 
     _dataWriter = dataWriter.ConfigurationWriter(configFileName=CONFIG_FILE_NAME, configStoragePath=config_folder)
     _dataProvider = dataProvider.ConfigurationProvider(configFileName=CONFIG_FILE_NAME, configStoragePath=config_folder)
-    test = _dataProvider.get_main_configuration()
-    print(test)
 
     app = QApplication(sys.argv)
-    window = MainWindow(_dataProvider)
+    window = MainWindow(_dataProvider, _dataWriter)
     window.show()
     sys.exit(app.exec_())
 

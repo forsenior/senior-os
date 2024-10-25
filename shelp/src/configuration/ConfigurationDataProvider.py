@@ -34,11 +34,11 @@ class ConfigurationProvider:
         if isinstance(configuration, SOSConfiguration):
             self._sosConfiguration = configuration
         if isinstance(configuration, GlobalConfiguration):
-            self._sosConfiguration.globalConfiguration = configuration
+            self._sosConfiguration['globalConfiguration'] = configuration
         if isinstance(configuration, SwebConfiguration):
-            self._sosConfiguration.swebConfiguration = configuration
+            self._sosConfiguration['swebConfiguration'] = configuration
         if isinstance(configuration, SmailConfiguration):
-            self._sosConfiguration.smailConfiguration = configuration
+            self._sosConfiguration['smailConfiguration'] = configuration
 
     def get_main_configuration(self) -> SOSConfiguration:
         """
@@ -52,23 +52,24 @@ class ConfigurationProvider:
         """
         return self._sosConfiguration
 
-    def get_global_configuration(self):
+    def get_global_configuration(self) -> GlobalConfiguration:
         """
         This method allows any caller to retrieve configuration information for the GlobalConfig from the memory
         :return: :py:class: `GlobalConfiguration`
         """
-        return self._sosConfiguration
+        configuration: GlobalConfiguration = self._sosConfiguration['globalConfiguration']
+        return configuration
 
     def get_sweb_configuration(self) -> SwebConfiguration:
         """
         This method allows any caller to retrieve configuration information for the SWEB from the memory
         :return: :py:class: `SwebConfiguration`
         """
-        return self._sosConfiguration.swebConfiguration
+        return self._sosConfiguration['swebConfiguration']
 
     def get_smail_configuration(self) -> SmailConfiguration:
         """
         This method allows any caller to retrieve configuration information for the SMAIL from the memory
         :return: :py:class: `SmailConfiguration`
         """
-        return self._sosConfiguration.smailConfiguration
+        return self._sosConfiguration['smailConfiguration']
