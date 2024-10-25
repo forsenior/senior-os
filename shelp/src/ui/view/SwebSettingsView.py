@@ -1,12 +1,14 @@
 from PyQt5.QtCore import pyqtSlot
-from PyQt5.QtWidgets import QWidget, QLabel, QLineEdit, QGridLayout, QPushButton, QComboBox
+from PyQt5.QtWidgets import QWidget, QLabel, QLineEdit, QGridLayout, QPushButton, QComboBox, QTextEdit
 
 from shelp.src.configuration.models.SwebConfiguration import SwebConfiguration
 
 from shelp.src.ui.convertors.ValueConvertors import StringValueConvertors
+from shelp.src.ui.components.uiTransformation.Transformation import UiElementTransformation
 from shelp.src.ui.styles.GlobalStyleSheets import (get_default_input_box_style,
                                                    get_default_label_style,
-                                                   get_default_dropdown_style, get_default_settings_button_style)
+                                                   get_default_dropdown_style, get_default_settings_button_style,
+                                                   get_default_settings_text_edit_style)
 from shelp.src.ui.viewModels.SwebsettingsViewModel import SwebViewModel
 
 
@@ -29,17 +31,25 @@ class WebSettingsView(QWidget):
         label_allow_senior_web_posting = QLabel("Senior web posting")
         label_allowed_website_posting = QLabel("Allowed website posting")
 
-        # TODO: Change this so that upon clicking this converts to the QTextEdit to make UX better
-        urls_list = QLineEdit("Allowed URLs (please use coma to separate contacts)")
-        urls_list.setObjectName("urlsForWebsites")
+        self.urls_list_line_edit = QLineEdit(f"{self._swebConfiguration['urlsForWebsites']}")
+        self.urls_list_line_edit.mousePressEvent = self.__urls_for_websites_clicked_handler
+
+        self.urls_list_text_edit = QTextEdit(f"{self._swebConfiguration['urlsForWebsites']}")
+        self.urls_list_line_edit.setObjectName("urlsForWebsites")
+        self.urls_list_text_edit.setVisible(False)
+        self.urls_list_text_edit.focusOutEvent = self.__urls_for_website_focus_out_handler
 
         # TODO: Finish implementation of this, not sure how, but
         website_pictures = QPushButton("Add icons of allowed websites")
         website_pictures.setObjectName("picturePaths")
 
-        # TODO: Change this so that upon clicking this converts to the QTextEdit to make UX better
-        allowed_website_posting = QLineEdit("Websites for senior to post on (please use coma to separate contacts)")
-        allowed_website_posting.setObjectName("allowedWebsites")
+        self.allowed_website_posting = QLineEdit(f"{self._swebConfiguration['allowedWebsites']}")
+        self.allowed_website_posting.mousePressEvent = self.__allowed_websites_clicked_handler
+
+        self.allowed_website_posting_text_edit = QTextEdit(f"{self._swebConfiguration['allowedWebsites']}")
+        self.allowed_website_posting_text_edit.setObjectName("allowedWebsites")
+        self.allowed_website_posting_text_edit.setVisible(False)
+        self.allowed_website_posting_text_edit.focusOutEvent = self.__allowed_website_posting_focus_out_handler
 
         send_phishing_warning = QComboBox()
         send_phishing_warning.addItems(["Enable", "Disable"])
@@ -64,7 +74,8 @@ class WebSettingsView(QWidget):
 
         # Add widgets to the grid
         grid_layout.addWidget(label_urls_list, 0, 0)
-        grid_layout.addWidget(urls_list, 0, 1)
+        grid_layout.addWidget(self.urls_list_line_edit, 0, 1)
+        grid_layout.addWidget(self.urls_list_text_edit, 0, 1)
 
         grid_layout.addWidget(label_website_pictures, 1, 0)
         grid_layout.addWidget(website_pictures, 1, 1)
@@ -79,14 +90,15 @@ class WebSettingsView(QWidget):
         grid_layout.addWidget(senior_web_posting, 4, 1)
 
         grid_layout.addWidget(label_allowed_website_posting, 5, 0)
-        grid_layout.addWidget(allowed_website_posting, 5, 1)
+        grid_layout.addWidget(self.allowed_website_posting, 5, 1)
+        grid_layout.addWidget(self.allowed_website_posting_text_edit, 5, 1)
 
-        urls_list.textChanged.connect(self.__on_input_change)
+        self.urls_list_text_edit.textChanged.connect(self.__on_input_change)
         website_pictures.clicked.connect(self.__on_input_change)
         send_phishing_warning.currentIndexChanged.connect(self.__on_input_change)
         phishing_form.currentIndexChanged.connect(self.__on_input_change)
         senior_web_posting.currentIndexChanged.connect(self.__on_input_change)
-        allowed_website_posting.textChanged.connect(self.__on_input_change)
+        self.allowed_website_posting.textChanged.connect(self.__on_input_change)
 
         self.setLayout(grid_layout)
 
@@ -95,6 +107,7 @@ class WebSettingsView(QWidget):
                             {get_default_input_box_style()}
                             {get_default_dropdown_style()}
                             {get_default_settings_button_style()}
+                            {get_default_settings_text_edit_style()}
                             """)
 
     @pyqtSlot()
@@ -106,3 +119,18 @@ class WebSettingsView(QWidget):
         if isinstance(sender, QComboBox):
             self._swebViewModel.update_model(sender.objectName(),
                                              StringValueConvertors.string_to_bool(sender.currentText()))
+
+        if isinstance(sender, QTextEdit):
+            self._swebViewModel.update_model(sender.objectName())
+
+    def __urls_for_websites_clicked_handler(self, event):
+        UiElementTransformation.expand_widget(line_edit=self.urls_list_line_edit, text_edit=self.urls_list_text_edit)
+
+    def __allowed_websites_clicked_handler(self, event):
+        UiElementTransformation.expand_widget(line_edit=self.allowed_website_posting, text_edit=self.allowed_website_posting_text_edit)
+
+    def __urls_for_website_focus_out_handler(self, event):
+        UiElementTransformation.collapse_widget(line_edit=self.urls_list_line_edit, text_edit=self.urls_list_text_edit)
+
+    def __allowed_website_posting_focus_out_handler(self, event):
+        UiElementTransformation.collapse_widget(line_edit=self.allowed_website_posting, text_edit=self.allowed_website_posting_text_edit)

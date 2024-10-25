@@ -87,3 +87,16 @@ def get_default_settings_button_style():
             margin-bottom: 2px;
         }
     """
+
+
+def get_default_settings_text_edit_style():
+    return """
+        QTextEdit {
+            font-family: Inter;
+            font-size: 16px;
+            border: 1px solid #000000;
+            border-radius: 3px;
+            max-width: 513px;
+            max-height: 200px;
+        }
+    """

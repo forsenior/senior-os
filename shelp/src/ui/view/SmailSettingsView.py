@@ -1,10 +1,11 @@
 from PyQt5.QtCore import pyqtSlot
-from PyQt5.QtWidgets import QWidget, QLabel, QLineEdit, QGridLayout, QPushButton, QComboBox
+from PyQt5.QtWidgets import QWidget, QLabel, QLineEdit, QGridLayout, QPushButton, QComboBox, QTextEdit
 
 from shelp.src.configuration.models.SmailConfiguration import SmailConfiguration
+from shelp.src.ui.components.uiTransformation.Transformation import UiElementTransformation
 
 from shelp.src.ui.styles.GlobalStyleSheets import get_default_label_style, get_default_input_box_style, \
-    get_default_dropdown_style, get_default_settings_button_style
+    get_default_dropdown_style, get_default_settings_button_style, get_default_settings_text_edit_style
 from shelp.src.ui.viewModels.SmailSettingsViewModel import SmailViewModel
 from shelp.src.ui.convertors.ValueConvertors import StringValueConvertors
 
@@ -53,8 +54,13 @@ class MailSettingsView(QWidget):
         caregiver_email.setObjectName("careGiverEmail")
 
         # TODO: Change this so that upon clicking this converts to the QTextEdit to make UX better
-        email_contacts = QLineEdit("Email contacts of the senior (please use coma to separate contacts)")
-        email_contacts.setObjectName("emailContacts")
+        self.email_contacts = QLineEdit(f"{self._smailConfiguration['emailContacts']}")
+        self.email_contacts.mousePressEvent = self.__email_contacts_clicked_handler
+
+        self.email_contacts_text_edit = QTextEdit(f"{self._smailConfiguration['emailContacts']}")
+        self.email_contacts_text_edit.setObjectName("emailContacts")
+        self.email_contacts_text_edit.setVisible(False)
+        self.email_contacts_text_edit.focusOutEvent = self.__email_contacts_focus_out_handler
 
         # TODO: Finish implementation of this, not sure how, but
         email_pictures = QPushButton("Add pictures for selected person")
@@ -83,7 +89,8 @@ class MailSettingsView(QWidget):
         grid_layout.addWidget(caregiver_email, 2, 1)
 
         grid_layout.addWidget(label_email_contacts, 3, 0)
-        grid_layout.addWidget(email_contacts, 3, 1)
+        grid_layout.addWidget(self.email_contacts, 3, 1)
+        grid_layout.addWidget(self.email_contacts_text_edit, 3, 1)
 
         grid_layout.addWidget(label_email_pictures, 4, 0)
         grid_layout.addWidget(email_pictures, 4, 1)
@@ -97,7 +104,7 @@ class MailSettingsView(QWidget):
         senior_mail.textChanged.connect(self.__on_input_change)
         senior_password.textChanged.connect(self.__on_input_change)
         caregiver_email.textChanged.connect(self.__on_input_change)
-        email_contacts.textChanged.connect(self.__on_input_change)
+        self.email_contacts_text_edit.textChanged.connect(self.__on_input_change)
         email_pictures.clicked.connect(self.__on_input_change)
         send_phishing_warning.currentIndexChanged.connect(self.__on_input_change)
         show_url.currentIndexChanged.connect(self.__on_input_change)
@@ -109,6 +116,7 @@ class MailSettingsView(QWidget):
                     {get_default_input_box_style()}
                     {get_default_dropdown_style()}
                     {get_default_settings_button_style()}
+                    {get_default_settings_text_edit_style()}
                     """)
 
     @pyqtSlot()
@@ -120,3 +128,9 @@ class MailSettingsView(QWidget):
         if isinstance(sender, QComboBox):
             self._smailViewModel.update_model(sender.objectName(),
                                               StringValueConvertors.string_to_bool(sender.currentText()))
+
+    def __email_contacts_clicked_handler(self, event):
+        UiElementTransformation.expand_widget(line_edit=self.email_contacts, text_edit=self.email_contacts_text_edit)
+
+    def __email_contacts_focus_out_handler(self, event):
+        UiElementTransformation.collapse_widget(line_edit=self.email_contacts, text_edit=self.email_contacts_text_edit)
