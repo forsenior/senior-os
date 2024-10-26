@@ -1,4 +1,3 @@
-import os
 from typing import List
 
 from PyQt5.QtWidgets import QLineEdit, QTextEdit, QFileDialog
@@ -22,6 +21,7 @@ class UiElementTransformation:
 
     @staticmethod
     def open_file_dialog(folder_path: str) -> List[str]:
+        """Opens file dialog window for multi Image File selection"""
         file_dialog = QFileDialog(None)
         selected_files, _ = file_dialog.getOpenFileNames(None,
                                                          "QFileDialog.getOpenFileName()",

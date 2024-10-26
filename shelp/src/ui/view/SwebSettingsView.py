@@ -3,7 +3,7 @@ import os
 from PyQt5.QtCore import pyqtSlot
 from PyQt5.QtWidgets import QWidget, QLabel, QLineEdit, QGridLayout, QPushButton, QComboBox, QTextEdit, QFileDialog
 
-from shelp.src.configuration.models.SwebConfiguration import SwebConfiguration
+from sconf.src.configuration.models.SwebConfiguration import SwebConfiguration
 
 from shelp.src.ui.convertors.ValueConvertors import StringValueConvertors
 from shelp.src.ui.convertors.ValueValidators import Validators

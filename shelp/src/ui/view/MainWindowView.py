@@ -3,8 +3,8 @@ import sys
 from PyQt5.QtGui import QFont
 from PyQt5.QtWidgets import QWidget, QVBoxLayout, QHBoxLayout, QPushButton, QStackedWidget
 
-from shelp.src.configuration.ConfigurationDataProvider import ConfigurationProvider
-from shelp.src.configuration.ConfigurationDataWriter import ConfigurationWriter
+from sconf.src.configuration.ConfigurationDataProvider import ConfigurationProvider
+from sconf.src.configuration.ConfigurationDataWriter import ConfigurationWriter
 
 from shelp.src.ui.styles.GlobalStyleSheets import get_main_window_style, get_default_menu_button_style, \
     get_active_menu_button_style

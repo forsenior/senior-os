@@ -3,10 +3,10 @@ import os.path
 
 from dataclass_wizard import fromdict
 
-from shelp.src.configuration.models.GlobalConfiguration import GlobalConfiguration
-from shelp.src.configuration.models.SmailConfiguration import SmailConfiguration
-from shelp.src.configuration.models.SosConfiguration import SOSConfiguration
-from shelp.src.configuration.models.SwebConfiguration import SwebConfiguration
+from sconf.src.configuration.models.GlobalConfiguration import GlobalConfiguration
+from sconf.src.configuration.models.SmailConfiguration import SmailConfiguration
+from sconf.src.configuration.models.SosConfiguration import SOSConfiguration
+from sconf.src.configuration.models.SwebConfiguration import SwebConfiguration
 from shelp.src.decorators.Decorators import singleton
 
 

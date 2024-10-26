@@ -3,8 +3,8 @@ import sys
 
 from PyQt5.QtWidgets import QApplication
 
-import configuration.ConfigurationDataWriter as dataWriter
-import configuration.ConfigurationDataProvider as dataProvider
+import sconf.src.configuration.ConfigurationDataWriter as dataWriter
+import sconf.src.configuration.ConfigurationDataProvider as dataProvider
 from shelp.src.ui.view.MainWindowView import MainWindow
 
 CONFIG_FILE_NAME = 'SOS-conf.json'

@@ -23,7 +23,7 @@ def get_default_menu_button_style():
             margin-top: 10px;
             margin-right: 10px;
             margin-bottom: 12px;
-            max-width: 513px;
+            max-width: 244px;
         }
         QPushButton:hover {
             background-color: #48843F;

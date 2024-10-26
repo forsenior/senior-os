@@ -4,10 +4,10 @@ import dataclasses
 
 from dataclass_wizard import asdict
 
-import shelp.src.configuration.models.SosConfiguration as sosConfiguration
-import shelp.src.configuration.models.GlobalConfiguration as globalConfig
-import shelp.src.configuration.models.SwebConfiguration as swebConfig
-import shelp.src.configuration.models.SmailConfiguration as smailConfig
+import sconf.src.configuration.models.GlobalConfiguration as globalConfig
+import sconf.src.configuration.models.SwebConfiguration as swebConfig
+import sconf.src.configuration.models.SmailConfiguration as smailConfig
+from sconf.src.configuration.models import SosConfiguration
 
 from shelp.src.decorators.Decorators import singleton
 
@@ -28,7 +28,7 @@ class ConfigurationWriter:
 
         self.__validate_and_create_default_config()
 
-    def update_configuration(self, configuration: sosConfiguration.SOSConfiguration):
+    def update_configuration(self, configuration: SosConfiguration.SOSConfiguration):
         """
         Method allowing the caller to save GlobalConfiguration into persistent storage as a python
         :param configuration: :py:class: `GlobalConfiguration`
@@ -44,7 +44,7 @@ class ConfigurationWriter:
         :return:
         """
         if not os.path.isfile(os.path.join(self._configStoragePath, self._configFileName)):
-            default_config = sosConfiguration.SOSConfiguration(
+            default_config = SosConfiguration.SOSConfiguration(
                 globalConfiguration=globalConfig.GlobalConfiguration(
                     language="en",
                     colorMode="light",
