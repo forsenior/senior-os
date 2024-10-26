@@ -9,9 +9,7 @@ class GlobalViewModel:
         super().__init__()
         self._globalConfiguration = global_configuration
 
-    # TODO: Fix this issue where values are somehow saved straight into the DataClass model and are bypassing
-    # data provider
-    def update_model(self, attribute_name: str, value):
+    def update_model(self, attribute_name, value):
         print(f"Attribute is being updated {attribute_name}, value: {value}")
-        self._globalConfiguration[attribute_name] = value
-        print(f"Update complete new value is {self._globalConfiguration[attribute_name]}")
+        setattr(self._globalConfiguration, attribute_name, value)
+        print(f"Update complete new value is {getattr(self._globalConfiguration, attribute_name, value)}")

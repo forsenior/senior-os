@@ -9,9 +9,7 @@ class SwebViewModel:
         super().__init__()
         self._swebConfiguration = swebConfiguration
 
-    # TODO: Fix this issue where values are somehow saved straight into the DataClass model and are bypassing
-    # data provider
     def update_model(self, attribute_name: str, value):
         print(f"Attribute is being updated {attribute_name}, value: {value}")
-        self._swebConfiguration[attribute_name] = value
-        print(f"Update complete new value is {self._swebConfiguration[attribute_name]}")
+        setattr(self._swebConfiguration, attribute_name, value)
+        print(f"Update complete new value is {getattr(self._swebConfiguration, attribute_name, value)}")

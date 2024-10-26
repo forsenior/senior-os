@@ -1,6 +1,9 @@
 import os.path
 import json
 import dataclasses
+
+from dataclass_wizard import asdict
+
 import shelp.src.configuration.models.SosConfiguration as sosConfiguration
 import shelp.src.configuration.models.GlobalConfiguration as globalConfig
 import shelp.src.configuration.models.SwebConfiguration as swebConfig
@@ -31,6 +34,7 @@ class ConfigurationWriter:
         :param configuration: :py:class: `GlobalConfiguration`
         :return:
         """
+        configuration = asdict(configuration)
         configuration_json = json.dumps(configuration)
         self.__save_configuration(configuration_json)
 

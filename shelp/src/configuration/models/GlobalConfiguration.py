@@ -7,4 +7,4 @@ class GlobalConfiguration:
     colorMode: str = "light"
     alertColor: str = ""
     highlightColor: str = ""
-    protectionLevel: int = "1"
+    protectionLevel: str = "1"

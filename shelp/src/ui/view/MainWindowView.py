@@ -6,7 +6,8 @@ from PyQt5.QtWidgets import QWidget, QVBoxLayout, QHBoxLayout, QPushButton, QSta
 from shelp.src.configuration.ConfigurationDataProvider import ConfigurationProvider
 from shelp.src.configuration.ConfigurationDataWriter import ConfigurationWriter
 
-from shelp.src.ui.styles.GlobalStyleSheets import get_main_window_style, get_default_menu_button_style
+from shelp.src.ui.styles.GlobalStyleSheets import get_main_window_style, get_default_menu_button_style, \
+    get_active_menu_button_style
 
 from shelp.src.ui.view.GlobalSettingsView import GlobalSettingsView
 from shelp.src.ui.view.SmailSettingsView import MailSettingsView
@@ -16,12 +17,16 @@ from shelp.src.ui.view.SwebSettingsView import WebSettingsView
 class MainWindow(QWidget):
     _configurationProvider: ConfigurationProvider
     _configurationWriter: ConfigurationWriter
+    _configurationFolder: str
 
-    def __init__(self, configurationProvider: ConfigurationProvider, configurationWriter: ConfigurationWriter):
+    def __init__(self, configurationProvider: ConfigurationProvider,
+                 configurationWriter: ConfigurationWriter,
+                 configurationFolder: str):
         super().__init__()
 
         self._configurationProvider = configurationProvider
         self._configurationWriter = configurationWriter
+        self._configurationFolder = configurationFolder
 
         # Set main window properties
         self.setWindowTitle("Main Window")
@@ -57,8 +62,8 @@ class MainWindow(QWidget):
 
         # Creating views for different sections
         self.global_view = GlobalSettingsView(configurationProvider.get_global_configuration())
-        self.web_view = WebSettingsView(configurationProvider.get_sweb_configuration())
-        self.mail_view = MailSettingsView(configurationProvider.get_smail_configuration())
+        self.web_view = WebSettingsView(configurationProvider.get_sweb_configuration(), configurationFolder)
+        self.mail_view = MailSettingsView(configurationProvider.get_smail_configuration(), configurationFolder)
 
         # Adding views to the stacked widget
         self.stacked_widget.addWidget(self.global_view)  # Index 0
@@ -76,33 +81,6 @@ class MainWindow(QWidget):
 
         self.setLayout(self.main_layout)
 
-    def get_button_style(self, active):
-        # Define styles for normal and phishing states
-        base_style = """
-                QPushButton {
-                    background-color: #949494;
-                    border: 1px solid #797979;
-                    border-radius: 3px;
-                    color: #FFFFFF;
-                    margin-left: 10px;
-                    margin-top: 10px;
-                    margin-right: 10px;
-                    margin-bottom: 12px;
-                }
-                QPushButton:hover {
-                    background-color: #48843F;
-                }
-            """
-
-        if active:
-            return base_style + """
-                QPushButton {
-                    background-color: #48843F
-                }
-            """
-
-        return base_style
-
     # Slot to terminate the application
     # TODO: To implement what is written here
     # 1. Save the configuration into the file
@@ -117,12 +95,20 @@ class MainWindow(QWidget):
 
     # Slot to switch to Global view
     def show_global_view(self):
+        self.menu_buttons["Global"].setStyleSheet(get_active_menu_button_style())
+        self.menu_buttons["Web"].setStyleSheet(get_default_menu_button_style())
+        self.menu_buttons["Mail"].setStyleSheet(get_default_menu_button_style())
         self.stacked_widget.setCurrentIndex(0)
 
     def show_web_view(self):
+        self.menu_buttons["Global"].setStyleSheet(get_default_menu_button_style())
+        self.menu_buttons["Web"].setStyleSheet(get_active_menu_button_style())
+        self.menu_buttons["Mail"].setStyleSheet(get_default_menu_button_style())
         self.stacked_widget.setCurrentIndex(1)
 
     # Slot to switch to Mail view
     def show_mail_view(self):
+        self.menu_buttons["Global"].setStyleSheet(get_default_menu_button_style())
+        self.menu_buttons["Web"].setStyleSheet(get_default_menu_button_style())
+        self.menu_buttons["Mail"].setStyleSheet(get_active_menu_button_style())
         self.stacked_widget.setCurrentIndex(2)
-

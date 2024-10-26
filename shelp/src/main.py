@@ -23,7 +23,7 @@ def main():
     _dataProvider = dataProvider.ConfigurationProvider(configFileName=CONFIG_FILE_NAME, configStoragePath=config_folder)
 
     app = QApplication(sys.argv)
-    window = MainWindow(_dataProvider, _dataWriter)
+    window = MainWindow(_dataProvider, _dataWriter, config_folder)
     window.show()
     sys.exit(app.exec_())
 

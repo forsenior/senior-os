@@ -1,4 +1,7 @@
-from PyQt5.QtWidgets import QLineEdit, QTextEdit
+import os
+from typing import List
+
+from PyQt5.QtWidgets import QLineEdit, QTextEdit, QFileDialog
 
 
 class UiElementTransformation:
@@ -16,3 +19,12 @@ class UiElementTransformation:
         line_edit.setVisible(True)
         text_edit.setVisible(False)
         line_edit.setText(text_edit.toPlainText())
+
+    @staticmethod
+    def open_file_dialog(folder_path: str) -> List[str]:
+        file_dialog = QFileDialog(None)
+        selected_files, _ = file_dialog.getOpenFileNames(None,
+                                                         "QFileDialog.getOpenFileName()",
+                                                         f"{folder_path}"
+                                                         , "All Files (*);;Image File (*.png *.jpg *.gif)")
+        return selected_files

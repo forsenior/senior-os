@@ -1,4 +1,3 @@
-
 def get_main_window_style():
     return """
         QMainWindow {
@@ -35,6 +34,27 @@ def get_default_menu_button_style():
     """
 
 
+def get_active_menu_button_style():
+    # Define styles for normal and phishing states
+    base_style = """
+            QPushButton {
+                background-color: #48843F;
+                border: 1px solid #797979;
+                border-radius: 3px;
+                color: #FFFFFF;
+                margin-left: 10px;
+                margin-top: 10px;
+                margin-right: 10px;
+                margin-bottom: 12px;
+            }
+            QPushButton:hover {
+                background-color: #48843F;
+            }
+            """
+
+    return base_style
+
+
 def get_default_label_style():
     return """
     QLabel {
@@ -43,6 +63,18 @@ def get_default_label_style():
         color: #000000;
         max-width: 261px;
         max-height: 32px;
+    }
+    """
+
+
+def get_error_label_style():
+    return """
+    QLabel {
+        font-family: Inter;
+        font-size: 20px;
+        color: #FF0000;
+        max-height: 32px;
+        align: center;
     }
     """
 

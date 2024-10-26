@@ -1,3 +1,4 @@
+from typing import List, Tuple
 
 
 class StringValueConvertors:
@@ -15,3 +16,16 @@ class StringValueConvertors:
             return "Enable"
 
         return "Disable"
+
+    @staticmethod
+    def plain_text_to_list(value: str) -> List[str]:
+        value = value.replace('\'', '')
+        parsed_text = value.split(',')
+
+        return parsed_text
+
+    @staticmethod
+    def list_to_plain_text(value: List[str]) -> str:
+        deliminator = " ,"
+
+        return deliminator.join(value)

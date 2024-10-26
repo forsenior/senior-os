@@ -1,11 +1,15 @@
+import os
+
 from PyQt5.QtCore import pyqtSlot
-from PyQt5.QtWidgets import QWidget, QLabel, QLineEdit, QGridLayout, QPushButton, QComboBox, QTextEdit
+from PyQt5.QtWidgets import QWidget, QLabel, QLineEdit, QGridLayout, QPushButton, QComboBox, QTextEdit, QFileDialog
 
 from shelp.src.configuration.models.SmailConfiguration import SmailConfiguration
 from shelp.src.ui.components.uiTransformation.Transformation import UiElementTransformation
+from shelp.src.ui.convertors.ValueValidators import Validators
 
 from shelp.src.ui.styles.GlobalStyleSheets import get_default_label_style, get_default_input_box_style, \
-    get_default_dropdown_style, get_default_settings_button_style, get_default_settings_text_edit_style
+    get_default_dropdown_style, get_default_settings_button_style, get_default_settings_text_edit_style, \
+    get_error_label_style
 from shelp.src.ui.viewModels.SmailSettingsViewModel import SmailViewModel
 from shelp.src.ui.convertors.ValueConvertors import StringValueConvertors
 
@@ -14,12 +18,14 @@ from shelp.src.ui.convertors.ValueConvertors import StringValueConvertors
 class MailSettingsView(QWidget):
     _smailViewModel: SmailViewModel
     _smailConfiguration: SmailConfiguration
+    _configurationFolder: str
 
-    def __init__(self, smail_configuration: SmailConfiguration):
+    def __init__(self, smail_configuration: SmailConfiguration, configurationFolder: str):
         super().__init__()
 
         self._smailConfiguration = smail_configuration
         self._smailViewModel = SmailViewModel(smail_configuration)
+        self._configurationFolder = configurationFolder
 
         grid_layout = QGridLayout()
         grid_layout.setColumnMinimumWidth(0, 261)
@@ -32,37 +38,33 @@ class MailSettingsView(QWidget):
         label_email_pictures = QLabel("Email pictures (up to six)")
         label_send_phishing_warning = QLabel("Send phishing warning")
         label_show_url = QLabel("Show URL links in email")
+        self.label_error = QLabel()
+        self.label_error.setVisible(False)
 
         # DropDowns and Inputs
-        senior_mail = QLineEdit(f"{self._smailConfiguration['seniorEmail'] if self._smailConfiguration['seniorEmail']
-                                                                              != ""
-        else "Enter seniors email"}")
+        senior_mail = QLineEdit(f"{self._smailConfiguration.seniorEmail if self._smailConfiguration.seniorEmail
+                                                                           != "" else "Enter seniors email"}")
         senior_mail.setObjectName("seniorEmail")
 
         senior_password = QLineEdit(
-            f"{self._smailConfiguration['seniorPassword'] if self._smailConfiguration['seniorPassword']
-                                                             != ""
-            else "Enter password "
-                 "for seniors email"}")
+            f"{self._smailConfiguration.seniorPassword if self._smailConfiguration.seniorPassword
+                                                          != "" else "Enter password for seniors email"}")
         senior_password.setObjectName("seniorPassword")
 
         caregiver_email = QLineEdit(
-            f"{self._smailConfiguration['careGiverEmail'] if self._smailConfiguration['careGiverEmail']
-                                                             != ""
-            else "Enter password "
-                 "for seniors email"}")
+            f"{self._smailConfiguration.careGiverEmail if self._smailConfiguration.careGiverEmail
+                                                          != "" else "Enter password for seniors email"}")
         caregiver_email.setObjectName("careGiverEmail")
 
-        # TODO: Change this so that upon clicking this converts to the QTextEdit to make UX better
-        self.email_contacts = QLineEdit(f"{self._smailConfiguration['emailContacts']}")
+        self.email_contacts = QLineEdit(f"Click to edit the list of email contacts (use coma to separate)")
         self.email_contacts.mousePressEvent = self.__email_contacts_clicked_handler
 
-        self.email_contacts_text_edit = QTextEdit(f"{self._smailConfiguration['emailContacts']}")
+        self.email_contacts_text_edit = QTextEdit(f"{StringValueConvertors.list_to_plain_text(
+            self._smailConfiguration.emailContacts)}")
         self.email_contacts_text_edit.setObjectName("emailContacts")
         self.email_contacts_text_edit.setVisible(False)
         self.email_contacts_text_edit.focusOutEvent = self.__email_contacts_focus_out_handler
 
-        # TODO: Finish implementation of this, not sure how, but
         email_pictures = QPushButton("Add pictures for selected person")
         email_pictures.setObjectName("emailPicturesPath")
 
@@ -70,13 +72,13 @@ class MailSettingsView(QWidget):
         send_phishing_warning.addItems(["Enable", "Disable"])
         send_phishing_warning.setObjectName("sendPhishingWarning")
         send_phishing_warning.setCurrentText(
-            f"{StringValueConvertors.string_to_bool(self._smailConfiguration['sendPhishingWarning'])}")
+            f"{StringValueConvertors.bool_to_string(self._smailConfiguration.sendPhishingWarning)}")
 
         show_url = QComboBox()
         show_url.addItems(["Enable", "Disable"])
         show_url.setObjectName("showUrlInEmail")
         show_url.setCurrentText(
-            f"{StringValueConvertors.bool_to_string(self._smailConfiguration['showUrlInEmail'])}")
+            f"{StringValueConvertors.bool_to_string(self._smailConfiguration.showUrlInEmail)}")
 
         # Add widgets to the grid
         grid_layout.addWidget(label_senior_mail, 0, 0)
@@ -101,11 +103,12 @@ class MailSettingsView(QWidget):
         grid_layout.addWidget(label_show_url, 6, 0)
         grid_layout.addWidget(show_url, 6, 1)
 
+        grid_layout.addWidget(self.label_error, 6, 1)
+
         senior_mail.textChanged.connect(self.__on_input_change)
         senior_password.textChanged.connect(self.__on_input_change)
         caregiver_email.textChanged.connect(self.__on_input_change)
-        self.email_contacts_text_edit.textChanged.connect(self.__on_input_change)
-        email_pictures.clicked.connect(self.__on_input_change)
+        email_pictures.clicked.connect(self.__select_email_pictures_clicked_handler)
         send_phishing_warning.currentIndexChanged.connect(self.__on_input_change)
         show_url.currentIndexChanged.connect(self.__on_input_change)
 
@@ -129,8 +132,40 @@ class MailSettingsView(QWidget):
             self._smailViewModel.update_model(sender.objectName(),
                                               StringValueConvertors.string_to_bool(sender.currentText()))
 
+        if isinstance(sender, QFileDialog):
+            self._smailViewModel.update_model(sender.objectName(),
+                                              sender.selectedFiles())
+
+    @pyqtSlot()
+    def __select_email_pictures_clicked_handler(self):
+        selected_files = UiElementTransformation.open_file_dialog(os.path.join(self._configurationFolder, "images"))
+        self._smailViewModel.update_model("emailPicturesPath",
+                                          selected_files)
+
     def __email_contacts_clicked_handler(self, event):
         UiElementTransformation.expand_widget(line_edit=self.email_contacts, text_edit=self.email_contacts_text_edit)
 
     def __email_contacts_focus_out_handler(self, event):
         UiElementTransformation.collapse_widget(line_edit=self.email_contacts, text_edit=self.email_contacts_text_edit)
+
+        failing_url = ""
+
+        for url in StringValueConvertors.plain_text_to_list(self.email_contacts_text_edit.toPlainText()):
+            if Validators.validate_url(url):
+                self._errorInTextInput = False
+                continue
+            else:
+                self._errorInTextInput = True
+                failing_url = url
+                break
+
+        if self._errorInTextInput:
+            self.label_error.setStyleSheet(get_error_label_style())
+            self.label_error.setText(f"Url is incorrect: {failing_url}")
+            self.label_error.setVisible(True)
+            return
+
+        self.label_error.setVisible(False)
+        self._smailViewModel.update_model(self.email_contacts_text_edit.objectName(),
+                                          StringValueConvertors.plain_text_to_list(
+                                              self.email_contacts_text_edit.toPlainText()))

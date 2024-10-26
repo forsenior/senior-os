@@ -29,22 +29,22 @@ class GlobalSettingsView(QWidget):
 
         # Dropdowns and Inputs
         combo_language = QComboBox()
-        combo_language.addItems(["English", "Spanish", "French"])
+        combo_language.addItems(["English", "German", "Czech"])
         combo_language.setObjectName("language")
-        combo_language.setCurrentText(self._globalConfiguration['language'])
+        combo_language.setCurrentText(self._globalConfiguration.language)
 
         input_alert_color = QLineEdit(f"Select value of the alert in hex values (current is "
-                                      f"{self._globalConfiguration['alertColor']})")
+                                      f"{self._globalConfiguration.alertColor})")
         input_alert_color.setObjectName("alertColor")
 
         input_highlight_color = QLineEdit(f"Select value of the alert in hex values (current is "
-                                          f"{self._globalConfiguration['highlightColor']})")
+                                          f"{self._globalConfiguration.highlightColor})")
         input_highlight_color.setObjectName("highlightColor")
 
         combo_protection_level = QComboBox()
         combo_protection_level.addItems(["PL1", "PL2", "PL3"])
         combo_protection_level.setObjectName("protectionLevel")
-        combo_language.setCurrentText(f"{self._globalConfiguration['protectionLevel']}")
+        combo_language.setCurrentText(f"{self._globalConfiguration.protectionLevel}")
 
         # Add widgets to the grid
         grid_layout.addWidget(label_language, 0, 0)
