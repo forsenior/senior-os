@@ -1,13 +1,12 @@
 import datetime
 import json
-import logging
 import os
 import smtplib
 import ssl
 import sys
 from email.mime.text import MIMEText
 
-logger = logging.getLogger(__file__)
+
 def config(path):
 
     try:
@@ -18,7 +17,7 @@ def config(path):
         return (credentials["username"], credentials["password"],
                 credentials["smtp_server"], credentials["smtp_port"])
     except Exception as e:
-        logger.error("Couldn't load credentials from configuration file. " + e)
+        print(f"Couldn't load credentials from configuration file: {e}")
         return -1
 
 
@@ -45,8 +44,7 @@ def send_email(recipient, content):
             print("Email send succesfuly.")
 
     except Exception as e:
-        logger.error("Error occurred when trying to send email. " + e)
-        print("Error occurred when trying to send email.")
+        print(f"Error occurred when trying to send email: {e}")
 
 
 

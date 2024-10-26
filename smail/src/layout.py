@@ -1,4 +1,3 @@
-import logging
 import os
 import re
 import subprocess
@@ -8,23 +7,17 @@ from PyQt5 import sip
 from PyQt5.QtCore import Qt, QTimer, QUrl, QSize
 from PyQt5.QtGui import QTextCharFormat, QTextCursor, QDesktopServices, QIcon
 from PyQt5.QtWidgets import QWidget, QVBoxLayout, QFrame, QLabel, QTextEdit, \
-    QApplication, QListWidget, QPushButton, QHBoxLayout, QSizePolicy, QSpacerItem
+    QApplication, QListWidget, QPushButton, QHBoxLayout, QSizePolicy, QSpacerItem, QAbstractItemView
 
-from connection.mail_connection import (send_email, read_mail)
-
-from style import (search_mail, get_language, images, app_color,
-                   get_email_sender, load_credentials,
-                   load_show_url, load_button_colors, get_path)
-# from template import configActions as act
-from template import guiTemplate as temp
-
-logger = logging.getLogger(__file__)
+from . import style
+from .connection.mail_connection import send_email, read_mail
 
 class first_frame(QWidget):
     def __init__(self, parent):
         super().__init__(parent)
         self.image_configuration()
-        self.language, self.text_configuration = get_language()
+        self.language, self.text_configuration = style.get_language()
+        self.color_scheme = style.get_color_scheme()
         self.last_selected_index = None
         self.last_selected_email = None
         self.last_selected_button = None
@@ -73,7 +66,7 @@ class first_frame(QWidget):
 
     def button_frame_setup(self):
         self.button_frame = QFrame(self)
-        self.button_frame.setStyleSheet(temp.get_button_frame_style())
+        self.button_frame.setStyleSheet(style.get_button_frame_style())
         self.button_layout = QHBoxLayout(self.button_frame)
 
     def clear_buttons(self):
@@ -83,8 +76,9 @@ class first_frame(QWidget):
                 child.widget().deleteLater()
 
     def buttons_setup(self):
+        button_9 = self.text_configuration[f"smail_{self.language}_sendToButton"]
         button_menu1 = ["MENU 1", "EXIT", "Button 2", "Button 3", "Button 4"]
-        button_menu2 = ["MENU 2", "Button 6", "Button 7", "Button 8", "Komu"]
+        button_menu2 = ["MENU 2", "Button 6", "Button 7", "Button 8", button_9]
         spacer_left = QSpacerItem(20, 40, QSizePolicy.Expanding, QSizePolicy.Minimum)
         spacer_right = QSpacerItem(20, 40, QSizePolicy.Expanding, QSizePolicy.Minimum)
 
@@ -95,9 +89,9 @@ class first_frame(QWidget):
             button = QPushButton(text, self.button_frame)
 
             if not self.menu1 and index == 4:
-                button.setStyleSheet(temp.get_button_style(green=True))
+                button.setStyleSheet(style.get_button_style(green=True))
             else:
-                button.setStyleSheet(temp.get_button_style())
+                button.setStyleSheet(style.get_button_style())
 
             self.button_layout.addWidget(button, alignment=Qt.AlignCenter)
 
@@ -164,13 +158,13 @@ class first_frame(QWidget):
 
             if isinstance(widget, QPushButton):
                 if alert:
-                    widget.setStyleSheet(temp.get_button_style(normal=False))
+                    widget.setStyleSheet(style.get_button_style(normal=False))
                 else:
-                    widget.setStyleSheet(temp.get_button_style(normal=True))
+                    widget.setStyleSheet(style.get_button_style(normal=True))
 
     def image_configuration(self):
         try:
-            self.img = images()
+            self.img = style.images()
             self.exit_image = QIcon(self.img["exit"])
             self.person1_image = QIcon(self.img["Person1"])
             self.person2_image = QIcon(self.img["Person2"])
@@ -179,7 +173,7 @@ class first_frame(QWidget):
             self.person5_image = QIcon(self.img["Person5"])
             self.person6_image = QIcon(self.img["Person6"])
         except Exception:
-            logger.error("Failed loading language and images")
+            print("Failed loading language and images")
 
     def exit_app(self):
         self.close()
@@ -189,15 +183,16 @@ class first_frame(QWidget):
     def left_panel_setup(self):
 
         self.left_panel = QFrame(self)
-        self.left_panel.setStyleSheet(temp.get_left_panel_style())
+        self.left_panel.setStyleSheet(style.get_left_panel_style())
         self.left_panel.setFixedWidth(259)
 
         # Email list
-        self.inbox_list_label = QLabel("Doručená pošta:", self.left_panel)
+        self.inbox_list_label = QLabel(self.text_configuration[f"smail_{self.language}_inboxLabel"], self.left_panel)
         self.inbox_list_label.setFixedHeight(22)
-        self.inbox_list_label.setStyleSheet(temp.get_text_style())
+        self.inbox_list_label.setStyleSheet(style.get_text_style())
         self.inbox_list = QListWidget(self.left_panel)
-        self.inbox_list.setStyleSheet(temp.get_inbox_style())
+        self.inbox_list.setStyleSheet(style.get_inbox_style())
+
 
         # Layout for the left panel
         self.left_panel_layout = QVBoxLayout(self.left_panel)
@@ -213,16 +208,16 @@ class first_frame(QWidget):
 
         # Right panel setup
         self.right_panel = QFrame(self)
-        self.right_panel.setStyleSheet(temp.get_right_panel_style())
+        self.right_panel.setStyleSheet(style.get_right_panel_style())
 
         if show_sender_info:
             self.sender_info_label_1 = QLabel(f"{from_label}", self.right_panel)
             self.sender_info_label_1.setFixedHeight(22)
-            self.sender_info_label_1.setStyleSheet(temp.get_text_style())
+            self.sender_info_label_1.setStyleSheet(style.get_text_style())
             self.sender_info_label_2 = QTextEdit(self.right_panel)
             self.sender_info_label_2.setReadOnly(True)
             self.sender_info_label_2.setFixedHeight(114)
-            self.sender_info_label_2.setStyleSheet(temp.get_sender_info_label())
+            self.sender_info_label_2.setStyleSheet(style.get_sender_info_label())
 
         # Recipient info
         else:
@@ -232,25 +227,25 @@ class first_frame(QWidget):
             self.recipient_info_label_2 = QTextEdit(recipient_email or "", self.right_panel)
             self.recipient_info_label_2.setReadOnly(True)
             self.recipient_info_label_2.setFixedHeight(40)
-            self.recipient_info_label_3 = QLabel(f"{subject_label}:",
+            self.recipient_info_label_3 = QLabel(f"{subject_label}",
                                                  self.right_panel)
             self.recipient_info_label_3.setFixedHeight(22)
             self.recipient_info_label_4 = QTextEdit("", self.right_panel)
             self.recipient_info_label_4.setReadOnly(True)
             self.recipient_info_label_4.setFixedHeight(40)
-            self.recipient_info_label_1.setStyleSheet(temp.get_text_style())
-            self.recipient_info_label_2.setStyleSheet(temp.get_label_style())
-            self.recipient_info_label_3.setStyleSheet(temp.get_text_style())
-            self.recipient_info_label_4.setStyleSheet(temp.get_label_style())
+            self.recipient_info_label_1.setStyleSheet(style.get_text_style())
+            self.recipient_info_label_2.setStyleSheet(style.get_label_style())
+            self.recipient_info_label_3.setStyleSheet(style.get_text_style())
+            self.recipient_info_label_4.setStyleSheet(style.get_label_style())
 
         # Layout for the email content
         self.email_content_label_1 = QLabel(f"{message_label}",
                                             self.right_panel)
         self.email_content_label_1.setFixedHeight(22)
-        self.email_content_label_1.setStyleSheet(temp.get_text_style())
+        self.email_content_label_1.setStyleSheet(style.get_text_style())
         self.email_content_label_2 = QTextEdit(self.right_panel)
         self.email_content_label_2.setReadOnly(True)
-        self.email_content_label_2.setStyleSheet(temp.get_email_content_label())
+        self.email_content_label_2.setStyleSheet(style.get_email_content_label())
 
         # Layout for the right panel
         self.right_panel.setLayout(QVBoxLayout())
@@ -282,8 +277,8 @@ class first_frame(QWidget):
     def insert_emails(self):
         previous_emails = getattr(self, "reversed_list", [])
         (login, password, smtp_server, smtp_port, imap_server, imap_port) = (
-            load_credentials(get_path("sconf", "SMAIL_config.json")))
-        language, text = get_language()
+            style.load_credentials(style.get_path("sconf", "sconfig.json")))
+        language, text = style.get_language()
 
         self.emails, self.subjects = read_mail(login, password, imap_server, imap_port, language, text)
         self.reversed_list = list(zip(self.emails[::-1], self.subjects[::-1]))
@@ -295,7 +290,7 @@ class first_frame(QWidget):
             self.all_emails = [(email_content, subject, "safe") for email_content, subject in self.reversed_list]
 
             for email_content, subject, _ in self.all_emails:
-                name = get_email_sender(email_content.split("\n")[1])
+                name = style.get_email_sender(email_content.split("\n")[1])
                 sub = email_content.split("\n")[0].split(":", 1)[1]
                 self.inbox_list.addItem(f"{name} - {sub}")
 
@@ -308,7 +303,7 @@ class first_frame(QWidget):
 
         if hasattr(self, 'last_selected_button') and self.last_selected_button is not None:
             if not sip.isdeleted(self.last_selected_button):
-                self.last_selected_button.setStyleSheet(temp.get_button_style())
+                self.last_selected_button.setStyleSheet(style.get_button_style())
             self.last_selected_button = None
 
         selected_items = self.inbox_list.selectedItems()
@@ -354,28 +349,29 @@ class first_frame(QWidget):
 
     def decide_action_for_button(self, button, recipient_index=None):
         try:
+            self.inbox_list.clearSelection()
             if self.last_selected_button == button:
-                self.send_email_status()
+                self.disable_fields_for_sending()
+                QTimer.singleShot(100, self.send_email_status)
             else:
                 self.fill_recipient(recipient_index)
                 self.last_selected_button = button
         except Exception as e:
-            logger.error(f"An error occurred in decide_action_for_button: {e}")
             print(f"An error occurred in decide_action_for_button: {e}")
 
     def fill_recipient(self, index):
         try:
             if hasattr(self, 'last_selected_button') and self.last_selected_button is not None:
                 if not sip.isdeleted(self.last_selected_button):
-                    self.last_selected_button.setStyleSheet(temp.get_button_style())
+                    self.last_selected_button.setStyleSheet(style.get_button_style())
             sender = self.sender()
 
             if sender is not None and not sip.isdeleted(sender):
-                sender.setStyleSheet(temp.get_button_style(green=True))
+                sender.setStyleSheet(style.get_button_style(green=True))
                 self.last_selected_button = sender
             recipient_email = ""
             if 1 <= index <= 6:
-                recipient_email = search_mail(index)
+                recipient_email = style.search_mail(index)
             elif index == 7:
                 recipient_email = ""
 
@@ -387,25 +383,41 @@ class first_frame(QWidget):
             self.recipient_info_label_2.setReadOnly(False)
 
         except Exception as e:
-            logger.error(f"An error occurred in fill_recipient: {e}")
             print(f"An error occurred in fill_recipient: {e}")
 
     def send_email_status(self):
+        missing_info = False
+        colors = self.color_scheme
+        alert_color = colors["alert_color"]
+        default_color = colors["default_color"]
+
 
         (login, password, smtp_server,
          smtp_port, imap_server, imap_port) = (
-            load_credentials(get_path("sconf", "SMAIL_config.json")))
+            style.load_credentials(style.get_path("sconf", "sconfig.json")))
 
         recipient = self.recipient_info_label_2.toPlainText().strip()
         subject = self.recipient_info_label_4.toPlainText().strip()
         content = self.email_content_label_2.toPlainText().strip()
 
         if not recipient:
-            logger.error("Příjemce nebyl zadan.")
-            return
+            print("Recipient was not specified.")
+            self.alert_missing_text(self.recipient_info_label_2, default_color, alert_color)
+            missing_info = True
 
-        if not subject or not content:
-            logger.error("Předmět nebo obsah emailu chybi.")
+
+        if not subject:
+            print("Email subject is missing.")
+            # self.alert_missing_text(self.recipient_info_label_4, default_color, alert_color)
+            missing_info = False
+
+
+        if not content:
+            print("Email content is missing.")
+            self.alert_missing_text(self.email_content_label_2, default_color, alert_color)
+            missing_info = True
+
+        if missing_info:
             return
 
         success = send_email(
@@ -415,46 +427,123 @@ class first_frame(QWidget):
         if success == 1:
             self.send_email_success()
         else:
-            logger.error(f"Email nebyl uspěšně odeslán, status: {success}")
+            self.send_email_fail()
 
     def send_email_success(self):
-        default_color, selected_color = load_button_colors()
-        bg_default_color = app_color()
+        colors = self.color_scheme
+        green_color = colors["green_color"]
+        default_color = colors["default_color"]
 
         self.recipient_info_label_2.clear()
         self.recipient_info_label_4.clear()
         self.email_content_label_2.clear()
 
         height = self.email_content_label_2.height()
-        line_height = 36
+        line_height = 32
         total_lines = max(1, height // line_height)
         middle_line = total_lines // 2
-
         padding = "\n" * (middle_line - 2)
+
         self.email_content_label_2.insertPlainText(padding)
         self.email_content_label_2.insertPlainText(self.text_configuration[f"smail_{self.language}_email_sent"])
         self.email_content_label_2.setAlignment(Qt.AlignCenter)
-        current_style = temp.get_email_content_label()
-        self.email_content_label_2.setStyleSheet(current_style + f"background-color: {selected_color};")
+        current_style = style.get_email_content_label()
+        self.email_content_label_2.setStyleSheet(current_style + f"""
+                background-color: {green_color};
+                font-size: 32px;  
+                font-weight: bold;  
+            """)
         self.email_content_label_2.setReadOnly(True)
 
-        QTimer.singleShot(5000, lambda: self.clear_content_entry(bg_default_color))
+        QTimer.singleShot(5000, lambda: self.clear_content_entry(default_color, 3))
 
-    def clear_content_entry(self, default_color):
-        self.email_content_label_2.setReadOnly(False)
+    def send_email_fail(self):
+        colors = self.color_scheme
+        alert_color = colors["alert_color"]
+        default_color = colors["default_color"]
+
+        self.recipient_info_label_2.clear()
+        self.recipient_info_label_4.clear()
         self.email_content_label_2.clear()
-        self.email_content_label_2.setStyleSheet(temp.get_email_content_label() + f"background-color: {default_color};")
+
+        height = self.email_content_label_2.height()
+        line_height = 32
+        total_lines = max(1, height // line_height)
+        middle_line = total_lines // 2
+        padding = "\n" * (middle_line - 2)
+
+        self.email_content_label_2.insertPlainText(padding)
+        self.email_content_label_2.insertPlainText(self.text_configuration[f"smail_{self.language}_email_fail"])
+        self.email_content_label_2.setAlignment(Qt.AlignCenter)
+        current_style = style.get_email_content_label()
+        self.email_content_label_2.setStyleSheet(current_style + f"""
+                        background-color: {alert_color};
+                        font-size: 32px;  
+                        font-weight: bold;  
+                    """)
+        self.email_content_label_2.setReadOnly(True)
+
+        QTimer.singleShot(5000, lambda: self.clear_content_entry(default_color, 3))
+
+    def clear_content_entry(self, default_color, idx):
+        if idx == 3:
+            self.email_content_label_2.setReadOnly(False)
+            self.recipient_info_label_2.setReadOnly(False)
+            self.recipient_info_label_4.setReadOnly(False)
+            self.email_content_label_2.clear()
+            self.email_content_label_2.setStyleSheet(style.get_email_content_label() + f"background-color: {default_color};")
+            self.recipient_info_label_2.setStyleSheet(style.get_label_style() + f"background-color: {default_color};")
+            self.recipient_info_label_4.setStyleSheet(style.get_label_style() + f"background-color: {default_color};")
+
+        elif idx == 2:
+            self.email_content_label_2.setReadOnly(False)
+            self.recipient_info_label_2.setReadOnly(False)
+            self.recipient_info_label_4.setReadOnly(False)
+            self.recipient_info_label_2.clear()
+            self.email_content_label_2.setStyleSheet(style.get_email_content_label() + f"background-color: {default_color};")
+            self.recipient_info_label_2.setStyleSheet(style.get_label_style() + f"background-color: {default_color};")
+            self.recipient_info_label_4.setStyleSheet(style.get_label_style() + f"background-color: {default_color};")
+
+        elif idx == 1:
+            self.email_content_label_2.setReadOnly(False)
+            self.recipient_info_label_2.setReadOnly(False)
+            self.recipient_info_label_4.setReadOnly(False)
+            self.recipient_info_label_4.clear()
+            self.email_content_label_2.setStyleSheet(style.get_email_content_label() + f"background-color: {default_color};")
+            self.recipient_info_label_2.setStyleSheet(style.get_label_style() + f"background-color: {default_color};")
+            self.recipient_info_label_4.setStyleSheet(style.get_label_style() + f"background-color: {default_color};")
 
     def alert_missing_text(self, entry, default_color, select_color):
-        #entry.configure(background=select_color)
-        entry.setStyleSheet(f"background-color: {select_color};")
-        #entry.after(2000, lambda: entry.configure(background= default_color))
-        QTimer.singleShot(2000, lambda: entry.setStyleSheet(f"background-color: {default_color};"))
+
+        if entry == self.recipient_info_label_4:
+            entry.setStyleSheet(style.get_label_style() + f"background-color: {select_color};")
+            QTimer.singleShot(2000, lambda: self.clear_content_entry(default_color, 1))
+
+        elif entry == self.recipient_info_label_2:
+            entry.setStyleSheet(style.get_label_style() + f"background-color: {select_color};")
+            QTimer.singleShot(2000, lambda: self.clear_content_entry(default_color, 2))
+
+        elif entry == self.email_content_label_2:
+            entry.setStyleSheet(style.get_email_content_label() + f"background-color: {select_color};")
+            QTimer.singleShot(2000, lambda: self.clear_content_entry(default_color, 3))
+
+    def disable_fields_for_sending(self):
+        colors = self.color_scheme
+        grey_color = colors["grey_color"]
+
+        self.recipient_info_label_2.setReadOnly(True)
+        self.recipient_info_label_4.setReadOnly(True)
+        self.email_content_label_2.setReadOnly(True)
+
+        self.recipient_info_label_2.setStyleSheet(style.get_label_style() +f"background-color: {grey_color};")
+        self.recipient_info_label_4.setStyleSheet(style.get_label_style() +f"background-color: {grey_color};")
+        self.email_content_label_2.setStyleSheet(style.get_email_content_label() +f"background-color: {grey_color};")
 
     def mark_important_data(self):
 
-        default_color, selected_color = (
-            load_button_colors())
+        default_color = "white"
+        selected_color = "green"
+        bg_default_color = "white"
 
         #lines = self.message_area.get("1.0", "end-1c").split("\n")
         lines = self.message_area.toPlainText().split("\n")
@@ -484,11 +573,11 @@ class first_frame(QWidget):
 
         # except Exception as e:
         #     print("lag")
-        #     logger.error("Error occurred when marking important data: " + str(e))
+        #     print("Error occurred when marking important data: " + str(e))
 
     def mark_email(self):
 
-        show = load_show_url(get_path("sconf", "SMAIL_config.json"))
+        show = style.load_show_url(style.get_path("sconf", "SMAIL_config.json"))
 
         if show == 1:
             # Find all URLs in email and tag them
@@ -539,10 +628,9 @@ class first_frame(QWidget):
     def open_browser(self, event, url):
         # Open web browser when clicking on a URL.
         try:
-            subprocess.run(["python3", get_path("sweb", "sweb.py"), url])
+            subprocess.run(["python3", style.get_path("sweb", "sweb.py"), url])
             self.exit_app()
         except Exception as e:
             #webbrowser.open_new(url)
             QDesktopServices.openUrl(QUrl(url))
-            #logger.error("Failed to open sweb.")
-            logger.error("Failed to open sweb. Defaulting to browser.", exc_info=True)
+            print("Failed to open sweb. Defaulting to browser.")

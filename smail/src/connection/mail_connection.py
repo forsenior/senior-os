@@ -1,5 +1,4 @@
 from datetime import datetime
-import logging
 import imaplib
 import smtplib
 from email.mime.text import MIMEText
@@ -8,9 +7,8 @@ import ssl
 import re
 
 import chardet
-from smail.style import get_guardian_email, resend_active, load_credentials, get_path
+from smail.src.style import get_guardian_email, resend_active, load_credentials, get_path
 
-logger = logging.getLogger(__file__)
 
 # Config of the smtp/imap server and other information are taken from
 # SMAIL_config.json file, in order to be able to connect to the gmail mailbox,
@@ -44,21 +42,17 @@ def send_email(recipient, subject, content, login, password, smtp_server, smtp_p
             if recipient in phish_senders:
                 resend_reply(recipient,content,server, login)
 
-        logger.info(f"An email has been sent to {recipient}.")
+        print(f"An email has been sent to {recipient}.")
         # Returning 1 if email was send successfully
         return 1
-
     except smtplib.SMTPAuthenticationError:
-        logger.error("Authentication error. Check your email and password.",
-                     exc_info=True)
+        print("Authentication error. Check your email and password.")
         return -1
     except smtplib.SMTPConnectError:
-        logger.error("SMTP connection error. Check your SMTP server and port.",
-                     exc_info=True)
+        print("SMTP connection error. Check your SMTP server and port.")
         return 0
-    except Exception:
-        logger.error("Error occurred when trying to send email. ",
-                     exc_info=True)
+    except Exception as e:
+        print(f"Error occurred when trying to send email: {e}")
         return -2
 
 
@@ -69,7 +63,7 @@ def resend_reply(recipient, content, server, login):
     msg['Subject'] = f"Reply to phish email by {login}"
     msg['From'] = login
     server.sendmail(login, get_guardian_email(), msg.as_string())
-    logger.warning(f"An email has been sent to {recipient}! Resending email to guardian: {get_guardian_email()}!")
+    print(f"An email has been sent to {recipient}! Resending email to guardian: {get_guardian_email()}.")
 
 
 def imap_connection(login, password, imap_server, imap_port):
@@ -79,21 +73,18 @@ def imap_connection(login, password, imap_server, imap_port):
             imap_server, imap_port, ssl_context=ssl.create_default_context()
         )
         mail.login(login, password)
-        logger.info("Successful connection to IMAP server.")
+        print("Successful connection to IMAP server.")
         return mail
 
     except imaplib.IMAP4.error:
-        logger.error("IMAP Error: Failed to connect to the IMAP server.", exc_info=True)
+        print("IMAP Error: Failed to connect to the IMAP server.")
         return 0
     except ConnectionError:
-        logger.error("Connection Error: Failed to establish a connection"
-                     " to the IMAP server.", exc_info=True)
+        print("Connection Error: Failed to establish a connection to the IMAP server.")
         return -1
     except Exception as error:
-        logger.error("An unexpected error occurred. ", exc_info=True)
+        print(f"An unexpected error occurred: {error}")
         return -2
-
-    return None
 
 def read_mail(login, password, imap_server, imap_port, language, text):
 
@@ -159,7 +150,7 @@ def read_mail(login, password, imap_server, imap_port, language, text):
                     email_content = (f"{lang_subject}{decoded_subject}\n"
                                      f"{lang_from}{sender}\n"
                                      f"{lang_date}{date}\n"
-                                     f"{lang_message}\n\n{message_decode}")
+                                     f"{lang_message}\n{message_decode}")
 
 
                     # Appends the email into emails list
@@ -173,11 +164,11 @@ def read_mail(login, password, imap_server, imap_port, language, text):
             resend_mail_to_guardian(emails)
             resend_emails_g = True
 
-        logger.info(f"{len(emails)} emails successfully loaded")
+        print(f"{len(emails)} emails successfully loaded")
         return emails, subjects
 
     except Exception as error:
-        logger.error("An unexpected error occured. ", exc_info=True)
+        print(f"An unexpected error occurred: {error}")
     finally:
         mail.close()
         mail.logout()
@@ -189,7 +180,7 @@ def resend_mail_to_guardian(emails):
         date = datetime.now().strftime("%d.%m.%Y")
         email_subject = f"Email report from {smail}, date: {date}"
         email_content = ""
-        logger.info(f"Sending emails from seniors address {smail} to guardians email address {gmail}.")
+        print(f"Sending emails from senior's address {smail} to guardian's email address {gmail}.")
         for e in emails:
             email_content += e
 
@@ -200,71 +191,7 @@ def resend_mail_to_guardian(emails):
         send_email(gmail, email_subject, email_content, login, password, smtp_server, smtp_port)
 
 
-def check_content_of_email(content, sender, subject):
 
-    with open(get_path("sconf/phish", "SMAIL_PHISH_1.txt")) as f:
-        phish_urls = f.readlines()
-    f.close()
 
-    # Strip newline characters and convert to lowercase
-    phish_urls = [url.strip().lower() for url in phish_urls]
 
-    url_pattern = r"https?://(?:www\.)?\S+|www\.\S+"
-
-    # Extract urls from email body and subject
-    content_urls = re.findall(url_pattern, content)
-    subject_urls = re.findall(url_pattern, subject)
-    urls = content_urls + subject_urls
-
-    found_phishing_url = False
-
-    for url in urls:
-        # Remove newline and convert to lowercase
-        clean_url = url.strip().lower()
-        for p in phish_urls:
-            if clean_url.startswith(p):
-                found_phishing_url = True
-                phish_senders.append(sender)
-                break
-
-    if found_phishing_url:
-        logger.warning(f"Found a phishing URL from {sender}")
-        return False
-    else:
-        logger.info(f"Found URL from {sender}")
-        return True
-
-def check_email_for_spam(email_messages):
-
-    global index
-    safe_emails = []
-    phish_emails = []
-
-    # Getting email address
-    for email_content in email_messages:
-        email_parts = email_content.split("\n")
-
-        # Extract relevant information
-        sender = email_parts[1].replace("From: ", "")
-        message = "".join([s.strip("\r") for s in email_parts[4:]])
-
-        # Modify sender address
-        if '<' in sender and '>' in sender:
-            start_index = sender.find('<')
-            end_index = sender.find('>')
-            if start_index < end_index:
-                modified_sender = sender[start_index + 1:end_index]
-        else:
-            modified_sender = sender
-
-        contentBlock = check_content_of_email(message, modified_sender, email_parts[0])
-
-        if contentBlock:
-            safe_emails.append((email_content, index, "safe"))
-            index = index + 1
-        else:
-            phish_emails.append((email_content, index, "phish"))
-            index = index + 1
-
-    return safe_emails, phish_emails
 
