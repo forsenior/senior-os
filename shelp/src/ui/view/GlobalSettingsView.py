@@ -2,10 +2,8 @@ from PyQt5.QtCore import pyqtSlot
 from PyQt5.QtWidgets import QWidget, QLabel, QComboBox, QLineEdit, QGridLayout
 
 from sconf.src.configuration.models.GlobalConfiguration import GlobalConfiguration
-
 from shelp.src.ui.styles.GlobalStyleSheets import get_default_label_style, get_default_input_box_style, \
     get_default_dropdown_style
-
 from shelp.src.ui.viewModels.GlobalSettingsViewModel import GlobalViewModel
 
 

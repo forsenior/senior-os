@@ -1,14 +1,13 @@
-import os.path
-import json
 import dataclasses
+import json
+import os.path
 
 from dataclass_wizard import asdict
 
 import sconf.src.configuration.models.GlobalConfiguration as globalConfig
-import sconf.src.configuration.models.SwebConfiguration as swebConfig
 import sconf.src.configuration.models.SmailConfiguration as smailConfig
+import sconf.src.configuration.models.SwebConfiguration as swebConfig
 from sconf.src.configuration.models import SosConfiguration
-
 from sconf.src.decorators.Decorators import singleton
 
 

@@ -5,10 +5,8 @@ from PyQt5.QtWidgets import QWidget, QVBoxLayout, QHBoxLayout, QPushButton, QSta
 
 from sconf.src.configuration.ConfigurationDataProvider import ConfigurationProvider
 from sconf.src.configuration.ConfigurationDataWriter import ConfigurationWriter
-
 from shelp.src.ui.styles.GlobalStyleSheets import get_main_window_style, get_default_menu_button_style, \
     get_active_menu_button_style
-
 from shelp.src.ui.view.GlobalSettingsView import GlobalSettingsView
 from shelp.src.ui.view.SmailSettingsView import MailSettingsView
 from shelp.src.ui.view.SwebSettingsView import WebSettingsView
@@ -67,8 +65,8 @@ class MainWindow(QWidget):
 
         # Adding views to the stacked widget
         self.stacked_widget.addWidget(self.global_view)  # Index 0
-        self.stacked_widget.addWidget(self.web_view)     # Index 1
-        self.stacked_widget.addWidget(self.mail_view)    # Index 2
+        self.stacked_widget.addWidget(self.web_view)  # Index 1
+        self.stacked_widget.addWidget(self.mail_view)  # Index 2
 
         # Adding the stacked widget to the main layout
         self.main_layout.addWidget(self.stacked_widget)

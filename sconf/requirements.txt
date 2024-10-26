@@ -1,0 +1,1 @@
+dataclass_wizard==0.23.0

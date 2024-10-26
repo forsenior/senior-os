@@ -5,13 +5,12 @@ from PyQt5.QtWidgets import QWidget, QLabel, QLineEdit, QGridLayout, QPushButton
 
 from sconf.src.configuration.models.SmailConfiguration import SmailConfiguration
 from shelp.src.ui.components.uiTransformation.Transformation import UiElementTransformation
+from shelp.src.ui.convertors.ValueConvertors import StringValueConvertors
 from shelp.src.ui.convertors.ValueValidators import Validators
-
 from shelp.src.ui.styles.GlobalStyleSheets import get_default_label_style, get_default_input_box_style, \
     get_default_dropdown_style, get_default_settings_button_style, get_default_settings_text_edit_style, \
     get_error_label_style
 from shelp.src.ui.viewModels.SmailSettingsViewModel import SmailViewModel
-from shelp.src.ui.convertors.ValueConvertors import StringValueConvertors
 
 
 # TODO: Once initial presentation is done change this to correct binding with the view model

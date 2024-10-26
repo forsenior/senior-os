@@ -4,11 +4,9 @@ from PyQt5.QtCore import pyqtSlot
 from PyQt5.QtWidgets import QWidget, QLabel, QLineEdit, QGridLayout, QPushButton, QComboBox, QTextEdit, QFileDialog
 
 from sconf.src.configuration.models.SwebConfiguration import SwebConfiguration
-
+from shelp.src.ui.components.uiTransformation.Transformation import UiElementTransformation
 from shelp.src.ui.convertors.ValueConvertors import StringValueConvertors
 from shelp.src.ui.convertors.ValueValidators import Validators
-
-from shelp.src.ui.components.uiTransformation.Transformation import UiElementTransformation
 from shelp.src.ui.styles.GlobalStyleSheets import (get_default_input_box_style,
                                                    get_default_label_style,
                                                    get_default_dropdown_style, get_default_settings_button_style,
