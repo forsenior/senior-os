@@ -110,47 +110,7 @@ It depends on the configuration file created, now the website will load the conf
 ## Current state of the solution
 <a name="current-state"></a>
 
-The following functionalities are already implemented:
 
- - [x] Remove the audio from the application
-     - [x]  Remove pygame package to disable  playing the sounds
- - [ ] Config the app to read the configuration from the sconf file.
-
- - [x] Menu text settings
-    - [x] Font family: Inter (google font)
-    - [x] Font size: 40px
-    - [x] Font: Regular
-    - [x] Font color: FFFFFF (hex) ??????
-    - [x] Position: Center, Center
-- [ ] Bar background (Normal State)
-    - [ ] Bar fill: Transparent
-    - [ ] Border fill Transparent
-    - [ ] Border thickness 0px
-    - [ ] Buttons (Normal State)
-    - [ ] Button size (Minimal): 244x107 (WxH)
-    - [ ] Button corner radius: 3px
-    - [ ] Button border thickness: 1px
-    - [ ] Button fill: 949494 (hex)
-    - [ ] Border color: 797979 (hex)
-    - [ ] Icon/Text position: Center/Center
-    - [ ] Button margin: 10px, 10px, 10px, 12px (Left, Top, Right, Bottom)
-    
-- [ ] Bar bacground (Phishing State)
-    - [ ] Bar fill: FF0000 (hex)
-    - [ ] Border fill: F90000 (hex)
-    - [ ] Border thickness: 1px
-    - [ ] Buttons (Phishing State)
-    - [ ] Button size (Minimal): 244x107 (WxH)
-    - [ ] Button corner radius: 3px
-    - [ ] Button border thickness: 1px
-    - [ ] Button fill: F90000 (hex)
-    - [ ] Border color: 797979 (hex)
-    - [ ] Icon/Text position: Center, Center
-    - [ ] Button margin: 10px, 10px, 10px, 12px (Left, Top, Right, Bottom)
-    
-- [ ] Enable sending mail through the terminal
-> [!NOTE]
-> Do not have enough info from the smail side
 
 
       
