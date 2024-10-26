@@ -9,7 +9,7 @@ import sconf.src.configuration.models.SwebConfiguration as swebConfig
 import sconf.src.configuration.models.SmailConfiguration as smailConfig
 from sconf.src.configuration.models import SosConfiguration
 
-from shelp.src.decorators.Decorators import singleton
+from sconf.src.decorators.Decorators import singleton
 
 
 @singleton
@@ -45,31 +45,12 @@ class ConfigurationWriter:
         """
         if not os.path.isfile(os.path.join(self._configStoragePath, self._configFileName)):
             default_config = SosConfiguration.SOSConfiguration(
-                globalConfiguration=globalConfig.GlobalConfiguration(
-                    language="en",
-                    colorMode="light",
-                    alertColor="#FF0000",
-                    highlightColor="#48843F",
-                    protectionLevel=1,
-                ),
+                globalConfiguration=globalConfig.GlobalConfiguration(),
                 smailConfiguration=smailConfig.SmailConfiguration(),
-                swebConfiguration=swebConfig.SwebConfiguration(
-                    urlsForWebsites=["https://seznam.cz",
-                                     "https://google.com",
-                                     "https://vut.cz"],
-                    picturePaths=["",
-                                  "",
-                                  ""],
-                    sendPhishingWarning=True,
-                    phishingFormular=True,
-                    seniorWebsitePosting=True,
-                    allowedWebsites=["https://seznam.cz",
-                                     "https://google.com",
-                                     "https://vut.cz"]
-                )
+                swebConfiguration=swebConfig.SwebConfiguration()
             )
 
-            self.__save_configuration(json.dumps(default_config, indent=4, cls=EnhancedJSONEncoder))
+            self.__save_configuration(json.dumps(default_config, indent=4, cls=EnhancedJSONEncoder, ensure_ascii=True))
 
         pass
 

@@ -7,7 +7,7 @@ from sconf.src.configuration.models.GlobalConfiguration import GlobalConfigurati
 from sconf.src.configuration.models.SmailConfiguration import SmailConfiguration
 from sconf.src.configuration.models.SosConfiguration import SOSConfiguration
 from sconf.src.configuration.models.SwebConfiguration import SwebConfiguration
-from shelp.src.decorators.Decorators import singleton
+from sconf.src.decorators.Decorators import singleton
 
 
 @singleton
@@ -47,30 +47,30 @@ class ConfigurationProvider:
         This method allows any caller to retrieve all configuration information from the memory
 
         To Use:
-            1. Import data viewModels from shelp/src/configuration/viewModels
+            1. Import data viewModels from sconf/src/configuration/viewModels
             2. Call this method
             3. Either map it to the model or use as it is
-        :return: :py:class:`SOSConfiguration`
+        :return: `SOSConfiguration`
         """
         return self._sosConfiguration
 
     def get_global_configuration(self) -> GlobalConfiguration:
         """
         This method allows any caller to retrieve configuration information for the GlobalConfig from the memory
-        :return: :py:class: `GlobalConfiguration`
+        :return: `GlobalConfiguration`
         """
         return self._sosConfiguration.globalConfiguration
 
     def get_sweb_configuration(self) -> SwebConfiguration:
         """
         This method allows any caller to retrieve configuration information for the SWEB from the memory
-        :return: :py:class: `SwebConfiguration`
+        :return: `SwebConfiguration`
         """
         return self._sosConfiguration.swebConfiguration
 
     def get_smail_configuration(self) -> SmailConfiguration:
         """
         This method allows any caller to retrieve configuration information for the SMAIL from the memory
-        :return: :py:class: `SmailConfiguration`
+        :return: `SmailConfiguration`
         """
         return self._sosConfiguration.smailConfiguration
