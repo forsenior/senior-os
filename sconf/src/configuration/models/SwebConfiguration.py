@@ -18,6 +18,8 @@ class SwebConfiguration:
                                                             "../sconf/images/SWEB-WWW4.jpg",
                                                             "../sconf/images/SWEB-WWW5.png",
                                                             "../sconf/images/SWEB-WWW6.png"])
+    phishingDatabase: str = "../sconf/phish/SWEB_PHISH_1.txt"
+    phishingGithubDatabase: str = "https://github.com/mitchellkrogza/Phishing.Database/raw/master/ALL-phishing-domains.tar.gz/"
     sendPhishingWarning: bool = True
     phishingFormular: bool = True
     seniorWebsitePosting: bool = True
