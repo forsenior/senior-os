@@ -24,6 +24,8 @@
        "../sconf/images/SWEB-WWW5.png",
        "../sconf/images/SWEB-WWW6.png"
         ],
+        "phishingDatabase": "../sconf/phish/SWEB_PHISH_1.txt",
+        "phishingGithubDatabase": "https://github.com/mitchellkrogza/Phishing.Database/raw/master/ALL-phishing-domains.tar.gz/",
         "sendPhishingWarning": true,
         "phishingFormular": true,
         "seniorWebsitePosting": true,
