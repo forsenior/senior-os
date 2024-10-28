@@ -10,9 +10,14 @@ class SwebConfiguration:
                                                                 "https://google.com/",
                                                                 "https://www.aktualne.cz/",
                                                                 "https://www.denik.cz/"])
-    picturePaths: List[str] = field(default_factory=lambda: ["",
-                                                             "",
-                                                             ""])
+    
+    picturePaths: List[str] = field(default_factory=lambda: ["../sconf/images/SWEB-EXIT.png",
+                                                             "../sconf/images/SWEB-WWW1.png",
+                                                            "../sconf/images/SWEB-WWW2.png",
+                                                            "../sconf/images/SWEB-WWW3.png",
+                                                            "../sconf/images/SWEB-WWW4.jpg",
+                                                            "../sconf/images/SWEB-WWW5.png",
+                                                            "../sconf/images/SWEB-WWW6.png"])
     sendPhishingWarning: bool = True
     phishingFormular: bool = True
     seniorWebsitePosting: bool = True
