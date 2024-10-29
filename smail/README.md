@@ -70,7 +70,7 @@ To launch the application, follow these steps:
 5. Before executing the application, ensure that you have set up the necessary configurations and generated the required app password for connection, as outlined in the previous section.
 
 6. Once everything is set up, run the application by clicking on the "Run" button within your IDE or execute the following commands:
-7. ```bash
+```bash
 cd smail
 python SMAIL.py
 ```
