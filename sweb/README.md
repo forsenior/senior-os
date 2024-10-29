@@ -34,7 +34,7 @@ This feature is the core of our app, alerting users if a website is potentially 
 
 <img src="https://github.com/forsenior/senior-os/blob/main/sweb/screens/SWEB-screen-3.png" width="900" />
 
-. Phishing Warning: If the user enters a known phishing URL, the toolbar background changes to red to ensure easy visibility, especially for seniors.
+- Phishing Warning: If the user enters a known phishing URL, the toolbar background changes to red to ensure easy visibility, especially for seniors.
 
 More details on how the phishing detector works will be provided in the documentation.
 
