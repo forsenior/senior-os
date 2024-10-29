@@ -61,6 +61,7 @@ py -m pip install -r requirements.txt
 1. Removed the audio assistant successfully from the app.
 2. Updated the app to read configurations from the configuration provider instead of directly from the JSON file.
 3. Enabled background email sending using the secondary app, Smail.
+4. Remove the logger 
 
 
 ## Challenges
