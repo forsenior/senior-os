@@ -38,23 +38,23 @@ This feature is the core of our app, alerting users if a website is potentially 
 
 More details on how the phishing detector works will be provided in the documentation.
 
-### Installation
+## Installation
+
 !!!Ensure you have Python3 or pip installed on your system.
 Follow these steps to set up Web Browser in FEDORA operating system:
+
 ```bash
 # Install required Python packages with dnf if using Fedora
 sudo dnf install python3
-sudo dnf install python3-qt5
-sudo dnf install python3-qt5-webengine
-sudo dnf install python3-pygame
-pip3 install screeninfo
-pip3 install yagmail
+
+# Clone project repository
+git clone https://github.com/forsenior/senior-os
+
+# Install requirements from the requirements.txt in sweb dir
+py -m pip install -r requirements.txt
 
 ```
 
-> [!NOTE]
-> My Contribution to the Project:
-> Please note that I did not design the application from scratch. My role is to modify and enhance the app, making it more user-friendly while improving its security features.
 
 **Changelog**
 
