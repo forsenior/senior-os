@@ -10,7 +10,7 @@ Below is the design concept for the web browser:
 ## MENU1 Overview
 MENU1 provides a user-friendly interface with four large, fixed-size buttons, designed for easy navigation, especially for seniors.
 
-<img src="https://github.com/forsenior/senior-os/blob/main/sweb/screens/SWEB-screen-1.png" width="700" />
+<img src="https://github.com/forsenior/senior-os/blob/main/sweb/screens/SWEB-screen-1.png" >
 
 Button Actions:
 
