@@ -1,4 +1,4 @@
-# Web browser for seniors
+# Web browser for the elderly and mentally disabled
 
 ## Application Overview
 
@@ -6,6 +6,22 @@ This project is a web browser tailored for seniors, built using PyQt5, with a st
 Its goal is to create a more user-friendly environment for older adults by offering features such as improved text readability, intuitive navigation, 
 audio support, multilingual options, and robust security measures to guard against phishing websites. 
 Below is the design concept for the web browser:
+
+## MENU1 Overview
+MENU1 provides a user-friendly interface with four large, fixed-size buttons, designed for easy navigation, especially for seniors.
+
+<img src="https://github.com/forsenior/senior-os/blob/main/sweb/screens/SWEB-screen-1.png" width="700" />
+
+Button Actions:
+
+1. MENU1 Button: Switches the menu bar to MENU2.
+2. Exit Button: Closes the application.
+3. Website Buttons (3): Open links to predefined websites.
+   
+## MENU2 Overview
+<img src="https://github.com/forsenior/senior-os/blob/main/sweb/screens/SWEB-screen-2.png" width="700" />
+
+## Content of the second menu
 
 ### Installation
 !!!Ensure you have Python3 or pip installed on your system.
