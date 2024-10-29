@@ -1,4 +1,4 @@
-from sconf.src.configuration.models.GlobalConfiguration import GlobalConfiguration
+from configuration.models.GlobalConfiguration import GlobalConfiguration
 
 
 # TODO: Switch to proper implementation using QObject and model change events

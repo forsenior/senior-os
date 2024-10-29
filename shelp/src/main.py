@@ -3,9 +3,9 @@ import sys
 
 from PyQt5.QtWidgets import QApplication
 
-import sconf.src.configuration.ConfigurationDataProvider as dataProvider
-import sconf.src.configuration.ConfigurationDataWriter as dataWriter
-from shelp.src.ui.view.MainWindowView import MainWindow
+import configuration.ConfigurationDataProvider as dataProvider
+import configuration.ConfigurationDataWriter as dataWriter
+from ui.view.MainWindowView import MainWindow
 
 CONFIG_FILE_NAME = 'SOS-conf.json'
 SUBFOLDER_NAME = "sconf"
