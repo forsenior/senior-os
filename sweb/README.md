@@ -78,6 +78,10 @@ pip3 install yagmail
 ## The demonstration video
 
 
+https://github.com/user-attachments/assets/ab53a1bf-695f-4838-87d4-df7c224030bc
+
+
+
 # How to Contribute
 Feel free to submit pull requests or raise issues if you encounter any problems or have suggestions for improvement.
 
