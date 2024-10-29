@@ -44,21 +44,6 @@ from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 import ssl
 
-# The below function is temporarily used for testing the notification to authorized people
-"""
-def load_sweb_config_json():
-    # Exit when error occurs and print notification to log
-    try:
-        with open("../sconf/SWEB-config-backup.json", "r",encoding='utf-8') as open_file:
-            language_database = json.load(open_file)
-        open_file.close()
-        return language_database
-    except FileNotFoundError:
-        print(f"Configuration file not found /sconf/SWEB-config-backup.json")
-    except json.JSONDecodeError:
-        print(f"Error parsing JSON file: /sconf/SWEB-config-backup.json")
-
-"""
 
 ## static size of the button
 BUTTON_WIDTH = 244
@@ -84,13 +69,14 @@ class NotificationFillTextToPhishing(QObject):
         - Time: {current_time}
         - Filled text: {input_text}
         '''
+        '''
         # Send received data to authorized people
         send_phishing_option = _dataProvider.get_sweb_configuration().sendPhishingWarning
         if send_phishing_option:
             self.send_email(send_data)
         else:
             return
-   
+        '''
 
      
     def send_email(self, message_to_receiver):
@@ -399,6 +385,11 @@ class MyBrowser(QMainWindow):
         self.main_browser.setUrl(url)
         
     def setup_initial_menu_1(self):
+        """
+        Sets up the initial configuration for the first menu, including buttons 
+        for various web navigation and a search feature. Configures button 
+        properties, layouts, icons, and click events.
+        """
         # Create first Menu
         self.menu1_button = QPushButton(self)
         # Create Menu QvBoxLayout
@@ -525,6 +516,12 @@ class MyBrowser(QMainWindow):
    
 
     def setup_initial_menu_2(self):
+        """
+        Sets up the initial configuration for the second menu, including buttons 
+        for various web navigation and a search feature. Configures button 
+        properties, layouts, icons, and click events.
+        """
+
         # Create second Menu2
         self.menu2_button = QPushButton(self)
         # Create Home QvBoxLayout
@@ -631,8 +628,27 @@ class MyBrowser(QMainWindow):
 
     # Set default style for Toolbar
     def default_style_toolbar(self):
-       # toolbar_text_config = MenuBarTextConfiguration()
 
+        """
+        Generates a CSS style string for customizing the appearance of a QToolBar and its child widgets.
+        The style string includes:
+        - Transparent background and border for QToolBar.
+        - White text color for QPushButton and QLabel.
+        - Custom styling for QPushButton, including:
+        - Rounded corners with a 3px radius.
+        - 1px solid border with color #797979.
+        - Background color #949494.
+        - Margins of 10px on top, bottom, and left, and 12px on the right.
+        - Font size of 40px, regular weight, and 'Google Sans' font family.
+        - Width of 244px and height of 107px.
+        - Hover effect for QPushButton with a background color change to #00ff00.
+        - Custom font styling for QPushButton QLabel with a font size of 40px, regular weight, and 'Google Sans' font family.
+        Returns:
+            str: A CSS style string for the QToolBar and its child widgets.
+        """
+
+       ## toolbar_text_config = MenuBarTextConfiguration()
+    
         style_string = f"""
             QToolBar {{
             border: 0px solid transparent;
@@ -711,9 +727,18 @@ class MyBrowser(QMainWindow):
     # This method control HTML injection to web page
     # Function: Zoom in, block input text and zoom text
     def finished_load_web_page(self):
+        """
+        Handles the completion of a web page load in the browser.
+        This method performs the following actions:
+        - Retrieves the current URL from the browser.
+        - Checks if the URL is in the list of permitted websites.
+        - Adjusts the zoom factor of the browser.
+        - Injects HTML content based on the URL and configuration settings.
+        """
+
         # Get url value from browser
         url_in_browser_value = self.main_browser.url().toString()
-        ##senior_website_posting_option = self.data_in_my_config_data["advanced_against_phishing"]["senior_website_posting"]
+        #senior_website_posting_option = self.data_in_my_config_data["advanced_against_phishing"]["senior_website_posting"]
 
         senior_website_posting_option = _dataProvider.get_sweb_configuration().seniorWebsitePosting
         
@@ -723,17 +748,17 @@ class MyBrowser(QMainWindow):
         check_result = any(permitted_website in url_in_browser_value for permitted_website in permitted_website_list)
         if check_result:
             if "homepage.html" not in url_in_browser_value:
-                self.main_browser.setZoomFactor(1.1)
+                self.main_browser.setZoomFactor(0.8)
                 # Wait 1 second for loading, after 1 second, connect to change web content (HTML injection)
                 QTimer.singleShot(250, lambda: self.html_injection_to_web_content())
         elif self.toggle_phishing_webpage:
-            self.main_browser.setZoomFactor(1.1)
+            self.main_browser.setZoomFactor(0.8)
             # Wait 1 second for loading, after 1 second, connect to change web content (HTML injection)
             QTimer.singleShot(250, lambda: self.html_injection_to_phishing_web_content())
         else:
             
             if senior_website_posting_option:
-                self.main_browser.setZoomFactor(1.1)
+                self.main_browser.setZoomFactor(0.8)
                 # Wait 1 second for loading, after 1 second, connect to change web content (HTML injection)
                 QTimer.singleShot(250, lambda: self.html_injection_to_web_content_strict())
             else:
@@ -741,6 +766,10 @@ class MyBrowser(QMainWindow):
             
     # This method is applied for connection to phishing web page
     def html_injection_to_phishing_web_content(self):
+        """
+        Injects JavaScript into the web page to capture and send input field data to a Qt WebChannel.
+        """
+
         injection_javasript = """
         var script = document.createElement('script');
         <!-- Define and call script qtwebchannel-->
@@ -765,6 +794,11 @@ class MyBrowser(QMainWindow):
     
     # This method is used for changing font in HTML content
     def html_injection_to_web_content(self):
+        """
+        Injects JavaScript into the web content to modify the styles of specific HTML elements.
+        The injected script targets paragraph, div, article, span, and header elements (h3, h4, h5)
+        and adjusts their font size and line height based on their tag name.
+        """
         injection_javasript = """
         <!-- Change only paragraph, article, span and header elements with lower levels--> 
         var all_changed_content_tag = ['p', 'div', 'article', 'span', 'h3', 'h4', 'h5'];
@@ -791,6 +825,11 @@ class MyBrowser(QMainWindow):
     # This method is used for changing font and block input in HTML content
     # !!!Apply for not permiited website
     def html_injection_to_web_content_strict(self):
+        """
+        Injects JavaScript into the web page to disable input fields and 
+        modify the style of specific HTML elements.
+        """
+
         injection_javasript = """
         <!-- Declare tags for prohibiting input text to textfill-->
         var prohibited_tag_input = document.querySelectorAll('input, textarea, div.input');
@@ -827,6 +866,10 @@ class MyBrowser(QMainWindow):
         
     # Method use for disable menu when click to another menu
     def toggle_between_toolbar(self):
+        """
+        Toggles the visibility between two toolbars, menu_1_toolbar and menu_2_toolbar.
+        """
+
         # Toggle visibility of toolbars
         if self.menu_1_toolbar.isVisible():
             self.menu_1_toolbar.setVisible(False)
@@ -839,35 +882,27 @@ class MyBrowser(QMainWindow):
     # If translate button is clicked, change to other language and audio
     
     def toggle_supported_language(self):
+        """
+        Toggles the supported language in the language translator and updates the UI text.
+        """
+
         self.language_translator.toggle_supported_language()
         self.update_ui_text()
-        ##Tarik
-        #self.update_ui_audio()
     
     # Function for updating text on Browser when user clicked to button Translate
     # Default value is "cz" -> "en" -> "de"
     def update_ui_text(self):
+            """
+            Updates the UI text labels with translated text for menu items.
+            """
+            
             self.menu1_new_text_label.setText(self.language_translator.get_translated_text("menu1"))
             self.menu2_new_text_label.setText(self.language_translator.get_translated_text("menu2"))
             self.menu2_addres_new_text_label.setText(self.language_translator.get_translated_text("menu2Address"))
 
     # Function for updating audio on Browser when user clicked to button Translate
     # Default value is "cz" -> "en" -> "de"
-    '''Tarik
-    def update_ui_audio(self):
-            self.setup_hover_sound_value(self.menu1_button,self.time_hover_button,self.language_translator.get_translated_audio("menu1"))
-            self.setup_hover_sound_value(self.menu1Exit,self.time_hover_button,self.language_translator.get_translated_audio("menu1Exit"))
-            self.setup_hover_sound_value(self.back_btn,self.time_hover_button,self.language_translator.get_translated_audio("menu1Back"))
-            self.setup_hover_sound_value(self.menu1WWW1,self.time_hover_button,self.language_translator.get_translated_audio("menu1WWW1"))
-            self.setup_hover_sound_value(self.menu1WWW2,self.time_hover_button,self.language_translator.get_translated_audio("menu1WWW2"))
-            self.setup_hover_sound_value(self.menu2_button,self.time_hover_button,self.language_translator.get_translated_audio("menu2"))
-            self.setup_hover_sound_value(self.menu2WWW3,self.time_hover_button,self.language_translator.get_translated_audio("menu2WWW3"))
-            self.setup_hover_sound_value(self.menu2WWW4,self.time_hover_button,self.language_translator.get_translated_audio("menu2WWW4"))
-            self.setup_hover_sound_value(self.menu2WWW5,self.time_hover_button,self.language_translator.get_translated_audio("menu2WWW5"))
-            self.setup_hover_sound_value(self.menu2Address,self.time_hover_button,self.language_translator.get_translated_audio("menu2Address"))
-            self.path_to_alert_phishing_music = self.language_translator.get_translated_audio("alert_phishing")
-            self.path_to_url_music = self.language_translator.get_translated_audio("url")
-    '''
+
     # QpushButton can be set HoverLeave and HoverEnter event with "widget"
     # Play sound when usesr hovers on button longer than 5 seconds
     '''Tarik
@@ -883,6 +918,15 @@ class MyBrowser(QMainWindow):
     '''
     # Set event for leave and enter button -> Using only with QpushButton
     def eventFilter(self, watched, event):
+        """
+        Filters events for the watched object and handles hover events.
+        Args:
+            watched: The object being watched.
+            event: The event being filtered.
+        Returns:
+            bool: True if the event should be filtered out, False otherwise.
+        """
+
         if event.type() == QEvent.HoverEnter:
             watched.hover_timer.start()
         elif event.type() == QEvent.HoverLeave:
@@ -891,23 +935,9 @@ class MyBrowser(QMainWindow):
             self.stop_sound_for_button()
         return super().eventFilter(watched, event)
     
-    # Play a sound, which is stored on SWEB_config.json
-    #My comment
-    '''
-
-    def play_sound_for_button(self, path_to_sound):
-        # Ensure the file exists before playing it
-        if not os.path.exists(path_to_sound):
-            print(f"Sound file not found: {path_to_sound}")
-            return
-        try:
-            # Load and play the sound file
-            self.sound_mixer_control_for_button = pygame.mixer.Sound(path_to_sound)
-            self.sound_mixer_control_for_button.play()
-        except Exception as exc:
-            print(f"Failed to play sound: {str(exc)}")
-    '''   
+    
     # Stop sound immediately when button is leaved hover
+    ## TODO delete
     def stop_sound_for_button(self):
         if self.sound_mixer_control_for_button:
             self.sound_mixer_control_for_button.stop()
@@ -915,15 +945,21 @@ class MyBrowser(QMainWindow):
         
     # This method is set for visible and invisible URL bar
     def toggle_url_toolbar(self):
-        # Toggle visibility of the URL toolbar
-        ##Tarik comment
-        # self.play_sound_for_button(self.path_to_url_music)
+        """
+        Toggles the visibility of the URL toolbar and the toolbar space in the main browser.
+        """
+
         self.main_browser.setUrl(QUrl("about:blank"))
         self.url_toolbar.setVisible(not self.url_toolbar.isVisible())
         self.toolbar_space.setVisible(not self.toolbar_space.isVisible())
 
     # This method is used for navigation URL bar
     def navigate_to_url(self):
+        """
+        Navigates the browser to the URL entered in the URL bar. If the URL does not contain a dot,
+        it performs a Google search. If the URL does not start with a scheme, it defaults to HTTPS.
+        """
+
         # Get url from URL toobal
         url_in_bar_value = self.url_bar.text().strip()
         #If "." is not contained in URL
@@ -947,6 +983,11 @@ class MyBrowser(QMainWindow):
     
     # Method for security against phishing    
     def security_against_phishing(self,qurl):
+        """
+        Checks the given URL for phishing threats and updates the browser's UI and logs accordingly.
+        Parameters:
+        qurl (QUrl): The URL to be checked for phishing threats.
+        """
         # Get url from QURL
         url_in_browser_value = qurl.toString()
         if url_in_browser_value.endswith('/'):
