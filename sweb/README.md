@@ -19,7 +19,15 @@ Button Actions:
 3. Website Buttons (3): Open links to predefined websites.
    
 ## MENU2 Overview
+MENU2 includes five buttons with the following functions:
+
 <img src="https://github.com/forsenior/senior-os/blob/main/sweb/screens/SWEB-screen-2.png" width="900" />
+
+Button Actions:
+
+1. MENU2 Button: Switches the menu bar back to MENU1.
+2. Website Buttons (3): Open links to predefined websites.
+3. Search Button: Opens a search bar for user queries.
 
 ## Content of the second menu
 
