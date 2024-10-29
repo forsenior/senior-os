@@ -29,8 +29,14 @@ Button Actions:
 2. Website Buttons (3): Open links to predefined websites.
 3. Search Button: Opens a search bar for user queries.
 
-## Warning when visiting phishing website
+## Phishing Website Detection
+This feature is the core of our app, alerting users if a website is potentially a phishing site.
 
+<img src="https://github.com/forsenior/senior-os/blob/main/sweb/screens/SWEB-screen-3.png" width="900" />
+
+. Phishing Warning: If the user enters a known phishing URL, the toolbar background changes to red to ensure easy visibility, especially for seniors.
+
+More details on how the phishing detector works will be provided in the documentation.
 
 ### Installation
 !!!Ensure you have Python3 or pip installed on your system.
