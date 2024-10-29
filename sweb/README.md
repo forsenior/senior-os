@@ -29,7 +29,8 @@ Button Actions:
 2. Website Buttons (3): Open links to predefined websites.
 3. Search Button: Opens a search bar for user queries.
 
-## Content of the second menu
+## Warning when visiting phishing website
+
 
 ### Installation
 !!!Ensure you have Python3 or pip installed on your system.
