@@ -22,7 +22,8 @@ Late seniors and cognitive challenged users encounter difficulties when using co
 
 - [Email client](https://github.com/forsenior/senior-os/tree/main/smail) for senior
 - [Web browser](https://github.com/forsenior/senior-os/tree/main/sweb) for senior
-- [Help app](https://github.com/forsenior/senior-os/tree/main/shelp) for senior caregiver
+- [Configuraton](https://github.com/forsenior/senior-os/tree/main/sconf) for caregiver
+- [App runner](https://github.com/forsenior/senior-os/tree/main/srun) for senior
 
 ## User protection levels
 
@@ -30,18 +31,20 @@ Protection levels are based on user mental ability
 
 Very restricted - for users with severe mental impairment
 
-1. Browsing limited to whitelist webpages
-2. Emails only from/to whitelist senders/recipients
+1. Browsing limited to whitelisted webpages
+2. Emails only from/to whitelisted senders/recipients
 
 Moderately restricted - for users with light mental impairment
 
-1. Disabled text input on webpages (web search allowed)
-2. Emails only from whitelist senders
+1. Disabled text input on webpages, web search allowed
+2. Emails only from whitelisted senders
+3. Red-alert on sending email with sensitive information
 
 Lightly restricted - for general senior users
 
-1. Red-alert on phishing websites
-2. Caregiver alert on filled-in form on phishing webpage
+1. Red-alert on visiting phishing website
+3. Red-alert on sending email with sensitive information
+2. Caregiver email-alert on filled-in form on phishing webpage by senior
 
 ## Student contribution
 
