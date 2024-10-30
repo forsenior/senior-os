@@ -10,7 +10,7 @@ Below is the design concept for the web browser:
 ## MENU1 Overview
 MENU1 provides a user-friendly interface with four large, fixed-size buttons, designed for easy navigation, especially for seniors.
 
-<img src="sweb/screens/sweb_screen_1.png" width="900" />
+<img src="screens/sweb_screen_1.png" width="900" />
 
 Button Actions:
 
@@ -21,7 +21,7 @@ Button Actions:
 ## MENU2 Overview
 MENU2 includes five buttons with the following functions:
 
-<img src="sweb/screens/SWEB_screen_2.png" width="900" />
+<img src="screens/sweb_screen_2.png" width="900" />
 
 Button Actions:
 
@@ -32,7 +32,7 @@ Button Actions:
 ## Phishing Website Detection
 This feature is the core of our app, alerting users if a website is potentially a phishing site.
 
-<img src="screens/SWEB_screen_3.png" width="900" />
+<img src="screens/sweb_screen_3.png" width="900" />
 
 - Phishing Warning: If the user enters a known phishing URL, the toolbar background changes to red to ensure easy visibility, especially for seniors.
 
