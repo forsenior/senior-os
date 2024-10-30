@@ -16,7 +16,7 @@ Late seniors and cognitive challenged users encounter difficulties when using co
 - All actions linked to familiar person photos or large icons
 - Levels of security protection based on user mental ability
 - Caregiver notifications to solve problems quickly
-- Available as live ISO with persistent user data
+- Available as live ISO with persistent configuration
  
 ## Environment applications
 
