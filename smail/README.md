@@ -5,15 +5,15 @@ The developed email client is easy to use and contains only features that a seni
 
 ## Environment for reading email messages
 SMAIL has an environment specifically designed for reading email messages in a user-friendly way, with large, clear buttons and text.
-![menu1](https://github.com/forsenior/senior-os/blob/main/sconf/images/SMAIL-gui-style-menu-1-message.png)
+![menu1](https://github.com/forsenior/senior-os/blob/main/sconf/style/style_images/smail_gui_style_menu_message_1.png)
 
 ## Environment for writing email messages
 The environment for writing emails is as easy as possible, with predefined contacts available for convenience.
-![menu2](https://github.com/forsenior/senior-os/blob/main/sconf/images/SMAIL-gui-style-global.png)
+![menu2](https://github.com/forsenior/senior-os/blob/main/sconf/style/style_images/smail_gui_style_global.png)
 
 ## Warning when writing sensitive data
 The application warns users when they are about to send sensitive information, adding an additional layer of security.
-![alert](https://github.com/forsenior/senior-os/blob/main/sconf/images/SMAIL-gui-style-menu-1-alert.png)
+![alert](https://github.com/forsenior/senior-os/blob/main/sconf/style/style_images/smail_gui_style_menu_alert_1.png)
 
 ## Installation
 To get started with SMAIL, follow these steps to clone the repository and install dependencies:
@@ -63,7 +63,7 @@ To launch the application, follow these steps:
 
 2. Navigate to the smail directory
 
-3. Open the SMAIL.py file of the application.
+3. Open the smail.py file of the application.
 
 4. Ensure that all necessary dependencies are installed ([Installation](#installation)).
 
@@ -72,5 +72,5 @@ To launch the application, follow these steps:
 6. Once everything is set up, run the application by clicking on the "Run" button within your IDE or execute the following commands:
 ```bash
 cd smail
-python SMAIL.py
+python smail.py
 ```

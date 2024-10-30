@@ -20,19 +20,19 @@ Figma design: https://www.figma.com/design/0CZVc5aoEZIcFHPEb2neeS/SOS?node-id=14
 | SOS | Senior Operating System |
 | SWEB | Web browser for the senior |
 | SMAIL | E-Mail client for the senior |
-| SHELP | Control application for the caregiver |
+| SCONF | Control application for the caregiver |
 
 <h2> Global design guide </h2>
-Each application, be it SWEB, SHELP or SMAIL will consist of two distinct areas, first one being Menu bar, and the second main area of the application.
+Each application, be it SWEB, SCONF or SMAIL will consist of two distinct areas, first one being Menu bar, and the second main area of the application.
 
 *Pleas note that the design guideline is based for the standard resolution of 1280x720p. Special case of scaling will be described further down in the document fro each part of the application.*
 
 <h3>Menu bar</h3>
-This area will be made up of five buttons with uniform size, color, and detailing. This guideline must be applied to SHELP, SWEB, and SMAIL, any application specific guidelines are defined in separate sections. Therefore following shall be adheard to:</br>
+This area will be made up of five buttons with uniform size, color, and detailing. This guideline must be applied to SCONF, SWEB, and SMAIL, any application specific guidelines are defined in separate sections. Therefore following shall be adheard to:</br>
 
-![MenuBar NormalState](images/SOS-gui-style-menubar-global.png)<br>
+![MenuBar NormalState](style_images/sos_gui_style_menubar_global.png)<br>
 
-![MenuBar PhishingState](images/SOS-gui-style-menubar-phishing-alert.png)</br>
+![MenuBar PhishingState](style_images/sos_gui_style_menubar_phishing_alert.png)</br>
 
 <h4>Menu bar</h4>
  
@@ -83,9 +83,9 @@ The scaling behavior of the Menu bar is following. The bar and buttons must rama
 
 <h3>Main application area</h3>
 
-![Final design of the main window](images/SOS-gui-style-mainwindow-global.png)
+![Final design of the main window](style_images/sos_gui_style_mainwindow_global.png)
 
-This area of the application must be uniform accross all of the applications of the SOS, with exception being SHELP and the starting menue of the SOS. Those two cases will have their own special sections defining their design guidelines.
+This area of the application must be uniform accross all of the applications of the SOS, with exception being SCONF and the starting menue of the SOS. Those two cases will have their own special sections defining their design guidelines.
 
 *Please note that this design specification only for the size and styling of the main application window, SMAIL will have its own granular specification for the user interface components (text fields, lists, etc...)*
 
@@ -130,7 +130,7 @@ Global guideline for scaling Menu bar aplies in this instance, only change in th
 
 Default view of the SMAIL shall present the user with the interface described and shown bellow.
 
-![Deafult view of the SMAIL](images/SMAIL-gui-style-global.png)
+![Deafult view of the SMAIL](style_images/smail_gui_style_global.png)
 
 <h4> Received email </h4>
 Received email area is composed of two components, label and list
@@ -180,8 +180,8 @@ Message writer area is composed of two components, label and text block
 <h3>SMAIL reading message</h3>
 View of the SMAIl when reading received email.
 
-![SMAIL reading messages](images/SMAIL-gui-style-menu-1-message.png)
-![SMAIL reading messages Menu 2](images/SMAIL-gui-style-menu-2-message.png)
+![SMAIL reading messages](style_images/smail_gui_style_menu_message_1.png)
+![SMAIL reading messages Menu 2](style_images/smail_gui_style_menu_message_2.png)
 
 <h4> Received email </h4>
 Received email area is composed of two components, label and list
@@ -227,28 +227,28 @@ Message viewer area of the application is composed of two components, label and 
 
 <h3>SMAIL phishing state </h3>
 
-![SMAIL Alert state of the email client](images/SMAIL-gui-style-menu-1-alert.png)
+![SMAIL Alert state of the email client](style_images/smail_gui_style_menu_alert_1.png)
 
 <h2>SWEB</h2>
 
-![SWEB global screen](images/SWEB-gui-style-global.png)
+![SWEB global screen](style_images/sweb_gui_style_global.png)
 
 <h3>SWEB phishing state</h3>
 
-![SWEB menu1 phishing state](images/SWEB-gui-style-menu-1-alert.png)
+![SWEB menu1 phishing state](style_images/sweb_gui_style_menu_alert_1.png)
 
 <h3>SWEB Menu 2</h3>
 
-![SWEB menu2](images/SWEB-gui-style-menu-2.png)
+![SWEB menu2](style_images/sweb_gui_style_menu_2.png)
 
 <h3>SWEB search bar</h3>
 
-![SWEB search bar design](images/SWEB-gui-style-menu-search-url.png)
+![SWEB search bar design](style_images/sweb_gui_style_menu_search.png)
 
-<h2>SHELP</h2>
+<h2>SCONF</h2>
 The Menu bar and the Main application window must adhear to the previously stated global desin guideline. Rest of the UI will be described in the sections below.
 
-<h3>SHELP global guidelines (applicable to all states of smail)</h3>
+<h3>SCONF global guidelines (applicable to all states of smail)</h3>
 
 Menu bar and Main application window to adhear to the global guideline written above.
 
@@ -260,5 +260,5 @@ Menu bar and Main application window to adhear to the global guideline written a
  * Font color:              00000 (hex)
  * Position:                Allignet to the left
 
-![SHELP global screen](images/SHELP-gui-style-global.png)
-![SHELP Mail specific configuration](images/SHELP-gui-style-mail.png)
+![SCONF global screen](style_images/sconf_gui_style_global.png)
+![SCONF Mail specific configuration](style_images/sconf_gui_style_mail.png)
