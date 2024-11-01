@@ -4,11 +4,11 @@
 
 Working environment for late seniors and cognitive challenged users
 
+**This work is in progress.**
+
 ## Description
 
 Late seniors and cognitive challenged users encounter difficulties when using common desktop systems and require assistance from their caregivers. They are also easy targets for cyber criminals. This project aims to provide a working environment suitable for such users and improve their security protection.
-
-**This work is in progress.**
 
 ## Key features
 
@@ -25,26 +25,33 @@ Late seniors and cognitive challenged users encounter difficulties when using co
 - [Configuraton](https://github.com/forsenior/senior-os/tree/main/sconf) for caregiver
 - [App runner](https://github.com/forsenior/senior-os/tree/main/srun) for senior
 
-## User protection levels
+## Protection levels
 
-Protection levels are based on user mental ability
+Three protection levels (PL) are provided based on user mental ability
 
-Very restricted - for users with severe mental impairment
+PL-3 Strong Restriction - for users with severe mental impairment, e.g. with dementia
 
 1. Browsing limited to whitelisted webpages
-2. Emails only from/to whitelisted senders/recipients
+2. Receiving and sending emails only to/from whitelisted persons
 
-Moderately restricted - for users with light mental impairment
+PL-2 Moderate Restriction - for users with light to medium mental impairment, e.g. Down syndrome
 
-1. Disabled text input on webpages, web search allowed
-2. Emails only from whitelisted senders
-3. Red-alert on sending email with sensitive information
+1. Disabled text input on all webpages, web search allowed
+2. Receiving emails only from whitelisted persons
+3. Red-alert* on sending email with sensitive information (card number, password, address)
 
-Lightly restricted - for general senior users
+PL-1 Light Restriction - for users with online good-practice problems, e.g. late seniors over 90
 
-1. Red-alert on visiting phishing website
-3. Red-alert on sending email with sensitive information
-2. Caregiver email-alert on filled-in form on phishing webpage by senior
+1. Red-alert* on visiting phishing webpages
+3. Red-alert* on sending email with sensitive information
+3. Caregiver email with copy of phishing filled-in form
+4. Caregiver email with copy of sent sensitive information
+
+*Red-alert is strong visual warning
+
+## Visual easy-to-use examples
+
+TODO
 
 ## Student contribution
 
