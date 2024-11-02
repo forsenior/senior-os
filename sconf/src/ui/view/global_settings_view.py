@@ -2,6 +2,7 @@ from PyQt5.QtCore import pyqtSlot
 from PyQt5.QtWidgets import QWidget, QLabel, QComboBox, QLineEdit, QGridLayout
 
 from configuration.models.global_configuration import GlobalConfiguration
+from ui.convertors.value_convertors import StringValueConvertors
 from ui.styles.global_style_sheets import get_default_label_style, get_default_input_box_style, \
     get_default_dropdown_style
 from ui.view_models.global_settings_view_model import GlobalViewModel
@@ -29,7 +30,7 @@ class GlobalSettingsView(QWidget):
         combo_language = QComboBox()
         combo_language.addItems(["English", "German", "Czech"])
         combo_language.setObjectName("language")
-        combo_language.setCurrentText(self._globalConfiguration.language)
+        combo_language.setCurrentText(StringValueConvertors.country_code_to_language(self._globalConfiguration.language))
 
         input_alert_color = QLineEdit(f"Select value of the alert in hex values (current is "
                                       f"{self._globalConfiguration.alertColor})")
@@ -42,7 +43,8 @@ class GlobalSettingsView(QWidget):
         combo_protection_level = QComboBox()
         combo_protection_level.addItems(["PL1", "PL2", "PL3"])
         combo_protection_level.setObjectName("protectionLevel")
-        combo_language.setCurrentText(f"{self._globalConfiguration.protectionLevel}")
+        combo_language.setCurrentText(f"{StringValueConvertors.int_to_protection_level(
+            self._globalConfiguration.protectionLevel)}")
 
         # Add widgets to the grid
         grid_layout.addWidget(label_language, 0, 0)
@@ -79,6 +81,11 @@ class GlobalSettingsView(QWidget):
         if isinstance(sender, QLineEdit):
             self._globalViewModel.update_model(sender.objectName(),
                                                sender.text())
-        if isinstance(sender, QComboBox):
+        if sender.objectName() == "protectionLevel" and isinstance(sender, QComboBox):
             self._globalViewModel.update_model(sender.objectName(),
-                                               sender.currentText())
+                                               StringValueConvertors.protection_level_to_int(sender.currentText()))
+
+        if sender.objectName() == "language" and isinstance(sender, QComboBox):
+            print(StringValueConvertors.language_to_country_code(sender.currentText()))
+            self._globalViewModel.update_model(sender.objectName(),
+                                               StringValueConvertors.language_to_country_code(sender.currentText()))

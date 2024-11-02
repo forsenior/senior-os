@@ -3,8 +3,8 @@ from dataclasses import dataclass
 
 @dataclass
 class GlobalConfiguration:
-    language: str = "English"
+    language: str = "en"
     colorMode: str = "light"
     alertColor: str = ""
     highlightColor: str = ""
-    protectionLevel: str = "1"
+    protectionLevel: int = 1

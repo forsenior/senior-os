@@ -1,4 +1,20 @@
+import re
+
 from typing import List
+
+protection_level_pattern = re.compile(r'[0-9]')
+
+protection_level_conversion = {
+    1: "PL1",
+    2: "PL2",
+    3: "PL3"
+}
+
+full_language_name_conversion = {
+    "German": "de",
+    "English": "en",
+    "Czech": "cz"
+}
 
 
 class StringValueConvertors:
@@ -29,3 +45,24 @@ class StringValueConvertors:
         deliminator = " ,"
 
         return deliminator.join(value)
+
+    @staticmethod
+    def protection_level_to_int(value: str) -> int:
+        return protection_level_pattern.findall(value)[0]
+
+    @staticmethod
+    def int_to_protection_level(value: int) -> str:
+        return protection_level_conversion[value]
+
+    @staticmethod
+    def language_to_country_code(value: str) -> str:
+        return full_language_name_conversion[value]
+
+    @staticmethod
+    def country_code_to_language(value: str) -> str:
+
+        for country_code, country in full_language_name_conversion.items():
+            if value == country:
+                return country_code
+
+        return "key doesn't exist"
