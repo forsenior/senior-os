@@ -1,8 +1,8 @@
 from dataclasses import dataclass, field
 
-from configuration.models.GlobalConfiguration import GlobalConfiguration
-from configuration.models.SmailConfiguration import SmailConfiguration
-from configuration.models.SwebConfiguration import SwebConfiguration
+from configuration.models.global_configuration import GlobalConfiguration
+from configuration.models.smail_configuration import SmailConfiguration
+from configuration.models.sweb_configuration import SwebConfiguration
 
 
 @dataclass

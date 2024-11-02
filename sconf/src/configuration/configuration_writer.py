@@ -4,11 +4,11 @@ import os.path
 
 from dataclass_wizard import asdict
 
-import configuration.models.GlobalConfiguration as globalConfig
-import configuration.models.SmailConfiguration as smailConfig
-import configuration.models.SwebConfiguration as swebConfig
-from configuration.models import SosConfiguration
-from decorators.Decorators import singleton
+import configuration.models.global_configuration as global_config
+import configuration.models.smail_configuration as smail_config
+import configuration.models.sweb_configuration as sweb_config
+from configuration.models import sos_configuration
+from decorators.decorators import singleton
 
 
 @singleton
@@ -27,7 +27,7 @@ class ConfigurationWriter:
 
         self.__validate_and_create_default_config()
 
-    def update_configuration(self, configuration: SosConfiguration.SOSConfiguration):
+    def update_configuration(self, configuration: sos_configuration.SOSConfiguration):
         """
         Method allowing the caller to save GlobalConfiguration into persistent storage as a python
         :param configuration: :py:class: `GlobalConfiguration`
@@ -43,10 +43,10 @@ class ConfigurationWriter:
         :return:
         """
         if not os.path.isfile(os.path.join(self._configStoragePath, self._configFileName)):
-            default_config = SosConfiguration.SOSConfiguration(
-                globalConfiguration=globalConfig.GlobalConfiguration(),
-                smailConfiguration=smailConfig.SmailConfiguration(),
-                swebConfiguration=swebConfig.SwebConfiguration()
+            default_config = sos_configuration.SOSConfiguration(
+                globalConfiguration=global_config.GlobalConfiguration(),
+                smailConfiguration=smail_config.SmailConfiguration(),
+                swebConfiguration=sweb_config.SwebConfiguration()
             )
 
             self.__save_configuration(json.dumps(default_config, indent=4, cls=EnhancedJSONEncoder, ensure_ascii=True))

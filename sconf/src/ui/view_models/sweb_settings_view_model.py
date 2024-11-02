@@ -1,4 +1,4 @@
-from configuration.models.SwebConfiguration import SwebConfiguration
+from configuration.models.sweb_configuration import SwebConfiguration
 
 
 # TODO: Switch to proper implementation using QObject and model change events

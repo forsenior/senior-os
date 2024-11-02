@@ -3,14 +3,14 @@ import os
 from PyQt5.QtCore import pyqtSlot
 from PyQt5.QtWidgets import QWidget, QLabel, QLineEdit, QGridLayout, QPushButton, QComboBox, QTextEdit, QFileDialog
 
-from configuration.models.SmailConfiguration import SmailConfiguration
-from ui.components.uiTransformation.Transformation import UiElementTransformation
-from ui.convertors.ValueConvertors import StringValueConvertors
-from ui.convertors.ValueValidators import Validators
-from ui.styles.GlobalStyleSheets import get_default_label_style, get_default_input_box_style, \
+from configuration.models.smail_configuration import SmailConfiguration
+from ui.components.ui_transformation.transformation import UiElementTransformation
+from ui.convertors.value_convertors import StringValueConvertors
+from ui.convertors.value_validators import Validators
+from ui.styles.global_style_sheets import get_default_label_style, get_default_input_box_style, \
     get_default_dropdown_style, get_default_settings_button_style, get_default_settings_text_edit_style, \
     get_error_label_style
-from ui.viewModels.SmailSettingsViewModel import SmailViewModel
+from ui.view_models.smail_settings_view_model import SmailViewModel
 
 
 # TODO: Once initial presentation is done change this to correct binding with the view model

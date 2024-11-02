@@ -3,11 +3,11 @@ import os.path
 
 from dataclass_wizard import fromdict
 
-from configuration.models.GlobalConfiguration import GlobalConfiguration
-from configuration.models.SmailConfiguration import SmailConfiguration
-from configuration.models.SosConfiguration import SOSConfiguration
-from configuration.models.SwebConfiguration import SwebConfiguration
-from decorators.Decorators import singleton
+from configuration.models.global_configuration import GlobalConfiguration
+from configuration.models.smail_configuration import SmailConfiguration
+from configuration.models.sos_configuration import SOSConfiguration
+from configuration.models.sweb_configuration import SwebConfiguration
+from decorators.decorators import singleton
 
 
 @singleton
