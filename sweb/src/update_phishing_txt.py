@@ -1,23 +1,25 @@
-import os, time, tarfile, requests
+import os, sys, time, tarfile, requests
 from datetime import datetime, timedelta
+
+
 
 # This method will check if the phishing database is up to date
 class PhishingDatabaseModificationChecker:
-    def __init__(self,my_config_data,input_from_main_url_logger):
-        self.url_logger = input_from_main_url_logger
-        # Get path to file SWEB_PHISH_1.txt
-        self.path_to_phishing_database = my_config_data["phishing_database"]["path"]
-        url_to_tar_github = my_config_data["phishing_database"]["path_to_tar_github"]
+    def __init__(self,sweb_config_data):
+    
 
-        # Create update file
-        self.database_updater = FileUpdater(url_to_tar_github, self.path_to_phishing_database,self.url_logger)
+        # Get path to file SWEB_PHISH_1.txt
+        self.path_to_phishing_database = sweb_config_data.phishingDatabase
+        url_to_tar_github = sweb_config_data.phishingGithubDatabase
+
+        self.database_updater = FileUpdater(url_to_tar_github, self.path_to_phishing_database)
     
     # Get the last modified time of the phishing database
     def get_last_modification_time(self):
         # Returns as a datetime object.
         # Check if the file is existed
         if not os.path.exists(self.path_to_phishing_database):
-            raise FileNotFoundError(self.url_logger.log_blocked_url('WEBBROWSER', 2, 'UpdatePhishingTXT', f'File path not found {self.file_path_to_txt}'))
+            pass
         else:
             # Get the last modificated time
             last_update_time = os.path.getmtime(self.path_to_phishing_database)
@@ -37,8 +39,8 @@ class PhishingDatabaseModificationChecker:
 
 # Method for updating phishing database
 class FileUpdater:
-    def __init__(self, github_url, path_to_database,input_url_logger):
-        self.url_logger = input_url_logger
+    def __init__(self, github_url, path_to_database):
+        #self.url_logger = input_url_logger
         self.github_url = github_url
         self.txt_path = path_to_database
         self.max_attempts = 2
@@ -74,10 +76,11 @@ class FileUpdater:
                     # Break for if the first HTTP is succeed
                     break
                 except tarfile.ReadError:
-                    self.url_logger.log_blocked_url('WEBBROWSER', 2, 'UpdatePhishingTXT', f'Can not open and write file tar {temp_gz_filename}')
+                    pass
+
             except (requests.ConnectionError, requests.HTTPError) as excep:
                 if attempt < self.max_attempts -1:
                     # Wait for the specified delay before retrying
                     time.sleep(self.delay_betwween_attempts)  
                 else:
-                    self.url_logger.log_blocked_url("WEBBROWSER",2,"UpdatePhishingTXT",f'Can not update SWEB_PHISHING_1.txt')
+                    pass
