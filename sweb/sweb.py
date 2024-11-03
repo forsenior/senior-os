@@ -1,5 +1,5 @@
 # Frameworks from PyQt5 libraries
-from PyQt5.QtWidgets import QMainWindow, QApplication, QStyle, QLabel, QVBoxLayout
+from PyQt5.QtWidgets import QMainWindow, QApplication, QStyle, QLabel, QVBoxLayout, QHBoxLayout
 from PyQt5.QtWidgets import QLineEdit, QPushButton, QToolBar, QWidget
 from PyQt5.QtWebEngineWidgets import QWebEnginePage, QWebEngineView, QWebEngineProfile
 from PyQt5.QtCore import QEvent, QUrl, Qt, QTimer, QSize, pyqtSignal, QObject, pyqtSlot
@@ -12,31 +12,27 @@ from urllib.parse import urlparse
 # Library for getting information about user's monitor
 from screeninfo import get_monitors
 # Created own class for logging and blocking phishing URL
-from antiPhishing.URLBlocker import URLBlocker
-from antiPhishing.URLLogger import URLLogger
-from antiPhishing.UpdatePhishingTXT import PhishingDatabaseModificationChecker
-
-from loadConfig import *
-# Own class for translating
-from languge_Translator import Translator
 import math
 #import pygame
 import sys, os, json, getpass, socket
 from datetime import datetime
 
-sys.path.append('/home/student/ProjectOS/senior-os')
+# Get the current directory of the script and go one level up
+current_directory = os.path.dirname(os.path.abspath(__file__))
+parent_directory = os.path.dirname(current_directory)
 
+# Add the parent directory to sys.path
+sys.path.append(parent_directory)
 
-import sconf.src.configuration.ConfigurationDataWriter as dataWriter
-import sconf.src.configuration.ConfigurationDataProvider as dataProvider
+from src.url_blocker import URLBlocker
+from src.update_phishing_txt import PhishingDatabaseModificationChecker
+from src.language_translator import Translator
+
+import sconf.src.configuration.configuration_provider as dataProvider
 CONFIG_FILE_NAME = 'SOS-conf.json'
 SUBFOLDER_NAME = "sconf"
 
 _dataProvider: dataProvider.ConfigurationProvider
-_dataWriter: dataWriter.ConfigurationWriter
-
-#from shelp.src.configuration.models.GlobalConfiguration import *
-#from Global_config import *
 
 # Library for sending mail to authorized people
 import smtplib
@@ -48,6 +44,33 @@ import ssl
 ## static size of the button
 BUTTON_WIDTH = 244
 BUTTON_HEIGHT = 107
+
+## This function is used for loading permitted website from sgive "Temp"
+def load_permitted_website_from_sconf():
+    permitted_website_list = set()
+    # Exit when error occurs and print notification to log
+    try:
+        #path = my_config_data["advanced_against_phishing"]["path_to_allowed_url_file"]
+        path = _dataProvider.get_sweb_configuration().allowedURL
+        if not path:
+            return ["seznam.cz"]
+        
+        with open(path, 'r') as open_file:
+            content  = open_file.read()
+            reading_website = content.strip().split('\n')
+            permitted_website_list.update(reading_website)
+        open_file.close
+        return permitted_website_list
+    except FileNotFoundError:
+        return ["seznam.cz"]
+    except Exception as e:
+        return ["seznam.cz"]
+
+
+
+
+
+
 # This class is used for notification to authorized people
 # Whenever user ignore warning from connection to phishing web page
 # And fill their information in
@@ -157,7 +180,7 @@ class GetMonitorHeightAndWidth:
 # My main browser contains all GUI in this class (Toolbar, Buttons, URLbar)
 class MyBrowser(QMainWindow):
     # Define the contructor for initialization 
-    def __init__(self,my_config_data, input_url):
+    def __init__(self, input_url):
         super(MyBrowser,self).__init__()
         # Set window flags to customize window behavior
         # Remove standard window controls
@@ -180,21 +203,21 @@ class MyBrowser(QMainWindow):
         else:
             self.main_browser.setUrl(QUrl("http://" + input_url))
         # Parameter for changging language on application
-        self.language_translator = Translator()
+        self.language_translator = Translator(_dataProvider.get_sweb_configuration())
         # Parameter for getting monitor heigght ad width
         self.get_monitor_height_and_width = GetMonitorHeightAndWidth()
         # Create notification when connection and input text to phishing page
         self.notification_fill_text = NotificationFillTextToPhishing()
         self.my_custom_page.channel.registerObject("notification_fill_text",self.notification_fill_text)
         # Load URL blocker and logger
-        self.data_in_my_config_data = my_config_data
+        #self.data_in_my_config_data = my_config_data
         path_to_phishing_database =_dataProvider.get_sweb_configuration().phishingDatabase
         #path_to_phishing_database = my_config_data["phishing_database"]["path"]
         self.url_blocker = URLBlocker(path_to_phishing_database)
-        self.url_logger = URLLogger()
+        #self.url_logger = URLLogger()
         
         # Check if phishing database is up to date
-        phishing_database_check_update = PhishingDatabaseModificationChecker(my_config_data,self.url_logger)
+        phishing_database_check_update = PhishingDatabaseModificationChecker(_dataProvider.get_sweb_configuration())
         phishing_database_check_update.check_and_update_if_needed()
         
         # Initialization pygame mixer  for play sounds
@@ -243,13 +266,19 @@ class MyBrowser(QMainWindow):
 
         
 
+
+
+
+
         # Create a toolbar for saving menu and buttons
         self.menu_1_toolbar = QToolBar("MENU 1")
         self.addToolBar(self.menu_1_toolbar)
         self.menu_1_toolbar.setMovable(False)
         self.menu_1_toolbar.setFixedSize(1600, 117)
 
+   
         total_screen_width = self.get_monitor_height_and_width.get_width_screen()
+     
         # Calculate the left and right spacers to center the toolbar
         left_spacer_width = (total_screen_width - self.menu_1_toolbar.width()) // 2
 
@@ -257,14 +286,14 @@ class MyBrowser(QMainWindow):
         left_spacer = QWidget()
         left_spacer.setFixedWidth(left_spacer_width)
         self.menu_1_toolbar.addWidget(left_spacer)
-
+       
         # Add the buttons to the toolbar
         self.setup_initial_menu_1()
 
         # Add a spacer to the right of the toolbar
-        right_spacer = QWidget()
-        right_spacer.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Preferred)
-        self.menu_1_toolbar.addWidget(right_spacer)
+        ##right_spacer = QWidget()
+        ##right_spacer.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Preferred)
+        ##self.menu_1_toolbar.addWidget(right_spacer)
         
         
         ##Tarik, set the bar in the middle.
@@ -289,7 +318,7 @@ class MyBrowser(QMainWindow):
         #self.menu_1_toolbar.addWidget(left_spacer)
         
         # 28.10
-        self.permitted_website_list = load_permitted_website_from_sgive(self.data_in_my_config_data)
+        self.permitted_website_list = load_permitted_website_from_sconf()
         
 
         # Create a toolbar for saving menu and buttons
@@ -996,7 +1025,7 @@ class MyBrowser(QMainWindow):
                 ##Tarik comment
                 ##self.play_sound_for_button(self.path_to_alert_phishing_music)
                  # Log with level 5 when connected to phishing
-                self.url_logger.log_blocked_url('WEBBROWSER', 5, 'main <security>', f'Connection to Phishing server {url_in_browser_value}')
+                ##self.url_logger.log_blocked_url('WEBBROWSER', 5, 'main <security>', f'Connection to Phishing server {url_in_browser_value}')
                     
                 # Set red colour for connect to phishing
                 self.menu_1_toolbar.setStyleSheet(self.phishing_style_toolbar())
@@ -1009,7 +1038,7 @@ class MyBrowser(QMainWindow):
                 self.menu_1_toolbar.setStyleSheet(self.default_style_toolbar())
                 self.menu_2_toolbar.setStyleSheet(self.default_style_toolbar())
                 # Log with LEVEL 6 INFORMATIONAL
-                self.url_logger.log_blocked_url('WEBBROWSER', 6, 'main <security>', f'Connection to {url_in_browser_value}')
+                ##self.url_logger.log_blocked_url('WEBBROWSER', 6, 'main <security>', f'Connection to {url_in_browser_value}')
                 # Connect to URL after entering
                 self.main_browser.setUrl(QUrl(url_in_browser_value))
         elif not url_in_browser_value.endswith('/'):
@@ -1029,7 +1058,7 @@ class MyBrowser(QMainWindow):
                 ## My comment
                 ##self.play_sound_for_button(self.path_to_alert_phishing_music)
                 # Log with level 5 when connected to phishing
-                self.url_logger.log_blocked_url('WEBBROWSER', 5, 'main <security>', f'Connection to Phishing server {url_in_browser_value}')
+                #self.url_logger.log_blocked_url('WEBBROWSER', 5, 'main <security>', f'Connection to Phishing server {url_in_browser_value}')
                 # Set red colour for connect to phishing
                 self.menu_1_toolbar.setStyleSheet(self.phishing_style_toolbar())
                 self.menu_2_toolbar.setStyleSheet(self.phishing_style_toolbar())
@@ -1040,7 +1069,7 @@ class MyBrowser(QMainWindow):
                 self.menu_1_toolbar.setStyleSheet(self.default_style_toolbar())
                 self.menu_2_toolbar.setStyleSheet(self.default_style_toolbar())
                 # Log with LEVEL 6 INFORMATIONAL
-                self.url_logger.log_blocked_url('WEBBROWSER', 6, 'main <security>', f'Connection to {url_in_browser_value}')
+                #self.url_logger.log_blocked_url('WEBBROWSER', 6, 'main <security>', f'Connection to {url_in_browser_value}')
         self.main_browser.loadFinished.connect(self.finished_load_web_page)
         
     # Method for connect to the second www2 ct24.ceskatelevize.cz
@@ -1101,31 +1130,24 @@ if __name__ == "__main__":
     current_location = os.getcwd()
     path_split = current_location.split("sweb")
     config_folder = os.path.join(path_split[0], SUBFOLDER_NAME)
-
-    _dataWriter = dataWriter.ConfigurationWriter(configFileName=CONFIG_FILE_NAME, configStoragePath=config_folder)
     _dataProvider = dataProvider.ConfigurationProvider(configFileName=CONFIG_FILE_NAME, configStoragePath=config_folder)
-    #print(_dataProvider.get_sweb_configuration().urlsForWebsites[1])
-    ####Check below:
 
-   
     try:
         
         qApplication = QApplication(sys.argv)
         # If browser is opened in command terminal
         input_url_from_terminal = sys.argv[1] if len(sys.argv) > 1 else "https://vut.cz"
         # Load config data from JSON file
-        sweb_config = load_sweb_config_json()
-        #main_window = MyBrowser(sweb_config, input_url_from_terminal) # Set parametr for main browser window
-        main_window = MyBrowser(sweb_config, input_url_from_terminal) # Set parametr for main browser window
+        main_window = MyBrowser(input_url_from_terminal) # Set parametr for main browser window
         ##Tarik
         main_window.resize(1700, 1100)
         main_window.show() 
         #main_window.show_app_full_screen() # Call main browser window, this set the full screen.
         sys.exit(qApplication.exec_())
     except Exception as excep:
-        url_logger = URLLogger()
+        #url_logger = URLLogger()
         # Log with level 2 - CRITICAL
-        url_logger.log_blocked_url('WEBBROWSER', 2, 'main <security>', f'Application did not work')
+        #url_logger.log_blocked_url('WEBBROWSER', 2, 'main <security>', f'Application did not work')
         # Exit with an error code
         sys.exit(1)
     
