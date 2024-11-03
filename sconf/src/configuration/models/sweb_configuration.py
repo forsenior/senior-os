@@ -18,6 +18,7 @@ class SwebConfiguration:
                                                             "../sconf/images/SWEB-WWW4.jpg",
                                                             "../sconf/images/SWEB-WWW5.png",
                                                             "../sconf/images/SWEB-WWW6.png"])
+    allowedURL: str = "../sconf/phish/SWEB-ALLOWED-URL.txt"
     phishingDatabase: str = "../sconf/phish/SWEB_PHISH_1.txt"
     phishingGithubDatabase: str = "https://github.com/mitchellkrogza/Phishing.Database/raw/master/ALL-phishing-domains.tar.gz/"
     sendPhishingWarning: bool = True
@@ -26,3 +27,13 @@ class SwebConfiguration:
     allowedWebsites: List[str] = field(default_factory=lambda: ["https://seznam.cz",
                                                                 "https://google.com",
                                                                 "https://vut.cz"])
+    default_language: str = "cz"
+    text: List[str] = field(default_factory=lambda: ["MENU 1",
+                                                     "MENU 2",
+                                                     "Search",
+                                                     "MENU 1",
+                                                     "MENU 2",
+                                                     "Vyhledávání",
+                                                     "MENU 1",
+                                                     "MENU 2",
+                                                     "Suche",])
