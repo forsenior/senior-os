@@ -1,13 +1,14 @@
-from loadConfig import *
 
 # This method is used for changing language in browser
 class Translator:
     # Create initial function
-    def __init__(self):
-        self.language_config_database = load_sweb_config_json()
+    def __init__(self, get_sweb_config):
         # Default shortcut for language
         self.language_keys = ["cz","en","de"]
-        self.current_language_in_browser = self.language_config_database["language"]["default_language"]
+        
+        self.current_language_in_browser = get_sweb_config.default_language
+        self.text = get_sweb_config.text
+
         # Set current language is CZ =0 , EN = 1, DE = 2
         if(self.current_language_in_browser) == "cz":
             self.current_language_index = 0
@@ -29,12 +30,27 @@ class Translator:
     # Get text from .json acroding Key value
     def get_translated_text(self, button_name):
         key_text = f"sweb_{self.current_language_in_browser}_{button_name}"
-        return self.language_config_database["text"].get(key_text, f"No translation found for {key_text}")
-    
-    # Get audio from .json acroding Key value
-    def get_translated_audio(self, button_name):
-        key_audio = f"sweb_{self.current_language_in_browser}_{button_name}"
-        return self.language_config_database["audio"].get(key_audio, f"No translation found for {key_audio}")
+        #print("text",self.text[1])
+        #return self.get_sweb_config.text
+        
+        if key_text == "sweb_en_menu1":
+            return self.text[0]
+        if key_text == "sweb_en_menu2":
+            return self.text[1]
+        if key_text == "sweb_en_menu2Address":
+            return self.text[2]
+        if key_text == "sweb_cz_menu1":
+            return self.text[3]
+        if key_text == "sweb_cz_menu2":
+            return self.text[4]
+        if key_text == "sweb_cz_menu2Address":
+            return self.text[5]
+        if key_text == "sweb_de_menu1":
+            return self.text[6]
+        if key_text == "sweb_de_menu2":
+            return self.text[7]
+        if key_text == "sweb_de_menu2Address":
+            return self.text[8]
 
     # Get state of current language
     def get_current_language(self):
