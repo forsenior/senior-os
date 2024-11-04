@@ -1,9 +1,8 @@
-import json
+
 import os
 import sys
 from pathlib import Path
-from screeninfo import get_monitors
-from PyQt5.QtGui import QPixmap, QIcon, QImage
+from PIL import Image, ImageQt
 script_directory = Path(__file__).parent
 parent_directory = script_directory.parent
 sys.path.append(str(parent_directory))
@@ -216,122 +215,53 @@ def get_text_style():
     """
 
 
-def resolutionMath():
-    _numOfScreen = jsonRed('GlobalConfiguration', "numOfScreen")
-    _screenWidth = get_monitors()[_numOfScreen].width
-    _screenHeight = get_monitors()[_numOfScreen].height
-    panelWidth = int(_screenWidth / jsonRed('GUI_template', "width_divisor"))
-    panelHeight = int(_screenHeight / jsonRed('GUI_template', "height_divisor"))
-    app_width = _screenWidth - panelWidth
-    app_height = _screenHeight - panelHeight
-    return _screenWidth, panelWidth, panelHeight, app_width, app_height
-
-
-def temporaryGetPath():
-    currentDir = os.path.dirname(os.path.dirname(__file__))
-    parentCurentDir = os.path.abspath(os.path.join(currentDir, os.pardir))
-    confPath = os.path.join(parentCurentDir, "sconf")
-    return confPath
-
-
-def jsonRed(key, value):
-    path = temporaryGetPath()
-    if os.path.exists(path):  # checks for the conf file, if there is any
-        with open(os.path.join(path, 'sconfig.json'), "r") as file:
-            jsonData = json.load(file)
-        return jsonData[key][value]
-    else:
-        print("LOG: there is no path to the configuration file")
-        return
-
-
-def jsonRed_upd(key, value):
-    path = temporaryGetPath()
-    if os.path.exists(path):  # checks for the conf file, if there is any
-        with open(os.path.join(path, 'sconfig.json'), "r") as file:
-            jsonData = json.load(file)
-        return jsonData[key][value]
-    else:
-        print("LOG: there is no path to the configuration file")
-        return
-
-
 def get_path(folder, file):
     current_dir = os.path.dirname(os.path.abspath(__file__))
     root_dir = os.path.dirname(os.path.dirname(current_dir))
     file_path = os.path.join(root_dir, folder, file)
     return file_path
 
-def load_json_file(file_path):
-    try:
-        with open(file_path, "r", encoding="utf-8") as f:
-            data = json.load(f)
-        return data
-    except FileNotFoundError:
-        print(f"File not found: {file_path}")
-        return 0
-    except Exception as error:
-        print(f"An unexpected error occurred while loading data from {file_path}: {error}")
-        return -1
 
-
-
-def load_credentials(path):
-    data = load_json_file(path)
-    credentials = data["credentials"]
-    login = credentials["username"]
-    password = credentials["password"]
-    smtp_server = credentials["smtp_server"]
-    smtp_port = credentials["smtp_port"]
-    imap_server = credentials["imap_server"]
-    imap_port = credentials["imap_port"]
+def load_credentials(data_provider):
+    smail_config = data_provider.get_smail_configuration()
+    login = smail_config.seniorEmail
+    password = smail_config.seniorPassword
+    smtp_server = smail_config.smtpServer
+    smtp_port = smail_config.smtpPort
+    imap_server = smail_config.imapServer
+    imap_port = smail_config.imapPort
 
     return login, password, smtp_server, smtp_port, imap_server, imap_port
 
-def load_show_url(path):
-    data = load_json_file(path)
-    show = data["show_url"]
-    return show
 
-def load_email_content(path):
-    data = load_json_file(path)
-    show = data["email_content"]
-    return show
-
-def images():
-    data = load_json_file(get_path("sconf", "sconfig.json"))
-    images = data["smailPicturesPath"]
-    return images
+################################
+# def load_show_url(path):
+#     data = load_json_file(path)
+#     show = data["show_url"]
+#     return show
+################################
 
 
-def image_config(name, btn_height):
-    data = images()
-    path = data[name]
-    image = QImage(path)
-    original_width = image.width()
-    original_height = image.height()
-    height_ratio = btn_height / original_height
-    new_width = int(original_width * height_ratio)
-    new_height = int(original_height * height_ratio)
-    resized_image = image.scaled(new_width, new_height)
-    pixmap = QPixmap.fromImage(resized_image)
-    icon = QIcon(pixmap)
-    return icon
+def images(data_provider):
+    smail_config = data_provider.get_smail_configuration()
+    return smail_config.emailPicturesPath
 
 
-def search_mail(id):
-    data = load_json_file(get_path("sconf", "sconfig.json"))
-    emails = data["emailContacts"]
-    email = emails[f"Person{id}"]
-    return email
+def search_mail(id, data_provider):
+    smail_config = data_provider.get_smail_configuration()
+    email_contacts = smail_config.emailContacts
+    if 1 <= id <= len(email_contacts):
+        return email_contacts[id - 1]
+    else:
+        raise ValueError(f"Invalid id: {id}. Valid range is 1 to {len(email_contacts)}.")
 
-
-def get_language():
-    data = load_json_file(get_path("sconf", "sconfig.json"))
-    language = data["GlobalConfiguration"]["language"].lower()
-    data = load_json_file(get_path("sconf", "sconfig.json"))
-    text = data["text"]
+def get_language(data_provider):
+    global_config = data_provider.get_global_configuration()
+    language = global_config.language.lower()
+    smail_config = data_provider.get_smail_configuration()
+    text = smail_config.languageSet
     return language, text
+
 
 
 def get_email_sender(email_string):
@@ -366,17 +296,15 @@ def get_email_sender(email_string):
             name = extracted_name.split("@")[0]
             return name
 
+def get_guardian_email(data_provider):
+     smail_config = data_provider.get_smail_configuration()
+     email = smail_config.careGiverEmail
+     return email
 
-def get_guardian_email():
-    # Reading configuration
-    data = load_json_file(get_path("sconf", "sconfig.json"))
-    email = data["guardian_email"]
-    return email
+def resend_active(data_provider):
+    smail_config = data_provider.get_smail_configuration()
+    active = smail_config.sendPhishingWarning
+    smail = smail_config.seniorEmail
+    gmail = smail_config.careGiverEmail
 
-def resend_active():
-    # Reading configuration
-    data = load_json_file(get_path("sconf", "sconfig.json"))
-    active = data["resend_email"]
-    smail = data["credentials"]["username"]
-    gmail = data["guardian_email"]
-    return active ==1, smail, gmail
+    return active == True, smail, gmail

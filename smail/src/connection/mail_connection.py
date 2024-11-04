@@ -7,7 +7,7 @@ import ssl
 import re
 
 import chardet
-from smail.src.style import get_guardian_email, resend_active, load_credentials, get_path
+
 
 
 # Config of the smtp/imap server and other information are taken from
@@ -57,7 +57,7 @@ def send_email(recipient, subject, content, login, password, smtp_server, smtp_p
 
 
 def resend_reply(recipient, content, server, login):
-
+    from smail.src.style import get_guardian_email
     content = f"Senior send reply email to phishing email ({recipient}) with content:\n" + content
     msg = MIMEText(content)
     msg['Subject'] = f"Reply to phish email by {login}"
@@ -86,13 +86,16 @@ def imap_connection(login, password, imap_server, imap_port):
         print(f"An unexpected error occurred: {error}")
         return -2
 
-def read_mail(login, password, imap_server, imap_port, language, text):
-
+def read_mail(login, password, imap_server, imap_port, language, text, data_provider):
     global resend_emails_g
-    lang_subject = text[f"smail_{language}_subjectLabel"]
-    lang_from = text[f"smail_{language}_from"]
-    lang_date = text[f"smail_{language}_date"]
-    lang_message = text[f"smail_{language}_messageLabel"]
+    lang_subject = getattr(text, f"smail{language.capitalize()}SubjectLabel", None)
+    lang_from = getattr(text, f"smail{language.capitalize()}From", None)
+    lang_date = getattr(text, f"smail{language.capitalize()}Date", None)
+    lang_message = getattr(text, f"smail{language.capitalize()}MessageLabel", None)
+
+    if None in [lang_subject, lang_from, lang_date, lang_message]:
+        print("Error: Missing language keys")
+        return None
 
     mail = imap_connection(login, password, imap_server, imap_port)
 
@@ -161,7 +164,7 @@ def read_mail(login, password, imap_server, imap_port, language, text):
         # If the emails were sent to a guardian, the value is changed to True
         # to ensure that they are only sent once.
         if not resend_emails_g:
-            resend_mail_to_guardian(emails)
+            # resend_mail_to_guardian(emails, data_provider)
             resend_emails_g = True
 
         print(f"{len(emails)} emails successfully loaded")
@@ -173,9 +176,9 @@ def read_mail(login, password, imap_server, imap_port, language, text):
         mail.close()
         mail.logout()
 
-def resend_mail_to_guardian(emails):
-
-    active, smail, gmail = resend_active()
+def resend_mail_to_guardian(emails, data_provider):
+    from smail.src.style import resend_active, load_credentials, get_path
+    active, smail, gmail = resend_active(data_provider)
     if active:
         date = datetime.now().strftime("%d.%m.%Y")
         email_subject = f"Email report from {smail}, date: {date}"
@@ -186,7 +189,7 @@ def resend_mail_to_guardian(emails):
 
         (login, password, smtp_server,
          smtp_port, imap_server, imap_port) = (
-            load_credentials(get_path("sconf", "SMAIL_config.json")))
+            load_credentials(data_provider))
 
         send_email(gmail, email_subject, email_content, login, password, smtp_server, smtp_port)
 
