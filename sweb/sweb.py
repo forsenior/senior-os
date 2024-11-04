@@ -45,6 +45,10 @@ import ssl
 BUTTON_WIDTH = 244
 BUTTON_HEIGHT = 107
 
+# static size of the toolbar
+TOOLBAR_WIDTH = 1360
+TOOLBAR_HEIGHT = 117
+
 ## This function is used for loading permitted website from sgive "Temp"
 def load_permitted_website_from_sconf():
     permitted_website_list = set()
@@ -274,50 +278,20 @@ class MyBrowser(QMainWindow):
         self.menu_1_toolbar = QToolBar("MENU 1")
         self.addToolBar(self.menu_1_toolbar)
         self.menu_1_toolbar.setMovable(False)
-        self.menu_1_toolbar.setFixedSize(1600, 117)
+        #self.menu_1_toolbar.setFixedSize(1520, 117)
 
-   
+        """
         total_screen_width = self.get_monitor_height_and_width.get_width_screen()
      
         # Calculate the left and right spacers to center the toolbar
         left_spacer_width = (total_screen_width - self.menu_1_toolbar.width()) // 2
-
-        # Add a spacer to the left of the toolbar
-        left_spacer = QWidget()
-        left_spacer.setFixedWidth(left_spacer_width)
-        self.menu_1_toolbar.addWidget(left_spacer)
-       
+        print("left_spacer_width", left_spacer_width)
+        print("total_screen_width", total_screen_width)
+        """
+    
         # Add the buttons to the toolbar
-        self.setup_initial_menu_1()
+        #self.setup_initial_menu_1()
 
-        # Add a spacer to the right of the toolbar
-        ##right_spacer = QWidget()
-        ##right_spacer.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Preferred)
-        ##self.menu_1_toolbar.addWidget(right_spacer)
-        
-        
-        ##Tarik, set the bar in the middle.
-        '''
-        # Add a spacer to the left of the toolbar
-        left_spacer = QWidget()
-        left_spacer.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Preferred)
-        self.menu_1_toolbar.addWidget(left_spacer)
-
-        # Add the buttons to the toolbar
-        self.setup_initial_menu_1()
-
-        # Add a spacer to the right of the toolbar
-        right_spacer = QWidget()
-        right_spacer.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Preferred)
-        self.menu_1_toolbar.addWidget(right_spacer)
-        '''
-        #Tarik, set the bar in thh middle.
-        # Add a spacer to the left of the toolbar
-        #left_spacer = QWidget()
-        #left_spacer.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Preferred)
-        #self.menu_1_toolbar.addWidget(left_spacer)
-        
-        # 28.10
         self.permitted_website_list = load_permitted_website_from_sconf()
         
 
@@ -325,25 +299,22 @@ class MyBrowser(QMainWindow):
         self.menu_2_toolbar = QToolBar("MENU 2")
         self.addToolBar(self.menu_2_toolbar)
         self.menu_2_toolbar.setMovable(False)
-        self.menu_2_toolbar.setFixedSize(1600, 117)
+        #self.menu_2_toolbar.setFixedSize(1600, 117)
 
-        # Calculate the left and right spacers to center the toolbar
-        left_spacer_width = (total_screen_width - self.menu_2_toolbar.width()) // 2
+        # Add the buttons to the toolbar
+        #self.setup_initial_menu_2()
+       
 
+        """
         # Add a spacer to the left of the toolbar
         left_spacer = QWidget()
         left_spacer.setFixedWidth(left_spacer_width)
         self.menu_2_toolbar.addWidget(left_spacer)
         self.addToolBarBreak()
-        
+        """
         self.toolbar_space = QToolBar("Spacer")
         # Set the spacer height
-        self.toolbar_space.setFixedHeight(int(self.buttons_height_info))
-        self.toolbar_space.setStyleSheet(f"""
-        QToolBar {{
-                background-color: #fff;
-        }}
-        """)
+
         self.addToolBar(self.toolbar_space)
         self.toolbar_space.setMovable(False)
         self.toolbar_space.setVisible(False)
@@ -355,16 +326,10 @@ class MyBrowser(QMainWindow):
         # Set a style for Menu 2 toolbar
         self.menu_2_toolbar.setStyleSheet(self.default_style_toolbar())
         
-        # Get number of menu and number of options in the menu from sconf/config.json
-        #num_menu_buttons = my_config_data['template']['num_of_menu_buttons']
-        #num_of_opt_on_menu = my_config_data['template']['num_of_opt_on_frame']
-
-        #if num_menu_buttons == 2 and num_of_opt_on_menu == 4:
+        # Set a style for URL toolbar
         self.setup_initial_menu_1()
         self.setup_initial_menu_2()
-        #else:
-        #    self.close()
-            
+
         # Set disvisible for menu 2
         self.menu_2_toolbar.setVisible(False)
         
@@ -419,13 +384,23 @@ class MyBrowser(QMainWindow):
         for various web navigation and a search feature. Configures button 
         properties, layouts, icons, and click events.
         """
+
+        # Calculate the left and right spacers to center the toolbar
+        total_screen_width = self.get_monitor_height_and_width.get_width_screen()
+        left_spacer_width = (total_screen_width - TOOLBAR_WIDTH) // 2
+      
+
+        left_spacer = QWidget()
+        left_spacer.setFixedWidth(left_spacer_width)
+        self.menu_1_toolbar.addWidget(left_spacer)
+        
+       
         # Create first Menu
         self.menu1_button = QPushButton(self)
         # Create Menu QvBoxLayout
         menu1_news_layout = QVBoxLayout(self.menu1_button)
         self.menu1_new_text_label = QLabel("MENU 1", self.menu1_button)
         menu1_news_layout.addWidget(self.menu1_new_text_label)
-        ##self.menu1_new_text_label.setStyleSheet("color: #FFFFFF;")
         # Align text in the center
         menu1_news_layout.setAlignment(self.menu1_new_text_label, Qt.AlignCenter)
 
@@ -433,12 +408,7 @@ class MyBrowser(QMainWindow):
         self.menu1_button.setCursor(Qt.PointingHandCursor)
         self.menu1_button.clicked.connect(self.toggle_between_toolbar)
         self.menu_1_toolbar.addWidget(self.menu1_button)
-        '''
-        # Add a bliak space between two button
-        spacer1 = QWidget()
-        spacer1.setFixedWidth(self.button_value_padd_info)
-        self.menu_1_toolbar.addWidget(spacer1)
-        '''
+
         # Add Exit button
         self.menu1Exit = QPushButton(self)
         # Create Home QvBoxLayout
@@ -453,13 +423,6 @@ class MyBrowser(QMainWindow):
         self.menu1Exit.clicked.connect(self.close)
         self.menu1Exit.setCursor(Qt.PointingHandCursor)
         self.menu_1_toolbar.addWidget(self.menu1Exit)
-
-        '''
-        # Add a bliak space between two button
-        spacer2 = QWidget()
-        spacer2.setFixedWidth(self.button_value_padd_info)
-        self.menu_1_toolbar.addWidget(spacer2)
-        '''
 
 
         '''
@@ -501,12 +464,7 @@ class MyBrowser(QMainWindow):
         self.menu1WWW1.setCursor(Qt.PointingHandCursor)
         self.menu_1_toolbar.addWidget(self.menu1WWW1)
         
-        '''
-        # Add a blank space between two button
-        spacer4 = QWidget()
-        spacer4.setFixedWidth(self.button_value_padd_info)
-        self.menu_1_toolbar.addWidget(spacer4)
-        '''
+       
         # Add Menu1_WWW2 button
         self.menu1WWW2 = QPushButton(self)
         menu1WWW2_layout = QVBoxLayout(self.menu1WWW2)
@@ -521,12 +479,6 @@ class MyBrowser(QMainWindow):
         self.menu1WWW2.setCursor(Qt.PointingHandCursor)
         self.menu_1_toolbar.addWidget(self.menu1WWW2)
 
-        '''
-        # Add a blank space between two button
-        spacer4 = QWidget()
-        spacer4.setFixedWidth(self.button_value_padd_info)
-        self.menu_1_toolbar.addWidget(spacer4)
-        '''
 
         # Add Menu1_WWW3 button
         self.menu1_WWW3 = QPushButton(self)
@@ -542,7 +494,7 @@ class MyBrowser(QMainWindow):
         self.menu1_WWW3.setCursor(Qt.PointingHandCursor)
         self.menu_1_toolbar.addWidget(self.menu1_WWW3)
         
-   
+    
 
     def setup_initial_menu_2(self):
         """
@@ -550,7 +502,13 @@ class MyBrowser(QMainWindow):
         for various web navigation and a search feature. Configures button 
         properties, layouts, icons, and click events.
         """
+        # Calculate the left and right spacers to center the toolbar
+        total_screen_width = self.get_monitor_height_and_width.get_width_screen()
+        left_spacer_width = (total_screen_width - TOOLBAR_WIDTH) // 2
 
+        left_spacer = QWidget()
+        left_spacer.setFixedWidth(left_spacer_width)
+        self.menu_2_toolbar.addWidget(left_spacer)
         # Create second Menu2
         self.menu2_button = QPushButton(self)
         # Create Home QvBoxLayout
@@ -568,12 +526,6 @@ class MyBrowser(QMainWindow):
         self.menu2_button.clicked.connect(self.toggle_between_toolbar)
         self.menu_2_toolbar.addWidget(self.menu2_button)
 
-        '''
-        # Add a bliak space between two button
-        spacer5 = QWidget()
-        spacer5.setFixedWidth(self.button_value_padd_info)
-        self.menu_2_toolbar.addWidget(spacer5)
-        '''
         # Add Menu2_WWW4 button
         self.menu2WWW4 = QPushButton(self)
         menu2WWW4_layout = QVBoxLayout(self.menu2WWW4)
@@ -587,13 +539,6 @@ class MyBrowser(QMainWindow):
         self.menu2WWW4.clicked.connect(self.navigate_www4)
         self.menu2WWW4.setCursor(Qt.PointingHandCursor)
         self.menu_2_toolbar.addWidget(self.menu2WWW4)
-        
-        '''
-        # Add a bliak space between two button
-        spacer6 = QWidget()
-        spacer6.setFixedWidth(self.button_value_padd_info)
-        self.menu_2_toolbar.addWidget(spacer6)
-        '''
 
         # Add Menu2_WWW5 button
         self.menu2WWW5 = QPushButton(self)
@@ -609,13 +554,6 @@ class MyBrowser(QMainWindow):
         self.menu2WWW5.setCursor(Qt.PointingHandCursor)
         self.menu_2_toolbar.addWidget(self.menu2WWW5)
         
-        '''
-        # Add a bliak space between two button
-        spacer7 = QWidget()
-        spacer7.setFixedWidth(self.button_value_padd_info)
-        self.menu_2_toolbar.addWidget(spacer7)
-        '''
-
         # Add Menu2_WWW6 button
         self.menu2WWW6 = QPushButton(self)
         menu2WWW6_layout = QVBoxLayout(self.menu2WWW6)
@@ -630,13 +568,6 @@ class MyBrowser(QMainWindow):
         self.menu2WWW6.setCursor(Qt.PointingHandCursor)
         self.menu_2_toolbar.addWidget(self.menu2WWW6)
         
-        '''
-        # Add a bliak space between two button
-        spacer8 = QWidget()
-        spacer8.setFixedWidth(self.button_value_padd_info)
-        self.menu_2_toolbar.addWidget(spacer8)
-        '''
-
         # Add Menu2_Address button
         self.menu2Address = QPushButton(self)
         # Create Home QvBoxLayout
@@ -677,11 +608,15 @@ class MyBrowser(QMainWindow):
         """
 
        ## toolbar_text_config = MenuBarTextConfiguration()
-    
+        
         style_string = f"""
             QToolBar {{
             border: 0px solid transparent;
             background-color: transparent;
+            spacing: 0px;
+            width: {TOOLBAR_WIDTH}px;
+            high: {TOOLBAR_HEIGHT}px;
+            
             
             
             }}
@@ -693,7 +628,7 @@ class MyBrowser(QMainWindow):
                 border-radius: 3px;
                 border: 1px solid #797979;
                 background-color: #949494 ; 
-                margin: 10px 12px 10px 10px;                  
+                margin: 10px 12px 10px 10px;                 
                 font-size: 40px;
                 font-weight: 'Regular';
                 
@@ -722,6 +657,9 @@ class MyBrowser(QMainWindow):
             QToolBar {{
             border: 1px solid #F90000;
             background-color: #FF0000;
+            spacing: 0px;
+            width: {TOOLBAR_WIDTH}px;
+            high: {TOOLBAR_HEIGHT}px;
             }}
             QPushButton QLabel {{
                 color: #FFFFFF;
@@ -777,17 +715,17 @@ class MyBrowser(QMainWindow):
         check_result = any(permitted_website in url_in_browser_value for permitted_website in permitted_website_list)
         if check_result:
             if "homepage.html" not in url_in_browser_value:
-                self.main_browser.setZoomFactor(0.8)
+                self.main_browser.setZoomFactor(1)
                 # Wait 1 second for loading, after 1 second, connect to change web content (HTML injection)
                 QTimer.singleShot(250, lambda: self.html_injection_to_web_content())
         elif self.toggle_phishing_webpage:
-            self.main_browser.setZoomFactor(0.8)
+            self.main_browser.setZoomFactor(1)
             # Wait 1 second for loading, after 1 second, connect to change web content (HTML injection)
             QTimer.singleShot(250, lambda: self.html_injection_to_phishing_web_content())
         else:
             
             if senior_website_posting_option:
-                self.main_browser.setZoomFactor(0.8)
+                self.main_browser.setZoomFactor(1)
                 # Wait 1 second for loading, after 1 second, connect to change web content (HTML injection)
                 QTimer.singleShot(250, lambda: self.html_injection_to_web_content_strict())
             else:
@@ -1021,12 +959,7 @@ class MyBrowser(QMainWindow):
         url_in_browser_value = qurl.toString()
         if url_in_browser_value.endswith('/'):
             if self.url_blocker.is_url_blocked(url_in_browser_value):
-                self.toggle_phishing_webpage = True
-                ##Tarik comment
-                ##self.play_sound_for_button(self.path_to_alert_phishing_music)
-                 # Log with level 5 when connected to phishing
-                ##self.url_logger.log_blocked_url('WEBBROWSER', 5, 'main <security>', f'Connection to Phishing server {url_in_browser_value}')
-                    
+                self.toggle_phishing_webpage = True                   
                 # Set red colour for connect to phishing
                 self.menu_1_toolbar.setStyleSheet(self.phishing_style_toolbar())
                 self.menu_2_toolbar.setStyleSheet(self.phishing_style_toolbar())
@@ -1037,8 +970,6 @@ class MyBrowser(QMainWindow):
                 # Set default style for toolbar
                 self.menu_1_toolbar.setStyleSheet(self.default_style_toolbar())
                 self.menu_2_toolbar.setStyleSheet(self.default_style_toolbar())
-                # Log with LEVEL 6 INFORMATIONAL
-                ##self.url_logger.log_blocked_url('WEBBROWSER', 6, 'main <security>', f'Connection to {url_in_browser_value}')
                 # Connect to URL after entering
                 self.main_browser.setUrl(QUrl(url_in_browser_value))
         elif not url_in_browser_value.endswith('/'):
@@ -1138,16 +1069,11 @@ if __name__ == "__main__":
         input_url_from_terminal = sys.argv[1] if len(sys.argv) > 1 else "https://vut.cz"
         # Load config data from JSON file
         main_window = MyBrowser(input_url_from_terminal) # Set parametr for main browser window
-        ##Tarik
         main_window.resize(1700, 1100)
         main_window.show() 
         #main_window.show_app_full_screen() # Call main browser window, this set the full screen.
         sys.exit(qApplication.exec_())
     except Exception as excep:
-        #url_logger = URLLogger()
-        # Log with level 2 - CRITICAL
-        #url_logger.log_blocked_url('WEBBROWSER', 2, 'main <security>', f'Application did not work')
-        # Exit with an error code
         print(f"Error: {excep}")
         sys.exit(1)
     
