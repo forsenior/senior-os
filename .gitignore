@@ -6,3 +6,8 @@ __pycache__/
 idea/
 venv/
 .venv/
+
+# Build results of the setuptools for SOS configuration package
+/sconf/src/configuration/build/
+/sconf/src/configuration/configuration.egg-info/
+/sconf/src/configuration/configuration_sos.egg-info/

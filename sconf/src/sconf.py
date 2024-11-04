@@ -7,7 +7,7 @@ import configuration.configuration_provider as data_provider
 import configuration.configuration_writer as data_writer
 from ui.view.main_window_view import MainWindow
 
-CONFIG_FILE_NAME = 'config.json'
+CONFIG_FILE_NAME = '../config.json'
 
 
 def main():
