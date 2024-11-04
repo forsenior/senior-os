@@ -29,7 +29,7 @@ from src.update_phishing_txt import PhishingDatabaseModificationChecker
 from src.language_translator import Translator
 
 import sconf.src.configuration.configuration_provider as dataProvider
-CONFIG_FILE_NAME = 'sconf.json'
+CONFIG_FILE_NAME = 'config.json'
 SUBFOLDER_NAME = "sconf"
 
 _dataProvider: dataProvider.ConfigurationProvider
