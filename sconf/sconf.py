@@ -3,17 +3,13 @@ import sys
 
 from PyQt5.QtWidgets import QApplication
 
-# Get the current directory of the script and go one level up
-current_directory = os.path.dirname(os.path.abspath(__file__))
-parent_directory = os.path.dirname(current_directory)
+current_dir = os.path.dirname(os.path.abspath(__file__))
+sconf_src_path = os.path.join(current_dir, '../sconf/src')
+sys.path.append(sconf_src_path)
 
-# Add the parent directory to sys.path
-sys.path.append(parent_directory)
-try:
-    from ui.view.main_window_view import MainWindow
-except ModuleNotFoundError:
-    import configuration.configuration_provider as data_provider
-    import configuration.configuration_writer as data_writer
+from src.ui.view.main_window_view import MainWindow
+import src.configuration.configuration_provider as data_provider
+import src.configuration.configuration_writer as data_writer
 
 
 CONFIG_FILE_NAME = 'config.json'
