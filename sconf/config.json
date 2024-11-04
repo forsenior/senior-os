@@ -24,8 +24,8 @@
             "../sconf/icons/sweb_www_5.png",
             "../sconf/icons/sweb_www_6.png"
       ],
-      "allowedURL":"../sconf/phish/SWEB-ALLOWED-URL.txt",
-      "phishingDatabase":"../sconf/phish/SWEB_PHISH_1.txt",
+      "allowedURL":"../sconf/phish/sweb_allowed_url.txt",
+      "phishingDatabase":"../sconf/phish/sweb_phish_1.txt",
       "phishingGithubDatabase":"https://github.com/mitchellkrogza/Phishing.Database/raw/master/ALL-phishing-domains.tar.gz/",
       "sendPhishingWarning":false,
       "phishingFormular":true,
