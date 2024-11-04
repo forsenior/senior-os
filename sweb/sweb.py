@@ -1071,7 +1071,7 @@ if __name__ == "__main__":
         main_window = MyBrowser(input_url_from_terminal) # Set parametr for main browser window
         main_window.resize(1700, 1100)
         main_window.show() 
-        #main_window.show_app_full_screen() # Call main browser window, this set the full screen.
+        main_window.show_app_full_screen() # Call main browser window, this set the full screen.
         sys.exit(qApplication.exec_())
     except Exception as excep:
         print(f"Error: {excep}")
