@@ -53,13 +53,13 @@ class SmailConfiguration:
                                                               "sos.smail.person.4@gmail.com",
                                                               "sos.smail.person.5@gmail.com",
                                                               "sos.smail.person.6@gmail.com"])
-    emailPicturesPath: List[str] = field(default_factory=lambda: ["../sconf/images/SMAIL-exit-1.png",
-                                                                  "../sconf/images/SMAIL-person-1.png",
-                                                                  "../sconf/images/SMAIL-person-2.png",
-                                                                  "../sconf/images/SMAIL-person-3.png",
-                                                                  "../sconf/images/SMAIL-person-4.png",
-                                                                  "../sconf/images/SMAIL-person-5.png",
-                                                                  "../sconf/images/SMAIL-person-6.png"])
+    emailPicturesPath: List[str] = field(default_factory=lambda: ["../sconf/icons/exit.png",
+                                                                  "../sconf/icons/smail_person_1.png",
+                                                                  "../sconf/icons/smail_person_2.png",
+                                                                  "../sconf/icons/smail_person_3.png",
+                                                                  "../sconf/icons/smail_person_4.png",
+                                                                  "../sconf/icons/smail_person_5.png",
+                                                                  "../sconf/icons/smail_person_6.png"])
     sendPhishingWarning: bool = True
     showUrlInEmail: bool = True
     languageSet: LanguageSet = field(default_factory=lambda: LanguageSet())
