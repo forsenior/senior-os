@@ -3,11 +3,20 @@ import sys
 
 from PyQt5.QtWidgets import QApplication
 
-import configuration.configuration_provider as data_provider
-import configuration.configuration_writer as data_writer
-from ui.view.main_window_view import MainWindow
+# Get the current directory of the script and go one level up
+current_directory = os.path.dirname(os.path.abspath(__file__))
+parent_directory = os.path.dirname(current_directory)
 
-CONFIG_FILE_NAME = '../config.json'
+# Add the parent directory to sys.path
+sys.path.append(parent_directory)
+try:
+    from ui.view.main_window_view import MainWindow
+except ModuleNotFoundError:
+    import configuration.configuration_provider as data_provider
+    import configuration.configuration_writer as data_writer
+
+
+CONFIG_FILE_NAME = 'config.json'
 
 
 def main():
