@@ -1131,7 +1131,6 @@ if __name__ == "__main__":
     path_split = current_location.split("sweb")
     config_folder = os.path.join(path_split[0], SUBFOLDER_NAME)
     _dataProvider = dataProvider.ConfigurationProvider(configFileName=CONFIG_FILE_NAME, configStoragePath=config_folder)
-
     try:
         
         qApplication = QApplication(sys.argv)
@@ -1149,5 +1148,6 @@ if __name__ == "__main__":
         # Log with level 2 - CRITICAL
         #url_logger.log_blocked_url('WEBBROWSER', 2, 'main <security>', f'Application did not work')
         # Exit with an error code
+        print(f"Error: {excep}")
         sys.exit(1)
     
