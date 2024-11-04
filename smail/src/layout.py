@@ -5,7 +5,7 @@ import threading
 
 from PyQt5 import sip
 from PyQt5.QtCore import Qt, QTimer, QUrl, QSize
-from PyQt5.QtGui import QTextCharFormat, QTextCursor, QDesktopServices, QIcon
+from PyQt5.QtGui import QTextCharFormat, QTextCursor, QDesktopServices, QIcon, QPixmap
 from PyQt5.QtWidgets import QWidget, QVBoxLayout, QFrame, QLabel, QTextEdit, \
     QApplication, QListWidget, QPushButton, QHBoxLayout, QSizePolicy, QSpacerItem, QAbstractItemView
 
@@ -13,14 +13,16 @@ from . import style
 from .connection.mail_connection import send_email, read_mail
 
 class first_frame(QWidget):
-    def __init__(self, parent):
+    def __init__(self, parent, data_provider):
         super().__init__(parent)
+        self.data_provider = data_provider
         self.image_configuration()
-        self.language, self.text_configuration = style.get_language()
+        self.language, self.text_configuration = style.get_language(self.data_provider)
         self.color_scheme = style.get_color_scheme()
         self.last_selected_index = None
         self.last_selected_email = None
         self.last_selected_button = None
+        self.allow_show_email = False
         self.button_state = None
         self.alert= False
         self.menu1= True
@@ -75,8 +77,9 @@ class first_frame(QWidget):
             if child.widget():
                 child.widget().deleteLater()
 
+    # noinspection PyUnresolvedReferences
     def buttons_setup(self):
-        button_9 = self.text_configuration[f"smail_{self.language}_sendToButton"]
+        button_9 = getattr(self.text_configuration, f"smail{self.language.capitalize()}SendToButton")
         button_menu1 = ["MENU 1", "EXIT", "Button 2", "Button 3", "Button 4"]
         button_menu2 = ["MENU 2", "Button 6", "Button 7", "Button 8", button_9]
         spacer_left = QSpacerItem(20, 40, QSizePolicy.Expanding, QSizePolicy.Minimum)
@@ -164,16 +167,24 @@ class first_frame(QWidget):
 
     def image_configuration(self):
         try:
-            self.img = style.images()
-            self.exit_image = QIcon(self.img["exit"])
-            self.person1_image = QIcon(self.img["Person1"])
-            self.person2_image = QIcon(self.img["Person2"])
-            self.person3_image = QIcon(self.img["Person3"])
-            self.person4_image = QIcon(self.img["Person4"])
-            self.person5_image = QIcon(self.img["Person5"])
-            self.person6_image = QIcon(self.img["Person6"])
-        except Exception:
-            print("Failed loading language and images")
+            self.img = style.images(self.data_provider)
+
+            def load_icon(image_path, width=None, height=None):
+                pixmap = QPixmap(image_path)
+                if width and height:
+                    pixmap = pixmap.scaled(width, height)
+                return QIcon(pixmap)
+
+            self.exit_image = load_icon(self.img[0])
+            self.person1_image = load_icon(self.img[1])
+            self.person2_image = load_icon(self.img[2])
+            self.person3_image = load_icon(self.img[3])
+            self.person4_image = load_icon(self.img[4])
+            self.person5_image = load_icon(self.img[5])
+            self.person6_image = load_icon(self.img[6])
+
+        except Exception as e:
+            print(f"Failed loading language and images: {e}")
 
     def exit_app(self):
         self.close()
@@ -187,12 +198,13 @@ class first_frame(QWidget):
         self.left_panel.setFixedWidth(259)
 
         # Email list
-        self.inbox_list_label = QLabel(self.text_configuration[f"smail_{self.language}_inboxLabel"], self.left_panel)
+        self.inbox_list_label = QLabel(getattr(self.text_configuration, f"smail{self.language.capitalize()}InboxLabel"), self.left_panel)
         self.inbox_list_label.setFixedHeight(22)
         self.inbox_list_label.setStyleSheet(style.get_text_style())
         self.inbox_list = QListWidget(self.left_panel)
         self.inbox_list.setStyleSheet(style.get_inbox_style())
-
+        self.inbox_list.setVerticalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
+        self.inbox_list.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
 
         # Layout for the left panel
         self.left_panel_layout = QVBoxLayout(self.left_panel)
@@ -201,10 +213,10 @@ class first_frame(QWidget):
 
     def right_panel_setup(self, recipient_email="", show_sender_info=True):
 
-        subject_label = self.text_configuration[f"smail_{self.language}_subjectLabel"]
-        recipient_label = self.text_configuration[f"smail_{self.language}_recipientLabel"]
-        message_label = self.text_configuration[f"smail_{self.language}_messageLabel"]
-        from_label = self.text_configuration[f"smail_{self.language}_from"]
+        subject_label = getattr(self.text_configuration, f"smail{self.language.capitalize()}SubjectLabel")
+        recipient_label = getattr(self.text_configuration, f"smail{self.language.capitalize()}RecipientLabel")
+        message_label = getattr(self.text_configuration, f"smail{self.language.capitalize()}MessageLabel")
+        from_label = getattr(self.text_configuration, f"smail{self.language.capitalize()}From")
 
         # Right panel setup
         self.right_panel = QFrame(self)
@@ -275,12 +287,18 @@ class first_frame(QWidget):
         self.allow_show_email = True
 
     def insert_emails(self):
-        previous_emails = getattr(self, "reversed_list", [])
-        (login, password, smtp_server, smtp_port, imap_server, imap_port) = (
-            style.load_credentials(style.get_path("sconf", "sconfig.json")))
-        language, text = style.get_language()
 
-        self.emails, self.subjects = read_mail(login, password, imap_server, imap_port, language, text)
+        previous_emails = getattr(self, "reversed_list", [])
+        (login, password, smtp_server, smtp_port, imap_server, imap_port) = style.load_credentials(self.data_provider)
+        language, text = style.get_language(self.data_provider)
+        loading_inbox_text = getattr(self.text_configuration, f"smail{language.capitalize()}LoadingInbox")
+        self.inbox_list.addItem(loading_inbox_text)
+
+        self.emails, self.subjects = read_mail(login, password, imap_server, imap_port, language, text,
+                                               self.data_provider)
+        if self.emails is None or self.subjects is None:
+            print("Failed to load emails.")
+            return
         self.reversed_list = list(zip(self.emails[::-1], self.subjects[::-1]))
 
         if previous_emails != self.reversed_list:
@@ -294,7 +312,9 @@ class first_frame(QWidget):
                 sub = email_content.split("\n")[0].split(":", 1)[1]
                 self.inbox_list.addItem(f"{name} - {sub}")
 
+            # noinspection PyUnresolvedReferences
             self.inbox_list.itemSelectionChanged.connect(self.show_email)
+            self.allow_show_email = True
 
     def show_email(self):
 
@@ -371,7 +391,7 @@ class first_frame(QWidget):
                 self.last_selected_button = sender
             recipient_email = ""
             if 1 <= index <= 6:
-                recipient_email = style.search_mail(index)
+                recipient_email = style.search_mail(index, self.data_provider)
             elif index == 7:
                 recipient_email = ""
 
@@ -391,10 +411,7 @@ class first_frame(QWidget):
         alert_color = colors["alert_color"]
         default_color = colors["default_color"]
 
-
-        (login, password, smtp_server,
-         smtp_port, imap_server, imap_port) = (
-            style.load_credentials(style.get_path("sconf", "sconfig.json")))
+        (login, password, smtp_server, smtp_port, imap_server, imap_port) = style.load_credentials(self.data_provider)
 
         recipient = self.recipient_info_label_2.toPlainText().strip()
         subject = self.recipient_info_label_4.toPlainText().strip()
@@ -445,7 +462,7 @@ class first_frame(QWidget):
         padding = "\n" * (middle_line - 2)
 
         self.email_content_label_2.insertPlainText(padding)
-        self.email_content_label_2.insertPlainText(self.text_configuration[f"smail_{self.language}_email_sent"])
+        self.email_content_label_2.insertPlainText(getattr(self.text_configuration, f"smail{self.language.capitalize()}EmailSent"))
         self.email_content_label_2.setAlignment(Qt.AlignCenter)
         current_style = style.get_email_content_label()
         self.email_content_label_2.setStyleSheet(current_style + f"""
@@ -473,7 +490,7 @@ class first_frame(QWidget):
         padding = "\n" * (middle_line - 2)
 
         self.email_content_label_2.insertPlainText(padding)
-        self.email_content_label_2.insertPlainText(self.text_configuration[f"smail_{self.language}_email_fail"])
+        self.email_content_label_2.insertPlainText(getattr(self.text_configuration, f"smail{self.language.capitalize()}EmailFail"))
         self.email_content_label_2.setAlignment(Qt.AlignCenter)
         current_style = style.get_email_content_label()
         self.email_content_label_2.setStyleSheet(current_style + f"""
@@ -485,33 +502,50 @@ class first_frame(QWidget):
 
         QTimer.singleShot(5000, lambda: self.clear_content_entry(default_color, 3))
 
+    # def clear_content_entry(self, default_color, idx):
+    #     if idx == 3:
+    #         self.email_content_label_2.setReadOnly(False)
+    #         self.recipient_info_label_2.setReadOnly(False)
+    #         self.recipient_info_label_4.setReadOnly(False)
+    #         self.email_content_label_2.clear()
+    #         self.email_content_label_2.setStyleSheet(style.get_email_content_label() + f"background-color: {default_color};")
+    #         self.recipient_info_label_2.setStyleSheet(style.get_label_style() + f"background-color: {default_color};")
+    #         self.recipient_info_label_4.setStyleSheet(style.get_label_style() + f"background-color: {default_color};")
+    #
+    #     elif idx == 2:
+    #         self.email_content_label_2.setReadOnly(False)
+    #         self.recipient_info_label_2.setReadOnly(False)
+    #         self.recipient_info_label_4.setReadOnly(False)
+    #         self.recipient_info_label_2.clear()
+    #         self.email_content_label_2.setStyleSheet(style.get_email_content_label() + f"background-color: {default_color};")
+    #         self.recipient_info_label_2.setStyleSheet(style.get_label_style() + f"background-color: {default_color};")
+    #         self.recipient_info_label_4.setStyleSheet(style.get_label_style() + f"background-color: {default_color};")
+    #
+    #     elif idx == 1:
+    #         self.email_content_label_2.setReadOnly(False)
+    #         self.recipient_info_label_2.setReadOnly(False)
+    #         self.recipient_info_label_4.setReadOnly(False)
+    #         self.recipient_info_label_4.clear()
+    #         self.email_content_label_2.setStyleSheet(style.get_email_content_label() + f"background-color: {default_color};")
+    #         self.recipient_info_label_2.setStyleSheet(style.get_label_style() + f"background-color: {default_color};")
+    #         self.recipient_info_label_4.setStyleSheet(style.get_label_style() + f"background-color: {default_color};")
     def clear_content_entry(self, default_color, idx):
+
+        self.email_content_label_2.setReadOnly(False)
+        self.recipient_info_label_2.setReadOnly(False)
+        self.recipient_info_label_4.setReadOnly(False)
+
         if idx == 3:
-            self.email_content_label_2.setReadOnly(False)
-            self.recipient_info_label_2.setReadOnly(False)
-            self.recipient_info_label_4.setReadOnly(False)
             self.email_content_label_2.clear()
-            self.email_content_label_2.setStyleSheet(style.get_email_content_label() + f"background-color: {default_color};")
-            self.recipient_info_label_2.setStyleSheet(style.get_label_style() + f"background-color: {default_color};")
-            self.recipient_info_label_4.setStyleSheet(style.get_label_style() + f"background-color: {default_color};")
-
         elif idx == 2:
-            self.email_content_label_2.setReadOnly(False)
-            self.recipient_info_label_2.setReadOnly(False)
-            self.recipient_info_label_4.setReadOnly(False)
             self.recipient_info_label_2.clear()
-            self.email_content_label_2.setStyleSheet(style.get_email_content_label() + f"background-color: {default_color};")
-            self.recipient_info_label_2.setStyleSheet(style.get_label_style() + f"background-color: {default_color};")
-            self.recipient_info_label_4.setStyleSheet(style.get_label_style() + f"background-color: {default_color};")
-
         elif idx == 1:
-            self.email_content_label_2.setReadOnly(False)
-            self.recipient_info_label_2.setReadOnly(False)
-            self.recipient_info_label_4.setReadOnly(False)
             self.recipient_info_label_4.clear()
-            self.email_content_label_2.setStyleSheet(style.get_email_content_label() + f"background-color: {default_color};")
-            self.recipient_info_label_2.setStyleSheet(style.get_label_style() + f"background-color: {default_color};")
-            self.recipient_info_label_4.setStyleSheet(style.get_label_style() + f"background-color: {default_color};")
+
+        self.email_content_label_2.setStyleSheet(
+            style.get_email_content_label() + f"background-color: {default_color};")
+        self.recipient_info_label_2.setStyleSheet(style.get_label_style() + f"background-color: {default_color};")
+        self.recipient_info_label_4.setStyleSheet(style.get_label_style() + f"background-color: {default_color};")
 
     def alert_missing_text(self, entry, default_color, select_color):
 
@@ -539,98 +573,98 @@ class first_frame(QWidget):
         self.recipient_info_label_4.setStyleSheet(style.get_label_style() +f"background-color: {grey_color};")
         self.email_content_label_2.setStyleSheet(style.get_email_content_label() +f"background-color: {grey_color};")
 
-    def mark_important_data(self):
-
-        default_color = "white"
-        selected_color = "green"
-        bg_default_color = "white"
-
-        #lines = self.message_area.get("1.0", "end-1c").split("\n")
-        lines = self.message_area.toPlainText().split("\n")
-        words_before_colon = [lines[0][:lines[0].find(":")].strip(),
-                              lines[1][:lines[1].find(":")].strip()]
-
-        # try:
-             # for i, word in enumerate(words_before_colon, start=1):
-            #     start_index = "1.0"
-            #     line_number = i
-            #     while True:
-            #         line_start = self.message_area.search(word, start_index, stopindex=f"{line_number}.end",
-            #                                              nocase=True)
-            #         if not line_start:
-            #            break
-            #         colon_index = int(line_start.split('.')[1]) + len(word)
-            #         text_after_colon = self.message_area.get(f"{line_number}.{colon_index + 2}",
-            #                                                 f"{line_number}.end")
-            #         self.message_area.delete(f"{line_number}.{colon_index + 2}",
-            #                                 f"{line_number}.end")
-            #         self.message_area.insert(f"{line_number}.{colon_index + 2}",
-            #                                 text_after_colon, "color")
-            #
-            #        start_index = f"{line_number + 1}.0"
-            # self.message_area.tag_configure("color", background=selected_color)
-
-
-        # except Exception as e:
-        #     print("lag")
-        #     print("Error occurred when marking important data: " + str(e))
-
-    def mark_email(self):
-
-        show = style.load_show_url(style.get_path("sconf", "SMAIL_config.json"))
-
-        if show == 1:
-            # Find all URLs in email and tag them
-            #for match in re.finditer(r'https?://\S+|www\.\S+', self.message_area.get("1.0", tk.END)):
-            for match in re.finditer(r'https?://\S+|www\.\S+', self.message_area.toPlainText()):
-                url = match.group()
-                self.mark_and_link_url(url)
-
-    def mark_and_link_url(self, url):
-        # Assign name to URL and bind it for click event
-        #start_pos = "1.0"
-        start_pos = 0
-        text = self.message_area.toPlainText()
-
-        while True:
-            #start_index = self.message_area.search(url, start_pos, tk.END)
-            start_index = text.find(url, start_pos)
-            # If there are no other URLs break
-            #if not start_index:
-            if start_index == -1:
-                break
-
-            # Calculating the end of URL
-            #end_index = f"{start_index}+{len(url)}c"
-            end_index = start_index + len(url)
-
-            # Creating an original name for the URL: replacing . with _ to make the name valid
-            #tag_name = f"clickable_{start_index.replace('.', '_')}"
-            cursor = self.message_area.textCursor()
-            cursor.setPosition(start_index)
-            cursor.setPosition(end_index, QTextCursor.KeepAnchor)
-
-            # Name and URL config
-            #self.message_area.tag_add(tag_name, start_index, end_index)
-            #self.message_area.tag_config(tag_name, foreground="blue", underline=True)
-            #self.message_area.tag_bind(tag_name, "<Button-1>", lambda event, u=url: self.open_browser(event, u))
-            char_format = QTextCharFormat()
-            char_format.setForeground(Qt.blue)
-            char_format.setFontUnderline(True)
-
-            cursor.setCharFormat(char_format)
-
-            self.message_area.setTextCursor(cursor)
-            self.message_area.cursorPositionChanged.connect(lambda: self.open_browser(url))
-
-            start_pos = end_index
-
-    def open_browser(self, event, url):
-        # Open web browser when clicking on a URL.
-        try:
-            subprocess.run(["python3", style.get_path("sweb", "sweb.py"), url])
-            self.exit_app()
-        except Exception as e:
-            #webbrowser.open_new(url)
-            QDesktopServices.openUrl(QUrl(url))
-            print("Failed to open sweb. Defaulting to browser.")
+    # def mark_important_data(self):
+    #
+    #     default_color = "white"
+    #     selected_color = "green"
+    #     bg_default_color = "white"
+    #
+    #     #lines = self.message_area.get("1.0", "end-1c").split("\n")
+    #     lines = self.message_area.toPlainText().split("\n")
+    #     words_before_colon = [lines[0][:lines[0].find(":")].strip(),
+    #                           lines[1][:lines[1].find(":")].strip()]
+    #
+    #     # try:
+    #          # for i, word in enumerate(words_before_colon, start=1):
+    #         #     start_index = "1.0"
+    #         #     line_number = i
+    #         #     while True:
+    #         #         line_start = self.message_area.search(word, start_index, stopindex=f"{line_number}.end",
+    #         #                                              nocase=True)
+    #         #         if not line_start:
+    #         #            break
+    #         #         colon_index = int(line_start.split('.')[1]) + len(word)
+    #         #         text_after_colon = self.message_area.get(f"{line_number}.{colon_index + 2}",
+    #         #                                                 f"{line_number}.end")
+    #         #         self.message_area.delete(f"{line_number}.{colon_index + 2}",
+    #         #                                 f"{line_number}.end")
+    #         #         self.message_area.insert(f"{line_number}.{colon_index + 2}",
+    #         #                                 text_after_colon, "color")
+    #         #
+    #         #        start_index = f"{line_number + 1}.0"
+    #         # self.message_area.tag_configure("color", background=selected_color)
+    #
+    #
+    #     # except Exception as e:
+    #     #     print("lag")
+    #     #     print("Error occurred when marking important data: " + str(e))
+    #
+    # def mark_email(self):
+    #
+    #     show = style.load_show_url(style.get_path("sconf", "SMAIL_config.json"))
+    #
+    #     if show == 1:
+    #         # Find all URLs in email and tag them
+    #         #for match in re.finditer(r'https?://\S+|www\.\S+', self.message_area.get("1.0", tk.END)):
+    #         for match in re.finditer(r'https?://\S+|www\.\S+', self.message_area.toPlainText()):
+    #             url = match.group()
+    #             self.mark_and_link_url(url)
+    #
+    # def mark_and_link_url(self, url):
+    #     # Assign name to URL and bind it for click event
+    #     #start_pos = "1.0"
+    #     start_pos = 0
+    #     text = self.message_area.toPlainText()
+    #
+    #     while True:
+    #         #start_index = self.message_area.search(url, start_pos, tk.END)
+    #         start_index = text.find(url, start_pos)
+    #         # If there are no other URLs break
+    #         #if not start_index:
+    #         if start_index == -1:
+    #             break
+    #
+    #         # Calculating the end of URL
+    #         #end_index = f"{start_index}+{len(url)}c"
+    #         end_index = start_index + len(url)
+    #
+    #         # Creating an original name for the URL: replacing . with _ to make the name valid
+    #         #tag_name = f"clickable_{start_index.replace('.', '_')}"
+    #         cursor = self.message_area.textCursor()
+    #         cursor.setPosition(start_index)
+    #         cursor.setPosition(end_index, QTextCursor.KeepAnchor)
+    #
+    #         # Name and URL config
+    #         #self.message_area.tag_add(tag_name, start_index, end_index)
+    #         #self.message_area.tag_config(tag_name, foreground="blue", underline=True)
+    #         #self.message_area.tag_bind(tag_name, "<Button-1>", lambda event, u=url: self.open_browser(event, u))
+    #         char_format = QTextCharFormat()
+    #         char_format.setForeground(Qt.blue)
+    #         char_format.setFontUnderline(True)
+    #
+    #         cursor.setCharFormat(char_format)
+    #
+    #         self.message_area.setTextCursor(cursor)
+    #         self.message_area.cursorPositionChanged.connect(lambda: self.open_browser(url))
+    #
+    #         start_pos = end_index
+    #
+    # def open_browser(self, event, url):
+    #     # Open web browser when clicking on a URL.
+    #     try:
+    #         subprocess.run(["python3", style.get_path("sweb", "sweb.py"), url])
+    #         self.exit_app()
+    #     except Exception as e:
+    #         #webbrowser.open_new(url)
+    #         QDesktopServices.openUrl(QUrl(url))
+    #         print("Failed to open sweb. Defaulting to browser.")
