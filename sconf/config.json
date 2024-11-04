@@ -16,13 +16,13 @@
          "https://www.denik.cz/"
       ],
       "picturePaths":[
-         "../sconf/images/SWEB-EXIT.png",
-         "../sconf/images/SWEB-WWW1.png",
-         "../sconf/images/SWEB-WWW2.png",
-         "../sconf/images/SWEB-WWW3.png",
-         "../sconf/images/SWEB-WWW4.jpg",
-         "../sconf/images/SWEB-WWW5.png",
-         "../sconf/images/SWEB-WWW6.png"
+            "../sconf/icons/exit.png",
+            "../sconf/icons/sweb_www_1.png",
+            "../sconf/icons/sweb_www_2.png",
+            "../sconf/icons/sweb_www_3.png",
+            "../sconf/icons/sweb_www_4.jpg",
+            "../sconf/icons/sweb_www_5.png",
+            "../sconf/icons/sweb_www_6.png"
       ],
       "allowedURL":"../sconf/phish/SWEB-ALLOWED-URL.txt",
       "phishingDatabase":"../sconf/phish/SWEB_PHISH_1.txt",
