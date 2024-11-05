@@ -12,10 +12,10 @@ def config(path):
     try:
         with open(path, "r") as f:
             data = json.load(f)
-        credentials = data["credentials"]
+        credentials = data["smailConfiguration"]
 
-        return (credentials["username"], credentials["password"],
-                credentials["smtp_server"], credentials["smtp_port"])
+        return (credentials["seniorEmail"], credentials["seniorPassword"],
+                credentials["smtpServer"], credentials["smtpPort"])
     except Exception as e:
         print(f"Couldn't load credentials from configuration file: {e}")
         return -1
@@ -23,10 +23,8 @@ def config(path):
 
 
 def send_email(recipient, content):
-
-    login, password, smtp_server, smtp_port = config(os.path.join(os.getcwd().split("smail")[0],
-                                       "sconf/config.json"))
-
+    config_path = os.path.abspath(os.path.join(os.getcwd().split("smail")[0], "sconf/config.json"))
+    login, password, smtp_server, smtp_port = config(config_path)
     date = datetime.datetime.now().strftime("%Y-%m-%d")
     msg = MIMEText(content)
     msg['Subject'] = f"Report, date: {date}"
@@ -35,9 +33,7 @@ def send_email(recipient, content):
 
     try:
         # establishing SMTP connection to the SMTP server
-        with smtplib.SMTP(
-                smtp_server, smtp_port
-        ) as server:
+        with smtplib.SMTP(smtp_server, smtp_port) as server:
             server.starttls(context=ssl.create_default_context())
             server.login(login, password)
             server.sendmail(login, recipient, msg.as_string())
@@ -50,7 +46,7 @@ def send_email(recipient, content):
 
 if __name__ == "__main__":
     if len(sys.argv) != 3:
-        print("Usage: python command_line_mail.py <recipient_email> <email_content>")
+        print("""Usage: python command_line_mail.py <recipient_email> "<email_content>" """)
         sys.exit(1)
 
     recipient_email = sys.argv[1]
