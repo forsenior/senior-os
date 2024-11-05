@@ -11,13 +11,13 @@ class SwebConfiguration:
                                                                 "https://www.aktualne.cz/",
                                                                 "https://www.denik.cz/"])
     
-    picturePaths: List[str] = field(default_factory=lambda: ["../sconf/images/SWEB-EXIT.png",
-                                                             "../sconf/images/SWEB-WWW1.png",
-                                                            "../sconf/images/SWEB-WWW2.png",
-                                                            "../sconf/images/SWEB-WWW3.png",
-                                                            "../sconf/images/SWEB-WWW4.jpg",
-                                                            "../sconf/images/SWEB-WWW5.png",
-                                                            "../sconf/images/SWEB-WWW6.png"])
+    picturePaths: List[str] = field(default_factory=lambda: ["../sconf/icons/exitT.png",
+                                                             "../sconf/icons/sweb_www_1.png",
+                                                            "../sconf/icons/sweb_www_2.png",
+                                                            "../sconf/icons/sweb_www_3.png",
+                                                            "../sconf/icons/sweb_www_4.jpg",
+                                                            "../sconf/icons/sweb_www_5.png",
+                                                            "../sconf/icons/sweb_www_6.png"])
     allowedURL: str = "../sconf/phish/sweb_allowed_url.txt"
     phishingDatabase: str = "../sconf/phish/sweb_phish_1.txt"
     phishingGithubDatabase: str = "https://github.com/mitchellkrogza/Phishing.Database/raw/master/ALL-phishing-domains.tar.gz/"
