@@ -2,7 +2,7 @@
 import os
 import sys
 from pathlib import Path
-from PIL import Image, ImageQt
+#from PIL import Image, ImageQt
 script_directory = Path(__file__).parent
 parent_directory = script_directory.parent
 sys.path.append(str(parent_directory))
