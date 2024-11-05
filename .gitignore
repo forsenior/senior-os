@@ -7,6 +7,8 @@ idea/
 venv/
 .venv/
 
+.vscode/
+
 # Build results of the setuptools for SOS configuration package
 /sconf/src/configuration/build/
 /sconf/src/configuration/configuration.egg-info/
