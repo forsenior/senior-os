@@ -11,9 +11,9 @@ protection_level_conversion = {
 }
 
 full_language_name_conversion = {
-    "German": "de",
-    "English": "en",
-    "Czech": "cz"
+    "German": "De",
+    "English": "Dn",
+    "Czech": "Cz"
 }
 
 

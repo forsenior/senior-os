@@ -3,8 +3,6 @@ import sys
 from PyQt5.QtGui import QFont
 from PyQt5.QtWidgets import QWidget, QVBoxLayout, QHBoxLayout, QPushButton, QStackedWidget
 
-from configuration.configuration_provider import ConfigurationProvider
-from configuration.configuration_writer import ConfigurationWriter
 from ui.styles.global_style_sheets import get_main_window_style, get_default_menu_button_style, \
     get_active_menu_button_style
 from ui.view.global_settings_view import GlobalSettingsView
@@ -13,12 +11,10 @@ from ui.view.sweb_settings_view import WebSettingsView
 
 
 class MainWindow(QWidget):
-    _configurationProvider: ConfigurationProvider
-    _configurationWriter: ConfigurationWriter
     _configurationFolder: str
 
-    def __init__(self, configurationProvider: ConfigurationProvider,
-                 configurationWriter: ConfigurationWriter,
+    def __init__(self, configurationProvider,
+                 configurationWriter,
                  configurationFolder: str):
         super().__init__()
 
