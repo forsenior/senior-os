@@ -61,18 +61,15 @@ py -m pip install -r requirements.txt
 1. Removed the audio assistant successfully from the app.
 2. Updated the app to read configurations from the configuration provider instead of directly from the JSON file.
 3. Enabled background email sending using the secondary app, Smail.
-4. Remove the logger 
+4. Remove the logger
+5. Delete SWEB-config.json and sgive
+   
 
 
 ## Challenges
 
-1. Configuration Management
-   
-   We are still working on switching the app to retrieve all configuration parameters from the configuration provider instead of directly from JSON. Currently, about 80% of the parameters are successfully sourced from the provider.
 
-2. Dependency Removal
-   
-   The goal is to remove all connections between **sweb** and **sgive** for improved modularity and independence.
+
 
 
 
