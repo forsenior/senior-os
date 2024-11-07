@@ -11,7 +11,7 @@ class SwebConfiguration:
                                                                 "https://www.aktualne.cz/",
                                                                 "https://www.denik.cz/"])
     
-    picturePaths: List[str] = field(default_factory=lambda: ["../sconf/icons/exitT.png",
+    picturePaths: List[str] = field(default_factory=lambda: ["../sconf/icons/exit.png",
                                                              "../sconf/icons/sweb_www_1.png",
                                                             "../sconf/icons/sweb_www_2.png",
                                                             "../sconf/icons/sweb_www_3.png",
