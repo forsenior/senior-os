@@ -18,17 +18,17 @@ import sys, os, json, getpass, socket
 from datetime import datetime
 
 # Get the current directory of the script and go one level up
-current_directory = os.path.dirname(os.path.abspath(__file__))
-parent_directory = os.path.dirname(current_directory)
+#current_directory = os.path.dirname(os.path.abspath(__file__))
+#parent_directory = os.path.dirname(current_directory)
 
 # Add the parent directory to sys.path
-sys.path.append(parent_directory)
+#sys.path.append(parent_directory)
 
-from src.url_blocker import URLBlocker
-from src.update_phishing_txt import PhishingDatabaseModificationChecker
-from src.language_translator import Translator
+from sweb.url_blocker import URLBlocker
+from sweb.update_phishing_txt import PhishingDatabaseModificationChecker
+from sweb.language_translator import Translator
 
-import sconf.src.configuration.configuration_provider as dataProvider
+import sconf.configuration.configuration_provider as dataProvider
 CONFIG_FILE_NAME = 'config.json'
 SUBFOLDER_NAME = "sconf"
 
@@ -1055,12 +1055,11 @@ class MyBrowser(QMainWindow):
         self.toolbar_space.setVisible(False)
     
 # Define main function to call application
-if __name__ == "__main__":
-    
-    
+def main():
     current_location = os.getcwd()
     path_split = current_location.split("sweb")
     config_folder = os.path.join(path_split[0], SUBFOLDER_NAME)
+    global _dataProvider
     _dataProvider = dataProvider.ConfigurationProvider(configFileName=CONFIG_FILE_NAME, configStoragePath=config_folder)
     try:
         
@@ -1077,3 +1076,8 @@ if __name__ == "__main__":
         print(f"Error: {excep}")
         sys.exit(1)
     
+
+if __name__ == "__main__":
+   main() 
+    
+   

@@ -1,11 +1,11 @@
 from PyQt5.QtCore import pyqtSlot
 from PyQt5.QtWidgets import QWidget, QLabel, QComboBox, QLineEdit, QGridLayout
 
-from configuration.models.global_configuration import GlobalConfiguration
-from ui.convertors.value_convertors import StringValueConvertors
-from ui.styles.global_style_sheets import get_default_label_style, get_default_input_box_style, \
+from sconf.configuration.models.global_configuration import GlobalConfiguration
+from sconf.ui.convertors.value_convertors import StringValueConvertors
+from sconf.ui.styles.global_style_sheets import get_default_label_style, get_default_input_box_style, \
     get_default_dropdown_style
-from ui.view_models.global_settings_view_model import GlobalViewModel
+from sconf.ui.view_models.global_settings_view_model import GlobalViewModel
 
 
 # TODO: Once initial presentation is done change this to correct binding with the view model

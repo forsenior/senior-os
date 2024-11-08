@@ -3,13 +3,10 @@ import sys
 
 from PyQt5.QtWidgets import QApplication
 
-current_dir = os.path.dirname(os.path.abspath(__file__))
-sconf_src_path = os.path.join(current_dir, '../sconf/src')
-sys.path.append(sconf_src_path)
 
-from src.ui.view.main_window_view import MainWindow
-import src.configuration.configuration_provider as data_provider
-import src.configuration.configuration_writer as data_writer
+from sconf.ui.view.main_window_view import MainWindow
+import sconf.configuration.configuration_provider as data_provider
+import sconf.configuration.configuration_writer as data_writer
 
 
 CONFIG_FILE_NAME = 'config.json'

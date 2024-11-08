@@ -4,11 +4,11 @@ import os.path
 
 from dataclass_wizard import asdict
 
-import configuration.models.global_configuration as global_config
-import configuration.models.smail_configuration as smail_config
-import configuration.models.sweb_configuration as sweb_config
-from configuration.models import sos_configuration
-from decorators.decorators import singleton
+import sconf.configuration.models.global_configuration as global_config
+import sconf.configuration.models.smail_configuration as smail_config
+import sconf.configuration.models.sweb_configuration as sweb_config
+from sconf.configuration.models import sos_configuration
+from sconf.decorators.decorators import singleton
 
 
 @singleton

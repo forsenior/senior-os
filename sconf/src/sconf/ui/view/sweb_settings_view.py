@@ -3,15 +3,15 @@ import os
 from PyQt5.QtCore import pyqtSlot
 from PyQt5.QtWidgets import QWidget, QLabel, QLineEdit, QGridLayout, QPushButton, QComboBox, QTextEdit, QFileDialog
 
-from configuration.models.sweb_configuration import SwebConfiguration
-from ui.components.ui_transformation.transformation import UiElementTransformation
-from ui.convertors.value_convertors import StringValueConvertors
-from ui.convertors.value_validators import Validators
-from ui.styles.global_style_sheets import (get_default_input_box_style,
+from sconf.configuration.models.sweb_configuration import SwebConfiguration
+from sconf.ui.components.ui_transformation.transformation import UiElementTransformation
+from sconf.ui.convertors.value_convertors import StringValueConvertors
+from sconf.ui.convertors.value_validators import Validators
+from sconf.ui.styles.global_style_sheets import (get_default_input_box_style,
                                            get_default_label_style,
                                            get_default_dropdown_style, get_default_settings_button_style,
                                            get_default_settings_text_edit_style, get_error_label_style)
-from ui.view_models.sweb_settings_view_model import SwebViewModel
+from sconf.ui.view_models.sweb_settings_view_model import SwebViewModel
 
 
 # TODO: Once initial presentation is done change this to correct binding with the view model

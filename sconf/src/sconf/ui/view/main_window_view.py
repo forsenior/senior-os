@@ -3,11 +3,11 @@ import sys
 from PyQt5.QtGui import QFont
 from PyQt5.QtWidgets import QWidget, QVBoxLayout, QHBoxLayout, QPushButton, QStackedWidget
 
-from ui.styles.global_style_sheets import get_main_window_style, get_default_menu_button_style, \
+from sconf.ui.styles.global_style_sheets import get_main_window_style, get_default_menu_button_style, \
     get_active_menu_button_style
-from ui.view.global_settings_view import GlobalSettingsView
-from ui.view.smail_settings_view import MailSettingsView
-from ui.view.sweb_settings_view import WebSettingsView
+from sconf.ui.view.global_settings_view import GlobalSettingsView
+from sconf.ui.view.smail_settings_view import MailSettingsView
+from sconf.ui.view.sweb_settings_view import WebSettingsView
 
 
 class MainWindow(QWidget):

@@ -1,4 +1,4 @@
-from configuration.models.smail_configuration import SmailConfiguration
+from sconf.configuration.models.smail_configuration import SmailConfiguration
 
 
 # TODO: Switch to proper implementation using QObject and model change events
