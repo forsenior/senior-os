@@ -2,7 +2,6 @@
 __pycache__/
 *.py[cod]
 
-idea/
 venv/
 .venv/
 
@@ -24,7 +23,6 @@ venv/
 .pytest_cache
 
 .DS_Store
-.idea/*
 .python-version
 .vscode/*
 
