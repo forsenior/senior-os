@@ -13,8 +13,8 @@ packages = [
 python = "^3.12"
 dataclass_wizard = "^0.26.0"
 py3_validate_email = "^1.0.5"
+pyqt5-qt5 = "5.15.2"
 PyQt5 = "^5.15.11"
-PyQt5_sip = "^12.15.0"
 
 [tool.poetry.scripts]
 sconf = "sconf_run:main"
