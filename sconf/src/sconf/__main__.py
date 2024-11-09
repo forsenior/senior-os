@@ -27,8 +27,8 @@ def main():
         window = MainWindow(_dataProvider, _dataWriter, config_folder)
         window.show()
         sys.exit(app.exec_())
-    except:
-        print(f"Exception occurred")
+    except Exception as e:
+        print(f"Exception occurred {e}")
 
 
 if __name__ == '__main__':

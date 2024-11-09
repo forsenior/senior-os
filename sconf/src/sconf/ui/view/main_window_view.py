@@ -1,6 +1,7 @@
 import sys
 
-from PyQt5.QtGui import QFont
+from PyQt5.QtCore import QSize
+from PyQt5.QtGui import QFont, QPixmap, QIcon
 from PyQt5.QtWidgets import QWidget, QVBoxLayout, QHBoxLayout, QPushButton, QStackedWidget
 
 from sconf.ui.styles.global_style_sheets import get_main_window_style, get_default_menu_button_style, \
@@ -39,7 +40,7 @@ class MainWindow(QWidget):
         # Creating the menu buttons
         self.menu_buttons = {
             "Menu": QPushButton("Menu"),
-            "X": QPushButton("X"),
+            "X": QPushButton(""),
             "Global": QPushButton("Global"),
             "Web": QPushButton("Web"),
             "Mail": QPushButton("Mail")
@@ -48,6 +49,12 @@ class MainWindow(QWidget):
         for button in self.menu_buttons.values():
             button.setFixedSize(244, 107)
             self.menu_layout.addWidget(button)
+
+        pixmap_icon = QPixmap(r"../sconf/icons/exit.png")
+        pixmap_icon.scaled(72, 72)
+
+        self.menu_buttons["X"].setIconSize(QSize(72, 72))
+        self.menu_buttons["X"].setIcon(QIcon(pixmap_icon))
 
         self.main_layout.addLayout(self.menu_layout)
 
