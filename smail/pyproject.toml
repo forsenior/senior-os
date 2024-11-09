@@ -1,0 +1,24 @@
+[tool.poetry]
+name = "smail"
+version = "0.1.0"
+description = ""
+authors = ["Marek Fiala <211477@vutbr.cz>"]
+license = "MIT"
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.12"
+chardet = "^5.2.0"
+pillow = "^10.3.0"
+screeninfo = "^0.8.1"
+pyqt5-qt5 = "5.15.2"
+PyQt5 = "^5.15.11"
+dataclass_wizard = "^0.26.0"
+sconf = {path = "../sconf", develop = true }
+
+[tool.poetry.scripts]
+smail = "smail.__main__:main"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

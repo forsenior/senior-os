@@ -1,0 +1,24 @@
+[tool.poetry]
+name = "sconf"
+version = "0.1.0"
+description = ""
+authors = ["Stepan Pijacek <223313@vutbr.cz>"]
+license = "MIT"
+readme = "README.md"
+packages = [
+	{ include = "sconf", from = "src" },
+]
+
+[tool.poetry.dependencies]
+python = "^3.12"
+dataclass_wizard = "^0.26.0"
+py3_validate_email = "^1.0.5"
+pyqt5-qt5 = "5.15.2"
+PyQt5 = "^5.15.11"
+
+[tool.poetry.scripts]
+sconf = "sconf.__main__:main"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

@@ -1,0 +1,29 @@
+[tool.poetry]
+name = "sweb"
+version = "0.1.0"
+description = ""
+authors = ["Tarik Alkanan <221267@vutbr.cz>"]
+license = "MIT"
+readme = "README.md"
+packages = [
+	{ include = "sweb", from = "src"},
+]
+
+[tool.poetry.dependencies]
+python = "^3.12"
+pyqt5-qt5 = "5.15.2"
+pyqt5 = "^5.15.11"
+pillow = "^10.3.0"
+pyqtwebengine-qt5 = "5.15.2"
+pyqtwebengine = "^5.15.7"
+screeninfo = "^0.8.1"
+requests = "^2.31.0"
+dataclass-wizard = "^0.26.0"
+sconf = {path = "../sconf", develop = true }
+
+[tool.poetry.scripts]
+sweb = "sweb.__main__:main"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

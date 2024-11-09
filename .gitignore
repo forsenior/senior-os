@@ -2,8 +2,6 @@
 __pycache__/
 *.py[cod]
 
-.idea/
-idea/
 venv/
 .venv/
 
@@ -13,3 +11,23 @@ venv/
 /sconf/src/configuration/build/
 /sconf/src/configuration/configuration.egg-info/
 /sconf/src/configuration/configuration_sos.egg-info/
+
+
+*.pyc
+
+# Packages
+/dist/*
+
+# Unit test / coverage reports
+.coverage
+.pytest_cache
+
+.DS_Store
+.python-version
+.vscode/*
+
+/docs/site/*
+.mypy_cache
+
+.venv
+/poetry.toml
