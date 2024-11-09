@@ -17,7 +17,7 @@ pyqt5-qt5 = "5.15.2"
 PyQt5 = "^5.15.11"
 
 [tool.poetry.scripts]
-sconf = "sconf_run:main"
+sconf = "sconf.__main__:main"
 
 [build-system]
 requires = ["poetry-core"]
