@@ -2,12 +2,12 @@
 # This method is used for changing language in browser
 class Translator:
     # Create initial function
-    def __init__(self, get_sweb_config):
+    def __init__(self, _dataProvider):
         # Default shortcut for language
         self.language_keys = ["cz","en","de"]
         
-        self.current_language_in_browser = get_sweb_config.default_language
-        self.text = get_sweb_config.text
+        self.current_language_in_browser = _dataProvider.default_language
+        self.text = _dataProvider.text
 
         # Set current language is CZ =0 , EN = 1, DE = 2
         if(self.current_language_in_browser) == "cz":
@@ -31,7 +31,7 @@ class Translator:
     def get_translated_text(self, button_name):
         key_text = f"sweb_{self.current_language_in_browser}_{button_name}"
         #print("text",self.text[1])
-        #return self.get_sweb_config.text
+        #return self._dataProvider.text
         
         if key_text == "sweb_en_menu1":
             return self.text[0]

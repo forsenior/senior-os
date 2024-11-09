@@ -1,7 +1,7 @@
 # Go through all domains in the phishing database
 # If the domain is match, take a blocking
 class URLBlocker:
-    def __init__(self, paths_to_db):
+    def __init__(self, paths_to_db, permitted_website_list):
         self.blocked_urls_database = set()
         # Load file from file path
         # For filepath in paths_to_db:
@@ -27,3 +27,22 @@ class URLBlocker:
                 if blocked_url in input_url:
                     return True
             return False
+    ## This function is used for loading permitted website from sconf
+    def load_permitted_website_from_sconf(self, permitted_website_list):
+        permitted_website_list = set()
+        # Exit when error occurs and print notification to log
+        try:
+            path = permitted_website_list
+            if not path:
+                return ["seznam.cz"]
+            
+            with open(path, 'r') as open_file:
+                content  = open_file.read()
+                reading_website = content.strip().split('\n')
+                permitted_website_list.update(reading_website)
+            open_file.close
+            return permitted_website_list
+        except FileNotFoundError:
+            return ["seznam.cz"]
+        except Exception as e:
+            return ["seznam.cz"]
