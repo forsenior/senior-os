@@ -17,7 +17,7 @@ dataclass_wizard = "^0.26.0"
 sconf = {path = "../sconf", develop = true }
 
 [tool.poetry.scripts]
-smail = "smail_run:main"
+smail = "smail.__main__:main"
 
 [build-system]
 requires = ["poetry-core"]
