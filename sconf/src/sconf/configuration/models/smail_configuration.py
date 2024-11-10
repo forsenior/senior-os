@@ -1,5 +1,5 @@
 from dataclasses import dataclass, field
-from typing import List
+from typing import List, Tuple
 
 
 @dataclass
@@ -47,6 +47,14 @@ class SmailConfiguration:
     imapServer: str = "imap.gmail.com"
     imapPort: int = "993"
     careGiverEmail: str = ""
+    emailContactsV2: List[dict] = field(default_factory=lambda: [
+        {"email1": "sos.smail.person.1@gmail.com", "icon1": "../sconf/icons/smail_person_1.png"},
+        {"email2": "sos.smail.person.2@gmail.com", "icon2": "../sconf/icons/smail_person_2.png"},
+        {"email3": "sos.smail.person.3@gmail.com", "icon3": "../sconf/icons/smail_person_3.png"},
+        {"email4": "sos.smail.person.4@gmail.com", "icon4": "../sconf/icons/smail_person_4.png"},
+        {"email5": "sos.smail.person.5@gmail.com", "icon5": "../sconf/icons/smail_person_5.png"},
+        {"email6": "sos.smail.person.6@gmail.com", "icon6": "../sconf/icons/smail_person_6.png"},
+    ])
     emailContacts: List[str] = field(default_factory=lambda: ["sos.smail.person.1@gmail.com",
                                                               "sos.smail.person.2@gmail.com",
                                                               "sos.smail.person.3@gmail.com",
