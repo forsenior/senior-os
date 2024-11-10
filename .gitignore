@@ -16,8 +16,8 @@ venv/
 *.pyc
 
 # Packages
-/dist/*
-
+dist/*
+dist/
 # Unit test / coverage reports
 .coverage
 .pytest_cache
@@ -30,4 +30,6 @@ venv/
 .mypy_cache
 
 .venv
-/poetry.toml
+poetry.toml
+.idea/
+.idea/*
