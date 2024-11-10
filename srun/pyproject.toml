@@ -1,0 +1,21 @@
+[tool.poetry]
+name = "srun"
+version = "0.1.0"
+description = ""
+authors = ["Štěpán Pijáček <stepan.pijacek@gmail.com>"]
+license = "MIT"
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.12"
+PyQt5-Qt5 = "5.15.2"
+PyQt5 = "^5.15.11"
+dataclass-wizard = "^0.26.0"
+sconf = {path = "../sconf", develop = true }
+
+[tool.poetry.scripts]
+srun = "srun.__main__:main"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

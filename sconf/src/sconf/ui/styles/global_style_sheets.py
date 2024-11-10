@@ -2,7 +2,7 @@ def get_main_window_style():
     return """
         QMainWindow {
             background-color: #FFFFFF;
-            border: 3px solid #000000;
+            border: 1px solid #000000;
             border-radius: 3px;
         }
     """
