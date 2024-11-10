@@ -1,6 +1,6 @@
 import sys
 
-from PyQt5.QtCore import QSize
+from PyQt5.QtCore import QSize, Qt
 from PyQt5.QtGui import QFont, QPixmap, QIcon
 from PyQt5.QtWidgets import QWidget, QVBoxLayout, QHBoxLayout, QPushButton, QStackedWidget
 
@@ -19,6 +19,8 @@ class MainWindow(QWidget):
                  configurationFolder: str):
         super().__init__()
 
+        self.setWindowTitle("SCONF")
+        self.setWindowFlag(Qt.FramelessWindowHint)
         self._configurationProvider = configurationProvider
         self._configurationWriter = configurationWriter
         self._configurationFolder = configurationFolder

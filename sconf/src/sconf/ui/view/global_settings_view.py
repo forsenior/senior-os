@@ -30,14 +30,17 @@ class GlobalSettingsView(QWidget):
         combo_language = QComboBox()
         combo_language.addItems(["English", "German", "Czech"])
         combo_language.setObjectName("language")
-        combo_language.setCurrentText(StringValueConvertors.country_code_to_language(self._globalConfiguration.language))
+        combo_language.setCurrentText(
+            StringValueConvertors.country_code_to_language(self._globalConfiguration.language))
 
-        input_alert_color = QLineEdit(f"Select value of the alert in hex values (current is "
-                                      f"{self._globalConfiguration.alertColor})")
+        input_alert_color = QLineEdit()
+        input_alert_color.setPlaceholderText(f"Select value of the alert in hex values (current is "
+                                             f"{self._globalConfiguration.alertColor})")
         input_alert_color.setObjectName("alertColor")
 
-        input_highlight_color = QLineEdit(f"Select value of the alert in hex values (current is "
-                                          f"{self._globalConfiguration.highlightColor})")
+        input_highlight_color = QLineEdit()
+        input_highlight_color.setPlaceholderText(f"Select value of the alert in hex values (current is "
+                                                 f"{self._globalConfiguration.highlightColor})")
         input_highlight_color.setObjectName("highlightColor")
 
         combo_protection_level = QComboBox()

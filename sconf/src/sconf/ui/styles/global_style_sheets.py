@@ -62,7 +62,7 @@ def get_default_label_style():
         font-size: 20px;
         color: #000000;
         max-width: 261px;
-        max-height: 32px;
+        min-height: 32px;
     }
     """
 
@@ -117,6 +117,8 @@ def get_default_settings_button_style():
             margin-top: 0px;
             margin-right: 0px;
             margin-bottom: 2px;
+            min-width: 256px;
+            max-height: 25px;
         }
     """
 
@@ -130,5 +132,32 @@ def get_default_settings_text_edit_style():
             border-radius: 3px;
             max-width: 513px;
             max-height: 200px;
+        }
+    """
+
+
+def get_default_table_style():
+    return """
+        QTableWidget {
+            background-color: #FFFFFF;          /* Table background color */
+            border: 1px solid #000000;
+            border-radius: 3px;;                /* Gridline color */
+            font-size: 16px;                    /* Text font size */
+            min-width: 513px;
+            max-height: 513px;
+        }
+        QTableWidget::item {                    /* Cell styling */
+            font-size: 16px;
+        }
+        QTableWidget::item:selected {           /* Selected cell styling */
+            background-color: #48843F;
+        }
+        QTableWidget QLineEdit {                /* Style any QLineEdit in the table */
+            font-family: Inter;
+            font-size: 16px;
+            border: 1px solid #000000;
+            border-radius: 3px;
+            max-width: 513px;
+            min-height: 25px;
         }
     """
