@@ -16,7 +16,7 @@ class ConfigurationProvider:
     _configStoragePath: str = ""
     _sosConfiguration: SOSConfiguration
 
-    def __init__(self, configFileName: str, configStoragePath: str):
+    def __init__(self, configFileName: str = 'config.json', configStoragePath: str = os.getcwd()):
         """
         Class providing access to the configuration data of the SOS.
         This class has singleton decorator which should allow existence of only singular instance of this class.
