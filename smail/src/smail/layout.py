@@ -22,6 +22,8 @@ class first_frame(QWidget):
         self.last_selected_index = None
         self.last_selected_email = None
         self.last_selected_button = None
+        self.last_selected_button_index = None
+        self.sensitive_content_warning_displayed = False
         self.allow_show_email = False
         self.button_state = None
         self.alert= False
@@ -169,11 +171,13 @@ class first_frame(QWidget):
         try:
             self.img = style.images(self.data_provider)
 
-            def load_icon(image_path, width=None, height=None):
+            def load_icon(image_path, width=413, height=531):
                 pixmap = QPixmap(image_path)
-                if width and height:
-                    pixmap = pixmap.scaled(width, height)
-                return QIcon(pixmap)
+                if not pixmap.isNull():
+                    pixmap = pixmap.scaled(width, height, aspectRatioMode=Qt.KeepAspectRatio, transformMode=Qt.SmoothTransformation)
+                    return QIcon(pixmap)
+                else:
+                    raise ValueError(f"Failed to load image at {image_path}")
 
             self.exit_image = load_icon(self.img[0])
             self.person1_image = load_icon(self.img[1])
@@ -189,6 +193,10 @@ class first_frame(QWidget):
     def exit_app(self):
         self.close()
         QApplication.quit()
+        QTimer.singleShot(5000, self.force_quit)
+
+    def force_quit(self):
+        print("Force quitting the application after timeout...")
         subprocess.run(["kill", "-9", str(os.getpid())])
 
     def left_panel_setup(self):
@@ -371,11 +379,17 @@ class first_frame(QWidget):
         try:
             self.inbox_list.clearSelection()
             if self.last_selected_button == button:
-                self.disable_fields_for_sending()
-                QTimer.singleShot(100, self.send_email_status)
+                if self.contains_sensitive_data(self.email_content_label_2.toPlainText()):
+                    self.disable_fields_for_sending()
+                    QTimer.singleShot(100, self.send_email_status)
+                else:
+                    self.disable_fields_for_sending()
+                    QTimer.singleShot(100, self.send_email_status)
             else:
                 self.fill_recipient(recipient_index)
+                self.last_selected_button_index = recipient_index
                 self.last_selected_button = button
+                self.sensitive_content_warning_displayed = False
         except Exception as e:
             print(f"An error occurred in decide_action_for_button: {e}")
 
@@ -405,6 +419,10 @@ class first_frame(QWidget):
         except Exception as e:
             print(f"An error occurred in fill_recipient: {e}")
 
+    def is_valid_email(self, email):
+        email_regex = r"(^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$)"
+        return re.match(email_regex, email) is not None
+
     def send_email_status(self):
         missing_info = False
         colors = self.color_scheme
@@ -421,7 +439,10 @@ class first_frame(QWidget):
             print("Recipient was not specified.")
             self.alert_missing_text(self.recipient_info_label_2, default_color, alert_color)
             missing_info = True
-
+        elif not self.is_valid_email(recipient):
+            print("Invalid recipient email address.")
+            self.alert_missing_text(self.recipient_info_label_2, default_color, alert_color)
+            missing_info = True
 
         if not subject:
             print("Email subject is missing.")
@@ -437,6 +458,16 @@ class first_frame(QWidget):
         if missing_info:
             return
 
+        if self.contains_sensitive_data(content):
+            if not self.sensitive_content_warning_displayed:
+                self.alert_sensitive_data()
+                self.sensitive_content_warning_displayed = True
+                return
+            else:
+                print("Sensitive content warning acknowledged. Proceeding with email send.")
+
+
+
         success = send_email(
             recipient, subject, content, login, password, smtp_server, smtp_port
         )
@@ -447,11 +478,12 @@ class first_frame(QWidget):
             self.send_email_fail()
 
     def send_email_success(self):
+        self.sensitive_content_warning_displayed = False
         colors = self.color_scheme
         green_color = colors["green_color"]
         default_color = colors["default_color"]
 
-        self.recipient_info_label_2.clear()
+
         self.recipient_info_label_4.clear()
         self.email_content_label_2.clear()
 
@@ -475,6 +507,7 @@ class first_frame(QWidget):
         QTimer.singleShot(5000, lambda: self.clear_content_entry(default_color, 3))
 
     def send_email_fail(self):
+        self.sensitive_content_warning_displayed = False
         colors = self.color_scheme
         alert_color = colors["alert_color"]
         default_color = colors["default_color"]
@@ -502,33 +535,19 @@ class first_frame(QWidget):
 
         QTimer.singleShot(5000, lambda: self.clear_content_entry(default_color, 3))
 
-    # def clear_content_entry(self, default_color, idx):
-    #     if idx == 3:
-    #         self.email_content_label_2.setReadOnly(False)
-    #         self.recipient_info_label_2.setReadOnly(False)
-    #         self.recipient_info_label_4.setReadOnly(False)
-    #         self.email_content_label_2.clear()
-    #         self.email_content_label_2.setStyleSheet(style.get_email_content_label() + f"background-color: {default_color};")
-    #         self.recipient_info_label_2.setStyleSheet(style.get_label_style() + f"background-color: {default_color};")
-    #         self.recipient_info_label_4.setStyleSheet(style.get_label_style() + f"background-color: {default_color};")
-    #
-    #     elif idx == 2:
-    #         self.email_content_label_2.setReadOnly(False)
-    #         self.recipient_info_label_2.setReadOnly(False)
-    #         self.recipient_info_label_4.setReadOnly(False)
-    #         self.recipient_info_label_2.clear()
-    #         self.email_content_label_2.setStyleSheet(style.get_email_content_label() + f"background-color: {default_color};")
-    #         self.recipient_info_label_2.setStyleSheet(style.get_label_style() + f"background-color: {default_color};")
-    #         self.recipient_info_label_4.setStyleSheet(style.get_label_style() + f"background-color: {default_color};")
-    #
-    #     elif idx == 1:
-    #         self.email_content_label_2.setReadOnly(False)
-    #         self.recipient_info_label_2.setReadOnly(False)
-    #         self.recipient_info_label_4.setReadOnly(False)
-    #         self.recipient_info_label_4.clear()
-    #         self.email_content_label_2.setStyleSheet(style.get_email_content_label() + f"background-color: {default_color};")
-    #         self.recipient_info_label_2.setStyleSheet(style.get_label_style() + f"background-color: {default_color};")
-    #         self.recipient_info_label_4.setStyleSheet(style.get_label_style() + f"background-color: {default_color};")
+    def update_recipient_content(self):
+        try:
+            if not hasattr(self, 'last_selected_button_index') or self.last_selected_button_index is None:
+                print("No valid last selected button index found.")
+                return
+            if not (1 <= self.last_selected_button_index <= 6):
+                return
+            recipient_email = style.search_mail(self.last_selected_button_index, self.data_provider)
+            self.recipient_info_label_2.setPlainText(recipient_email)
+
+        except Exception as e:
+            print(f"An error occurred in update_recipient_content: {e}")
+
     def clear_content_entry(self, default_color, idx):
 
         self.email_content_label_2.setReadOnly(False)
@@ -538,12 +557,12 @@ class first_frame(QWidget):
         if idx == 3:
             self.email_content_label_2.clear()
         elif idx == 2:
-            self.recipient_info_label_2.clear()
+            # self.recipient_info_label_2.clear()
+            self.update_recipient_content()
         elif idx == 1:
             self.recipient_info_label_4.clear()
 
-        self.email_content_label_2.setStyleSheet(
-            style.get_email_content_label() + f"background-color: {default_color};")
+        self.email_content_label_2.setStyleSheet(style.get_email_content_label() + f"background-color: {default_color};")
         self.recipient_info_label_2.setStyleSheet(style.get_label_style() + f"background-color: {default_color};")
         self.recipient_info_label_4.setStyleSheet(style.get_label_style() + f"background-color: {default_color};")
 
@@ -573,98 +592,65 @@ class first_frame(QWidget):
         self.recipient_info_label_4.setStyleSheet(style.get_label_style() +f"background-color: {grey_color};")
         self.email_content_label_2.setStyleSheet(style.get_email_content_label() +f"background-color: {grey_color};")
 
-    # def mark_important_data(self):
-    #
-    #     default_color = "white"
-    #     selected_color = "green"
-    #     bg_default_color = "white"
-    #
-    #     #lines = self.message_area.get("1.0", "end-1c").split("\n")
-    #     lines = self.message_area.toPlainText().split("\n")
-    #     words_before_colon = [lines[0][:lines[0].find(":")].strip(),
-    #                           lines[1][:lines[1].find(":")].strip()]
-    #
-    #     # try:
-    #          # for i, word in enumerate(words_before_colon, start=1):
-    #         #     start_index = "1.0"
-    #         #     line_number = i
-    #         #     while True:
-    #         #         line_start = self.message_area.search(word, start_index, stopindex=f"{line_number}.end",
-    #         #                                              nocase=True)
-    #         #         if not line_start:
-    #         #            break
-    #         #         colon_index = int(line_start.split('.')[1]) + len(word)
-    #         #         text_after_colon = self.message_area.get(f"{line_number}.{colon_index + 2}",
-    #         #                                                 f"{line_number}.end")
-    #         #         self.message_area.delete(f"{line_number}.{colon_index + 2}",
-    #         #                                 f"{line_number}.end")
-    #         #         self.message_area.insert(f"{line_number}.{colon_index + 2}",
-    #         #                                 text_after_colon, "color")
-    #         #
-    #         #        start_index = f"{line_number + 1}.0"
-    #         # self.message_area.tag_configure("color", background=selected_color)
-    #
-    #
-    #     # except Exception as e:
-    #     #     print("lag")
-    #     #     print("Error occurred when marking important data: " + str(e))
-    #
-    # def mark_email(self):
-    #
-    #     show = style.load_show_url(style.get_path("sconf", "SMAIL_config.json"))
-    #
-    #     if show == 1:
-    #         # Find all URLs in email and tag them
-    #         #for match in re.finditer(r'https?://\S+|www\.\S+', self.message_area.get("1.0", tk.END)):
-    #         for match in re.finditer(r'https?://\S+|www\.\S+', self.message_area.toPlainText()):
-    #             url = match.group()
-    #             self.mark_and_link_url(url)
-    #
-    # def mark_and_link_url(self, url):
-    #     # Assign name to URL and bind it for click event
-    #     #start_pos = "1.0"
-    #     start_pos = 0
-    #     text = self.message_area.toPlainText()
-    #
-    #     while True:
-    #         #start_index = self.message_area.search(url, start_pos, tk.END)
-    #         start_index = text.find(url, start_pos)
-    #         # If there are no other URLs break
-    #         #if not start_index:
-    #         if start_index == -1:
-    #             break
-    #
-    #         # Calculating the end of URL
-    #         #end_index = f"{start_index}+{len(url)}c"
-    #         end_index = start_index + len(url)
-    #
-    #         # Creating an original name for the URL: replacing . with _ to make the name valid
-    #         #tag_name = f"clickable_{start_index.replace('.', '_')}"
-    #         cursor = self.message_area.textCursor()
-    #         cursor.setPosition(start_index)
-    #         cursor.setPosition(end_index, QTextCursor.KeepAnchor)
-    #
-    #         # Name and URL config
-    #         #self.message_area.tag_add(tag_name, start_index, end_index)
-    #         #self.message_area.tag_config(tag_name, foreground="blue", underline=True)
-    #         #self.message_area.tag_bind(tag_name, "<Button-1>", lambda event, u=url: self.open_browser(event, u))
-    #         char_format = QTextCharFormat()
-    #         char_format.setForeground(Qt.blue)
-    #         char_format.setFontUnderline(True)
-    #
-    #         cursor.setCharFormat(char_format)
-    #
-    #         self.message_area.setTextCursor(cursor)
-    #         self.message_area.cursorPositionChanged.connect(lambda: self.open_browser(url))
-    #
-    #         start_pos = end_index
-    #
-    # def open_browser(self, event, url):
-    #     # Open web browser when clicking on a URL.
-    #     try:
-    #         subprocess.run(["python3", style.get_path("sweb", "sweb.py"), url])
-    #         self.exit_app()
-    #     except Exception as e:
-    #         #webbrowser.open_new(url)
-    #         QDesktopServices.openUrl(QUrl(url))
-    #         print("Failed to open sweb. Defaulting to browser.")
+    def contains_sensitive_data(self, content):
+        sensitive_keywords = ["password", "username", "heslo", "passwort", "cvc", "cvv"]
+        sensitive_patterns = [
+            r"\b4[0-9]{3}([ -]?[0-9]{4}){2}[0-9]{1,4}\b",  # VISA
+            r"\b5[1-5][0-9]{2}([ -]?[0-9]{4}){3}\b"  # Mastercard
+        ]
+
+        for keyword in sensitive_keywords:
+            if keyword.lower() in content.lower():
+                return True
+
+        for pattern in sensitive_patterns:
+            if re.search(pattern, content):
+                return True
+
+        return False
+
+    def alert_sensitive_data(self):
+        colors = self.color_scheme
+        alert_color = colors["alert_color"]
+        default_color = colors["default_color"]
+
+        original_content = self.email_content_label_2.toPlainText()
+
+        self.email_content_label_2.setReadOnly(False)
+        self.email_content_label_2.clear()
+        self.email_content_label_2.setStyleSheet(style.get_email_content_label() + f"background-color: {alert_color};")
+
+        height = self.email_content_label_2.height()
+        line_height = 32
+        total_lines = max(1, height // line_height)
+        middle_line = total_lines // 2
+        padding = "\n" * (middle_line - 2)
+
+        self.email_content_label_2.insertPlainText(padding)
+        self.email_content_label_2.insertPlainText("Warning: The email contains sensitive information. Press the button a second time to send the email.")
+        # self.email_content_label_2.insertPlainText("Varování: Email obsahuje citlivé údaje. Stisknutím tlačítka podruhé email odešlete.")
+        # self.email_content_label_2.insertPlainText("Warnung: Die E-Mail enthält sensible Daten. Durch erneutes Drücken der Taste wird die E-Mail gesendet.")
+        self.email_content_label_2.setAlignment(Qt.AlignCenter)
+        current_style = style.get_email_content_label()
+        self.email_content_label_2.setStyleSheet(current_style + f"""
+                        background-color: {alert_color};
+                        font-size: 32px;  
+                        font-weight: bold;  
+                    """)
+        self.email_content_label_2.setReadOnly(True)
+
+        QTimer.singleShot(4000, lambda: self.restore_original_content(original_content, default_color))
+
+    def restore_original_content(self, original_content, default_color):
+        self.email_content_label_2.clear()
+        self.email_content_label_2.setStyleSheet(
+            style.get_email_content_label() + f"background-color: {default_color};")
+        self.recipient_info_label_2.setStyleSheet(
+            style.get_label_style() + f"background-color: {default_color};")
+        self.recipient_info_label_4.setStyleSheet(
+            style.get_label_style() + f"background-color: {default_color};")
+        self.email_content_label_2.insertPlainText(original_content)
+        self.email_content_label_2.setReadOnly(False)
+        self.recipient_info_label_2.setReadOnly(False)
+        self.recipient_info_label_4.setReadOnly(False)
+
