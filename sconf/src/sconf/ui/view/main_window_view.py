@@ -19,22 +19,32 @@ class MainWindow(QWidget):
                  configurationFolder: str):
         super().__init__()
 
-        self.setWindowTitle("SCONF")
-        self.setWindowFlag(Qt.FramelessWindowHint)
         self._configurationProvider = configurationProvider
         self._configurationWriter = configurationWriter
         self._configurationFolder = configurationFolder
 
         # Set main window properties
-        self.setWindowTitle("Main Window")
-        self.setFixedSize(1260, 580)
-        self.setStyleSheet(f"""
-                    {get_main_window_style()}
-                    {get_default_menu_button_style()}
-                """)
-        self.setFont(QFont('Inter', 20))
-        # Main layout
-        self.main_layout = QVBoxLayout(self)
+        self.setWindowTitle("SCONF")
+        self.setWindowFlag(Qt.FramelessWindowHint)
+        self.showFullScreen()
+        # Background styling
+        self.setStyleSheet("background-color: #FFFFFF;")  # Background color of the entire screen
+
+        # Outer layout to center the fixed-size main widget
+        outer_layout = QVBoxLayout(self)
+
+        # Central widget that holds the main layout and stays fixed-size
+        central_widget = QWidget()
+        central_widget.setFixedSize(1260, 580)
+        central_widget.setStyleSheet(f"""
+                            {get_main_window_style()}
+                            {get_default_menu_button_style()}
+                            background-color: #F0F0F0;
+                        """)
+        central_widget.setFont(QFont('Inter', 20))
+
+        # Main layout inside the central widget
+        self.main_layout = QVBoxLayout(central_widget)
 
         # Menu layout
         self.menu_layout = QHBoxLayout()
@@ -52,9 +62,7 @@ class MainWindow(QWidget):
             button.setFixedSize(244, 107)
             self.menu_layout.addWidget(button)
 
-        pixmap_icon = QPixmap(r"../sconf/icons/exit.png")
-        pixmap_icon.scaled(72, 72)
-
+        pixmap_icon = QPixmap(r"../sconf/icons/exit.png").scaled(72, 72)
         self.menu_buttons["X"].setIconSize(QSize(72, 72))
         self.menu_buttons["X"].setIcon(QIcon(pixmap_icon))
 
@@ -82,7 +90,14 @@ class MainWindow(QWidget):
         self.menu_buttons["Web"].clicked.connect(self.show_web_view)
         self.menu_buttons["Mail"].clicked.connect(self.show_mail_view)
 
-        self.setLayout(self.main_layout)
+        # Layout adjustments to center central widget
+        outer_layout.addStretch(1)  # Space above central widget
+        h_layout = QHBoxLayout()
+        h_layout.addStretch(1)  # Space to the left
+        h_layout.addWidget(central_widget)
+        h_layout.addStretch(1)  # Space to the right
+        outer_layout.addLayout(h_layout)
+        outer_layout.addStretch(1)  # Space below central widget
 
     # Slot to terminate the application
     # TODO: To implement what is written here

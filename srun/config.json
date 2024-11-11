@@ -1,0 +1,165 @@
+{
+    "initialStartUp": true,
+    "configurationPassword": "",
+    "globalConfiguration": {
+        "language": "en",
+        "colorMode": "light",
+        "alertColor": "",
+        "highlightColor": "",
+        "protectionLevel": 1
+    },
+    "swebConfiguration": {
+        "swebAllowedUrlListV2": [
+            {
+                "url1": "https://irozhlas.cz/",
+                "icon1": "../sconf/icons/sweb_www_1.png"
+            },
+            {
+                "url2": "https://edition.cnn.com/",
+                "icon2": "../sconf/icons/sweb_www_2.png"
+            },
+            {
+                "url3": "https://www.vut.cz/",
+                "icon3": "../sconf/icons/sweb_www_3.png"
+            },
+            {
+                "url4": "https://google.com/",
+                "icon4": "../sconf/icons/sweb_www_4.jpg"
+            },
+            {
+                "url5": "https://www.aktualne.cz/",
+                "icon5": "../sconf/icons/sweb_www_5.png"
+            },
+            {
+                "url6": "https://www.denik.cz/",
+                "icon6": "../sconf/icons/sweb_www_6.png"
+            }
+        ],
+        "urlsForWebsites": [
+            "https://irozhlas.cz/",
+            "https://edition.cnn.com/",
+            "https://www.vut.cz/",
+            "https://google.com/",
+            "https://www.aktualne.cz/",
+            "https://www.denik.cz/"
+        ],
+        "picturePaths": [
+            "../sconf/icons/exit.png",
+            "../sconf/icons/sweb_www_1.png",
+            "../sconf/icons/sweb_www_2.png",
+            "../sconf/icons/sweb_www_3.png",
+            "../sconf/icons/sweb_www_4.jpg",
+            "../sconf/icons/sweb_www_5.png",
+            "../sconf/icons/sweb_www_6.png"
+        ],
+        "allowedURL": "../sconf/phish/sweb_allowed_url.txt",
+        "phishingDatabase": "../sconf/phish/sweb_phish_1.txt",
+        "phishingGithubDatabase": "https://github.com/mitchellkrogza/Phishing.Database/raw/master/ALL-phishing-domains.tar.gz/",
+        "sendPhishingWarning": true,
+        "phishingFormular": true,
+        "seniorWebsitePosting": true,
+        "allowedWebsites": [
+            "https://seznam.cz",
+            "https://google.com",
+            "https://vut.cz"
+        ],
+        "default_language": "cz",
+        "text": [
+            "MENU 1",
+            "MENU 2",
+            "Search",
+            "MENU 1",
+            "MENU 2",
+            "Vyhled\u00e1v\u00e1n\u00ed",
+            "MENU 1",
+            "MENU 2",
+            "Suche"
+        ]
+    },
+    "smailConfiguration": {
+        "seniorEmail": "xfiala59@gmail.com",
+        "seniorPassword": "pafotbpfrrlwvund",
+        "smtpServer": "smtp.gmail.com",
+        "smtpPort": "587",
+        "imapServer": "imap.gmail.com",
+        "imapPort": "993",
+        "careGiverEmail": "",
+        "emailContactsV2": [
+            {
+                "email1": "sos.smail.person.1@gmail.com",
+                "icon1": "../sconf/icons/smail_person_1.png"
+            },
+            {
+                "email2": "sos.smail.person.2@gmail.com",
+                "icon2": "../sconf/icons/smail_person_2.png"
+            },
+            {
+                "email3": "sos.smail.person.3@gmail.com",
+                "icon3": "../sconf/icons/smail_person_3.png"
+            },
+            {
+                "email4": "sos.smail.person.4@gmail.com",
+                "icon4": "../sconf/icons/smail_person_4.png"
+            },
+            {
+                "email5": "sos.smail.person.5@gmail.com",
+                "icon5": "../sconf/icons/smail_person_5.png"
+            },
+            {
+                "email6": "sos.smail.person.6@gmail.com",
+                "icon6": "../sconf/icons/smail_person_6.png"
+            }
+        ],
+        "emailContacts": [
+            "sos.smail.person.1@gmail.com",
+            "sos.smail.person.2@gmail.com",
+            "sos.smail.person.3@gmail.com",
+            "sos.smail.person.4@gmail.com",
+            "sos.smail.person.5@gmail.com",
+            "sos.smail.person.6@gmail.com"
+        ],
+        "emailPicturesPath": [
+            "../sconf/icons/exit.png",
+            "../sconf/icons/smail_person_1.png",
+            "../sconf/icons/smail_person_2.png",
+            "../sconf/icons/smail_person_3.png",
+            "../sconf/icons/smail_person_4.png",
+            "../sconf/icons/smail_person_5.png",
+            "../sconf/icons/smail_person_6.png"
+        ],
+        "sendPhishingWarning": true,
+        "showUrlInEmail": true,
+        "languageSet": {
+            "smailEnSendToButton": "Send To",
+            "smailEnInboxLabel": "Inbox:",
+            "smailEnLoadingInbox": "Loading...",
+            "smailEnRecipientLabel": "To: ",
+            "smailEnSubjectLabel": "Subject: ",
+            "smailEnMessageLabel": "Message: ",
+            "smailEnFrom": "Information: ",
+            "smailEnDate": "Date: ",
+            "smailEnEmailSent": "Email has been sent.",
+            "smailEnEmailFail": "Email has not been sent.",
+            "smailCzSendToButton": "Komu",
+            "smailCzInboxLabel": "Doru\u010den\u00e1 po\u0161ta: ",
+            "smailCzLoadingInbox": "Na\u010d\u00edt\u00e1m...",
+            "smailCzRecipientLabel": "P\u0159\u00edjemce: ",
+            "smailCzSubjectLabel": "P\u0159edm\u011bt: ",
+            "smailCzMessageLabel": "Zpr\u00e1va: ",
+            "smailCzFrom": "Informace: ",
+            "smailCzDate": "Datum: ",
+            "smailCzEmailSent": "E-mail byl \u00fasp\u011b\u0161n\u011b odesl\u00e1n.",
+            "smailCzEmailFail": "E-mail nebyl odesl\u00e1n.",
+            "smailDeSendToButton": "Senden An",
+            "smailDeInboxLabel": "Posteingang: ",
+            "smailDeLoadingInbox": "Laden...",
+            "smailDeRecipientLabel": "An: ",
+            "smailDeSubjectLabel": "Betreff: ",
+            "smailDeMessageLabel": "Nachricht: ",
+            "smailDeFrom": "Information: ",
+            "smailDeDate": "Datum: ",
+            "smailDeEmailSent": "Die E-Mail wurde erfolgreich gesendet.",
+            "smailDeEmailFail": "Die E-Mail wurde nicht gesendet."
+        }
+    }
+}
