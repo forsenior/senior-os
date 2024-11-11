@@ -1,30 +1,28 @@
 import datetime
-import json
 import os
 import smtplib
 import ssl
 import sys
 from email.mime.text import MIMEText
 
+current_dir = os.path.dirname(os.path.abspath(__file__))
+sconf_src_path = os.path.abspath(os.path.join(current_dir, '../../../../sconf/src'))
+sys.path.append(sconf_src_path)
 
-def config(path):
+import sconf.configuration.configuration_provider as dataProvider
 
-    try:
-        with open(path, "r") as f:
-            data = json.load(f)
-        credentials = data["smailConfiguration"]
-
-        return (credentials["seniorEmail"], credentials["seniorPassword"],
-                credentials["smtpServer"], credentials["smtpPort"])
-    except Exception as e:
-        print(f"Couldn't load credentials from configuration file: {e}")
-        return -1
-
+CONFIG_FILE_NAME = 'config.json'
+config_folder = os.path.abspath(os.path.join(current_dir, '../../../../sconf'))
+_dataProvider = dataProvider.ConfigurationProvider(configFileName=CONFIG_FILE_NAME, configStoragePath=config_folder)
 
 
 def send_email(recipient, content):
-    config_path = os.path.abspath(os.path.join(os.getcwd().split("smail")[0], "sconf/config.json"))
-    login, password, smtp_server, smtp_port = config(config_path)
+    smail_config = _dataProvider.get_smail_configuration()
+    login = smail_config.seniorEmail
+    password = smail_config.seniorPassword
+    smtp_server = smail_config.smtpServer
+    smtp_port = smail_config.smtpPort
+
     date = datetime.datetime.now().strftime("%Y-%m-%d")
     msg = MIMEText(content)
     msg['Subject'] = f"Report, date: {date}"
