@@ -1,8 +1,8 @@
 # <p align="center">Návod na použití aplikace SMAIL</p>
 ## Ovládání aplikace:
 Aplikace má hlavní ovládací panel, který obsahuje 5 tlačítek pro jedno menu (celkově 10 tlačítek):  
- ![MENU_1](https://github.com/Marxs31/testing-sos/blob/cc4775e96a10d8273feac5364e4163d0cb4f7499/screens/menu1_bar.png)
- ![MENU_2](https://github.com/Marxs31/testing-sos/blob/cc4775e96a10d8273feac5364e4163d0cb4f7499/screens/menu2_bar.png)
+ ![MENU_1](smail/screens/smail_email_content_cz.png)
+ ![MENU_2](smail/screens/smail_recipient_content_cz.png)
 1.	**Menu** – umožňuje přepínat mezi dvěma různými částmi aplikace (Menu 1 a Menu 2).
 2.	**Červené tlačítko s bílým křížkem** – slouží k ukončení aplikace.
 3.	**Tlačítka s ikonami osob** – slouží k napsání a odeslání zprávy konkrétní osobě. Prvním stisknutím tlačítka otevřete prostředí pro psaní zprávy dané osobě. Opětovným stisknutím tlačítka se zpráva odešle.
