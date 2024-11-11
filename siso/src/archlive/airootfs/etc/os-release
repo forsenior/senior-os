@@ -1,0 +1,8 @@
+NAME="SeniorOS"
+PRETTY_NAME="SeniorOS"
+ID="sos"
+ID_LIKE=arch
+BUILD_ID=rolling
+HOME_URL=https://github.com/forsenior/senior-os
+IMAGE_ID=senioros
+IMAGE_VERSION=`date +%Y-%m-%d`

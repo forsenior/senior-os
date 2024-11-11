@@ -1,0 +1,39 @@
+on:
+  push:
+    paths:
+      - siso/src
+      - .github/**
+
+name: Build ISO
+
+jobs:
+  build:
+    permissions: 
+      contents: write
+    runs-on: ubuntu-24.04
+    container: 
+      image: archlinux
+      options: --privileged
+    steps: 
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Install archiso
+        run: pacman -Sy --noconfirm archiso
+      - name: Build archiso
+        run: mkarchiso -v siso/src/archlive/
+      - name: Upload ISO
+        uses: actions/upload-artifact@v4
+        with:
+          name: senioros-iso
+          path: out/
+
+      - name: Release SeniorOS
+        continue-on-error: true
+        uses: "marvinpinto/action-automatic-releases@latest"
+        with:
+          repo_token: "${{ secrets.GITHUB_TOKEN }}"
+          automatic_release_tag: "latest"
+          prerelease: false
+          title: "Development Build"
+          files: |
+            out/*.iso
