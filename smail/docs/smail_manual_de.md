@@ -1,8 +1,8 @@
 # <p align="center">Benutzerhandbuch für die SMAIL-Anwendung</p>
 ## Steuerung der Anwendung:
 Die Anwendung hat ein Hauptbedienfeld, das 5 Tasten für ein Menü enthält (insgesamt 10 Tasten):  
-![MENU_1](https://github.com/Marxs31/testing-sos/blob/cc4775e96a10d8273feac5364e4163d0cb4f7499/screens/menu1_bar.png)
-![MENU_2](https://github.com/Marxs31/testing-sos/blob/cc4775e96a10d8273feac5364e4163d0cb4f7499/screens/menu2_bar.png)
+![MENU_1](https://github.com/forsenior/senior-os/blob/9bff9c90b000031a42c780d25d145578c3124f72/smail/screens/smail_menu1.png)
+![MENU_2](https://github.com/forsenior/senior-os/blob/9bff9c90b000031a42c780d25d145578c3124f72/smail/screens/smail_menu2.png)
 
 1. **Menü** – ermöglicht das Umschalten zwischen zwei verschiedenen Teilen der Anwendung (Menü 1 und Menü 2).
 2. **Rote Schaltfläche mit weißem Kreuz** – dient zum Beenden der Anwendung.
@@ -11,7 +11,7 @@ Die Anwendung hat ein Hauptbedienfeld, das 5 Tasten für ein Menü enthält (ins
 
 ## Anzeigen von E-Mails:
 • Durch Klicken auf eine beliebige E-Mail in der Liste der empfangenen Nachrichten (Posteingang) wird die ausgewählte Nachricht im Fenster **Information und Nachricht** auf der rechten Seite der Anwendung angezeigt.
-![Email_content](https://github.com/Marxs31/testing-sos/blob/cc4775e96a10d8273feac5364e4163d0cb4f7499/screens/email_content.png)
+![Email_content](https://github.com/forsenior/senior-os/blob/9bff9c90b000031a42c780d25d145578c3124f72/smail/screens/smail_email_content_de.png)
 
 ## Schreiben einer E-Mail:
 1. Um eine E-Mail zu schreiben, wählen Sie die **Personen-Schaltfläche**, an die Sie schreiben möchten, oder verwenden Sie die **An**-Schaltfläche, um die E-Mail-Adresse des Empfängers im **Empfänger**-Feld einzugeben.
@@ -22,4 +22,4 @@ Die Anwendung hat ein Hauptbedienfeld, das 5 Tasten für ein Menü enthält (ins
 6. Bei erfolglosem Senden wird die Meldung **„E-Mail wurde nicht gesendet“** auf rotem Hintergrund angezeigt.
 7. Wenn Sie versuchen, eine Nachricht mit sensiblen Informationen (z. B. Passwörtern oder Kartennummern) zu senden, wird eine Warnmeldung angezeigt. Durch erneutes Drücken der **Personen-Schaltfläche** oder der **An**-Schaltfläche wird die Nachricht, einschließlich der sensiblen Informationen, gesendet.
 
-![Recipient_content](https://github.com/Marxs31/testing-sos/blob/cc4775e96a10d8273feac5364e4163d0cb4f7499/screens/recipient_content.png)
+![Recipient_content](https://github.com/forsenior/senior-os/blob/9bff9c90b000031a42c780d25d145578c3124f72/smail/screens/smail_recipient_content_de.png)
