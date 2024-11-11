@@ -67,6 +67,9 @@ py -m pip install -r requirements.txt
 
 
 ## Challenges
+- curl -sSL https://install.python-poetry.org | python3 -
+- poetry install
+- poetry run sweb
 
 
 
