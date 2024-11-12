@@ -20,7 +20,7 @@ Late seniors and cognitive challenged users encounter difficulties when using co
 
 ## Instructions
 
-Instuctions for development testing
+Instructions for development testing
 
 TODO
  
