@@ -2,13 +2,13 @@
 
 # Senior-OS
 
-Working environment for late seniors and cognitive challenged users
+**This work is in progress and for testing purposes only**
 
-**This work is in progress.**
+Working environment for late seniors and cognitive challenged users (e.g. Alzheimer's disease, Down syndrome)
 
 ## Description
 
-Late seniors and cognitive challenged users encounter difficulties when using common desktop systems and require assistance from their caregivers. They are also easy targets for cyber criminals. This project aims to provide a working environment suitable for such users and improve their security protection.
+Late seniors and cognitive challenged users encounter difficulties when using common desktop systems and require assistance from their caregivers. They are also easy targets for cyber criminals. This project aims to provide a working environment suitable for such users and improve their online security.
 
 ## Key features
 
@@ -17,30 +17,37 @@ Late seniors and cognitive challenged users encounter difficulties when using co
 - Levels of security protection based on user mental ability
 - Caregiver notifications to solve problems quickly
 - Available as live ISO with persistent configuration
+
+## Instructions
+
+Instuctions for development testing
+
+TODO
  
 ## Environment applications
 
 - [Email client](https://github.com/forsenior/senior-os/tree/main/smail) for senior
 - [Web browser](https://github.com/forsenior/senior-os/tree/main/sweb) for senior
-- [Configuraton](https://github.com/forsenior/senior-os/tree/main/sconf) for caregiver
+- [Configuraton](https://github.com/forsenior/senior-os/tree/main/sconf) for senior caregiver
 - [App runner](https://github.com/forsenior/senior-os/tree/main/srun) for senior
+- [Live OS builder](https://github.com/forsenior/senior-os/tree/main/siso) for developers
 
 ## Protection levels
 
 Three protection levels (PL) are provided based on user mental ability
 
-PL-3 Strong Restriction - for users with severe mental impairment, e.g. with dementia
+PL3 Strong - for users with severe mental impairment, e.g. Alzheimer's disease
 
 1. Browsing limited to whitelisted webpages
 2. Receiving and sending emails only to/from whitelisted persons
 
-PL-2 Moderate Restriction - for users with light to medium mental impairment, e.g. Down syndrome
+PL2 Moderate - for users with light to medium mental impairment, e.g. Down syndrome
 
 1. Disabled text input on all webpages, web search allowed
 2. Receiving emails only from whitelisted persons
 3. Red-alert* on sending email with sensitive information (card number, password, address)
 
-PL-1 Light Restriction - for users with online good-practice problems, e.g. late seniors over 90
+PL1 Light - for users with online good-practice problems, e.g. seniors over 90
 
 1. Red-alert* on visiting phishing webpages
 3. Red-alert* on sending email with sensitive information
@@ -49,9 +56,9 @@ PL-1 Light Restriction - for users with online good-practice problems, e.g. late
 
 *Red-alert is strong visual warning
 
-## Visual easy-to-use examples
+## Visual example
 
-TODO
+![Visual example](https://github.com/forsenior/senior-os/blob/main/smail/screens/smail_sensitive_information_alert.png)
 
 ## Student contribution
 
