@@ -2,13 +2,13 @@
 
 [[package]]
 name = "dataclass-wizard"
-version = "0.26.0"
+version = "0.26.1"
 description = "Marshal dataclasses to/from JSON. Use field properties with initial values. Construct a dataclass schema with JSON input."
 optional = false
 python-versions = "*"
 files = [
-    {file = "dataclass-wizard-0.26.0.tar.gz", hash = "sha256:227fa229332a2fcbfc1dca4dc5e090b01f313939f78b078a6f1fd3b5687a98a7"},
-    {file = "dataclass_wizard-0.26.0-py2.py3-none-any.whl", hash = "sha256:5e5821b6010f3c19309c889f6b46e6f50b9c4514a46a5bac42f90c8bbf09345f"},
+    {file = "dataclass-wizard-0.26.1.tar.gz", hash = "sha256:0460c7bd03685896a904d92101b6b65791a7b4a9a1222b921815cf08401f6a1e"},
+    {file = "dataclass_wizard-0.26.1-py2.py3-none-any.whl", hash = "sha256:1fdfb012f3994db0c1b288d24b95ede3d0275833b759d6aeb1d68dfaa0325585"},
 ]
 
 [package.extras]
@@ -68,12 +68,12 @@ all = ["flake8 (>=7.1.1)", "mypy (>=1.11.2)", "pytest (>=8.3.2)", "ruff (>=0.6.2
 
 [[package]]
 name = "py3-validate-email"
-version = "1.0.5.post2"
+version = "1.0.5"
 description = "Email validator with regex, blacklisted domains and SMTP checking."
 optional = false
 python-versions = "*"
 files = [
-    {file = "py3_validate_email-1.0.5.post2-py3-none-any.whl", hash = "sha256:5305f657451d4719471439fa153918b47fd8c350bba0828ebbbe6c4e8207ad48"},
+    {file = "py3-validate-email-1.0.5.tar.gz", hash = "sha256:f935a433665044232bf310f2af809eadec300e71161205418dbcc21a231c44bb"},
 ]
 
 [package.dependencies]
@@ -143,7 +143,27 @@ files = [
     {file = "PyQt5_sip-12.15.0.tar.gz", hash = "sha256:d23fdfcf363b5cedd9d39f8a9c5710e7d52804f5b08a58e91c638b36eafcb702"},
 ]
 
+[[package]]
+name = "setuptools"
+version = "75.3.0"
+description = "Easily download, build, install, upgrade, and uninstall Python packages"
+optional = false
+python-versions = ">=3.8"
+files = [
+    {file = "setuptools-75.3.0-py3-none-any.whl", hash = "sha256:f2504966861356aa38616760c0f66568e535562374995367b4e69c7143cf6bcd"},
+    {file = "setuptools-75.3.0.tar.gz", hash = "sha256:fba5dd4d766e97be1b1681d98712680ae8f2f26d7881245f2ce9e40714f1a686"},
+]
+
+[package.extras]
+check = ["pytest-checkdocs (>=2.4)", "pytest-ruff (>=0.2.1)", "ruff (>=0.5.2)"]
+core = ["importlib-metadata (>=6)", "importlib-resources (>=5.10.2)", "jaraco.collections", "jaraco.functools", "jaraco.text (>=3.7)", "more-itertools", "more-itertools (>=8.8)", "packaging", "packaging (>=24)", "platformdirs (>=4.2.2)", "tomli (>=2.0.1)", "wheel (>=0.43.0)"]
+cover = ["pytest-cov"]
+doc = ["furo", "jaraco.packaging (>=9.3)", "jaraco.tidelift (>=1.4)", "pygments-github-lexers (==0.0.5)", "pyproject-hooks (!=1.1)", "rst.linker (>=1.9)", "sphinx (>=3.5)", "sphinx-favicon", "sphinx-inline-tabs", "sphinx-lint", "sphinx-notfound-page (>=1,<2)", "sphinx-reredirects", "sphinxcontrib-towncrier", "towncrier (<24.7)"]
+enabler = ["pytest-enabler (>=2.2)"]
+test = ["build[virtualenv] (>=1.0.3)", "filelock (>=3.4.0)", "ini2toml[lite] (>=0.14)", "jaraco.develop (>=7.21)", "jaraco.envs (>=2.2)", "jaraco.path (>=3.2.0)", "jaraco.test (>=5.5)", "packaging (>=23.2)", "pip (>=19.1)", "pyproject-hooks (!=1.1)", "pytest (>=6,!=8.1.*)", "pytest-home (>=0.5)", "pytest-perf", "pytest-subprocess", "pytest-timeout", "pytest-xdist (>=3)", "tomli-w (>=1.0.0)", "virtualenv (>=13.0.0)", "wheel (>=0.44.0)"]
+type = ["importlib-metadata (>=7.0.2)", "jaraco.develop (>=7.21)", "mypy (==1.12.*)", "pytest-mypy"]
+
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.12"
-content-hash = "9a69972ea34d1bfe5d29b5bfe3277b7db2dd50469ecdbd503ab4becf96e98831"
+content-hash = "39f5f839ab33a92d9b0a610fbbcb5908db45953f8dc81c6f0dcf8bc58ff5c38d"

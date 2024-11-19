@@ -24,7 +24,7 @@ class ConfigurationProvider:
         :param configStoragePath: Expected folder path from which the configuration can be loaded into memory
         """
         self._configFileName = configFileName
-        self._configStoragePath = configStoragePath
+        self._configStoragePath = '../sconf'
 
         self.__load_configuration()
 

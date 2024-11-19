@@ -22,3 +22,24 @@ def get_default_start_button_style():
                 background-color: #48843F;
             }
         """
+
+
+def get_default_center_widget_style():
+    return """
+            QWidget{
+                background-color: #F0F0F0;
+                border: 1px solid #000000;
+                border-radius: 3px;
+            }
+        """
+
+
+def get_default_dialog_style():
+    return """
+            QDialog{
+                background-color: #f0f0f0;
+                border: 2px solid #444;
+                border-radius: 10px;
+                font-family: 'Inter';
+            }
+        """

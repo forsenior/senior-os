@@ -23,7 +23,7 @@ class ConfigurationWriter:
         :param configStoragePath: Expected folder path from which the configuration can be loaded into memory
         """
         self._configFileName = configFileName
-        self._configStoragePath = configStoragePath
+        self._configStoragePath = '../sconf'
 
         self.__validate_and_create_default_config()
 
