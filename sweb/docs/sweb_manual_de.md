@@ -6,5 +6,5 @@ Die Anwendung verfügt über ein Hauptbedienfeld mit 5 Tasten pro Menü (insgesa
 1. **Menü** - ermöglicht es Ihnen, zwischen zwei verschiedenen Teilen der Anwendung zu wechseln (Menü 1 und Menü 2).
 2.	**Rote Taste mit weißem Kreuz** - dient zum Beenden der Anwendung.
 3.	**Schaltflächen mit Website-Symbolen** - schneller Zugang zu einer bestimmten Website, ein Klick und die Website öffnet sich auf dem Bildschirm. 
-4.	Schaltfläche **Suchen** - öffnet ein leeres Feld, in das der Benutzer eine beliebige Webadresse eingeben kann.
+4.	**Schaltfläche "Suchen"** - öffnet ein leeres Feld, in das der Benutzer eine beliebige Webadresse eingeben kann.
 ## Anzeige der Phishing-Erkennung:
