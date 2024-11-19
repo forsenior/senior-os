@@ -1,4 +1,4 @@
-<p align=„center“>Wie man SWEB benutzt</p>
+# <p align="center">Anleitung zur Nutzung der SWEB</p>
 ## Steuerung der Anwendung:
 Die Anwendung verfügt über ein Hauptbedienfeld mit 5 Tasten pro Menü (insgesamt 10 Tasten): 
 ![MENU_1](https://github.com/forsenior/senior-os/blob/main/sweb/screens/sweb_menu1.png)
