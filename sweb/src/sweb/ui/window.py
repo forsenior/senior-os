@@ -9,7 +9,7 @@ from PyQt5.QtWidgets import QSizePolicy
 from PyQt5.QtWebChannel import QWebChannel
 
 from sweb.utils.url_blocker import URLBlocker
-from sweb.phish.update_phishing_txt import PhishingDatabaseModificationChecker
+from sweb.phish.update_phishing import PhishingDatabaseModificationChecker
 from sweb.language.language_translator import Translator
 from sweb.utils.monitor_provider import GetMonitorHeightAndWidth
 from sweb.phish.notification_email import NotificationFillTextToPhishing
