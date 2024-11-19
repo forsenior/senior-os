@@ -24,7 +24,7 @@
             },
             {
                 "url4": "https://google.com/",
-                "icon4": "../sconf/icons/sweb_www_4.jpg"
+                "icon4": "../sconf/icons/sweb_www_4.png"
             },
             {
                 "url5": "https://www.aktualne.cz/",
@@ -39,7 +39,7 @@
             "https://irozhlas.cz/",
             "https://edition.cnn.com/",
             "https://www.vut.cz/",
-            "https://google.com/",
+            "https://www.info-zdravi.cz/",
             "https://www.aktualne.cz/",
             "https://www.denik.cz/"
         ],
@@ -48,7 +48,7 @@
             "../sconf/icons/sweb_www_1.png",
             "../sconf/icons/sweb_www_2.png",
             "../sconf/icons/sweb_www_3.png",
-            "../sconf/icons/sweb_www_4.jpg",
+            "../sconf/icons/sweb_www_4.png",
             "../sconf/icons/sweb_www_5.png",
             "../sconf/icons/sweb_www_6.png"
         ],
