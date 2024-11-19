@@ -1,4 +1,4 @@
-# <p align="center">Instructions for using the SWEB app</p>
+# <p align="center">Instructions for using the SWEB</p>
 ## Controlling the application:
 The application has a main control panel that contains 5 buttons per menu (10 buttons in total):  
  ![MENU_1](https://github.com/forsenior/senior-os/blob/main/sweb/screens/sweb_menu1.png)
