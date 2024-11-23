@@ -21,7 +21,7 @@ jobs:
       - name: Build archiso
         run: |
           mkarchiso -v siso/src/archlive/
-          mv out/archlinux** "senioros-`date +%Y-%m-%dT%H_%M`.iso"
+          mv out/archlinux** "out/senioros-`date +%Y-%m-%dT%H_%M`.iso"
       - name: Upload ISO
         uses: actions/upload-artifact@v4
         with:
