@@ -23,6 +23,10 @@ class MainWindow(QWidget):
         self._configurationWriter = configurationWriter
         self._configurationFolder = configurationFolder
 
+        global_configuration = configurationProvider.get_global_configuration()
+        sweb_configuration = configurationProvider.get_sweb_configuration()
+        smail_configuration = configurationProvider.get_smail_configuration()
+
         # Set main window properties
         self.setWindowTitle("SCONF")
         self.setWindowFlag(Qt.FramelessWindowHint)
@@ -72,9 +76,9 @@ class MainWindow(QWidget):
         self.stacked_widget = QStackedWidget()
 
         # Creating views for different sections
-        self.global_view = GlobalSettingsView(configurationProvider.get_global_configuration())
-        self.web_view = WebSettingsView(configurationProvider.get_sweb_configuration(), configurationFolder)
-        self.mail_view = MailSettingsView(configurationProvider.get_smail_configuration(), configurationFolder)
+        self.global_view = GlobalSettingsView(global_configuration, sweb_configuration, smail_configuration)
+        self.web_view = WebSettingsView(sweb_configuration, configurationFolder)
+        self.mail_view = MailSettingsView(smail_configuration, configurationFolder)
 
         # Adding views to the stacked widget
         self.stacked_widget.addWidget(self.global_view)  # Index 0

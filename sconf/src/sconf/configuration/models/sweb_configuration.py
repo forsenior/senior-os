@@ -32,9 +32,8 @@ class SwebConfiguration:
     sendPhishingWarning: bool = True
     phishingFormular: bool = True
     seniorWebsitePosting: bool = True
-    allowedWebsites: List[str] = field(default_factory=lambda: ["https://seznam.cz",
-                                                                "https://google.com",
-                                                                "https://vut.cz"])
+    whiteListedWebsitesOnly: bool = False
+    allowWebSearch: bool = True
     default_language: str = "cz"
     text: List[str] = field(default_factory=lambda: ["MENU 1",
                                                      "MENU 2",

@@ -17,6 +17,7 @@ pyqt5-qt5 = "5.15.2"
 PyQt5 = "5.15.11"
 pyqt5-sip = "12.15.0"
 setuptools = "75.3.0"
+vcolorpicker = "1.4.4"
 
 [tool.poetry.scripts]
 sconf = "sconf.__main__:main"

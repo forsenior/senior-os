@@ -70,4 +70,6 @@ class SmailConfiguration:
                                                                   "../sconf/icons/smail_person_6.png"])
     sendPhishingWarning: bool = True
     showUrlInEmail: bool = True
+    receiveWhitelistedEmailsOnly: bool = False
+    sendWhitelistedEmailsOnly: bool = False
     languageSet: LanguageSet = field(default_factory=lambda: LanguageSet())

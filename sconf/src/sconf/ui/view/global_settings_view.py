@@ -1,7 +1,11 @@
 from PyQt5.QtCore import pyqtSlot
 from PyQt5.QtWidgets import QWidget, QLabel, QComboBox, QLineEdit, QGridLayout
 
+from vcolorpicker import getColor, hex2rgb, rgb2hex
+
 from sconf.configuration.models.global_configuration import GlobalConfiguration
+from sconf.configuration.models.smail_configuration import SmailConfiguration
+from sconf.configuration.models.sweb_configuration import SwebConfiguration
 from sconf.ui.convertors.value_convertors import StringValueConvertors
 from sconf.ui.styles.global_style_sheets import get_default_label_style, get_default_input_box_style, \
     get_default_dropdown_style
@@ -13,12 +17,15 @@ class GlobalSettingsView(QWidget):
     _globalViewModel: GlobalViewModel
     _globalConfiguration: GlobalConfiguration
 
-    def __init__(self, global_configuration: GlobalConfiguration):
+    def __init__(self, global_configuration: GlobalConfiguration,
+                 sweb_configuration: SwebConfiguration,
+                 smail_configuration: SmailConfiguration
+                 ):
         super().__init__()
         # Create layout for labels and input fields
         grid_layout = QGridLayout()
         self._globalConfiguration = global_configuration
-        self._globalViewModel = GlobalViewModel(global_configuration)
+        self._globalViewModel = GlobalViewModel(global_configuration, sweb_configuration, smail_configuration)
 
         # Labels
         label_language = QLabel("Language")
@@ -34,14 +41,16 @@ class GlobalSettingsView(QWidget):
             StringValueConvertors.country_code_to_language(self._globalConfiguration.language))
 
         input_alert_color = QLineEdit()
-        input_alert_color.setPlaceholderText(f"Select value of the alert in hex values (current is "
+        input_alert_color.setPlaceholderText(f"Select value of the alert in hex values (current is #"
                                              f"{self._globalConfiguration.alertColor})")
         input_alert_color.setObjectName("alertColor")
+        input_alert_color.mousePressEvent = self.__on_alert_color_clicked
 
         input_highlight_color = QLineEdit()
-        input_highlight_color.setPlaceholderText(f"Select value of the alert in hex values (current is "
+        input_highlight_color.setPlaceholderText(f"Select value of the highlight in hex values (current is #"
                                                  f"{self._globalConfiguration.highlightColor})")
         input_highlight_color.setObjectName("highlightColor")
+        input_highlight_color.mousePressEvent = self.__on_highlight_color_clicked
 
         combo_protection_level = QComboBox()
         combo_protection_level.addItems(["PL1", "PL2", "PL3"])
@@ -92,3 +101,17 @@ class GlobalSettingsView(QWidget):
             print(StringValueConvertors.language_to_country_code(sender.currentText()))
             self._globalViewModel.update_model(sender.objectName(),
                                                StringValueConvertors.language_to_country_code(sender.currentText()))
+
+    def __on_alert_color_clicked(self, event):
+        picked_color = getColor(hex2rgb(self._globalConfiguration.alertColor))
+        print(rgb2hex(picked_color))
+
+        self._globalViewModel.update_model("alertColor",
+                                           rgb2hex(picked_color))
+
+    def __on_highlight_color_clicked(self, event):
+        picked_color = getColor(hex2rgb(self._globalConfiguration.highlightColor))
+        print(rgb2hex(picked_color))
+
+        self._globalViewModel.update_model("highlightColor",
+                                           rgb2hex(picked_color))

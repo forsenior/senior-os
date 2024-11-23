@@ -48,17 +48,6 @@ class WebSettingsView(QWidget):
         self.urls_list_line_edit = QLineEdit(f"Click to edit the list of base websites")
         self.urls_list_line_edit.mousePressEvent = self.show_table
 
-        self.allowed_website_posting = QLineEdit("")
-        self.allowed_website_posting.setPlaceholderText(f"Click to edit the list of allowed websites for senior actions"
-                                                        f"(use coma to separate)")
-        self.allowed_website_posting.mousePressEvent = self.__allowed_websites_clicked_handler
-
-        self.allowed_website_posting_text_edit = QTextEdit(f"{StringValueConvertors.list_to_plain_text(
-            self._swebConfiguration.allowedWebsites)}")
-        self.allowed_website_posting_text_edit.setObjectName("allowedWebsites")
-        self.allowed_website_posting_text_edit.setVisible(False)
-        self.allowed_website_posting_text_edit.focusOutEvent = self.__allowed_website_posting_focus_out_handler
-
         # Table widget for URLs and icons (initially hidden)
         self.url_table = QTableWidget(6, 2)
         self.url_table.setHorizontalHeaderLabels(["URL", "Icon"])
@@ -102,13 +91,8 @@ class WebSettingsView(QWidget):
         grid_layout.addWidget(self.save_button, 1, 1)
         grid_layout.addWidget(self.cancel_button, 1, 2)
 
-        grid_layout.addWidget(label_allowed_website_posting, 2, 0)
-        grid_layout.addWidget(self.allowed_website_posting, 2, 1)
-        grid_layout.addWidget(self.allowed_website_posting_text_edit, 2, 1)
-
         grid_layout.addWidget(self.label_error, 3, 1)
 
-        self.allowed_website_posting.textChanged.connect(self.__on_input_change)
         self.save_button.clicked.connect(self.save_entries)
         self.cancel_button.clicked.connect(self.cancel_entries)
 
@@ -178,33 +162,3 @@ class WebSettingsView(QWidget):
 
         self._swebViewModel.update_model("picturePaths",
                                          selected_files)
-
-    def __allowed_websites_clicked_handler(self, event):
-        UiElementTransformation.expand_widget(line_edit=self.allowed_website_posting,
-                                              text_edit=self.allowed_website_posting_text_edit)
-
-    def __allowed_website_posting_focus_out_handler(self, event):
-        UiElementTransformation.collapse_widget(line_edit=self.allowed_website_posting,
-                                                text_edit=self.allowed_website_posting_text_edit)
-
-        failing_url = ""
-
-        for url in StringValueConvertors.plain_text_to_list(self.allowed_website_posting_text_edit.toPlainText()):
-            if Validators.validate_url(url):
-                self._errorInTextInput = False
-                continue
-            else:
-                self._errorInTextInput = True
-                failing_url = url
-                break
-
-        if self._errorInTextInput:
-            self.label_error.setStyleSheet(get_error_label_style())
-            self.label_error.setText(f"Url is incorrect: {failing_url}")
-            self.label_error.setVisible(True)
-            return
-
-        self.label_error.setVisible(False)
-        self._swebViewModel.update_model(self.allowed_website_posting_text_edit.objectName(),
-                                         StringValueConvertors.plain_text_to_list(
-                                             self.allowed_website_posting_text_edit.toPlainText()))

@@ -24,7 +24,7 @@
             },
             {
                 "url4": "https://google.com/",
-                "icon4": "../sconf/icons/sweb_www_4.png"
+                "icon4": "../sconf/icons/sweb_www_4.jpg"
             },
             {
                 "url5": "https://www.aktualne.cz/",
@@ -53,16 +53,13 @@
             "../sconf/icons/sweb_www_6.png"
         ],
         "allowedURL": "../sconf/phish/sweb_allowed_url.txt",
-        "phishingDatabase": "../sconf/phish/sweb_phish_1.txt",
+        "phishingDatabase": "../sconf/phish/sweb_phish.txt",
         "phishingGithubDatabase": "https://github.com/mitchellkrogza/Phishing.Database/raw/master/ALL-phishing-domains.tar.gz/",
         "sendPhishingWarning": true,
         "phishingFormular": true,
         "seniorWebsitePosting": true,
-        "allowedWebsites": [
-            "https://seznam.cz",
-            "https://google.com",
-            "https://vut.cz"
-        ],
+        "whiteListedWebsitesOnly": false,
+        "allowWebSearch": true,
         "default_language": "cz",
         "text": [
             "MENU 1",
@@ -129,6 +126,8 @@
         ],
         "sendPhishingWarning": true,
         "showUrlInEmail": true,
+        "receiveWhitelistedEmailsOnly": false,
+        "sendWhitelistedEmailsOnly": false,
         "languageSet": {
             "smailEnSendToButton": "Send To",
             "smailEnInboxLabel": "Inbox:",
