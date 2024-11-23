@@ -19,7 +19,9 @@ jobs:
       - name: Install archiso
         run: pacman -Sy --noconfirm archiso
       - name: Build archiso
-        run: mkarchiso -v siso/src/archlive/
+        run: |
+          mkarchiso -v siso/src/archlive/
+          mv out/archlinux** "senioros-`date +%Y-%m-%dT%H_%M`.iso"
       - name: Upload ISO
         uses: actions/upload-artifact@v4
         with:
@@ -32,7 +34,7 @@ jobs:
         with:
           repo_token: "${{ secrets.GITHUB_TOKEN }}"
           automatic_release_tag: "latest"
-          prerelease: false
-          title: "Development Build"
+          prerelease: true
+          title: "SeniorOS ${{ github.event.repository.updated_at}}"
           files: |
             out/*.iso
