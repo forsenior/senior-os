@@ -2,7 +2,7 @@
 ## Steuerung der Anwendung:
 Die Anwendung hat ein Hauptbedienfeld, das 5 Tasten für ein Menü enthält (insgesamt 10 Tasten):  
 ![MENU_1](https://github.com/forsenior/senior-os/blob/9bff9c90b000031a42c780d25d145578c3124f72/smail/screens/smail_menu1.png)
-![MENU_2](https://github.com/forsenior/senior-os/blob/9bff9c90b000031a42c780d25d145578c3124f72/smail/screens/smail_menu2_de.png)
+![MENU_2](https://github.com/forsenior/senior-os/blob/6ed25503ef5409289168d4070c293365d3fb11ac/smail/screens/smail_menu2_de.png)
 
 1. **Menü** – ermöglicht das Umschalten zwischen zwei verschiedenen Teilen der Anwendung (Menü 1 und Menü 2).
 2. **Rote Schaltfläche mit weißem Kreuz** – dient zum Beenden der Anwendung.
