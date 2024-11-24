@@ -19,14 +19,6 @@ from datetime import datetime
 
 # details of error
 import traceback
-
-# Get the current directory of the script and go one level up
-#current_directory = os.path.dirname(os.path.abspath(__file__))
-#parent_directory = os.path.dirname(current_directory)
-
-# Add the parent directory to sys.path
-#sys.path.append(parent_directory)
-
 from sweb.ui.window import MyBrowser
 from sweb.utils.monitor_provider import GetMonitorHeightAndWidth
 from sweb.phish.notification_email import NotificationFillTextToPhishing
@@ -57,7 +49,7 @@ def main():
         # If browser is opened in command terminal
         input_url_from_terminal = sys.argv[1] if len(sys.argv) > 1 else "https://vut.cz"
         # Load config data from JSON file
-        main_window = MyBrowser(input_url_from_terminal,_dataProvider.get_sweb_configuration()) # Set parametr for main browser window
+        main_window = MyBrowser(input_url_from_terminal,_dataProvider.get_sweb_configuration(),_dataProvider.get_global_configuration()) # Set parametr for main browser window
         main_window.resize(1700, 1100)
         main_window.show() 
         main_window.show_app_full_screen() # Call main browser window, this set the full screen.
