@@ -24,8 +24,8 @@ Aplikace má hlavní ovládací panel, který obsahuje 5 tlačítek pro jedno me
 ## Upozornění na detekci phishingu:
 
 - **Detekce phishingu:**
-. Zadání adresy URL nebo návštěva webu: Při zadávání adresy URL nebo návštěvě webové stránky systém zkontroluje, zda je adresa URL uvedena na černé listině nebo zda je prostřednictvím neuronové sítě detekována jako phishingová.
+   - Zadání adresy URL nebo návštěva webu: Při zadávání adresy URL nebo návštěvě webové stránky systém zkontroluje, zda je adresa URL uvedena na černé listině nebo zda je prostřednictvím neuronové sítě detekována jako phishingová.
 - **Mechanismus upozornění:**
-. Pokud je detekována potenciální hrozba phishingu, tlačítko na panelu nabídky změní barvu na červenou, aby uživatele upozornilo na potenciální nebezpečí.
+   - Pokud je detekována potenciální hrozba phishingu, tlačítko na panelu nabídky změní barvu na červenou, aby uživatele upozornilo na potenciální nebezpečí.
 - **Ignorování výstrahy:**
-. Pokud uživatel ignoruje červené upozornění a pokračuje v zadávání jakýchkoli údajů na webové stránce, aplikace automaticky odešle e-mailové upozornění opatrovníkovi, aby ho informovala o podezřelé aktivitě.
+   - Pokud uživatel ignoruje červené upozornění a pokračuje v zadávání jakýchkoli údajů na webové stránce, aplikace automaticky odešle e-mailové upozornění opatrovníkovi, aby ho informovala o podezřelé aktivitě.
