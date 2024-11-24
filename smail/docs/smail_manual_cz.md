@@ -2,7 +2,7 @@
 ## Ovládání aplikace:
 Aplikace má hlavní ovládací panel, který obsahuje 5 tlačítek pro jedno menu (celkově 10 tlačítek):  
  ![MENU_1](https://github.com/forsenior/senior-os/blob/3daeb1fbd1593ab65548e5757ea4223c1d4c719e/smail/screens/smail_menu1.png)
- ![MENU_2](https://github.com/forsenior/senior-os/blob/3daeb1fbd1593ab65548e5757ea4223c1d4c719e/smail/screens/smail_menu2.png)
+ ![MENU_2](https://github.com/forsenior/senior-os/blob/3daeb1fbd1593ab65548e5757ea4223c1d4c719e/smail/screens/smail_menu2_cz.png)
 1.	**Menu** – umožňuje přepínat mezi dvěma různými částmi aplikace (Menu 1 a Menu 2).
 2.	**Červené tlačítko s bílým křížkem** – slouží k ukončení aplikace.
 3.	**Tlačítka s ikonami osob** – slouží k napsání a odeslání zprávy konkrétní osobě. Prvním stisknutím tlačítka otevřete prostředí pro psaní zprávy dané osobě. Opětovným stisknutím tlačítka se zpráva odešle.
