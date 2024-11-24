@@ -21,4 +21,14 @@ The application has a main control panel that contains 5 buttons per menu (10 bu
 1. **Opening via Menu:** Click any button or icon in Menu 1/2 to directly open the website.
 2. **No Search:** The search button will be disabled, and search functionality is not available at this protection level.
 
-## Display phishing detection:
+## Phishing Detection Alert
+- **Phishing Detection:**
+   - Entering URL or Visiting a Site: When the user enters a URL or visits a website, the system checks if the URL is listed in the blacklist or if it is detected through the neural network for phishing.
+
+- **Alert Mechanism:**
+   - If a potential phishing threat is detected, the button on the menu bar will change color to red to alert the user about the potential danger.
+
+- **Ignoring the Alert:**
+   - If the user ignores the red alert and proceeds to enter any data on the website, the app will automatically send an email notification to the guardian to inform them about the suspicious activity.
+
+ ![MENU_2](https://github.com/forsenior/senior-os/blob/main/sweb/screens/sweb_phishing_en.png)
