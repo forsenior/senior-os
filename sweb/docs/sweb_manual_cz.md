@@ -30,3 +30,5 @@ Aplikace má hlavní ovládací panel, který obsahuje 5 tlačítek pro jedno me
 - **Ignorování výstrahy:**
    - Pokud uživatel ignoruje červené upozornění a pokračuje v zadávání jakýchkoli údajů na webové stránce, aplikace automaticky odešle e-mailové upozornění opatrovníkovi, aby ho informovala o podezřelé aktivitě.
 
+ ![phishing](https://github.com/forsenior/senior-os/blob/main/sweb/screens/sweb_phishing_cz.png)
+
