@@ -10,8 +10,8 @@ Aplikace má hlavní ovládací panel, který obsahuje 5 tlačítek pro jedno me
 
 ## Otevření webové stránky
 - **Úroveň ochrany 1: Základní ochrana**
-   1. Otevření prostřednictvím nabídky: Kliknutím na libovolné tlačítko nebo ikonu v MENU 1/2 otevřete webovou stránku přímo.
-   2. Otevření prostřednictvím vyhledávání: Otevřete webovou stránku pomocí vyhledávání. Klikněte na tlačítko vyhledávání, zadejte hledaný text a zadání bude zkontrolováno podle blacklistu a detekce phishingu pomocí neuronové sítě.
+1. Otevření prostřednictvím nabídky: Kliknutím na libovolné tlačítko nebo ikonu v MENU 1/2 otevřete webovou stránku přímo.
+2. 2. Otevření prostřednictvím vyhledávání: Otevřete webovou stránku pomocí vyhledávání. Klikněte na tlačítko vyhledávání, zadejte hledaný text a zadání bude zkontrolováno podle blacklistu a detekce phishingu pomocí neuronové sítě.
 
 - **Úroveň ochrany 2: Zvýšená ochrana**
    1. Otevření prostřednictvím nabídky: Kliknutím na libovolné tlačítko nebo ikonu v MENU 1/2 se webová stránka otevře přímo.
