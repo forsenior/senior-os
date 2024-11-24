@@ -53,7 +53,7 @@
             "../sconf/icons/sweb_www_6.png"
         ],
         "allowedURL": "../sconf/phish/sweb_allowed_url.txt",
-        "phishingDatabase": "../sconf/phish/sweb_phish_1.txt",
+        "phishingDatabase": "../sconf/phish/sweb_phish.txt",
         "phishingGithubDatabase": "https://github.com/mitchellkrogza/Phishing.Database/raw/master/ALL-phishing-domains.tar.gz/",
         "sendPhishingWarning": true,
         "phishingFormular": true,
