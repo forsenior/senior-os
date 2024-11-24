@@ -21,4 +21,15 @@ Die Anwendung verfügt über ein Hauptbedienfeld mit 5 Tasten pro Menü (insgesa
 1. **Openen via menu:** Klik op een knop of pictogram in Menu 1/2 om de website direct te openen.
 2. **Geen zoekopdracht:** De zoekknop wordt uitgeschakeld en de zoekfunctie is niet beschikbaar op dit beschermingsniveau.
    
-## Anzeige der Phishing-Erkennung:
+## Waarschuwing voor phishingdetectie
+
+- Phishing-detectie:
+    - URL invoeren of website bezoeken: Wanneer de gebruiker een URL invoert of een website bezoekt, controleert het systeem of de URL is opgenomen in de zwarte lijst of via het neurale netwerk is gedetecteerd voor phishing.
+
+- **Waarschuwingsmechanisme:**
+    - Als een potentiële phishing-bedreiging wordt gedetecteerd, verandert de knop op de menubalk van kleur in rood om de gebruiker te waarschuwen voor het potentiële gevaar.
+
+- **De waarschuwing negeren:**
+    - Als de gebruiker de rode waarschuwing negeert en doorgaat met het invoeren van gegevens op de website, stuurt de app automatisch een e-mailmelding naar de bewaker om hen te informeren over de verdachte activiteit.
+
+![phishing](https://github.com/forsenior/senior-os/blob/main/sweb/screens/sweb_phishing_de.png)
