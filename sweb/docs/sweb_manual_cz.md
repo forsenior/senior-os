@@ -10,16 +10,16 @@ Aplikace má hlavní ovládací panel, který obsahuje 5 tlačítek pro jedno me
 
 ## Otevření webové stránky
 - **Úroveň ochrany 1: Základní ochrana**
-   - Otevření prostřednictvím nabídky: Kliknutím na libovolné tlačítko nebo ikonu v MENU 1/2 otevřete webovou stránku přímo.
-   - Otevření prostřednictvím vyhledávání: Otevřete webovou stránku pomocí vyhledávání. Klikněte na tlačítko vyhledávání, zadejte hledaný text a zadání bude zkontrolováno podle blacklistu a detekce phishingu pomocí neuronové sítě.
+   1. Otevření prostřednictvím nabídky: Kliknutím na libovolné tlačítko nebo ikonu v MENU 1/2 otevřete webovou stránku přímo.
+   2. Otevření prostřednictvím vyhledávání: Otevřete webovou stránku pomocí vyhledávání. Klikněte na tlačítko vyhledávání, zadejte hledaný text a zadání bude zkontrolováno podle blacklistu a detekce phishingu pomocí neuronové sítě.
 
 - **Úroveň ochrany 2: Zvýšená ochrana**
-   - Otevření prostřednictvím nabídky: Kliknutím na libovolné tlačítko nebo ikonu v MENU 1/2 se webová stránka otevře přímo.
-   - Otevření prostřednictvím vyhledávání: Otevřete webovou stránku, kterou chcete otevřít: Klikněte na tlačítko vyhledávání, zadejte hledaný text a vstup bude ověřen podle bílé listiny. Systém otevře pouze ty adresy URL, které odpovídají zadání na Whitelistu.
+   1. Otevření prostřednictvím nabídky: Kliknutím na libovolné tlačítko nebo ikonu v MENU 1/2 se webová stránka otevře přímo.
+   2. Otevření prostřednictvím vyhledávání: Otevřete webovou stránku, kterou chcete otevřít: Klikněte na tlačítko vyhledávání, zadejte hledaný text a vstup bude ověřen podle bílé listiny. Systém otevře pouze ty adresy URL, které odpovídají zadání na Whitelistu.
   
 - **Úroveň ochrany 3: Maximální ochrana**
-   - Otevření prostřednictvím nabídky: Kliknutím na libovolné tlačítko nebo ikonu v MENU 1/2 se webová stránka otevře přímo.
-   - Žádné vyhledávání: Tlačítko pro vyhledávání bude zakázáno a funkce vyhledávání není na této úrovni ochrany k dispozici.
+   1. Otevření prostřednictvím nabídky: Kliknutím na libovolné tlačítko nebo ikonu v MENU 1/2 se webová stránka otevře přímo.
+   2. Žádné vyhledávání: Tlačítko pro vyhledávání bude zakázáno a funkce vyhledávání není na této úrovni ochrany k dispozici.
 
 ## Zobrazení detekce phishingu:
 
