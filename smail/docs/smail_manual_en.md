@@ -2,7 +2,7 @@
 ## Application Control:
 The application has a main control panel that contains 5 buttons for one menu (a total of 10 buttons):  
 ![MENU_1](https://github.com/forsenior/senior-os/blob/d88525e24efb0f307a8177733d4e23e96c085042/smail/screens/smail_menu1.png)
-![MENU_2](https://github.com/forsenior/senior-os/blob/d88525e24efb0f307a8177733d4e23e96c085042/smail/screens/smail_menu2_en.png)
+![MENU_2](https://github.com/forsenior/senior-os/blob/611ce63f24fb80154809f9e3b18cccd9d3b56ae1/smail/screens/smail_menu2_en.png)
 
 1. **Menu** – allows switching between two different parts of the application (Menu 1 and Menu 2).
 2. **Red button with a white cross** – is used to exit the application.
