@@ -36,11 +36,6 @@ class PasswordPopup(QDialog):
         self.password_input.setPlaceholderText("Password")
 
         # Confirm field if in create mode
-        if self.is_password_setup:
-            self.confirm_password_input = QLineEdit()
-            self.confirm_password_input.setEchoMode(QLineEdit.Password)
-            self.confirm_password_input.setPlaceholderText("Confirm Password")
-            layout.addWidget(self.confirm_password_input)
 
         # Buttons
         submit_button = QPushButton("Create" if self.is_password_setup else "Submit")
@@ -51,6 +46,11 @@ class PasswordPopup(QDialog):
 
         # Add to layout
         layout.addWidget(message)
+        if self.is_password_setup:
+            self.confirm_password_input = QLineEdit()
+            self.confirm_password_input.setEchoMode(QLineEdit.Password)
+            self.confirm_password_input.setPlaceholderText("Confirm Password")
+            layout.addWidget(self.confirm_password_input)
         layout.addWidget(self.password_input)
         layout.addWidget(submit_button)
         layout.addWidget(cancel_button)
