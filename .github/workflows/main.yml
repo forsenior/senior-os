@@ -1,7 +1,11 @@
 on:
   push:
   workflow_dispatch:
-    
+    inputs:
+      prerelease:
+        default: true
+        type: boolean
+        required: true
 
 name: Build ISO
 
@@ -34,7 +38,7 @@ jobs:
         with:
           repo_token: "${{ secrets.GITHUB_TOKEN }}"
           automatic_release_tag: "${{ github.event.repository.updated_at}}"
-          prerelease: true
+          prerelease: ${{ github.event.inputs.prerelease }}
           title: "SeniorOS ${{ github.event.repository.updated_at}}"
           files: |
             out/*.iso
