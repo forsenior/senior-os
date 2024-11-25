@@ -10,6 +10,12 @@ name: Build ISO
 
 jobs:
   build:
+    strategy:
+      matrix:
+        tag:
+          - "${{ hashFiles('out/*.iso') }}"
+          - "latest"
+      
     permissions: 
       contents: write
     runs-on: ubuntu-24.04
@@ -33,10 +39,11 @@ jobs:
 
       - name: Release SeniorOS
         continue-on-error: true
+        
         uses: "marvinpinto/action-automatic-releases@latest"
         with:
           repo_token: "${{ secrets.GITHUB_TOKEN }}"
-          automatic_release_tag: "${{ hashFiles('out/*.iso') }}"
+          automatic_release_tag: ${{ matrix.tag }}
           prerelease: ${{ github.event.inputs.prerelease || true }}
           title: "SeniorOS ${{ github.event.repository.updated_at}}"
           files: |
