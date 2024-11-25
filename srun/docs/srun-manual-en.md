@@ -20,15 +20,11 @@ among them the setup of the password for the application which allows the caregi
 ### Password setup for initial startup
 1. Open the CONF application
 2. Wait for the password creation dialog to open
-</br>
 ![Password creation dialog](../screens/srun_dialog_1.png)
-</br>
 3. In this dialog create the password which will be used to authenticate the user when he tries to open the CONF application
 4. Upon pressing create the password is securely stored and the CONF application is opened
 ### Password usage during regular use
 1. Open the CONF application
 2. Wait for dialog prompting for password
-</br>
 ![Password input dialog](../screens/srun_dialog_2.png)
-</br>
 3. Enter the password into the dialog and press submit button after which the CONF application will open
