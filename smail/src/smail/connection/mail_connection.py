@@ -37,11 +37,6 @@ def send_email(recipient, subject, content, login, password, smtp_server, smtp_p
             server.login(login, password)
             server.sendmail(login, recipient, msg.as_string())
 
-            # If the email is sent to email address from which a phishing email was received,
-            # it is resent to guardian.
-            if recipient in phish_senders:
-                resend_reply(recipient,content,server, login)
-
         print(f"An email has been sent to {recipient}.")
         # Returning 1 if email was send successfully
         return 1
@@ -56,14 +51,36 @@ def send_email(recipient, subject, content, login, password, smtp_server, smtp_p
         return -2
 
 
-def resend_reply(recipient, content, server, login):
-    from smail.src.style import get_guardian_email
-    content = f"Senior send reply email to phishing email ({recipient}) with content:\n" + content
+def send_email_with_guardian_copy(recipient, subject, content, login, password, smtp_server, smtp_port, bcc):
+
+    sslContext = ssl.create_default_context()
     msg = MIMEText(content)
-    msg['Subject'] = f"Reply to phish email by {login}"
+    msg['Subject'] = subject
     msg['From'] = login
-    server.sendmail(login, get_guardian_email(), msg.as_string())
-    print(f"An email has been sent to {recipient}! Resending email to guardian: {get_guardian_email()}.")
+    msg['To'] = recipient
+
+    to_addresses = [recipient]
+    if bcc:
+        to_addresses.append(bcc)
+
+    try:
+        with smtplib.SMTP(smtp_server, smtp_port) as server:
+            server.starttls(context=sslContext)
+            server.login(login, password)
+            server.sendmail(login, to_addresses, msg.as_string())
+
+        print(f"An email has been sent to {recipient}.")
+        # Returning 1 if email was send successfully
+        return 1
+    except smtplib.SMTPAuthenticationError:
+        print("Authentication error. Check your email and password.")
+        return -1
+    except smtplib.SMTPConnectError:
+        print("SMTP connection error. Check your SMTP server and port.")
+        return 0
+    except Exception as e:
+        print(f"Error occurred when trying to send email: {e}")
+        return -2
 
 
 def imap_connection(login, password, imap_server, imap_port):
@@ -176,22 +193,22 @@ def read_mail(login, password, imap_server, imap_port, language, text, data_prov
         mail.close()
         mail.logout()
 
-def resend_mail_to_guardian(emails, data_provider):
-    from smail.src.style import resend_active, load_credentials, get_path
-    active, smail, gmail = resend_active(data_provider)
-    if active:
-        date = datetime.now().strftime("%d.%m.%Y")
-        email_subject = f"Email report from {smail}, date: {date}"
-        email_content = ""
-        print(f"Sending emails from senior's address {smail} to guardian's email address {gmail}.")
-        for e in emails:
-            email_content += e
-
-        (login, password, smtp_server,
-         smtp_port, imap_server, imap_port) = (
-            load_credentials(data_provider))
-
-        send_email(gmail, email_subject, email_content, login, password, smtp_server, smtp_port)
+# def resend_mail_to_guardian(emails, data_provider):
+#     from smail.src.smail.style import resend_active, load_credentials, get_path
+#     active, smail, gmail = resend_active(data_provider)
+#     if active:
+#         date = datetime.now().strftime("%d.%m.%Y")
+#         email_subject = f"Email report from {smail}, date: {date}"
+#         email_content = ""
+#         print(f"Sending emails from senior's address {smail} to guardian's email address {gmail}.")
+#         for e in emails:
+#             email_content += e
+#
+#         (login, password, smtp_server,
+#          smtp_port, imap_server, imap_port) = (
+#             load_credentials(data_provider))
+#
+#         send_email(gmail, email_subject, email_content, login, password, smtp_server, smtp_port)
 
 
 

@@ -151,6 +151,30 @@ def get_email_content_label():
         text-align: left;
         font-family: 'Inter';
         font-size: 16px;
+    
+    """
+
+def get_scrollbar():
+    return """
+        QScrollBar:vertical {
+            border: none;  
+            background: transparent;  
+            width: 12px;  
+            margin: 0px 0px 0px -5px;  
+        }
+        QScrollBar::handle:vertical {
+            background: #949494;  
+            min-height: 20px;  
+            border-radius: 4px;  
+        }
+        QScrollBar::add-line:vertical, QScrollBar::sub-line:vertical {
+            border: none;  
+            background: none;  
+            height: 0px;
+        }
+        QScrollBar::add-page:vertical, QScrollBar::sub-page:vertical {
+            background: none;  
+        }
     """
 
 
@@ -171,32 +195,6 @@ def get_inbox_style():
         QListWidget::item:selected {
             background-color: #f0f0f0;
             color: black;
-        }
-
-        
-        QListWidget QScrollBar:vertical {
-            background-color: #F0F0F0;
-            width: 16px;
-            margin: 0px;
-            border: 1px solid #D3D3D3;
-        }
-        QListWidget QScrollBar::handle:vertical {
-            background-color: #C0C0C0;
-            min-height: 20px;
-            border-radius: 8px;
-        }
-
-        
-        QListWidget QScrollBar:horizontal {
-            background-color: #F0F0F0;
-            height: 16px;
-            margin: 0px;
-            border: 1px solid #D3D3D3;
-        }
-        QListWidget QScrollBar::handle:horizontal {
-            background-color: #C0C0C0;
-            min-width: 20px;
-            border-radius: 8px;
         }
     """
 

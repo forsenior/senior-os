@@ -2,11 +2,11 @@
 # This method is used for changing language in browser
 class Translator:
     # Create initial function
-    def __init__(self, _dataProvider):
+    def __init__(self, _dataProvider, global_dataProvider):
         # Default shortcut for language
         self.language_keys = ["cz","en","de"]
         
-        self.current_language_in_browser = _dataProvider.default_language
+        self.current_language_in_browser = global_dataProvider.language
         self.text = _dataProvider.text
 
         # Set current language is CZ =0 , EN = 1, DE = 2

@@ -12,14 +12,14 @@ Source: https://icon-icons.com/icon/cnn-logo/170361
 License: Free for commercial use WITH ATTRIBUTION license
 ---
 Image: sweb_www_3.PNG
-Author: gaudeamus.cz
-Source: https://gaudeamus.cz/fakulty/detail-fakulty/facultyHash:5607126ba2b5260e99e6c9aa8d524a79
+Author: vut.cz
+Source: https://www.designportal.cz/aktualizovano-vut-v-brne-bude-mit-nove-logo/
 License: Free for commercial use WITH ATTRIBUTION license
 ---
-Image: sweb_www_4.JPG
-Author: Tinti Nodarse- iconfinder.com
-Source: https://www.iconfinder.com/icons/7123025/logo_google_g_icon
-License: Free for commercial use WITH ATTRIBUTION license
+Image: sweb_www_4.PNG
+Author: flaticon.com
+Source: https://www.flaticon.com/free-icon/health-insurance_2209673?term=health&page=1&position=11&origin=tag&related_id=2209673%205.https://www.info-zdravi.cz/
+License: Free for personal and commercial purpose with attribution
 ---
 Image: sweb_www_5.PNG
 Author: Aktuálně.cz
@@ -31,17 +31,3 @@ Author: denik.cz
 Source: https://www.google.com/search?q=icon+for+denik.cz&tbm=isch&ved=2ahUKEwj2pqP79v2BAxUEcaQEHQazC4MQ2-cCegQIABAA&oq=icon+for+denik&gs_lcp=CgNpbWcQARgAMgQIIxAnUN8EWKwGYNQMaABwAHgAgAFDiAHBAZIBATOYAQCgAQGqAQtnd3Mtd2l6LWltZ8ABAQ&sclient=img&ei=l-8uZbb_O4TikdUPhuaumAg&bih=738&biw=832#imgrc=DiljThnL6nKf3M
 License: Free for commercial use WITH ATTRIBUTION license
 ---
-Image: SWEB_GITHUB_LOGO.PNG
-Author: Project Jupyter - blog.jupyter.org
-Source: https://blog.jupyter.org/rendering-notebooks-on-github-f7ac8736d686
-License: Free for commercial use WITH ATTRIBUTION license
----
-Image: SWEB_FEKT_VUT_LOGO.PNG
-Author: gaudeamus.cz
-Source: https://gaudeamus.cz/fakulty/detail-fakulty/facultyHash:5607126ba2b5260e99e6c9aa8d524a79
-License: Free for commercial use WITH ATTRIBUTION license
----
-Image: SWEB_BACKGROUNDHOME.PNG
-Author: ING. ARCH. JANA VALCHOVÁ - fekt.vut.cz
-Source: https://www.fekt.vut.cz/o_fakulte/akce/213824
-License: Free for commercial use WITH ATTRIBUTION license

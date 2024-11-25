@@ -8,12 +8,13 @@ from PyQt5.QtWidgets import QSizePolicy
 # Library for creating channel for monitoring input keyboard
 from PyQt5.QtWebChannel import QWebChannel
 
-from src.utils.url_blocker import URLBlocker
-from src.phish.update_phishing import PhishingDatabaseModificationChecker
-from src.language.language_translator import Translator
-from src.utils.monitor_provider import GetMonitorHeightAndWidth
-from src.phish.notification_email import NotificationFillTextToPhishing
-from src.browser.browser_core import MyWebEnginePage
+from sweb.utils.url_blocker import URLBlocker
+from sweb.phish.update_phishing import PhishingDatabaseModificationChecker
+from sweb.language.language_translator import Translator
+from sweb.utils.monitor_provider import GetMonitorHeightAndWidth
+from sweb.phish.notification_email import NotificationFillTextToPhishing
+from sweb.browser.browser_core import MyWebEnginePage
+import os
 # My main browser contains all GUI in this class (Toolbar, Buttons, URLbar)
 
 ## static size of the button
@@ -431,7 +432,7 @@ class MyBrowser(QMainWindow):
             background-color: transparent;
             spacing: 0px;
             width: {TOOLBAR_WIDTH}px;
-            high: {TOOLBAR_HEIGHT}px;
+            height: {TOOLBAR_HEIGHT}px;
             
             
             
@@ -475,7 +476,7 @@ class MyBrowser(QMainWindow):
             background-color: transparent;
             spacing: 0px;
             width: {TOOLBAR_WIDTH}px;
-            high: {TOOLBAR_HEIGHT}px;
+            height: {TOOLBAR_HEIGHT}px;
             }}
             QPushButton QLabel {{
                 color: #FFFFFF;
