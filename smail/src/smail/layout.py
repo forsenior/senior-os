@@ -2,7 +2,6 @@ import os
 import re
 import subprocess
 import threading
-from idlelib.debugger_r import gui_adap_oid
 
 from PyQt5 import sip
 from PyQt5.QtCore import Qt, QTimer, QUrl, QSize
@@ -10,8 +9,8 @@ from PyQt5.QtGui import QTextCharFormat, QTextCursor, QDesktopServices, QIcon, Q
 from PyQt5.QtWidgets import QWidget, QVBoxLayout, QFrame, QLabel, QTextEdit, \
     QApplication, QListWidget, QPushButton, QHBoxLayout, QSizePolicy, QSpacerItem, QAbstractItemView, QScrollBar
 
-from . import style
-from .connection.mail_connection import send_email, read_mail, send_email_with_guardian_copy
+from smail import style
+from smail.connection.mail_connection import send_email, read_mail, send_email_with_guardian_copy
 
 class first_frame(QWidget):
     def __init__(self, parent, data_provider):
