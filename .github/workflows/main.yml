@@ -37,7 +37,7 @@ jobs:
         with:
           repo_token: "${{ secrets.GITHUB_TOKEN }}"
           automatic_release_tag: "${{ hashFiles('out/*.iso') }}"
-          prerelease: ${{ github.event.inputs.prerelease }}
+          prerelease: ${{ github.event.inputs.prerelease || true }}
           title: "SeniorOS ${{ github.event.repository.updated_at}}"
           files: |
             out/*.iso
