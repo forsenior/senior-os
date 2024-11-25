@@ -10,11 +10,6 @@ name: Build ISO
 
 jobs:
   build:
-    strategy:
-      matrix:
-        tag:
-          - "${{ hashFiles('out/*.iso') }}"
-          - "latest"
       
     permissions: 
       contents: write
@@ -23,6 +18,9 @@ jobs:
       image: archlinux
       options: --privileged
     steps: 
+      - name: Get current date
+        id: date
+        run: echo "::set-output name=date::$(date +'%Y-%m-%dT%H_%M')"
       - name: Checkout
         uses: actions/checkout@v4
       - name: Install archiso
@@ -36,14 +34,49 @@ jobs:
         with:
           name: senioros-iso
           path: out/
+  release:
+    needs: build
+    permissions: 
+      contents: write
+    runs-on: ubuntu-24.04
+    
+    steps:
 
+      - name: Fetch ISO
+        uses: actions/download-artifact@v4
+        with:
+          name: senioros-iso
+          path: out/
       - name: Release SeniorOS
-        continue-on-error: true
         
         uses: "marvinpinto/action-automatic-releases@latest"
         with:
           repo_token: "${{ secrets.GITHUB_TOKEN }}"
-          automatic_release_tag: ${{ matrix.tag }}
+          automatic_release_tag: "${{ steps.date.outputs.date }}"
+          prerelease: ${{ github.event.inputs.prerelease || true }}
+          title: "SeniorOS ${{ github.event.repository.updated_at}}"
+          files: |
+            out/*.iso
+
+  prerelease:
+    needs: build
+    permissions: 
+      contents: write
+    runs-on: ubuntu-24.04
+    
+    steps:
+      - name: Fetch ISO
+        uses: actions/download-artifact@v4
+        with:
+          name: senioros-iso
+          path: out/
+      - name: Release SeniorOS latest PreRelease
+        
+        uses: "marvinpinto/action-automatic-releases@latest"
+        if: ${{ github.event.inputs.prerelease || true }}
+        with:
+          repo_token: "${{ secrets.GITHUB_TOKEN }}"
+          automatic_release_tag: "latest"
           prerelease: ${{ github.event.inputs.prerelease || true }}
           title: "SeniorOS ${{ github.event.repository.updated_at}}"
           files: |
