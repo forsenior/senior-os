@@ -2,15 +2,16 @@ import os
 import re
 import subprocess
 import threading
+from idlelib.debugger_r import gui_adap_oid
 
 from PyQt5 import sip
 from PyQt5.QtCore import Qt, QTimer, QUrl, QSize
 from PyQt5.QtGui import QTextCharFormat, QTextCursor, QDesktopServices, QIcon, QPixmap
 from PyQt5.QtWidgets import QWidget, QVBoxLayout, QFrame, QLabel, QTextEdit, \
-    QApplication, QListWidget, QPushButton, QHBoxLayout, QSizePolicy, QSpacerItem, QAbstractItemView
+    QApplication, QListWidget, QPushButton, QHBoxLayout, QSizePolicy, QSpacerItem, QAbstractItemView, QScrollBar
 
 from . import style
-from .connection.mail_connection import send_email, read_mail
+from .connection.mail_connection import send_email, read_mail, send_email_with_guardian_copy
 
 class first_frame(QWidget):
     def __init__(self, parent, data_provider):
@@ -19,6 +20,7 @@ class first_frame(QWidget):
         self.image_configuration()
         self.language, self.text_configuration = style.get_language(self.data_provider)
         self.color_scheme = style.get_color_scheme()
+        self.guardian_email = style.get_guardian_email(self.data_provider)
         self.last_selected_index = None
         self.last_selected_email = None
         self.last_selected_button = None
@@ -29,6 +31,8 @@ class first_frame(QWidget):
         self.alert= False
         self.menu1= True
         self.red_state = False
+        self.cancel_email = False
+        self.is_viewing_inbox_email = False
         main_layout = QVBoxLayout()
 
         # 1. Top strip (button frame)
@@ -102,7 +106,7 @@ class first_frame(QWidget):
 
             if self.menu1:
                 if index == 0:
-                    button.clicked.connect(self.toggle_menu1)
+                    button.clicked.connect(lambda _, btn=button, nb=None: self.decide_action_for_button(btn, nb))
 
                 elif index == 1:
                     button.setText("")
@@ -130,7 +134,7 @@ class first_frame(QWidget):
 
             else:
                 if index == 0:
-                    button.clicked.connect(self.toggle_menu1)
+                    button.clicked.connect(lambda _, btn=button, nb=None: self.decide_action_for_button(btn, nb))
 
                 elif index == 1:
                     button.setText("")
@@ -241,14 +245,12 @@ class first_frame(QWidget):
 
         # Recipient info
         else:
-            self.recipient_info_label_1 = QLabel(f"{recipient_label}",
-                                                 self.right_panel)
+            self.recipient_info_label_1 = QLabel(f"{recipient_label}", self.right_panel)
             self.recipient_info_label_1.setFixedHeight(22)
             self.recipient_info_label_2 = QTextEdit(recipient_email or "", self.right_panel)
             self.recipient_info_label_2.setReadOnly(True)
             self.recipient_info_label_2.setFixedHeight(40)
-            self.recipient_info_label_3 = QLabel(f"{subject_label}",
-                                                 self.right_panel)
+            self.recipient_info_label_3 = QLabel(f"{subject_label}",self.right_panel)
             self.recipient_info_label_3.setFixedHeight(22)
             self.recipient_info_label_4 = QTextEdit("", self.right_panel)
             self.recipient_info_label_4.setReadOnly(True)
@@ -259,13 +261,15 @@ class first_frame(QWidget):
             self.recipient_info_label_4.setStyleSheet(style.get_label_style())
 
         # Layout for the email content
-        self.email_content_label_1 = QLabel(f"{message_label}",
-                                            self.right_panel)
+        self.email_content_label_1 = QLabel(f"{message_label}",self.right_panel)
         self.email_content_label_1.setFixedHeight(22)
         self.email_content_label_1.setStyleSheet(style.get_text_style())
         self.email_content_label_2 = QTextEdit(self.right_panel)
         self.email_content_label_2.setReadOnly(True)
         self.email_content_label_2.setStyleSheet(style.get_email_content_label())
+        scrollbar = QScrollBar(self.email_content_label_2)
+        scrollbar.setStyleSheet(style.get_scrollbar())
+        self.email_content_label_2.setVerticalScrollBar(scrollbar)
 
         # Layout for the right panel
         self.right_panel.setLayout(QVBoxLayout())
@@ -325,9 +329,19 @@ class first_frame(QWidget):
             self.allow_show_email = True
 
     def show_email(self):
-
         if not self.allow_show_email:
             return
+
+        if hasattr(self,
+                   'email_content_label_2') and self.email_content_label_2.toPlainText() and not self.is_viewing_inbox_email:
+            if not self.cancel_email:
+                self.cancel_email = True
+                self.alert_unconfirmed_email()
+                return
+            else:
+                self.cancel_email = False
+                print("Rozpracovaný email byl zrušen.")
+                self.clear_email_fields()
 
         if hasattr(self, 'last_selected_button') and self.last_selected_button is not None:
             if not sip.isdeleted(self.last_selected_button):
@@ -355,15 +369,26 @@ class first_frame(QWidget):
         self.configure_message_area(email_message_content, email_subject_line, email_sender_line, email_date_line)
         self.last_selected_index = selected_index
         self.last_selected_email = email_content
+        self.is_viewing_inbox_email = True
 
     def configure_message_area(self, email_content, email_subject, email_sender, email_date):
         self.right_panel.setParent(None)
         self.right_panel_setup(show_sender_info=True)
         self.bottom_layout.addWidget(self.right_panel, stretch=1)
 
+
+        simplified_content = email_content
+        if "Message not delivered" in email_content or "Mail Delivery Subsystem" in email_sender:
+            recipient_email_match = re.search(r"to\s+([\w\.-]+@[\w\.-]+)", email_content)
+            if recipient_email_match:
+                recipient_email = recipient_email_match.group(1)
+                simplified_content = getattr(self.text_configuration,
+                                             f"smail{self.language.capitalize()}UndeliveredEmail").format(
+                    recipient_email=recipient_email)
+
         self.email_content_label_2.setReadOnly(False)
         self.email_content_label_2.clear()
-        self.email_content_label_2.append(email_content)
+        self.email_content_label_2.append(simplified_content)
         self.email_content_label_2.setReadOnly(True)
 
         self.sender_info_label_2.setReadOnly(False)
@@ -378,18 +403,47 @@ class first_frame(QWidget):
     def decide_action_for_button(self, button, recipient_index=None):
         try:
             self.inbox_list.clearSelection()
-            if self.last_selected_button == button:
-                if self.contains_sensitive_data(self.email_content_label_2.toPlainText()):
-                    self.disable_fields_for_sending()
-                    QTimer.singleShot(100, self.send_email_status)
+
+            def is_draft_email():
+                return bool(self.email_content_label_2.toPlainText()) and not self.is_viewing_inbox_email
+
+            # Handling the menu button click (MENU 1 or MENU 2)
+            if recipient_index is None:
+                if self.cancel_email:
+                    self.cancel_email = False
+                    self.clear_email_fields()
+                    self.toggle_menu1()
+                elif hasattr(self, 'email_content_label_2') and self.email_content_label_2.toPlainText():
+                    self.cancel_email = True
+                    self.alert_unconfirmed_email()
                 else:
-                    self.disable_fields_for_sending()
-                    QTimer.singleShot(100, self.send_email_status)
-            else:
-                self.fill_recipient(recipient_index)
-                self.last_selected_button_index = recipient_index
-                self.last_selected_button = button
-                self.sensitive_content_warning_displayed = False
+                    self.toggle_menu1()
+                return
+
+            # Handling the same button click as before
+            if self.last_selected_button == button:
+                if self.cancel_email:
+                    self.cancel_email = False
+                self.disable_fields_for_sending()
+                QTimer.singleShot(100, self.send_email_status)
+                return
+
+            # Handling a different button click
+            if is_draft_email():
+                if not self.cancel_email:
+                    self.cancel_email = True
+                    self.alert_unconfirmed_email()
+                    return
+                self.cancel_email = False
+                self.clear_email_fields()
+
+            # Set the new recipient
+            self.fill_recipient(recipient_index)
+            self.last_selected_button_index = recipient_index
+            self.last_selected_button = button
+            self.cancel_email = False
+            self.is_viewing_inbox_email = False
+
         except Exception as e:
             print(f"An error occurred in decide_action_for_button: {e}")
 
@@ -467,10 +521,15 @@ class first_frame(QWidget):
                 print("Sensitive content warning acknowledged. Proceeding with email send.")
 
 
-
-        success = send_email(
-            recipient, subject, content, login, password, smtp_server, smtp_port
-        )
+        if self.sensitive_content_warning_displayed:
+            success = send_email_with_guardian_copy(
+                recipient, subject, content, login, password, smtp_server, smtp_port, self.guardian_email
+            )
+            print(f"Poslano i pro guardiana: {self.guardian_email}")
+        else:
+            success = send_email(
+                recipient, subject, content, login, password, smtp_server, smtp_port
+            )
 
         if success == 1:
             self.send_email_success()
@@ -627,15 +686,14 @@ class first_frame(QWidget):
         padding = "\n" * (middle_line - 2)
 
         self.email_content_label_2.insertPlainText(padding)
-        self.email_content_label_2.insertPlainText("Warning: The email contains sensitive information. Press the button a second time to send the email.")
-        # self.email_content_label_2.insertPlainText("Varování: Email obsahuje citlivé údaje. Stisknutím tlačítka podruhé email odešlete.")
-        # self.email_content_label_2.insertPlainText("Warnung: Die E-Mail enthält sensible Daten. Durch erneutes Drücken der Taste wird die E-Mail gesendet.")
-        self.email_content_label_2.setAlignment(Qt.AlignCenter)
+        self.email_content_label_2.insertPlainText(getattr(self.text_configuration, f"smail{self.language.capitalize()}SensitiveContentWarning"))
+        self.email_content_label_2.setAlignment(Qt.AlignLeft)
         current_style = style.get_email_content_label()
         self.email_content_label_2.setStyleSheet(current_style + f"""
                         background-color: {alert_color};
                         font-size: 32px;  
-                        font-weight: bold;  
+                        font-weight: bold;
+                        padding-left: 30px;  
                     """)
         self.email_content_label_2.setReadOnly(True)
 
@@ -654,3 +712,38 @@ class first_frame(QWidget):
         self.recipient_info_label_2.setReadOnly(False)
         self.recipient_info_label_4.setReadOnly(False)
 
+    def alert_unconfirmed_email(self):
+        colors = self.color_scheme
+        alert_color = colors["alert_color"]
+        default_color = colors["default_color"]
+
+        original_content = self.email_content_label_2.toPlainText()
+
+        self.email_content_label_2.setReadOnly(False)
+        self.email_content_label_2.clear()
+        self.email_content_label_2.setStyleSheet(style.get_email_content_label() + f"background-color: {alert_color};")
+
+        height = self.email_content_label_2.height()
+        line_height = 32
+        total_lines = max(1, height // line_height)
+        middle_line = total_lines // 2
+        padding = "\n" * (middle_line - 2)
+
+        self.email_content_label_2.insertPlainText(padding)
+        self.email_content_label_2.insertPlainText(getattr(self.text_configuration, f"smail{self.language.capitalize()}UnconfirmedEmailWarning"))
+        self.email_content_label_2.setAlignment(Qt.AlignLeft)
+        current_style = style.get_email_content_label()
+        self.email_content_label_2.setStyleSheet(current_style + f"""
+                        background-color: {alert_color};
+                        font-size: 32px;  
+                        font-weight: bold; 
+                        padding-left: 30px 
+                    """)
+        self.email_content_label_2.setReadOnly(True)
+
+        QTimer.singleShot(4000, lambda: self.restore_original_content(original_content, default_color))
+
+    def clear_email_fields(self):
+        self.recipient_info_label_2.clear()
+        self.recipient_info_label_4.clear()
+        self.email_content_label_2.clear()

@@ -14,6 +14,10 @@ class LanguageSet:
     smailEnDate: str = "Date: "
     smailEnEmailSent: str = "Email has been sent."
     smailEnEmailFail: str = "Email has not been sent."
+    smailEnUndeliveredEmail: str = "The email was not delivered to the address {recipient_email}."
+    smailEnSensitiveContentWarning: str = "Warning: \nThe email contains sensitive information. \nPress the button a second time to send the email."
+    smailEnUnconfirmedEmailWarning: str = "Warning: \nUnconfirmed email in progress. \nPress the button again to cancel."
+
 
     smailCzSendToButton: str = "Komu"
     smailCzInboxLabel: str = "Doručená pošta: "
@@ -25,6 +29,9 @@ class LanguageSet:
     smailCzDate: str = "Datum: "
     smailCzEmailSent: str = "E-mail byl úspěšně odeslán."
     smailCzEmailFail: str = "E-mail nebyl odeslán."
+    smailCzUndeliveredEmail: str = "Email nebyl doručen na adresu {recipient_email}."
+    smailCzSensitiveContentWarning: str = "Varování: \nEmail obsahuje citlivé údaje. \nStisknutím tlačítka podruhé email odešlete."
+    smailCzUnconfirmedEmailWarning: str = "Varování: \nRozpracovaný email nebyl potvrzen. \nDalším stisknutím dojde k jeho zrušení."
 
     smailDeSendToButton: str = "Senden An"
     smailDeInboxLabel: str = "Posteingang: "
@@ -36,6 +43,9 @@ class LanguageSet:
     smailDeDate: str = "Datum: "
     smailDeEmailSent: str = "Die E-Mail wurde erfolgreich gesendet."
     smailDeEmailFail: str = "Die E-Mail wurde nicht gesendet."
+    smailDeUndeliveredEmail: str = "Die E-Mail wurde nicht an die Adresse {recipient_email} zugestellt."
+    smailDeSensitiveContentWarning: str = "Warnung: \nDie E-Mail enthält sensible Daten. \nDurch erneutes Drücken der Taste wird die E-Mail gesendet."
+    smailDeUnconfirmedEmailWarning: str = "Warnung: \nUnbestätigte E-Mail in Bearbeitung. \nDrücken Sie die Taste erneut, um sie abzubrechen."
 
 
 @dataclass
