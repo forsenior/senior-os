@@ -54,34 +54,12 @@ git clone https://github.com/forsenior/senior-os
 py -m pip install -r requirements.txt
 
 ```
-
-
-**Changelog**
-
-1. Removed the audio assistant successfully from the app.
-2. Updated the app to read configurations from the configuration provider instead of directly from the JSON file.
-3. Enabled background email sending using the secondary app, Smail.
-4. Remove the logger
-5. Delete SWEB-config.json and sgive
-   
-
-
-## Challenges
-- curl -sSL https://install.python-poetry.org | python3 -
-- poetry install
-- poetry run sweb
-
-
-
-
-
-
       
 
 ## The demonstration video
 
+https://github.com/user-attachments/assets/88fbb138-6467-47d3-ad12-a0fb98515719
 
-https://github.com/user-attachments/assets/ab53a1bf-695f-4838-87d4-df7c224030bc
 
 
 
