@@ -23,7 +23,7 @@ jobs:
       - name: Trigger package build
         uses: peter-evans/repository-dispatch@v2
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
+          token: ${{ secrets.PAT }}
           repository: forsenior/senior-os-repository
           event-type: build-packages
       - name: Checkout
