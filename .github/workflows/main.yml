@@ -21,6 +21,7 @@ jobs:
       options: --privileged
     steps: 
       - name: Trigger package build
+        continue-on-error: true
         uses: peter-evans/repository-dispatch@v2
         with:
           token: ${{ secrets.PAT }}
