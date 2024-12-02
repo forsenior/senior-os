@@ -21,10 +21,11 @@ jobs:
           repository: forsenior/senior-os-repository
           event-type: build-packages
       - name: Await package build
-        uses: begyyal/act_await_workflow_runs@v1
+        uses: johannesvedder/await-workflow@v1
         with:
+          workflowId: publish.yml
           token: ${{ secrets.PAT }}
-          repos: forsenior/senior-os-repository
+          repository: forsenior/senior-os-repository
           
     
   build:
