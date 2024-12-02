@@ -12,12 +12,9 @@ import sconf.configuration.configuration_writer as dataWriter
 import sconf.configuration.configuration_provider as dataProvider
 
 def main():
-    current_dir = os.getcwd()
-    CONFIG_FILE_NAME = 'config.json'
-    config_folder = os.path.join(current_dir, '../sconf')
 
 
-    _dataProvider = dataProvider.ConfigurationProvider(configFileName=CONFIG_FILE_NAME, configStoragePath=config_folder)
+    _dataProvider = dataProvider.ConfigurationProvider()
 
     try:
 

@@ -8,6 +8,10 @@ readme = "README.md"
 packages = [
 	{ include = "sconf", from = "src" },
 ]
+include = [
+	{ path = "icons",  format = ["sdist", "wheel"]},
+	{ path = "phish",  format = ["sdist", "wheel"]},
+]
 
 [tool.poetry.dependencies]
 python = "^3.12"

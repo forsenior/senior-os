@@ -1,6 +1,7 @@
 import dataclasses
 import json
 import os.path
+from pathlib import Path
 
 from dataclass_wizard import asdict
 
@@ -16,14 +17,14 @@ class ConfigurationWriter:
     _configFileName: str = ""
     _configStoragePath: str = ""
 
-    def __init__(self, configFileName: str = 'config.json', configStoragePath: str = os.getcwd()):
+    def __init__(self, configFileName: str = 'config.json', configStoragePath: str = os.path.join(Path.home(), '.sconf')):
         """
         Class providing ability to save the configuration into the persistent storage
         :param configFileName: Name of the SOS configuration file
         :param configStoragePath: Expected folder path from which the configuration can be loaded into memory
         """
         self._configFileName = configFileName
-        self._configStoragePath = '../sconf'
+        self._configStoragePath = configStoragePath
 
         self.__validate_and_create_default_config()
 

@@ -18,8 +18,9 @@ def main():
         _dataWriter: data_writer.ConfigurationWriter
         config_folder = os.getcwd()
 
-        _dataWriter = data_writer.ConfigurationWriter()
         _dataProvider = data_provider.ConfigurationProvider()
+        _dataWriter = data_writer.ConfigurationWriter()
+
 
         app = QApplication(sys.argv)
         window = MainWindow(_dataProvider, _dataWriter, config_folder)

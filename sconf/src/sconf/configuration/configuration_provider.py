@@ -1,5 +1,6 @@
 import json
 import os.path
+from pathlib import Path
 
 from dataclass_wizard import fromdict
 
@@ -8,7 +9,7 @@ from sconf.configuration.models.smail_configuration import SmailConfiguration
 from sconf.configuration.models.sos_configuration import SOSConfiguration
 from sconf.configuration.models.sweb_configuration import SwebConfiguration
 from sconf.decorators.decorators import singleton
-
+from sconf.configuration.default_configuration import default_configuration
 
 @singleton
 class ConfigurationProvider:
@@ -16,7 +17,7 @@ class ConfigurationProvider:
     _configStoragePath: str = ""
     _sosConfiguration: SOSConfiguration
 
-    def __init__(self, configFileName: str = 'config.json', configStoragePath: str = os.getcwd()):
+    def __init__(self, configFileName: str = 'config.json', configStoragePath: str = os.path.join(Path.home(), '.sconf')):
         """
         Class providing access to the configuration data of the SOS.
         This class has singleton decorator which should allow existence of only singular instance of this class.
@@ -24,12 +25,23 @@ class ConfigurationProvider:
         :param configStoragePath: Expected folder path from which the configuration can be loaded into memory
         """
         self._configFileName = configFileName
-        self._configStoragePath = '../sconf'
+        if os.path.exists(configStoragePath):
+            if os.path.isdir(configStoragePath):
+                self._configStoragePath = configStoragePath
+            else:
+                print(f"{configStoragePath} exists and is NOT a directory!")
+                exit(1)
+        else:
+            os.mkdir(configStoragePath)
 
         self.__load_configuration()
 
     def __load_configuration(self):
-        with open(os.path.join(self._configStoragePath, self._configFileName), 'r') as sourceFile:
+        config_file = os.path.join(self._configStoragePath, self._configFileName)
+        if not os.path.exists(config_file):
+            with open(config_file, 'w') as newConfig:
+                json.dump(default_configuration(), newConfig)
+        with open(config_file, 'r') as sourceFile:
             self._sosConfiguration: SOSConfiguration = fromdict(SOSConfiguration, json.load(sourceFile))
 
     def update_memory_configuration(self, configuration):

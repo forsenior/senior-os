@@ -27,8 +27,7 @@ from sweb.phish.notification_email import NotificationFillTextToPhishing
 
 
 import sconf.configuration.configuration_provider as dataProvider
-CONFIG_FILE_NAME = 'config.json'
-SUBFOLDER_NAME = "sconf"
+
 
 _dataProvider: dataProvider.ConfigurationProvider
 
@@ -39,10 +38,7 @@ from email.mime.multipart import MIMEMultipart
 import ssl
 
 def main():
-    current_location = os.getcwd()
-    path_split = current_location.split("sweb")
-    config_folder = os.path.join(path_split[0], SUBFOLDER_NAME)
-    _dataProvider = dataProvider.ConfigurationProvider(configFileName=CONFIG_FILE_NAME, configStoragePath=config_folder)
+    _dataProvider = dataProvider.ConfigurationProvider()
     try:
         
         qApplication = QApplication(sys.argv)
