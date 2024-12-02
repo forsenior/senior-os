@@ -9,8 +9,26 @@ on:
 name: Build ISO
 
 jobs:
+  trigger-packages:
+    runs-on: ubuntu-24.04
+    name: Trigger remote package build
+    steps:
+      - name: Trigger package build
+        continue-on-error: true
+        uses: peter-evans/repository-dispatch@v2
+        with:
+          token: ${{ secrets.PAT }}
+          repository: forsenior/senior-os-repository
+          event-type: build-packages
+      - name: Await package build
+        uses: begyyal/act_await_workflow_runs@v1
+        with:
+          token: ${{ secrets.PAT }}
+          repos: forsenior/senior-os-repository
+          
+    
   build:
-      
+    needs: [trigger-packages]
     permissions: 
       contents: write
       packages: write
@@ -19,14 +37,7 @@ jobs:
     container: 
       image: archlinux
       options: --privileged
-    steps: 
-      - name: Trigger package build
-        continue-on-error: true
-        uses: peter-evans/repository-dispatch@v2
-        with:
-          token: ${{ secrets.PAT }}
-          repository: forsenior/senior-os-repository
-          event-type: build-packages
+    steps:
       - name: Checkout
         uses: actions/checkout@v4
       - name: Install archiso
