@@ -12,6 +12,7 @@ def get_default_start_button_style():
                 margin-left: 5px;
                 margin-right: 5px;
                 min-height:260;
+                min-width: 520
             }
             QPushButton:hover {
                 background-color: #48843F;

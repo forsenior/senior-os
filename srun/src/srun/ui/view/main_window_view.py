@@ -45,7 +45,6 @@ class MainWindowView(QWidget):
 
         # Central container for buttons with fixed size
         central_widget = QWidget()
-        central_widget.setFixedSize(1260, 580)
         central_widget.setStyleSheet(get_default_center_widget_style())
 
         # Grid layout for buttons within the central widget
