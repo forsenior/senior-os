@@ -5,15 +5,15 @@ The developed email client is easy to use and contains only features that a seni
 
 ## Environment for reading email messages
 SMAIL has an environment specifically designed for reading email messages in a user-friendly way, with large, clear buttons and text.
-![menu1](https://github.com/forsenior/senior-os/blob/main/sconf/style/style_images/smail_gui_style_menu_message_1.png)
+![menu1](https://github.com/forsenior/senior-os/blob/9651ba7d8c7fbd04c794c4344ed667deeb5b5458/smail/screens/smail_screen_1.png)
 
 ## Environment for writing email messages
 The environment for writing emails is as easy as possible, with predefined contacts available for convenience.
-![menu2](https://github.com/forsenior/senior-os/blob/main/sconf/style/style_images/smail_gui_style_global.png)
+![menu2](https://github.com/forsenior/senior-os/blob/9651ba7d8c7fbd04c794c4344ed667deeb5b5458/smail/screens/smail_screen_2.png)
 
 ## Warning when writing sensitive data
 The application warns users when they are about to send sensitive information, adding an additional layer of security.
-![alert](https://github.com/forsenior/senior-os/blob/main/sconf/style/style_images/smail_gui_style_menu_alert_1.png)
+![alert](https://github.com/forsenior/senior-os/blob/9651ba7d8c7fbd04c794c4344ed667deeb5b5458/smail/screens/smail_sensitive_information_alert.png)
 
 ## Installation
 To get started with SMAIL, follow these steps to clone the repository and install dependencies:
