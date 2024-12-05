@@ -41,6 +41,7 @@ poetry  install
 Supported Python Versions: This program is tested and optimized for Python 3.12.
 
 ## Configuration requirement for SMAIL
+
 To ensure proper functioning of the SMAIL email client, it is recomended to first edit configuration files.
 For temporary configuration, you can edit the main configuration file `config.json`. 
 However, for permanent settings that will work continuously, you need to modify the configuration file `smail_configuration.py` located in `sconf/src/sconf/models/`.
@@ -48,6 +49,7 @@ During this process, enter your own email address and password to personalize th
 Default settings are available, but for enhanced security and personalization, using your own credentials is highly encouraged.
 
 ### Password generation for SMAIL
+
 To connect to your Gmail account from a non-web environment, such as SMAIL app, you'll need to generate an app password. 
 Follow these steps to obtain the app password:
 
