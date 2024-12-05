@@ -17,19 +17,33 @@ The application warns users when they are about to send sensitive information, a
 
 ## Installation
 To get started with SMAIL, follow these steps to clone the repository and install dependencies:
+
+### Step 1: Install Poetry
+SMAIL uses Poetry for dependency management and packaging. 
+If you don't have Poetry installed, you will need to install it first. 
+You can follow this [step-by-step guide on how to install Poetry](https://gist.github.com/Isfhan/b8b104c8095d8475eb377230300de9b0).
+
+### Step 2: Clone Repository and Install Dependencies
+After installing Poetry, you can continue with the following steps:
+
 ```bash
 # Clone project repository
 git clone https://github.com/forsenior/senior-os
 
+# Navigate into the project directory
 cd smail
 
-# Install requirements from the requirements.txt file
-py -m pip install -r requirements.txt
+# Build and install dependencies using Poetry
+poetry build
+
+poetry  install
 ```
 Supported Python Versions: This program is tested and optimized for Python 3.12.
 
 ## Configuration requirement for SMAIL
-To ensure proper functioning of the SMAIL email client, it is recomended to first edit configuration files (SOS-conf.json). 
+To ensure proper functioning of the SMAIL email client, it is recomended to first edit configuration files.
+For temporary configuration, you can edit the main configuration file `config.json`. 
+However, for permanent settings that will work continuously, you need to modify the configuration file `smail_configuration.py` located in `sconf/src/sconf/models/`.
 During this process, enter your own email address and password to personalize the application. 
 Default settings are available, but for enhanced security and personalization, using your own credentials is highly encouraged.
 
@@ -59,18 +73,24 @@ If you cant find the correct section use this link: [App passwords](https://myac
 
 To launch the application, follow these steps:
 
-1. Open your preferred IDE such as PyCharm or any other suitable development environment.
+1. **Open your preferred IDE**  
+   Open your preferred development environment, such as PyCharm or any other suitable IDE.
 
-2. Navigate to the smail directory
+2. **Navigate to the smail directory**  
+   Use your IDE's file explorer to navigate to the `smail` directory within the cloned repository.
 
-3. Open the smail.py file of the application.
+3. **Open a terminal in this folder**  
+   Make sure you have an active terminal session open in the `smail` directory.
 
-4. Ensure that all necessary dependencies are installed ([Installation](#installation)).
+4. **Ensure that all necessary dependencies are installed**  
+   Make sure that all dependencies are properly installed. You can verify this by following the [Installation](#installation) instructions.
 
-5. Before executing the application, ensure that you have set up the necessary configurations and generated the required app password for connection, as outlined in the previous section.
+5. **Set up configurations and app password**  
+   Before running the application, ensure that all configurations are set and that you have generated an app password as mentioned in the [Password generation](#password-generation-for-smail) section.
 
-6. Once everything is set up, run the application by clicking on the "Run" button within your IDE or execute the following commands:
+6. **Run the application**  
+   Once everything is set up, you can start the application by running the command:
 ```bash
 cd smail
-python smail.py
+poetry run smail
 ```
