@@ -28,7 +28,7 @@ class SwebConfiguration:
                                                              "../sconf/icons/sweb_www_6.png"])
     allowedURL: str = "../sconf/phish/sweb_allowed_url.txt"
     phishingDatabase: str = "../sconf/phish/sweb_phish.txt"
-    phishingGithubDatabase: str = "https://github.com/mitchellkrogza/Phishing.Database/raw/master/ALL-phishing-domains.tar.gz/"
+    phishingGithubDatabase: str = "https://phish.co.za/latest/ALL-phishing-domains.tar.gz"
     sendPhishingWarning: bool = True
     phishingFormular: bool = True
     seniorWebsitePosting: bool = True
