@@ -1,9 +1,25 @@
-# Zadání bakalářských a diplomových prací
+# Diplomové práce
 
-Pro bližší informace napište na komosny@vut.cz 
-- Na základě domluvy si lze práci rezervovat předem 
-- Obecné požadavky jsou Python a Linux
+V akad. roce 2025/26 budou vypsána tato témata. Zájemci se mohou dostavit kdykoliv na [domluvu](https://www.vut.cz/lide/dan-komosny-3065) a dopředu si rezervovat zadání před začátkem semestru.
 
-Pro řešení zadaných prací lze využít programový kód předchozích prací. Programový kód již implementuje základní systém a některé požadované funkce. Programový kód lze využít jako inspiraci pro vlastní řešení nebo lze převzít jeho části při řádné citaci a popisu návaznosti ve vaší práci. Není tak nutné řešit základní věci znovu od úplného začátku. 
+Požadavky jsou znalost Python, Linux a GitHub.
 
-Zadání pro akad. rok *25/26*
+## Emailový klient pro seniory 
+
+Vývoj snadno ovladatelného emailového klienta, který je bezpečný pro používání v online prostředí staršími a mentálně postiženými uživateli. Současný stav vývoje včetně vizuálních ukázek je [zde](https://github.com/forsenior/senior-os/tree/main/smail).
+
+## Webový prohlížeč pro seniory 
+
+Vývoj snadno ovladatelného webového prohlížeče, který je bezpečný pro používání v online prostředí staršími a mentálně postiženými uživateli. Současný stav vývoje včetně vizuálních ukázek je [zde](https://github.com/forsenior/senior-os/tree/main/sweb).
+
+## Aplikace pro opatrovníka seniora 
+
+Vývoj konfigurační aplikace pro opatrovníka seniora. Konfigurační aplikace slouží pro konfiguraci emailového klienta, webového prohlížeče a globální nastavení systému. Současný stav vývoje včetně vizuálních ukázek je [zde](https://github.com/forsenior/senior-os/tree/main/sconf).
+
+## Binární obraz operačního systému Linux 
+
+Navazující práce pro vytvoření obrazu operačního systému Linux v režimu Live ISO. Operační systém obsahuje emailového klienta, webový prohlížeč a konfigurační aplikaci pro opatrovníka seniora. Současný stav vývoje včetně vizuálních ukázek je [zde](https://github.com/forsenior/senior-os/tree/main/siso).
+
+## Testování aplikací operačního systému pro seniory 
+
+Automatické testování aplikací operačního systému pro seniory: emailového klienta, webového prohlížeče a konfigurační aplikace. Testy budou na repozitáři GitHub. Práce nenavazuje na předchozí.
