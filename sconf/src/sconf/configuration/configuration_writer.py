@@ -23,8 +23,15 @@ class ConfigurationWriter:
         :param configFileName: Name of the SOS configuration file
         :param configStoragePath: Expected folder path from which the configuration can be loaded into memory
         """
-        self._configFileName = configFileName
-        self._configStoragePath = configStoragePath
+        self._configFileName = 'config.json'
+        if os.path.exists(os.path.join(Path.home(), '.sconf')):
+            if os.path.isdir(os.path.join(Path.home(), '.sconf')):
+                self._configStoragePath = os.path.join(Path.home(), '.sconf')
+            else:
+                print(f"{os.path.join(Path.home(), '.sconf')} exists and is NOT a directory!")
+                exit(1)
+        else:
+            os.mkdir(os.path.join(Path.home(), '.sconf'))
 
         self.__validate_and_create_default_config()
 
