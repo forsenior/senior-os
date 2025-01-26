@@ -88,25 +88,17 @@ class MainWindowView(QWidget):
         sys.exit(0)
 
     def __handle_smail_clicked(self):
-        sweb_directory = os.path.join(self.__srun_free_path, 'smail')
 
-        os.chdir(sweb_directory)
-
-        os.system(f"{self.__poetry_run_command} {self.__executables.smail}")
-        os.chdir(self.__working_directory)
+        os.system(f"{self.__executables.smail}")
         print(os.getcwd())
 
     def __handle_sweb_clicked(self):
-        sweb_directory = os.path.join(self.__srun_free_path, 'sweb')
 
-        os.chdir(sweb_directory)
+        os.system(f"{self.__executables.sweb}")
 
-        os.system(f"{self.__poetry_run_command} {self.__executables.sweb}")
-        os.chdir(self.__working_directory)
         print(os.getcwd())
 
     def __handle_sconf_clicked(self):
-        sconf_directory = os.path.join(self.__srun_free_path, 'sconf')
         password_dialog = PasswordPopup(password=self.main_configuration.configurationPassword,
                                         initial_start_up=self.main_configuration.initialStartUp)
 
@@ -114,14 +106,13 @@ class MainWindowView(QWidget):
                                        and self.main_configuration.initialStartUp) else False
 
         if password_dialog.exec_() == QDialog.Accepted:
-            os.chdir(sconf_directory)
+
             if is_initial_start_up:
                 self.main_configuration.configurationPassword = password_dialog.get_confirmed_password()
                 self.main_configuration.initialStartUp = False
                 self.data_writer.update_configuration(self.main_configuration)
 
-            os.system(f"{self.__poetry_run_command} {self.__executables.sconf}")
-            os.chdir(self.__working_directory)
+            os.system(f"{self.__executables.sconf}")
         else:
             # Handle the case where the dialog was canceled if needed
             print("Password setup canceled.")

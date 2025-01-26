@@ -19,7 +19,8 @@ class ConfigurationWriter:
 
     def __init__(self, configFileName: str = 'config.json', configStoragePath: str = os.path.join(Path.home(), '.sconf')):
         """
-        Class providing ability to save the configuration into the persistent storage
+        Class providing ability to save the configuration into the persistent storage.
+        Also, solely responsible for creating the config.json file in an instance that the file is not present!
         :param configFileName: Name of the SOS configuration file
         :param configStoragePath: Expected folder path from which the configuration can be loaded into memory
         """
