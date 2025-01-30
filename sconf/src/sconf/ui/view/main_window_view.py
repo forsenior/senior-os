@@ -39,6 +39,7 @@ class MainWindow(QWidget):
 
         # Central widget that holds the main layout and stays fixed-size
         central_widget = QWidget()
+        central_widget.setFixedSize(1260, 580)
         central_widget.setStyleSheet(f"""
                             {get_main_window_style()}
                             {get_default_menu_button_style()}
