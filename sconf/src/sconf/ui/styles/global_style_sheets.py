@@ -11,7 +11,7 @@ def get_main_window_style():
 def get_default_menu_button_style():
     return """
         QPushButton {
-            text-align:center;
+            text-align: center;
             font-family: Inter;
             font-size: 40px;
             padding: 5px;
@@ -19,40 +19,30 @@ def get_default_menu_button_style():
             border: 1px solid #797979;
             border-radius: 3px;
             color: #FFFFFF;
-            margin-left: 10px;
-            margin-top: 10px;
-            margin-right: 10px;
-            margin-bottom: 20px;
-            max-width: 513px;
+            margin: 10px 10px 20px 10px;
+            max-width: 40%;  /* Ensures buttons adjust within available space */
+            min-height: 70px;
         }
-        QPushButton:hover {
-            background-color: #48843F;
-        }
-        QPushButton:open {
+        QPushButton:hover, QPushButton:open {
             background-color: #48843F;
         }
     """
 
 
 def get_active_menu_button_style():
-    # Define styles for normal and phishing states
-    base_style = """
-            QPushButton {
-                background-color: #48843F;
-                border: 1px solid #797979;
-                border-radius: 3px;
-                color: #FFFFFF;
-                margin-left: 10px;
-                margin-top: 10px;
-                margin-right: 10px;
-                margin-bottom: 12px;
-            }
-            QPushButton:hover {
-                background-color: #48843F;
-            }
-            """
-
-    return base_style
+    return """
+        QPushButton {
+            background-color: #48843F;
+            border: 1px solid #797979;
+            border-radius: 3px;
+            color: #FFFFFF;
+            margin: 10px 10px 12px 10px;
+            max-width: 40%;
+        }
+        QPushButton:hover {
+            background-color: #48843F;
+        }
+    """
 
 
 def get_default_label_style():
@@ -61,7 +51,6 @@ def get_default_label_style():
         font-family: Inter;
         font-size: 20px;
         color: #000000;
-        max-width: 261px;
         min-height: 32px;
     }
     """
@@ -74,7 +63,7 @@ def get_error_label_style():
         font-size: 20px;
         color: #FF0000;
         max-height: 32px;
-        align: center;
+        text-align: center;
     }
     """
 
@@ -86,9 +75,9 @@ def get_default_dropdown_style():
         font-size: 16px;
         border: 1px solid #000000;
         border-radius: 3px;
-        align: left;
-        max-width: 513px;
-        max-height: 32px;
+        padding: 4px;
+        min-width: 40%;
+        min-height: 32px;
     }
     """
 
@@ -100,24 +89,22 @@ def get_default_input_box_style():
         font-size: 16px;
         border: 1px solid #000000;
         border-radius: 3px;
-        max-width: 513px;
-        max-height: 32px;
+        padding: 4px;
+        min-width: 40%;
+        min-height: 32px;
     }
     """
 
 
 def get_default_settings_button_style():
     return """
-        QPushButton{
-            text-align:center;
+        QPushButton {
+            text-align: center;
             font-family: Inter;
             font-size: 16px;
             color: #FFFFFF;
-            margin-left: 0px;
-            margin-top: 0px;
-            margin-right: 0px;
             margin-bottom: 2px;
-            min-width: 256px;
+            min-width: 30%;
             max-height: 25px;
         }
     """
@@ -130,7 +117,8 @@ def get_default_settings_text_edit_style():
             font-size: 16px;
             border: 1px solid #000000;
             border-radius: 3px;
-            max-width: 513px;
+            padding: 4px;
+            min-width: 40%;
             max-height: 200px;
         }
     """
@@ -139,25 +127,25 @@ def get_default_settings_text_edit_style():
 def get_default_table_style():
     return """
         QTableWidget {
-            background-color: #FFFFFF;          /* Table background color */
+            background-color: #FFFFFF;
             border: 1px solid #000000;
-            border-radius: 3px;;                /* Gridline color */
-            font-size: 16px;                    /* Text font size */
-            min-width: 513px;
-            max-height: 513px;
+            border-radius: 3px;
+            font-size: 16px;
+            min-width: 90%;
+            min-height: 300px;
         }
-        QTableWidget::item {                    /* Cell styling */
+        QTableWidget::item {
             font-size: 16px;
         }
-        QTableWidget::item:selected {           /* Selected cell styling */
+        QTableWidget::item:selected {
             background-color: #48843F;
         }
-        QTableWidget QLineEdit {                /* Style any QLineEdit in the table */
+        QTableWidget QLineEdit {
             font-family: Inter;
             font-size: 16px;
             border: 1px solid #000000;
             border-radius: 3px;
-            max-width: 513px;
-            min-height: 25px;
+            padding: 4px;
+            min-width: 90%;
         }
     """
