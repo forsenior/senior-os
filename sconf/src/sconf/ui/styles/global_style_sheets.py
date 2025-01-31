@@ -4,14 +4,18 @@ def get_main_window_style():
             background-color: #FFFFFF;
             border: 1px solid #000000;
             border-radius: 3px;
+            max-width: 1280px;
+            max-height: 800px;
+            margin: 0px;
+            padding: 0px;
+            box-sizing: border-box;
         }
     """
-
 
 def get_default_menu_button_style():
     return """
         QPushButton {
-            text-align: center;
+            text-align:center;
             font-family: Inter;
             font-size: 40px;
             padding: 5px;
@@ -19,15 +23,21 @@ def get_default_menu_button_style():
             border: 1px solid #797979;
             border-radius: 3px;
             color: #FFFFFF;
-            margin: 10px 10px 20px 10px;
-            max-width: 40%;  /* Ensures buttons adjust within available space */
+            margin-left: 5px;
+            margin-top: 5px;
+            margin-right: 5px;
+            margin-bottom: 10px;
+            max-width: 510px;
             min-height: 70px;
+            box-sizing: border-box;
         }
-        QPushButton:hover, QPushButton:open {
+        QPushButton:hover {
+            background-color: #48843F;
+        }
+        QPushButton:open {
             background-color: #48843F;
         }
     """
-
 
 def get_active_menu_button_style():
     return """
@@ -36,14 +46,16 @@ def get_active_menu_button_style():
             border: 1px solid #797979;
             border-radius: 3px;
             color: #FFFFFF;
-            margin: 10px 10px 12px 10px;
-            max-width: 40%;
+            margin-left: 5px;
+            margin-top: 5px;
+            margin-right: 5px;
+            margin-bottom: 8px;
+            box-sizing: border-box;
         }
         QPushButton:hover {
             background-color: #48843F;
         }
     """
-
 
 def get_default_label_style():
     return """
@@ -51,10 +63,10 @@ def get_default_label_style():
         font-family: Inter;
         font-size: 20px;
         color: #000000;
+        max-width: 260px;
         min-height: 32px;
     }
     """
-
 
 def get_error_label_style():
     return """
@@ -67,7 +79,6 @@ def get_error_label_style():
     }
     """
 
-
 def get_default_dropdown_style():
     return """
     QComboBox {
@@ -75,12 +86,11 @@ def get_default_dropdown_style():
         font-size: 16px;
         border: 1px solid #000000;
         border-radius: 3px;
-        padding: 4px;
-        min-width: 40%;
-        min-height: 32px;
+        text-align: left;
+        max-width: 500px;
+        max-height: 32px;
     }
     """
-
 
 def get_default_input_box_style():
     return """
@@ -89,26 +99,26 @@ def get_default_input_box_style():
         font-size: 16px;
         border: 1px solid #000000;
         border-radius: 3px;
-        padding: 4px;
-        min-width: 40%;
-        min-height: 32px;
+        max-width: 500px;
+        max-height: 32px;
     }
     """
 
-
 def get_default_settings_button_style():
     return """
-        QPushButton {
-            text-align: center;
+        QPushButton{
+            text-align:center;
             font-family: Inter;
             font-size: 16px;
             color: #FFFFFF;
+            margin-left: 0px;
+            margin-top: 0px;
+            margin-right: 0px;
             margin-bottom: 2px;
-            min-width: 30%;
+            min-width: 250px;
             max-height: 25px;
         }
     """
-
 
 def get_default_settings_text_edit_style():
     return """
@@ -117,12 +127,10 @@ def get_default_settings_text_edit_style():
             font-size: 16px;
             border: 1px solid #000000;
             border-radius: 3px;
-            padding: 4px;
-            min-width: 40%;
+            max-width: 500px;
             max-height: 200px;
         }
     """
-
 
 def get_default_table_style():
     return """
@@ -131,8 +139,9 @@ def get_default_table_style():
             border: 1px solid #000000;
             border-radius: 3px;
             font-size: 16px;
-            min-width: 90%;
-            min-height: 300px;
+            min-width: 500px;
+            max-height: 500px;
+            box-sizing: border-box;
         }
         QTableWidget::item {
             font-size: 16px;
@@ -145,7 +154,7 @@ def get_default_table_style():
             font-size: 16px;
             border: 1px solid #000000;
             border-radius: 3px;
-            padding: 4px;
-            min-width: 90%;
+            max-width: 500px;
+            min-height: 25px;
         }
     """
