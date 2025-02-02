@@ -21,9 +21,13 @@ def main():
         _dataProvider = data_provider.ConfigurationProvider()
         _dataWriter = data_writer.ConfigurationWriter()
 
-
         app = QApplication(sys.argv)
+        screen = app.primaryScreen()
+        print(f"Screen size: {screen.size()}")
+
         window = MainWindow(_dataProvider, _dataWriter, config_folder)
+        window.setBaseSize(1270, 800)
+        window.resize(1270, 800)
         window.show()
         sys.exit(app.exec_())
     except Exception as e:

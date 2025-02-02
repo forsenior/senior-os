@@ -30,7 +30,7 @@ class MainWindow(QWidget):
         # Set main window properties
         self.setWindowTitle("SCONF")
         self.setWindowFlag(Qt.FramelessWindowHint)
-        self.showFullScreen()
+        #self.showFullScreen()
         # Background styling
         self.setStyleSheet("background-color: #FFFFFF;")  # Background color of the entire screen
 
@@ -39,10 +39,12 @@ class MainWindow(QWidget):
 
         # Central widget that holds the main layout and stays fixed-size
         central_widget = QWidget()
+        central_widget.resize(1270, 800)
         central_widget.setStyleSheet(f"""
                             {get_main_window_style()}
                             {get_default_menu_button_style()}
-                            background-color: #F0F0F0;
+                            border: 3px solid #000000;
+                            border-radius: 3px;
                         """)
         central_widget.setFont(QFont('Inter', 20))
 
@@ -51,7 +53,6 @@ class MainWindow(QWidget):
 
         # Menu layout
         self.menu_layout = QHBoxLayout()
-
         # Creating the menu buttons
         self.menu_buttons = {
             "Menu": QPushButton("Menu"),
