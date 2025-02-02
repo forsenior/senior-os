@@ -2,12 +2,10 @@ def get_main_window_style():
     return """
         QMainWindow {
             background-color: #FFFFFF;
-            border: 1px solid #000000;
-            border-radius: 3px;
-            max-width: 1280px;
-            max-height: 800px;
-            margin: 0px;
-            padding: 0px;
+            border: 2px solid #000000;
+            border-radius: 8px;
+            margin: 20px;
+            padding: 20px;
             box-sizing: border-box;
         }
     """
@@ -15,26 +13,18 @@ def get_main_window_style():
 def get_default_menu_button_style():
     return """
         QPushButton {
-            text-align:center;
+            text-align: center;
             font-family: Inter;
             font-size: 40px;
-            padding: 5px;
+            padding: 10px;
             background-color: #949494;
-            border: 1px solid #797979;
-            border-radius: 3px;
+            border: 2px solid #000000;
+            border-radius: 8px;
             color: #FFFFFF;
-            margin-left: 5px;
-            margin-top: 5px;
-            margin-right: 5px;
-            margin-bottom: 10px;
-            max-width: 510px;
-            min-height: 70px;
+            margin: 8px;
             box-sizing: border-box;
         }
         QPushButton:hover {
-            background-color: #48843F;
-        }
-        QPushButton:open {
             background-color: #48843F;
         }
     """
@@ -43,13 +33,14 @@ def get_active_menu_button_style():
     return """
         QPushButton {
             background-color: #48843F;
-            border: 1px solid #797979;
-            border-radius: 3px;
+            border: 2px solid #000000;
+            border-radius: 8px;
             color: #FFFFFF;
-            margin-left: 5px;
-            margin-top: 5px;
-            margin-right: 5px;
-            margin-bottom: 8px;
+            margin: 8px;
+            text-align: center;
+            font-family: Inter;
+            font-size: 40px;
+            padding: 10px;
             box-sizing: border-box;
         }
         QPushButton:hover {
@@ -81,27 +72,38 @@ def get_error_label_style():
 
 def get_default_dropdown_style():
     return """
-    QComboBox {
-        font-family: Inter;
-        font-size: 16px;
-        border: 1px solid #000000;
-        border-radius: 3px;
-        text-align: left;
-        max-width: 500px;
-        max-height: 32px;
-    }
+        QComboBox {
+            font-family: Inter;
+            font-size: 16px;
+            border: 1px solid #000000;
+            border-radius: 4px;
+            padding: 8px;
+            background-color: #D9D9D9;
+            min-height: 40px;
+            max-width: 500px;
+        }
+        QComboBox::drop-down {
+            border: none;
+        }
+        QComboBox::down-arrow {
+            image: url(../icons/dropdown_arrow.png);
+            width: 12px;
+            height: 12px;
+        }
     """
 
 def get_default_input_box_style():
     return """
-    QLineEdit {
-        font-family: Inter;
-        font-size: 16px;
-        border: 1px solid #000000;
-        border-radius: 3px;
-        max-width: 500px;
-        max-height: 32px;
-    }
+        QLineEdit {
+            font-family: Inter;
+            font-size: 16px;
+            border: 1px solid #000000;
+            border-radius: 4px;
+            padding: 8px;
+            background-color: #FFFFFF;
+            min-height: 40px;
+            max-width: 500px;
+        }
     """
 
 def get_default_settings_button_style():

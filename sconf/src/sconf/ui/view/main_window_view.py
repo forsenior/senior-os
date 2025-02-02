@@ -2,7 +2,7 @@ import sys
 
 from PyQt5.QtCore import QSize, Qt
 from PyQt5.QtGui import QFont, QPixmap, QIcon
-from PyQt5.QtWidgets import QWidget, QVBoxLayout, QHBoxLayout, QPushButton, QStackedWidget
+from PyQt5.QtWidgets import QWidget, QVBoxLayout, QHBoxLayout, QPushButton, QStackedWidget, QApplication
 
 from sconf.ui.styles.global_style_sheets import get_main_window_style, get_default_menu_button_style, \
     get_active_menu_button_style
@@ -14,7 +14,7 @@ from sconf.ui.view.sweb_settings_view import WebSettingsView
 class MainWindow(QWidget):
     _configurationFolder: str
 
-    def __init__(self, configurationProvider,
+    def __init__(self, screen: QApplication,  configurationProvider,
                  configurationWriter,
                  configurationFolder: str):
         super().__init__()
@@ -30,29 +30,36 @@ class MainWindow(QWidget):
         # Set main window properties
         self.setWindowTitle("SCONF")
         self.setWindowFlag(Qt.FramelessWindowHint)
-        #self.showFullScreen()
-        # Background styling
-        self.setStyleSheet("background-color: #FFFFFF;")  # Background color of the entire screen
+        self.setStyleSheet("background-color: #FFFFFF;")
+        # self.showFullScreen()
 
-        # Outer layout to center the fixed-size main widget
-        outer_layout = QVBoxLayout(self)
+        # Create fixed-size container that will hold everything
+        container = QWidget(self)
+        # container.setFixedSize(1280, 800)  # Fixed size to match Figma
+        container.setStyleSheet(f"""
+                    {get_main_window_style()}
+                    {get_default_menu_button_style()}
+                    border: 2px solid #000000;
+                    border-radius: 8px;
+                    margin: 20px;
+                """)
 
-        # Central widget that holds the main layout and stays fixed-size
-        central_widget = QWidget()
-        central_widget.resize(1270, 800)
-        central_widget.setStyleSheet(f"""
-                            {get_main_window_style()}
-                            {get_default_menu_button_style()}
-                            border: 3px solid #000000;
-                            border-radius: 3px;
-                        """)
-        central_widget.setFont(QFont('Inter', 20))
+        # Center the container on screen
+        # screenGeometry = screen.geometry()
+        # container.move(
+        #     (screenGeometry.width() - container.width()) // 2,
+        #     (screenGeometry.height() - container.height()) // 2
+        # )
 
-        # Main layout inside the central widget
-        self.main_layout = QVBoxLayout(central_widget)
+        # Main layout inside the container
+        self.main_layout = QVBoxLayout(container)
+        self.main_layout.setContentsMargins(20, 20, 20, 20)
+        self.main_layout.setSpacing(16)
 
         # Menu layout
         self.menu_layout = QHBoxLayout()
+        self.menu_layout.setSpacing(8)  # Consistent spacing between buttons
+
         # Creating the menu buttons
         self.menu_buttons = {
             "Menu": QPushButton("Menu"),
@@ -62,18 +69,30 @@ class MainWindow(QWidget):
             "Mail": QPushButton("Mail")
         }
 
-        for button in self.menu_buttons.values():
-            button.setFixedSize(244, 107)
+        # Set up each button with proper sizing and styling
+        for name, button in self.menu_buttons.items():
+            button.setFixedSize(230, 80)  # Updated size to match Figma
+            if name == "X":
+                pixmap_icon = QPixmap("../sconf/icons/exit.png").scaled(40, 40, Qt.KeepAspectRatio,
+                                                                        Qt.SmoothTransformation)
+                button.setIconSize(QSize(40, 40))
+                button.setIcon(QIcon(pixmap_icon))
+            button.setFont(QFont('Inter', 40))  # Larger font size
             self.menu_layout.addWidget(button)
-
-        pixmap_icon = QPixmap(r"../sconf/icons/exit.png").scaled(72, 72)
-        self.menu_buttons["X"].setIconSize(QSize(72, 72))
-        self.menu_buttons["X"].setIcon(QIcon(pixmap_icon))
 
         self.main_layout.addLayout(self.menu_layout)
 
         # Stack for holding multiple views (screens)
         self.stacked_widget = QStackedWidget()
+        self.stacked_widget.setStyleSheet("""
+                    QStackedWidget {
+                        background-color: #FFFFFF;
+                        border: 2px solid #000000;
+                        border-radius: 8px;
+                        padding: 16px;
+                        align: center
+                    }
+                """)
 
         # Creating views for different sections
         self.global_view = GlobalSettingsView(global_configuration, sweb_configuration, smail_configuration)
@@ -87,6 +106,7 @@ class MainWindow(QWidget):
 
         # Adding the stacked widget to the main layout
         self.main_layout.addWidget(self.stacked_widget)
+        self.main_layout.addStretch()  # Adds space at the bottom
 
         # Connecting menu buttons to their respective actions
         self.menu_buttons["X"].clicked.connect(self.terminate_shelp)
@@ -94,28 +114,15 @@ class MainWindow(QWidget):
         self.menu_buttons["Web"].clicked.connect(self.show_web_view)
         self.menu_buttons["Mail"].clicked.connect(self.show_mail_view)
 
-        # Layout adjustments to center central widget
-        outer_layout.addStretch(1)  # Space above central widget
-        h_layout = QHBoxLayout()
-        h_layout.addStretch(1)  # Space to the left
-        h_layout.addWidget(central_widget)
-        h_layout.addStretch(1)  # Space to the right
-        outer_layout.addLayout(h_layout)
-        outer_layout.addStretch(1)  # Space below central widget
+        # Set initial active view
+        self.show_global_view()
 
-    # Slot to terminate the application
-    # TODO: To implement what is written here
-    # 1. Save the configuration into the file
-    # 2. Make data provider update its in memory storage
-    # 3. Start the SOS launcher if not already running
-    # 4. Terminate the SHELP
     def terminate_shelp(self):
         self._configurationWriter.update_configuration(
             configuration=self._configurationProvider.get_main_configuration()
         )
         sys.exit(0)
 
-    # Slot to switch to Global view
     def show_global_view(self):
         self.menu_buttons["Global"].setStyleSheet(get_active_menu_button_style())
         self.menu_buttons["Web"].setStyleSheet(get_default_menu_button_style())
@@ -128,7 +135,6 @@ class MainWindow(QWidget):
         self.menu_buttons["Mail"].setStyleSheet(get_default_menu_button_style())
         self.stacked_widget.setCurrentIndex(1)
 
-    # Slot to switch to Mail view
     def show_mail_view(self):
         self.menu_buttons["Global"].setStyleSheet(get_default_menu_button_style())
         self.menu_buttons["Web"].setStyleSheet(get_default_menu_button_style())

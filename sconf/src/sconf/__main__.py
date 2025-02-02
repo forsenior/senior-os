@@ -25,7 +25,7 @@ def main():
         screen = app.primaryScreen()
         print(f"Screen size: {screen.size()}")
 
-        window = MainWindow(_dataProvider, _dataWriter, config_folder)
+        window = MainWindow(screen, _dataProvider, _dataWriter, config_folder)
         window.setBaseSize(1270, 800)
         window.resize(1270, 800)
         window.show()
