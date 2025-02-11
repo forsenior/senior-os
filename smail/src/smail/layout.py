@@ -182,13 +182,13 @@ class first_frame(QWidget):
                 else:
                     raise ValueError(f"Failed to load image at {image_path}")
 
-            self.exit_image = load_icon(self.img[0])
-            self.person1_image = load_icon(self.img[1])
-            self.person2_image = load_icon(self.img[2])
-            self.person3_image = load_icon(self.img[3])
-            self.person4_image = load_icon(self.img[4])
-            self.person5_image = load_icon(self.img[5])
-            self.person6_image = load_icon(self.img[6])
+            self.exit_image = load_icon("../sconf/" + self.img[0])
+            self.person1_image = load_icon("../sconf/" + self.img[1])
+            self.person2_image = load_icon("../sconf/" + self.img[2])
+            self.person3_image = load_icon("../sconf/" + self.img[3])
+            self.person4_image = load_icon("../sconf/" + self.img[4])
+            self.person5_image = load_icon("../sconf/" + self.img[5])
+            self.person6_image = load_icon("../sconf/" + self.img[6])
 
         except Exception as e:
             print(f"Failed loading language and images: {e}")

@@ -21,7 +21,7 @@ def main():
         app = QApplication([])
         window = QMainWindow()
         # window.showFullScreen()
-        window.setGeometry(100, 100, 1280, 420)
+        window.setGeometry(100, 100, 1280, 720)
         window.setWindowFlags(Qt.FramelessWindowHint)
         layout = first_frame(window, _dataProvider)
         window.setCentralWidget(layout)
