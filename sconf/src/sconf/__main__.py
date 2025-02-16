@@ -26,9 +26,9 @@ def main():
         print(f"Screen size: {screen.size()}")
 
         window = MainWindow(screen, _dataProvider, _dataWriter, config_folder)
-        window.setBaseSize(1270, 800)
-        window.resize(1270, 800)
         window.show()
+        window.showFullScreen()
+        print(window.size())
         sys.exit(app.exec_())
     except Exception as e:
         print(f"Exception occurred {e}")

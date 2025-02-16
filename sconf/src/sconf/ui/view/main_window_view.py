@@ -2,7 +2,7 @@ import sys
 
 from PyQt5.QtCore import QSize, Qt
 from PyQt5.QtGui import QFont, QPixmap, QIcon
-from PyQt5.QtWidgets import QWidget, QVBoxLayout, QHBoxLayout, QPushButton, QStackedWidget, QApplication
+from PyQt5.QtWidgets import QWidget, QVBoxLayout, QHBoxLayout, QPushButton, QStackedWidget, QApplication, QMainWindow
 
 from sconf.ui.styles.global_style_sheets import get_main_window_style, get_default_menu_button_style, \
     get_active_menu_button_style
@@ -11,7 +11,7 @@ from sconf.ui.view.smail_settings_view import MailSettingsView
 from sconf.ui.view.sweb_settings_view import WebSettingsView
 
 
-class MainWindow(QWidget):
+class MainWindow(QMainWindow):
     _configurationFolder: str
 
     def __init__(self, screen: QApplication,  configurationProvider,
@@ -29,27 +29,20 @@ class MainWindow(QWidget):
 
         # Set main window properties
         self.setWindowTitle("SCONF")
+        self.setMinimumSize(1280, 800)
         self.setWindowFlag(Qt.FramelessWindowHint)
         self.setStyleSheet("background-color: #FFFFFF;")
-        # self.showFullScreen()
 
         # Create fixed-size container that will hold everything
         container = QWidget(self)
-        # container.setFixedSize(1280, 800)  # Fixed size to match Figma
+        container.setFixedSize(1280, 800)  # Fixed size to match Figma
         container.setStyleSheet(f"""
                     {get_main_window_style()}
                     {get_default_menu_button_style()}
                     border: 2px solid #000000;
                     border-radius: 8px;
-                    margin: 20px;
+                    margin: 40px;
                 """)
-
-        # Center the container on screen
-        # screenGeometry = screen.geometry()
-        # container.move(
-        #     (screenGeometry.width() - container.width()) // 2,
-        #     (screenGeometry.height() - container.height()) // 2
-        # )
 
         # Main layout inside the container
         self.main_layout = QVBoxLayout(container)
@@ -57,8 +50,8 @@ class MainWindow(QWidget):
         self.main_layout.setSpacing(16)
 
         # Menu layout
-        self.menu_layout = QHBoxLayout()
-        self.menu_layout.setSpacing(8)  # Consistent spacing between buttons
+        self.menu_layout = QHBoxLayout(container)
+        self.menu_layout.setSpacing(1)  # Consistent spacing between buttons
 
         # Creating the menu buttons
         self.menu_buttons = {
@@ -83,14 +76,14 @@ class MainWindow(QWidget):
         self.main_layout.addLayout(self.menu_layout)
 
         # Stack for holding multiple views (screens)
-        self.stacked_widget = QStackedWidget()
+        self.stacked_widget = QStackedWidget(container)
         self.stacked_widget.setStyleSheet("""
                     QStackedWidget {
                         background-color: #FFFFFF;
                         border: 2px solid #000000;
                         border-radius: 8px;
                         padding: 16px;
-                        align: center
+                        position: relative
                     }
                 """)
 
@@ -113,6 +106,12 @@ class MainWindow(QWidget):
         self.menu_buttons["Global"].clicked.connect(self.show_global_view)
         self.menu_buttons["Web"].clicked.connect(self.show_web_view)
         self.menu_buttons["Mail"].clicked.connect(self.show_mail_view)
+
+        screenGeometry = screen.geometry()
+        container.move(
+             (screenGeometry.width() - container.width()) // 2,
+             (screenGeometry.height() - container.height()) // 2
+        )
 
         # Set initial active view
         self.show_global_view()

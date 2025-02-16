@@ -16,12 +16,11 @@ def get_default_menu_button_style():
             text-align: center;
             font-family: Inter;
             font-size: 40px;
-            padding: 10px;
             background-color: #949494;
-            border: 2px solid #000000;
+            border: 1px solid #797979;
             border-radius: 8px;
             color: #FFFFFF;
-            margin: 8px;
+            margin: 1px;
             box-sizing: border-box;
         }
         QPushButton:hover {
@@ -33,14 +32,13 @@ def get_active_menu_button_style():
     return """
         QPushButton {
             background-color: #48843F;
-            border: 2px solid #000000;
+            border: 1px solid #797979;
             border-radius: 8px;
             color: #FFFFFF;
-            margin: 8px;
+            margin: 1px;
             text-align: center;
             font-family: Inter;
             font-size: 40px;
-            padding: 10px;
             box-sizing: border-box;
         }
         QPushButton:hover {
