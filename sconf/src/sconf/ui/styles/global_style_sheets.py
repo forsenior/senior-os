@@ -10,6 +10,7 @@ def get_main_window_style():
         }
     """
 
+
 def get_default_menu_button_style():
     return """
         QPushButton {
@@ -27,6 +28,7 @@ def get_default_menu_button_style():
             background-color: #48843F;
         }
     """
+
 
 def get_active_menu_button_style():
     return """
@@ -46,6 +48,7 @@ def get_active_menu_button_style():
         }
     """
 
+
 def get_default_label_style():
     return """
     QLabel {
@@ -57,6 +60,21 @@ def get_default_label_style():
     }
     """
 
+
+def get_default_rich_text_style():
+    return """
+        QLabel {
+            font-family: Inter;
+            font-size: 20px;
+            color: #000000;
+            background-color: #e6e8e6;
+            text-align: center;
+            margin: 10px;
+            padding: 20px;
+        }
+        """
+
+
 def get_error_label_style():
     return """
     QLabel {
@@ -67,6 +85,7 @@ def get_error_label_style():
         text-align: center;
     }
     """
+
 
 def get_default_dropdown_style():
     return """
@@ -90,6 +109,7 @@ def get_default_dropdown_style():
         }
     """
 
+
 def get_default_input_box_style():
     return """
         QLineEdit {
@@ -103,6 +123,7 @@ def get_default_input_box_style():
             max-width: 500px;
         }
     """
+
 
 def get_default_settings_button_style():
     return """
@@ -120,6 +141,7 @@ def get_default_settings_button_style():
         }
     """
 
+
 def get_default_settings_text_edit_style():
     return """
         QTextEdit {
@@ -131,6 +153,7 @@ def get_default_settings_text_edit_style():
             max-height: 200px;
         }
     """
+
 
 def get_default_table_style():
     return """

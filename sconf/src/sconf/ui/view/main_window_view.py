@@ -6,6 +6,7 @@ from PyQt5.QtWidgets import QWidget, QVBoxLayout, QHBoxLayout, QPushButton, QSta
 
 from sconf.ui.styles.global_style_sheets import get_main_window_style, get_default_menu_button_style, \
     get_active_menu_button_style
+from sconf.ui.view.credits_view import CreditsView
 from sconf.ui.view.global_settings_view import GlobalSettingsView
 from sconf.ui.view.smail_settings_view import MailSettingsView
 from sconf.ui.view.sweb_settings_view import WebSettingsView
@@ -55,7 +56,7 @@ class MainWindow(QMainWindow):
 
         # Creating the menu buttons
         self.menu_buttons = {
-            "Menu": QPushButton("Menu"),
+            "Credits": QPushButton("Credits"),
             "X": QPushButton(""),
             "Global": QPushButton("Global"),
             "Web": QPushButton("Web"),
@@ -88,20 +89,23 @@ class MainWindow(QMainWindow):
                 """)
 
         # Creating views for different sections
+        self.credit_views = CreditsView()
         self.global_view = GlobalSettingsView(global_configuration, sweb_configuration, smail_configuration)
         self.web_view = WebSettingsView(sweb_configuration, configurationFolder)
         self.mail_view = MailSettingsView(smail_configuration, configurationFolder)
 
         # Adding views to the stacked widget
-        self.stacked_widget.addWidget(self.global_view)  # Index 0
-        self.stacked_widget.addWidget(self.web_view)  # Index 1
-        self.stacked_widget.addWidget(self.mail_view)  # Index 2
+        self.stacked_widget.addWidget(self.credit_views) # Index 0
+        self.stacked_widget.addWidget(self.global_view)  # Index 1
+        self.stacked_widget.addWidget(self.web_view)  # Index 2
+        self.stacked_widget.addWidget(self.mail_view)  # Index 3
 
         # Adding the stacked widget to the main layout
         self.main_layout.addWidget(self.stacked_widget)
         self.main_layout.addStretch()  # Adds space at the bottom
 
         # Connecting menu buttons to their respective actions
+        self.menu_buttons["Credits"].clicked.connect(self.show_credits_view)
         self.menu_buttons["X"].clicked.connect(self.terminate_shelp)
         self.menu_buttons["Global"].clicked.connect(self.show_global_view)
         self.menu_buttons["Web"].clicked.connect(self.show_web_view)
@@ -116,6 +120,13 @@ class MainWindow(QMainWindow):
         # Set initial active view
         self.show_global_view()
 
+    def show_credits_view(self):
+        self.menu_buttons["Credits"].setStyleSheet(get_active_menu_button_style())
+        self.menu_buttons["Global"].setStyleSheet(get_default_menu_button_style())
+        self.menu_buttons["Web"].setStyleSheet(get_default_menu_button_style())
+        self.menu_buttons["Mail"].setStyleSheet(get_default_menu_button_style())
+        self.stacked_widget.setCurrentIndex(0)
+
     def terminate_shelp(self):
         self._configurationWriter.update_configuration(
             configuration=self._configurationProvider.get_main_configuration()
@@ -123,19 +134,22 @@ class MainWindow(QMainWindow):
         sys.exit(0)
 
     def show_global_view(self):
+        self.menu_buttons["Credits"].setStyleSheet(get_default_menu_button_style())
         self.menu_buttons["Global"].setStyleSheet(get_active_menu_button_style())
         self.menu_buttons["Web"].setStyleSheet(get_default_menu_button_style())
         self.menu_buttons["Mail"].setStyleSheet(get_default_menu_button_style())
-        self.stacked_widget.setCurrentIndex(0)
+        self.stacked_widget.setCurrentIndex(1)
 
     def show_web_view(self):
+        self.menu_buttons["Credits"].setStyleSheet(get_default_menu_button_style())
         self.menu_buttons["Global"].setStyleSheet(get_default_menu_button_style())
         self.menu_buttons["Web"].setStyleSheet(get_active_menu_button_style())
         self.menu_buttons["Mail"].setStyleSheet(get_default_menu_button_style())
-        self.stacked_widget.setCurrentIndex(1)
+        self.stacked_widget.setCurrentIndex(2)
 
     def show_mail_view(self):
+        self.menu_buttons["Credits"].setStyleSheet(get_default_menu_button_style())
         self.menu_buttons["Global"].setStyleSheet(get_default_menu_button_style())
         self.menu_buttons["Web"].setStyleSheet(get_default_menu_button_style())
         self.menu_buttons["Mail"].setStyleSheet(get_active_menu_button_style())
-        self.stacked_widget.setCurrentIndex(2)
+        self.stacked_widget.setCurrentIndex(3)
