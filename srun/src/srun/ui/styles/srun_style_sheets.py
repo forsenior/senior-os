@@ -4,14 +4,14 @@ def get_default_start_button_style():
                 text-align:center;
                 font-family: Inter;
                 font-size: 40px;
-                padding: 5px;
                 background-color: #949494;
                 border: 1px solid #797979;
                 border-radius: 3px;
                 color: #FFFFFF;
+                margin-top: 5px;
                 margin-left: 5px;
                 margin-right: 5px;
-                min-height:260;
+                min-height:250;
                 min-width: 520
             }
             QPushButton:hover {
