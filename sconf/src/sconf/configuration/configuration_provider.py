@@ -9,12 +9,12 @@ from sconf.configuration.models.smail_configuration import SmailConfiguration
 from sconf.configuration.models.sos_configuration import SOSConfiguration
 from sconf.configuration.models.sweb_configuration import SwebConfiguration
 from sconf.decorators.decorators import singleton
-from sconf.configuration.default_configuration import default_configuration
+
 
 @singleton
 class ConfigurationProvider:
-    _configFileName: str = ""
-    _configStoragePath: str = ""
+    _configFileName: str = "config.json"
+    _configStoragePath: str = os.path.join(Path.home(), '.sconf')
     _sosConfiguration: SOSConfiguration
 
     def __init__(self, configFileName: str = 'config.json', configStoragePath: str = os.path.join(Path.home(), '.sconf')):
@@ -24,23 +24,10 @@ class ConfigurationProvider:
         :param configFileName: Name of the SOS configuration file
         :param configStoragePath: Expected folder path from which the configuration can be loaded into memory
         """
-        self._configFileName = 'config.json'
-        if os.path.exists(os.path.join(Path.home(), '.sconf')):
-            if os.path.isdir(os.path.join(Path.home(), '.sconf')):
-                self._configStoragePath = os.path.join(Path.home(), '.sconf')
-            else:
-                print(f"{os.path.join(Path.home(), '.sconf')} exists and is NOT a directory!")
-                exit(1)
-        else:
-            os.mkdir(os.path.join(Path.home(), '.sconf'))
-
         self.__load_configuration()
 
     def __load_configuration(self):
         config_file = os.path.join(self._configStoragePath, self._configFileName)
-        if not os.path.exists(config_file):
-            with open(config_file, 'w') as newConfig:
-                json.dump(default_configuration(), newConfig)
         with open(config_file, 'r') as sourceFile:
             self._sosConfiguration: SOSConfiguration = fromdict(SOSConfiguration, json.load(sourceFile))
 
