@@ -3,10 +3,12 @@ import sys
 
 from typing import List
 
-from PyQt5.QtCore import Qt, QSize
+from PyQt5.QtCore import Qt, QSize, QTimer
 from PyQt5.QtGui import QPixmap, QIcon
-from PyQt5.QtWidgets import QWidget, QGridLayout, QPushButton, QHBoxLayout, QVBoxLayout, QDialog
+from PyQt5.QtWidgets import QWidget, QGridLayout, QPushButton, QHBoxLayout, QVBoxLayout, QDialog, QLabel, QProgressBar, \
+    QStackedWidget, QStackedLayout
 
+from sconf.ui.styles.global_style_sheets import get_error_label_style
 from srun.data.executables import SosExecutables
 from srun.ui.dialog.password_dialog import PasswordPopup
 from srun.ui.styles.srun_style_sheets import get_default_start_button_style, get_default_center_widget_style
@@ -15,17 +17,18 @@ from sconf.configuration.configuration_writer import ConfigurationWriter
 
 
 class MainWindowView(QWidget):
-    __working_directory: str
-    __srun_free_path: str
-    __poetry_run_command: str = "poetry run python"
     __executables: SosExecutables
 
-    def __init__(self, start_objects: List[str], data_provider: ConfigurationProvider,
+    def __init__(self, data_provider: ConfigurationProvider,
                  data_writer: ConfigurationWriter):
         super().__init__()
 
-        self.__working_directory = os.getcwd()
-        self.__srun_free_path = self.__working_directory.split('srun')[0]
+        self.timer = QTimer()
+        self.timer.setInterval(30)
+        self.timer.timeout.connect(self.__update_progress)
+        self.hold_duration = 3000
+        self.elapsed_time = 0
+
         self.__executables = SosExecutables()
 
         self.main_configuration = data_provider.get_main_configuration()
@@ -33,7 +36,7 @@ class MainWindowView(QWidget):
 
         self.setWindowTitle("SRUN")
         self.setWindowFlag(Qt.FramelessWindowHint)
-        self.showFullScreen()
+        #self.showFullScreen()
 
         # Set main background style
         self.setStyleSheet(f"""
@@ -70,7 +73,9 @@ class MainWindowView(QWidget):
         grid_layout.addWidget(button_sconf, 1, 0)
         grid_layout.addWidget(button_exit, 1, 1)
 
-        button_exit.clicked.connect(self.__handle_exit_clicked)
+        button_exit.pressed.connect(self.__start_timer)
+        button_exit.released.connect(self.__stop_timer)
+
         button_smail.clicked.connect(self.__handle_smail_clicked)
         button_sweb.clicked.connect(self.__handle_sweb_clicked)
         button_sconf.clicked.connect(self.__handle_sconf_clicked)
@@ -84,21 +89,38 @@ class MainWindowView(QWidget):
         main_layout.addLayout(h_layout)
         main_layout.addStretch(1)  # Add space below the central widget
 
-    def __handle_exit_clicked(self):
+    def __start_timer(self):
+        self.elapsed_time = 0
+        self.timer.start()
+
+    def __stop_timer(self):
+        if self.timer.isActive():
+            self.timer.stop()
+
+    def __update_progress(self):
+        self.elapsed_time += self.timer.interval()
+        # self.progress_bar.setValue(self.elapsed_time)
+
+        if self.elapsed_time >= self.hold_duration:
+            self.timer.stop()
+            self.__handle_exit_timeout()
+
+    def __handle_exit_timeout(self):
+        print("Timeout elapsed shuting down the system")
         sys.exit(0)
+        os.system(f"poweroff")
 
     def __handle_smail_clicked(self):
-
         os.system(f"{self.__executables.smail}")
         print(os.getcwd())
 
     def __handle_sweb_clicked(self):
-
         os.system(f"{self.__executables.sweb}")
 
         print(os.getcwd())
 
     def __handle_sconf_clicked(self):
+        self.label_error.setVisible(False)
         password_dialog = PasswordPopup(password=self.main_configuration.configurationPassword,
                                         initial_start_up=self.main_configuration.initialStartUp)
 
@@ -106,13 +128,14 @@ class MainWindowView(QWidget):
                                        and self.main_configuration.initialStartUp) else False
 
         if password_dialog.exec_() == QDialog.Accepted:
-
             if is_initial_start_up:
                 self.main_configuration.configurationPassword = password_dialog.get_confirmed_password()
                 self.main_configuration.initialStartUp = False
                 self.data_writer.update_configuration(self.main_configuration)
 
             os.system(f"{self.__executables.sconf}")
+        elif password_dialog.exec_() == QDialog.rejected:
+            print("Given password is either empty or incorrect. Please try again.")
         else:
             # Handle the case where the dialog was canceled if needed
             print("Password setup canceled.")
