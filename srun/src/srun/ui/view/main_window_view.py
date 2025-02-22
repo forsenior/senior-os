@@ -1,14 +1,9 @@
 import os.path
 import sys
 
-from typing import List
-
 from PyQt5.QtCore import Qt, QSize, QTimer
 from PyQt5.QtGui import QPixmap, QIcon
-from PyQt5.QtWidgets import QWidget, QGridLayout, QPushButton, QHBoxLayout, QVBoxLayout, QDialog, QLabel, QProgressBar, \
-    QStackedWidget, QStackedLayout
-
-from sconf.ui.styles.global_style_sheets import get_error_label_style
+from PyQt5.QtWidgets import QWidget, QGridLayout, QPushButton, QHBoxLayout, QVBoxLayout, QDialog
 from srun.data.executables import SosExecutables
 from srun.ui.dialog.password_dialog import PasswordPopup
 from srun.ui.styles.srun_style_sheets import get_default_start_button_style, get_default_center_widget_style
@@ -36,7 +31,7 @@ class MainWindowView(QWidget):
 
         self.setWindowTitle("SRUN")
         self.setWindowFlag(Qt.FramelessWindowHint)
-        #self.showFullScreen()
+        self.showFullScreen()
 
         # Set main background style
         self.setStyleSheet(f"""
@@ -106,7 +101,7 @@ class MainWindowView(QWidget):
             self.__handle_exit_timeout()
 
     def __handle_exit_timeout(self):
-        print("Timeout elapsed shuting down the system")
+        print("Timeout elapsed shutting down the system")
         sys.exit(0)
         os.system(f"poweroff")
 
