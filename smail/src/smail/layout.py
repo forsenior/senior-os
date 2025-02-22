@@ -2,7 +2,7 @@ import os
 import re
 import subprocess
 import threading
-
+from pathlib import Path
 from PyQt5 import sip
 from PyQt5.QtCore import Qt, QTimer, QUrl, QSize
 from PyQt5.QtGui import QTextCharFormat, QTextCursor, QDesktopServices, QIcon, QPixmap
@@ -172,26 +172,41 @@ class first_frame(QWidget):
 
     def image_configuration(self):
         try:
-            self.img = style.images(self.data_provider)
 
-            def load_icon(image_path, width=413, height=531):
-                pixmap = QPixmap(image_path)
+            BASE_DIR = Path(__file__).resolve().parents[3]
+            ICONS_DIR = BASE_DIR / "sconf" / "icons"
+
+            def load_icon(image_name, width=413, height=531)
+                image_path = ICONS_DIR / image_name
+                pixmap = QPixmap(str(image_path))
                 if not pixmap.isNull():
-                    pixmap = pixmap.scaled(width, height, aspectRatioMode=Qt.KeepAspectRatio, transformMode=Qt.SmoothTransformation)
+                    pixmap = pixmap.scaled(width, height, aspectRatioMode=Qt.KeepAspectRatio,
+                                           transformMode=Qt.SmoothTransformation)
                     return QIcon(pixmap)
                 else:
                     raise ValueError(f"Failed to load image at {image_path}")
 
-            self.exit_image = load_icon("../sconf/" + self.img[0])
-            self.person1_image = load_icon("../sconf/" + self.img[1])
-            self.person2_image = load_icon("../sconf/" + self.img[2])
-            self.person3_image = load_icon("../sconf/" + self.img[3])
-            self.person4_image = load_icon("../sconf/" + self.img[4])
-            self.person5_image = load_icon("../sconf/" + self.img[5])
-            self.person6_image = load_icon("../sconf/" + self.img[6])
+            # Nacteni seznamu ikon z konfigurace (prozatimni)
+            self.img = [
+            "exit.png",
+            "smail_person_1.png",
+            "smail_person_2.png",
+            "smail_person_3.png",
+            "smail_person_4.png",
+            "smail_person_5.png",
+            "smail_person_6.png",
+        ]
+
+            self.exit_image = load_icon(self.img[0])
+            self.person1_image = load_icon(self.img[1])
+            self.person2_image = load_icon(self.img[2])
+            self.person3_image = load_icon(self.img[3])
+            self.person4_image = load_icon(self.img[4])
+            self.person5_image = load_icon(self.img[5])
+            self.person6_image = load_icon(self.img[6])
 
         except Exception as e:
-            print(f"Failed loading language and images: {e}")
+            print(f"Failed loading images: {e}")
 
     def exit_app(self):
         self.close()
