@@ -3,9 +3,9 @@ Description=Mount unit for SeniorOS persistence
 
 [Mount]
 What=/dev/disk/by-label/senioros-persist
-Where=/cow
+Where=/persistence
 Type=ext4
-Options=nofail,rw
+Options=nofail,rw,mode=0777
 
 [Install]
 WantedBy=multi-user.target
