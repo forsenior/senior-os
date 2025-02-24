@@ -5,7 +5,7 @@ Description=Mount unit for SeniorOS persistence
 What=/dev/disk/by-label/senioros-persist
 Where=/persistence
 Type=ext4
-Options=nofail,rw,mode=0777
+Options=nofail,rw
 
 [Install]
 WantedBy=multi-user.target
