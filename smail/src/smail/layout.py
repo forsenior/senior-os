@@ -176,7 +176,7 @@ class first_frame(QWidget):
             BASE_DIR = Path(__file__).resolve().parents[3]
             ICONS_DIR = BASE_DIR / "sconf" / "icons"
 
-            def load_icon(image_name, width=413, height=531)
+            def load_icon(image_name, width=413, height=531):
                 image_path = ICONS_DIR / image_name
                 pixmap = QPixmap(str(image_path))
                 if not pixmap.isNull():
