@@ -1,7 +1,9 @@
+
 # Frameworks from PyQt5 libraries
+from PyQt5.QtWebEngineWidgets import QWebEnginePage, QWebEngineView, QWebEngineProfile
 from PyQt5.QtWidgets import QMainWindow, QApplication, QStyle, QLabel, QVBoxLayout, QHBoxLayout
 from PyQt5.QtWidgets import QLineEdit, QPushButton, QToolBar, QWidget
-from PyQt5.QtWebEngineWidgets import QWebEnginePage, QWebEngineView, QWebEngineProfile
+
 from PyQt5.QtCore import QEvent, QUrl, Qt, QTimer, QSize, pyqtSignal, QObject, pyqtSlot
 from PyQt5.QtGui import QIcon
 from PyQt5.QtWidgets import QSizePolicy
@@ -15,6 +17,8 @@ from sweb.utils.monitor_provider import GetMonitorHeightAndWidth
 from sweb.phish.notification_email import NotificationFillTextToPhishing
 from sweb.browser.browser_core import MyWebEnginePage
 import os
+# Set QT Environment Variables
+os.environ["QTWEBENGINE_DISABLE_SANDBOX"] = "1"
 # My main browser contains all GUI in this class (Toolbar, Buttons, URLbar)
 
 ## static size of the button
@@ -22,7 +26,7 @@ BUTTON_WIDTH = 244
 BUTTON_HEIGHT = 107
 
 # static size of the toolbar
-TOOLBAR_WIDTH = 1360
+TOOLBAR_WIDTH = 1340
 TOOLBAR_HEIGHT = 117
 
 
@@ -61,29 +65,15 @@ class MyBrowser(QMainWindow):
         # Create notification when connection and input text to phishing page
         self.notification_fill_text = NotificationFillTextToPhishing()
         self.my_custom_page.channel.registerObject("notification_fill_text",self.notification_fill_text)
-        # Load URL blocker and logger
-        #self.data_in_my_config_data = my_config_data
-        #path_to_phishing_database =_dataProvider.phishingDatabase
-        #path_to_allowed_website = _dataProvider.allowedURL
-        #path_to_phishing_database = my_config_data["phishing_database"]["path"]
         self.url_blocker = URLBlocker(_dataProvider.phishingDatabase,_dataProvider.allowedURL)
-    
-        
         # Check if phishing database is up to date
         phishing_database_check_update = PhishingDatabaseModificationChecker(_dataProvider)
         phishing_database_check_update.check_and_update_if_needed()
         
-        # Initialization pygame mixer  for play sounds
-        ##pygame.mixer.init()
-        # Sound control attribute
-   
-        # Get height and width from class GetHeightAndWidthInfo
-        self.buttons_width_info = BUTTON_WIDTH
-        ##self.buttons_width_info = self.get_monitor_height_and_width.get_width_button()
 
-        self.buttons_height_info = BUTTON_HEIGHT
-        ##self.buttons_height_info =self.get_monitor_height_and_width.get_height_button()
-        
+        self.buttons_width_info = BUTTON_WIDTH
+
+        self.buttons_height_info = BUTTON_HEIGHT      
         # Get my parametr from file
         self.color_info_menu = "#e5e5e5"
         self.color_info_app = "#FFFFFF"
@@ -91,11 +81,6 @@ class MyBrowser(QMainWindow):
         self.color_info_button_selected = "#00ff00"
         
         # Get path for images
-        #self.path_to_image_exit = my_config_data["image"]["sweb_image_exit"]
-        #self.path_to_image_exit = _dataProvider.get_sweb_configuration().picturePaths[0]
-
-        #(_dataProvider.get_sweb_configuration().picturePaths[0])
-
         self.path_to_image_exit = _dataProvider.picturePaths[0]
         self.path_to_image_www1 = _dataProvider.picturePaths[1]
         self.path_to_image_www2 = _dataProvider.picturePaths[2]
@@ -117,7 +102,6 @@ class MyBrowser(QMainWindow):
         self.menu_2_toolbar = QToolBar("MENU 2")
         self.addToolBar(self.menu_2_toolbar)
         self.menu_2_toolbar.setMovable(False)
-        #self.menu_2_toolbar.setFixedSize(1600, 117)
 
         # Add the buttons to the toolbar
         #self.setup_initial_menu_2()
@@ -167,7 +151,7 @@ class MyBrowser(QMainWindow):
         QLineEdit {{
             border: 2px solid black;
             height: {self.buttons_height_info}px;
-            font-family: 'Google Sans';
+            font-family: 'Inter';
             font-size: {int(self.buttons_height_info/3)}px;
             font-weight: 'Regular';
             background-color: {self.color_info_app};         
@@ -241,31 +225,6 @@ class MyBrowser(QMainWindow):
         self.menu1Exit.clicked.connect(self.close)
         self.menu1Exit.setCursor(Qt.PointingHandCursor)
         self.menu_1_toolbar.addWidget(self.menu1Exit)
-
-
-        '''
-        # Add back button
-        self.back_btn = QPushButton(self)
-        self.back_btn.setFixedSize(360, 210)  # Set size to 360x210
-        back_layout = QVBoxLayout(self.back_btn)
-        # Set icon for Language
-        back_icon = self.style().standardIcon(QStyle.SP_ArrowBack)
-        back_label = QLabel(self.back_btn)
-        back_label.setPixmap(back_icon.pixmap(QSize(int(self.buttons_width_info/(2)),int(self.buttons_height_info/(2)))))
-        back_layout.addWidget(back_label)
-        # Change to hand when click cursor
-        self.back_btn.setCursor(Qt.PointingHandCursor)
-        # Align text and icon in the center
-        back_layout.setAlignment(back_label,Qt.AlignCenter)
-        self.back_btn.clicked.connect(self.main_browser.back)
-        self.menu_1_toolbar.addWidget(self.back_btn)
-        
-         # Add a blank space between two button
-        spacer3 = QWidget()
-        spacer3.setFixedWidth(self.button_value_padd_info)
-        self.menu_1_toolbar.addWidget(spacer3)
-        
-        '''
 
         # Add Menu1_WWW1 button
         self.menu1WWW1 = QPushButton(self)
@@ -430,7 +389,7 @@ class MyBrowser(QMainWindow):
             QToolBar {{
             border: 0px solid transparent;
             background-color: transparent;
-            spacing: 0px;
+            spacing: 16px;
             width: {TOOLBAR_WIDTH}px;
             height: {TOOLBAR_HEIGHT}px;
             
@@ -445,12 +404,12 @@ class MyBrowser(QMainWindow):
                 border-radius: 3px;
                 border: 1px solid #797979;
                 background-color: #949494 ; 
-                margin: 10px 12px 10px 10px;                 
+                margin: 10px 0px 10px 0px;                 
                 font-size: 40px;
                 font-weight: 'Regular';
                 
             
-                font-family: 'Google Sans';
+                font-family: 'Inter';
                 width: 244px;
                 height: 107px;
             }}
@@ -462,7 +421,7 @@ class MyBrowser(QMainWindow):
             QPushButton QLabel {{
                 font-size: 40px;
                 font-weight: 'Regular';
-                font-family: 'Google Sans';
+                font-family: 'Inter';
             }}
         """
         
@@ -474,7 +433,7 @@ class MyBrowser(QMainWindow):
             QToolBar {{
             border: 0px solid transparent;
             background-color: transparent;
-            spacing: 0px;
+            spacing: 16px;
             width: {TOOLBAR_WIDTH}px;
             height: {TOOLBAR_HEIGHT}px;
             }}
@@ -486,10 +445,10 @@ class MyBrowser(QMainWindow):
                 border-radius: 3px;
                 border: 1px solid #797979;
                 background-color: #F90000;   
-                margin: 10px 12px 10px 10px;                 
+                margin: 10px 0px 10px 0px;                 
                 font-size: 40px;
                 font-weight: 'Regular';
-                font-family: 'Google Sans';
+                font-family: 'Inter';
                 width: 244px;
                 height: 107px;
                 
@@ -502,7 +461,7 @@ class MyBrowser(QMainWindow):
             QPushButton QLabel {{
                 font-size: 40px;
                 font-weight: 'Regular';
-                font-family: 'Google Sans';
+                font-family: 'Inter';
             }}
         """
         
@@ -532,18 +491,18 @@ class MyBrowser(QMainWindow):
         check_result = any(permitted_website in url_in_browser_value for permitted_website in permitted_website_list)
         if check_result:
             if "homepage.html" not in url_in_browser_value:
-                self.main_browser.setZoomFactor(1)
+                self.main_browser.setZoomFactor(0.9)
                 # Wait 1 second for loading, after 1 second, connect to change web content (HTML injection)
                 QTimer.singleShot(250, lambda: self.html_injection_to_web_content())
 
         elif self.toggle_phishing_webpage:
-            self.main_browser.setZoomFactor(1)
+            self.main_browser.setZoomFactor(0.9)
             # Wait 1 second for loading, after 1 second, connect to change web content (HTML injection)
             QTimer.singleShot(250, lambda: self.html_injection_to_phishing_web_content())
         else:
             
             if senior_website_posting_option:
-                self.main_browser.setZoomFactor(1)
+                self.main_browser.setZoomFactor(0.9)
                 # Wait 1 second for loading, after 1 second, connect to change web content (HTML injection)
                 QTimer.singleShot(250, lambda: self.html_injection_to_web_content_strict())
             else:
@@ -592,13 +551,13 @@ class MyBrowser(QMainWindow):
             <!-- Method includes will return value in UPPERCASE>
             if (['H3', 'H4', 'H5', 'A'].includes(element.tagName)) {
                 <!-- Header with bigger size-->
-                element.style.fontSize = '20px';
+                element.style.fontSize = '16px';
                 element.style.lineHeight = '1.0';
             }
             <!-- Method includes will return value in UPPERCASE>
             else if (['P', 'DIV', 'ARTICLE', 'SPAN'].includes(element.tagName)) {
                 <!-- Content with smaller size>
-                element.style.fontSize = '17px';
+                element.style.fontSize = '12px';
                 element.style.lineHeight = '1.1';
             }
             Array.from(element.children).forEach(change_content_style);
@@ -630,13 +589,13 @@ class MyBrowser(QMainWindow):
             <!-- Method includes will return value in UPPERCASE>
             if (['H3', 'H4', 'H5', 'A'].includes(element.tagName)) {
                 <!-- Header with bigger size-->
-                element.style.fontSize = '20px';
+                element.style.fontSize = '16px';
                 element.style.lineHeight = '1.0';
             }
             <!-- Method includes will return value in UPPERCASE>
             else if (['P', 'DIV', 'ARTICLE', 'SPAN'].includes(element.tagName)) {
                 <!-- Content with smaller size>
-                element.style.fontSize = '17px';
+                element.style.fontSize = '12px';
                 element.style.lineHeight = '1.1';
             }
             Array.from(element.children).forEach(change_content_style);
@@ -687,20 +646,6 @@ class MyBrowser(QMainWindow):
 
     # Function for updating audio on Browser when user clicked to button Translate
     # Default value is "cz" -> "en" -> "de"
-
-    # QpushButton can be set HoverLeave and HoverEnter event with "widget"
-    # Play sound when usesr hovers on button longer than 5 seconds
-    '''Tarik
-    def setup_hover_sound_value(self, input_widget, hover_time,path_to_sound):
-        # Using Qtimer to set clock
-        input_widget.hover_timer = QTimer()
-        input_widget.hover_timer.setInterval(hover_time)
-        # Run only one times when hover
-        input_widget.hover_timer.setSingleShot(True)
-        input_widget.hover_timer.timeout.connect(lambda: self.play_sound_for_button(path_to_sound))
-        # Install event to widget -> Event is comefrom eventFilter
-        input_widget.installEventFilter(self)
-    '''
     # Set event for leave and enter button -> Using only with QpushButton
     def eventFilter(self, watched, event):
         """
@@ -883,3 +828,5 @@ class MyBrowser(QMainWindow):
         self.main_browser.setUrl(QUrl(self._dataProvider.urlsForWebsites[5]))
         self.url_toolbar.setVisible(False)
         self.toolbar_space.setVisible(False)
+
+
