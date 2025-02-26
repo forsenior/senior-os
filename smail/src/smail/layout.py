@@ -23,8 +23,8 @@ class first_frame(QWidget):
         self.data_provider = data_provider
         self.image_configuration()
         self.language, self.text_configuration = style.get_language(self.data_provider)
-        #self.protection_level = style.get_protection_level(self.data_provider)
-        self.protection_level = 1
+        self.protection_level = style.get_protection_level(self.data_provider)
+        #self.protection_level = 1
         self.color_scheme = style.get_color_scheme()
         self.guardian_email = style.get_guardian_email(self.data_provider)
         self.last_selected_index = None

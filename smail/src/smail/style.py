@@ -304,7 +304,7 @@ def get_protection_level(data_provider):
         Retrieves the current protection level setting from the configuration provider.
     """
     global_config = data_provider.get_global_configuration()
-    protection_level = global_config.protectionLevel.lower()
+    protection_level = global_config.protectionLevel
     return protection_level
 
 def get_email_sender(email_string):
