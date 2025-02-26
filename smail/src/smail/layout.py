@@ -12,12 +12,19 @@ from PyQt5.QtWidgets import QWidget, QVBoxLayout, QFrame, QLabel, QTextEdit, \
 from smail import style
 from smail.connection.mail_connection import send_email, read_mail, send_email_with_guardian_copy
 
+
 class first_frame(QWidget):
     def __init__(self, parent, data_provider):
+        """
+            Initializes the main window of the email client, sets language, colors,
+            buttons, panels, and starts loading emails.
+        """
         super().__init__(parent)
         self.data_provider = data_provider
         self.image_configuration()
         self.language, self.text_configuration = style.get_language(self.data_provider)
+        #self.protection_level = style.get_protection_level(self.data_provider)
+        self.protection_level = 1
         self.color_scheme = style.get_color_scheme()
         self.guardian_email = style.get_guardian_email(self.data_provider)
         self.last_selected_index = None
@@ -66,17 +73,26 @@ class first_frame(QWidget):
         self.allow_show_email = True
 
     def toggle_menu1(self):
+        """
+            Toggles between two main menus (MENU 1 and MENU 2) and updates buttons.
+        """
         self.menu1 = not self.menu1
         print(f"menu1 toggled to: {self.menu1}")
         self.clear_buttons()
         self.buttons_setup()
 
     def button_frame_setup(self):
+        """
+        Creates the frame for the top button bar.
+        """
         self.button_frame = QFrame(self)
         self.button_frame.setStyleSheet(style.get_button_frame_style())
         self.button_layout = QHBoxLayout(self.button_frame)
 
     def clear_buttons(self):
+        """
+            Clears all buttons in the top bar.
+        """
         while self.button_layout.count():
             child = self.button_layout.takeAt(0)
             if child.widget():
@@ -84,6 +100,9 @@ class first_frame(QWidget):
 
     # noinspection PyUnresolvedReferences
     def buttons_setup(self):
+        """
+           Sets up the buttons in the top bar, including icons, text, and click actions.
+        """
         button_9 = getattr(self.text_configuration, f"smail{self.language.capitalize()}SendToButton")
         button_menu1 = ["MENU 1", "EXIT", "Button 2", "Button 3", "Button 4"]
         button_menu2 = ["MENU 2", "Button 6", "Button 7", "Button 8", button_9]
@@ -161,6 +180,9 @@ class first_frame(QWidget):
         self.button_layout.setContentsMargins(10, 12, 10, 10)
 
     def alert_buttons(self, alert=True):
+        """
+            Changes button colors to visually indicate an alert state.
+        """
         for i in range(self.button_layout.count()):
             widget = self.button_layout.itemAt(i).widget()
 
@@ -171,6 +193,9 @@ class first_frame(QWidget):
                     widget.setStyleSheet(style.get_button_style(normal=True))
 
     def image_configuration(self):
+        """
+            Loads and sets button icons based on the configuration.
+        """
         try:
 
             BASE_DIR = Path(__file__).resolve().parents[3]
@@ -209,16 +234,24 @@ class first_frame(QWidget):
             print(f"Failed loading images: {e}")
 
     def exit_app(self):
+        """
+            Closes the application.
+        """
         self.close()
         QApplication.quit()
         QTimer.singleShot(5000, self.force_quit)
 
     def force_quit(self):
+        """
+            Forces the application to close if it doesn't exit properly.
+        """
         print("Force quitting the application after timeout...")
         subprocess.run(["kill", "-9", str(os.getpid())])
 
     def left_panel_setup(self):
-
+        """
+            Sets up the left panel containing the email list.
+        """
         self.left_panel = QFrame(self)
         self.left_panel.setStyleSheet(style.get_left_panel_style())
         self.left_panel.setFixedWidth(259)
@@ -238,7 +271,9 @@ class first_frame(QWidget):
         self.left_panel_layout.addWidget(self.inbox_list)
 
     def right_panel_setup(self, recipient_email="", show_sender_info=True):
-
+        """
+            Sets up the right panel for viewing email details or composing a new email.
+        """
         subject_label = getattr(self.text_configuration, f"smail{self.language.capitalize()}SubjectLabel")
         recipient_label = getattr(self.text_configuration, f"smail{self.language.capitalize()}RecipientLabel")
         message_label = getattr(self.text_configuration, f"smail{self.language.capitalize()}MessageLabel")
@@ -303,17 +338,28 @@ class first_frame(QWidget):
             self.right_panel.layout().addWidget(self.email_content_label_2)
 
     def load_emails(self):
+        """
+            Starts loading emails into the email list.
+        """
         self.insert_emails()
 
     def periodic_email_loading(self):
-            self.load_emails()
-            QTimer.singleShot(10000, self.periodic_email_loading)
+        """
+            Automatically refreshes the email list at regular intervals.
+        """
+        self.load_emails()
+        QTimer.singleShot(10000, self.periodic_email_loading)
 
     def activate_show_email(self, event):
+        """
+            Enables email viewing when an email is clicked.
+        """
         self.allow_show_email = True
 
     def insert_emails(self):
-
+        """
+        Loads emails and filters them based on the protection level.
+        """
         previous_emails = getattr(self, "reversed_list", [])
         (login, password, smtp_server, smtp_port, imap_server, imap_port) = style.load_credentials(self.data_provider)
         language, text = style.get_language(self.data_provider)
@@ -325,6 +371,9 @@ class first_frame(QWidget):
         if self.emails is None or self.subjects is None:
             print("Failed to load emails.")
             return
+
+        self.emails, self.subjects = self.filter_unapproved_emails(self.emails, self.subjects)
+
         self.reversed_list = list(zip(self.emails[::-1], self.subjects[::-1]))
 
         if previous_emails != self.reversed_list:
@@ -334,15 +383,41 @@ class first_frame(QWidget):
             self.all_emails = [(email_content, subject, "safe") for email_content, subject in self.reversed_list]
 
             for email_content, subject, _ in self.all_emails:
-                name = style.get_email_sender(email_content.split("\n")[1])
-                sub = email_content.split("\n")[0].split(":", 1)[1]
-                self.inbox_list.addItem(f"{name} - {sub}")
+                name = style.get_email_sender(email_content.split("\n")[1])  # Extract name
+                self.inbox_list.addItem(f"{name} - {subject}")
 
             # noinspection PyUnresolvedReferences
             self.inbox_list.itemSelectionChanged.connect(self.show_email)
             self.allow_show_email = True
 
+    def filter_unapproved_emails(self, emails, subjects):
+        """
+        Filters incoming emails based on the protection level.
+        - PL2: Blocks emails from unknown contacts.
+        """
+        protection_level = self.protection_level
+        approved_contacts = self.data_provider.get_smail_configuration().emailContacts
+        approved_contacts = [email.lower().strip() for email in approved_contacts]
+
+        filtered_emails = []
+        filtered_subjects = []
+
+        for email, subject in zip(emails, subjects):
+            sender_email = style.get_sender_email(email.split("\n")[1])
+            sender_email = sender_email.lower().strip()
+
+            if protection_level >= 2 and sender_email not in approved_contacts:
+                continue
+
+            filtered_emails.append(email)
+            filtered_subjects.append(subject)
+
+        return filtered_emails, filtered_subjects
+
     def show_email(self):
+        """
+            Displays the content of the selected email in the right panel.
+        """
         if not self.allow_show_email:
             return
 
@@ -386,6 +461,9 @@ class first_frame(QWidget):
         self.is_viewing_inbox_email = True
 
     def configure_message_area(self, email_content, email_subject, email_sender, email_date):
+        """
+            Configures the right panel to display the selected email.
+        """
         self.right_panel.setParent(None)
         self.right_panel_setup(show_sender_info=True)
         self.bottom_layout.addWidget(self.right_panel, stretch=1)
@@ -411,38 +489,42 @@ class first_frame(QWidget):
         self.sender_info_label_2.setReadOnly(True)
 
     def update_email_content(self, subject: str, content: str):
+        """
+            Updates the email subject and content in the right panel.
+        """
         self.email_content_label_1.setText(subject)
         self.email_content_label_2.setText(content)
 
     def decide_action_for_button(self, button, recipient_index=None):
+        """
+        Handles actions when a button is clicked, such as selecting a recipient.
+        """
         try:
             self.inbox_list.clearSelection()
 
             def is_draft_email():
+                """Check if there's an unfinished email that is not an inbox email."""
                 return bool(self.email_content_label_2.toPlainText()) and not self.is_viewing_inbox_email
 
-            # Handling the menu button click (MENU 1 or MENU 2)
             if recipient_index is None:
                 if self.cancel_email:
                     self.cancel_email = False
                     self.clear_email_fields()
                     self.toggle_menu1()
-                elif hasattr(self, 'email_content_label_2') and self.email_content_label_2.toPlainText():
+                elif is_draft_email():
                     self.cancel_email = True
                     self.alert_unconfirmed_email()
                 else:
                     self.toggle_menu1()
                 return
 
-            # Handling the same button click as before
             if self.last_selected_button == button:
                 if self.cancel_email:
-                    self.cancel_email = False
+                    self.cancel_email = False  # Reset cancel flag
                 self.disable_fields_for_sending()
                 QTimer.singleShot(100, self.send_email_status)
                 return
 
-            # Handling a different button click
             if is_draft_email():
                 if not self.cancel_email:
                     self.cancel_email = True
@@ -451,7 +533,6 @@ class first_frame(QWidget):
                 self.cancel_email = False
                 self.clear_email_fields()
 
-            # Set the new recipient
             self.fill_recipient(recipient_index)
             self.last_selected_button_index = recipient_index
             self.last_selected_button = button
@@ -462,6 +543,9 @@ class first_frame(QWidget):
             print(f"An error occurred in decide_action_for_button: {e}")
 
     def fill_recipient(self, index):
+        """
+            Fills in the recipient email address based on the user's selection.
+        """
         try:
             if hasattr(self, 'last_selected_button') and self.last_selected_button is not None:
                 if not sip.isdeleted(self.last_selected_button):
@@ -488,10 +572,16 @@ class first_frame(QWidget):
             print(f"An error occurred in fill_recipient: {e}")
 
     def is_valid_email(self, email):
+        """
+            Checks if an email address is valid.
+        """
         email_regex = r"(^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$)"
         return re.match(email_regex, email) is not None
 
     def send_email_status(self):
+        """
+            Verifies if all required fields are filled and sends the email.
+        """
         missing_info = False
         colors = self.color_scheme
         alert_color = colors["alert_color"]
@@ -502,11 +592,18 @@ class first_frame(QWidget):
         recipient = self.recipient_info_label_2.toPlainText().strip()
         subject = self.recipient_info_label_4.toPlainText().strip()
         content = self.email_content_label_2.toPlainText().strip()
+        approved_contacts = self.data_provider.get_smail_configuration().emailContacts
+        approved_contacts = [email.lower().strip() for email in approved_contacts]
+
+        if self.protection_level >= 3 and recipient.lower() not in approved_contacts:
+            self.alert_missing_text(self.recipient_info_label_2, default_color, alert_color)
+            return
 
         if not recipient:
             print("Recipient was not specified.")
             self.alert_missing_text(self.recipient_info_label_2, default_color, alert_color)
             missing_info = True
+
         elif not self.is_valid_email(recipient):
             print("Invalid recipient email address.")
             self.alert_missing_text(self.recipient_info_label_2, default_color, alert_color)
@@ -551,6 +648,9 @@ class first_frame(QWidget):
             self.send_email_fail()
 
     def send_email_success(self):
+        """
+            Displays a success message when the email is sent.
+        """
         self.sensitive_content_warning_displayed = False
         colors = self.color_scheme
         green_color = colors["green_color"]
@@ -580,6 +680,9 @@ class first_frame(QWidget):
         QTimer.singleShot(5000, lambda: self.clear_content_entry(default_color, 3))
 
     def send_email_fail(self):
+        """
+            Displays an error message if the email fails to send.
+        """
         self.sensitive_content_warning_displayed = False
         colors = self.color_scheme
         alert_color = colors["alert_color"]
@@ -609,6 +712,9 @@ class first_frame(QWidget):
         QTimer.singleShot(5000, lambda: self.clear_content_entry(default_color, 3))
 
     def update_recipient_content(self):
+        """
+            Updates the recipient email address in the right panel.
+        """
         try:
             if not hasattr(self, 'last_selected_button_index') or self.last_selected_button_index is None:
                 print("No valid last selected button index found.")
@@ -622,7 +728,9 @@ class first_frame(QWidget):
             print(f"An error occurred in update_recipient_content: {e}")
 
     def clear_content_entry(self, default_color, idx):
-
+        """
+            Clears specific text fields (recipient, subject, email body).
+        """
         self.email_content_label_2.setReadOnly(False)
         self.recipient_info_label_2.setReadOnly(False)
         self.recipient_info_label_4.setReadOnly(False)
@@ -640,7 +748,9 @@ class first_frame(QWidget):
         self.recipient_info_label_4.setStyleSheet(style.get_label_style() + f"background-color: {default_color};")
 
     def alert_missing_text(self, entry, default_color, select_color):
-
+        """
+            Highlights a field if required information is missing.
+        """
         if entry == self.recipient_info_label_4:
             entry.setStyleSheet(style.get_label_style() + f"background-color: {select_color};")
             QTimer.singleShot(2000, lambda: self.clear_content_entry(default_color, 1))
@@ -654,6 +764,9 @@ class first_frame(QWidget):
             QTimer.singleShot(2000, lambda: self.clear_content_entry(default_color, 3))
 
     def disable_fields_for_sending(self):
+        """
+            Disables text fields after sending an email to prevent further edits.
+        """
         colors = self.color_scheme
         grey_color = colors["grey_color"]
 
@@ -666,10 +779,123 @@ class first_frame(QWidget):
         self.email_content_label_2.setStyleSheet(style.get_email_content_label() +f"background-color: {grey_color};")
 
     def contains_sensitive_data(self, content):
-        sensitive_keywords = ["password", "username", "heslo", "passwort", "cvc", "cvv"]
+        """
+        Checks if the email contains sensitive data such as passwords, credit card numbers,
+        bank details, or other confidential information.
+
+        Returns:
+            bool: True if sensitive data is detected, False otherwise.
+        """
+        sensitive_keywords = [
+            # Password-related terms (CZ, EN, DE)
+            "heslo", "password", "passwort",
+            "uživatelské jméno", "username", "benutzername",
+            "přihlašovací jméno", "login", "anmeldung",
+            "přihlašovací údaje", "credentials", "anmeldeinformationen",
+            "tajné heslo", "secret password", "geheimes passwort",
+
+            # Banking & Payment Terms (CZ, EN, DE)
+            "banka", "bank", "bank",
+            "bankovní účet", "bank account", "bankkonto",
+            "číslo účtu", "account number", "kontonummer",
+            "směrovací číslo", "routing number", "bankleitzahl",
+            "číslo karty", "card number", "kartennummer",
+            "platební karta", "payment card", "zahlungskarte",
+            "kreditní karta", "credit card", "kreditkarte",
+            "debetní karta", "debit card", "debitkarte",
+            "cvc", "cvv", "cvc",  # Common across all languages
+            "ověřovací kód", "security code", "sicherheitscode",
+            "pin", "pin code", "pin-code", "pin-kode",
+
+            # Identity & Government Documents (CZ, EN, DE)
+            "rodné číslo", "birth number", "geburtsnummer",
+            "osobní číslo", "personal ID", "personalausweisnummer",
+            "identifikační číslo", "identification number", "identifikationsnummer",
+            "občanský průkaz", "ID card", "personalausweis",
+            "cestovní pas", "passport", "reisepass",
+            "řidičský průkaz", "driver's license", "führerschein",
+            "sociální pojištění", "social security", "sozialversicherung",
+            "daňové identifikační číslo", "tax ID", "steueridentifikationsnummer",
+
+            # Two-Factor Authentication (CZ, EN, DE)
+            "ověřovací kód", "verification code", "verifizierungscode",
+            "dvoufázové ověření", "two-factor authentication", "zwei-faktor-authentifizierung",
+            "jednorázový kód", "one-time password", "einmaliges passwort",
+            "bezpečnostní kód", "security code", "sicherheitscode",
+
+            # Crypto & Digital Wallets (CZ, EN, DE)
+            "bitcoin", "bitcoin", "bitcoin",
+            "ethereum", "ethereum", "ethereum",
+            "kryptoměna", "cryptocurrency", "kryptowährung",
+            "krypto peněženka", "crypto wallet", "krypto-brieftasche",
+
+            # Business Identification Numbers (CZ, EN, DE)
+            "ičo", "business ID", "firmenidentifikationsnummer",
+            "dič", "tax ID", "steueridentifikationsnummer",
+            "evidenční číslo", "registration number", "registrierungsnummer",
+            "firemní účet", "business account", "geschäftskonto",
+
+            # Personal Information (CZ, EN, DE)
+            "telefonní číslo", "phone number", "telefonnummer",
+            "emailová adresa", "email address", "e-mail-adresse",
+            "adresa bydliště", "home address", "wohnadresse",
+            "ulice", "street", "straße",
+            "město", "city", "stadt",
+            "psč", "zip code", "postleitzahl"
+            ]
+
         sensitive_patterns = [
+            # Credit card numbers (VISA, Mastercard, Amex, Discover)
             r"\b4[0-9]{3}([ -]?[0-9]{4}){2}[0-9]{1,4}\b",  # VISA
-            r"\b5[1-5][0-9]{2}([ -]?[0-9]{4}){3}\b"  # Mastercard
+            r"\b5[1-5][0-9]{2}([ -]?[0-9]{4}){3}\b",  # Mastercard
+            r"\b3[47][0-9]{2}([ -]?[0-9]{4}){3}\b",  # American Express
+            r"\b6(?:011|5[0-9]{2})([ -]?[0-9]{4}){3}\b",  # Discover
+
+            # Social Security Numbers (USA)
+            r"\b\d{3}-\d{2}-\d{4}\b",  # SSN (Social Security Number USA)
+
+            # Czech and Slovak ID numbers
+            r"\b\d{6}/\d{3,4}\b",  # Czech/Slovak personal ID (Rodné číslo)
+
+            # Czech, German, and International tax numbers
+            r"\b[A-Z]{2}\d{8,12}\b",  # VAT numbers (CZ12345678, DE123456789)
+            r"\b\d{9}\b",  # Basic 9-digit tax ID
+            r"\b\d{2}-\d{7}\b",  # US EIN (Employer Identification Number)
+            r"\b\d{11}\b",  # German Steuer-ID (11 digits)
+
+            # International Bank Account Number (IBAN)
+            r"\b[A-Z]{2}[0-9]{2}[A-Z0-9]{11,30}\b",  # IBAN (CZ6508000000192000145399, DE89370400440532013000)
+
+            # Bitcoin and Ethereum wallet addresses
+            r"\b[13][a-km-zA-HJ-NP-Z1-9]{25,34}\b",  # Bitcoin address
+            r"\b0x[a-fA-F0-9]{40}\b",  # Ethereum address
+
+            # Phone numbers (general)
+            r"\b\+?\d{1,3}?[ -]?\(?\d{2,4}\)?[ -]?\d{3,4}[ -]?\d{3,4}\b",  # International phone numbers
+            r"\b\d{3}[ -]?\d{3}[ -]?\d{3}\b",  # Czech phone numbers (e.g., 123 456 789 or 123-456-789)
+
+            # ZIP codes (Czech, German, USA)
+            r"\b\d{3} ?\d{2}\b",  # Czech ZIP code (123 45)
+            r"\b\d{5}(-\d{4})?\b",  # US ZIP code (12345 or 12345-6789)
+            r"\b\d{5}\b",  # German PLZ (postal code)
+
+            # Driver's license numbers (CZ, DE, USA)
+            r"\b\d{9}\b",  # Czech driver's license (9 digits)
+            r"\b[0-9A-Z]{1,2}-\d{4}-\d{6}-\d{2}\b",  # German Führerschein number
+            r"\b[A-Z]{1,2}\d{6,8}\b",  # US driver's license (varies by state)
+
+            # Passport numbers (CZ, DE, International)
+            r"\b[A-Z0-9]{8,9}\b",  # Czech passport number (e.g., 123456789 or ABC123456)
+            r"\b[A-Z]{1,2}[0-9]{7}\b",  # German passport (e.g., C01234567)
+            r"\b[A-Z]{2}[0-9]{7}\b",  # International passport format
+
+            # Health insurance numbers (CZ, DE, US)
+            r"\b\d{6} ?\d{4}\b",  # Czech health insurance numbers (123456 7890)
+            r"\b\d{10,12}\b",  # German Krankenversicherung ID (10-12 digits)
+            r"\b\d{3}-\d{2}-\d{4}\b",  # US Medicare number (similar to SSN)
+
+            # Two-factor authentication codes (OTP, 2FA)
+            r"\b\d{6}\b",  # 6-digit one-time password (OTP, 2FA)
         ]
 
         for keyword in sensitive_keywords:
@@ -683,6 +909,9 @@ class first_frame(QWidget):
         return False
 
     def alert_sensitive_data(self):
+        """
+            Warns the user that the email contains sensitive data.
+        """
         colors = self.color_scheme
         alert_color = colors["alert_color"]
         default_color = colors["default_color"]
@@ -714,6 +943,9 @@ class first_frame(QWidget):
         QTimer.singleShot(4000, lambda: self.restore_original_content(original_content, default_color))
 
     def restore_original_content(self, original_content, default_color):
+        """
+            Restores the original email content after a sensitive data warning.
+        """
         self.email_content_label_2.clear()
         self.email_content_label_2.setStyleSheet(
             style.get_email_content_label() + f"background-color: {default_color};")
@@ -727,6 +959,9 @@ class first_frame(QWidget):
         self.recipient_info_label_4.setReadOnly(False)
 
     def alert_unconfirmed_email(self):
+        """
+            Warns the user when they try to leave without sending an email.
+        """
         colors = self.color_scheme
         alert_color = colors["alert_color"]
         default_color = colors["default_color"]
@@ -758,6 +993,9 @@ class first_frame(QWidget):
         QTimer.singleShot(4000, lambda: self.restore_original_content(original_content, default_color))
 
     def clear_email_fields(self):
+        """
+            Clears all fields in the email.
+        """
         self.recipient_info_label_2.clear()
         self.recipient_info_label_4.clear()
         self.email_content_label_2.clear()

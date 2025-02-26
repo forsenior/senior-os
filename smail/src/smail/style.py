@@ -1,5 +1,6 @@
 
 import os
+import re
 import sys
 from pathlib import Path
 #from PIL import Image, ImageQt
@@ -7,8 +8,13 @@ script_directory = Path(__file__).parent
 parent_directory = script_directory.parent
 sys.path.append(str(parent_directory))
 
-
 def get_button_style(normal=True, green=False):
+    """
+        Returns style for buttons based on their state:
+        - Normal (grey)
+        - Green (confirmation)
+        - Red (alert)
+    """
     button_width, button_height = 244, 107
     button_position = "center"
 
@@ -39,8 +45,10 @@ def get_button_style(normal=True, green=False):
           }}
       """
 
-
 def get_color_scheme():
+    """
+        Returns the application's color scheme.
+    """
     return {
         "default_color": "#FFFFFF",
         "green_color": "#48843F",
@@ -49,24 +57,29 @@ def get_color_scheme():
         "grey_color": "#D3D3D3"
     }
 
-
-
 def get_button_frame_style():
+    """
+        Returns the style for the button bar frame.
+    """
     return """
         background-color: transparent;
         border: none;
         height: 107px;
     """
 
-
 def get_frame_style():
+    """
+        Returns the style for the frame.
+    """
     return """
         background-color: #E7E7E7;
         border-radius: 5px;
     """
 
-
 def get_bottom_layout_style():
+    """
+        Returns the style for the bottom layout frame.
+    """
     return """
         background-color: #FFFFFF;        
         border: 3px solid #000000;        
@@ -75,8 +88,10 @@ def get_bottom_layout_style():
         min-height: 580px;                
     """
 
-
 def get_left_panel_style():
+    """
+            Returns the style for the left layout frame.
+    """
     return """
         background-color: #FFFFFF;  
         border-top-left-radius: 3px;
@@ -92,8 +107,10 @@ def get_left_panel_style():
         padding-left: 5px;
     """
 
-
 def get_right_panel_style():
+    """
+                Returns the style for the right layout frame.
+    """
     return """
         QFrame {
             background-color: #FFFFFF;  
@@ -111,8 +128,10 @@ def get_right_panel_style():
         }
     """
 
-
 def get_label_style():
+    """
+        Returns the style for text labels.
+    """
     return """
         border: 1px solid black;             
         border-radius: 8px;
@@ -125,8 +144,10 @@ def get_label_style():
         font-size: 16px;
     """
 
-
 def get_sender_info_label():
+    """
+        Returns style for the sender info label in an email.
+    """
     return """
          border: 1px solid black;             
          border-radius: 8px;
@@ -139,8 +160,10 @@ def get_sender_info_label():
          font-size: 16px;
      """
 
-
 def get_email_content_label():
+    """
+        Returns style for the email content field.
+    """
     return """
         border: 1px solid black;             
         border-radius: 8px;
@@ -155,6 +178,11 @@ def get_email_content_label():
     """
 
 def get_scrollbar():
+    """
+        Returns style for vertical scrollbars in the UI.
+        - Removes default scrollbar background.
+        - Uses a custom grey-colored handle.
+    """
     return """
         QScrollBar:vertical {
             border: none;  
@@ -177,8 +205,10 @@ def get_scrollbar():
         }
     """
 
-
 def get_inbox_style():
+    """
+        Returns style for the email list in the left panel.
+    """
     return """
         QListWidget {
             border: 1px solid black;             
@@ -198,8 +228,10 @@ def get_inbox_style():
         }
     """
 
-
 def get_text_style():
+    """
+        Returns style for general text elements (labels, headers, etc.).
+    """
     return """
         QLabel {
             font-family: 'Inter';
@@ -212,15 +244,21 @@ def get_text_style():
         }
     """
 
-
 def get_path(folder, file):
+    """
+        Constructs the absolute path to a file inside a given folder.
+        - Used for loading resources dynamically.
+    """
     current_dir = os.path.dirname(os.path.abspath(__file__))
     root_dir = os.path.dirname(os.path.dirname(current_dir))
     file_path = os.path.join(root_dir, folder, file)
     return file_path
 
-
 def load_credentials(data_provider):
+    """
+        Loads email login credentials from the configuration provider.
+        - Returns email, password, SMTP/IMAP server info.
+    """
     smail_config = data_provider.get_smail_configuration()
     login = smail_config.seniorEmail
     password = smail_config.seniorPassword
@@ -231,21 +269,18 @@ def load_credentials(data_provider):
 
     return login, password, smtp_server, smtp_port, imap_server, imap_port
 
-
-################################
-# def load_show_url(path):
-#     data = load_json_file(path)
-#     show = data["show_url"]
-#     return show
-################################
-
-
 def images(data_provider):
+    """
+        Retrieves the list of image filenames from the configuration provider.
+    """
     smail_config = data_provider.get_smail_configuration()
     return smail_config.emailPicturesPath
 
-
 def search_mail(id, data_provider):
+    """
+        Retrieves an email contact based on the given ID.
+        - Ensures the ID is within the valid range.
+    """
     smail_config = data_provider.get_smail_configuration()
     email_contacts = smail_config.emailContacts
     if 1 <= id <= len(email_contacts):
@@ -254,16 +289,32 @@ def search_mail(id, data_provider):
         raise ValueError(f"Invalid id: {id}. Valid range is 1 to {len(email_contacts)}.")
 
 def get_language(data_provider):
+    """
+        Retrieves the current language setting from the configuration provider.
+        - Returns the selected language and its corresponding text configuration.
+    """
     global_config = data_provider.get_global_configuration()
     language = global_config.language.lower()
     smail_config = data_provider.get_smail_configuration()
     text = smail_config.languageSet
     return language, text
 
-
+def get_protection_level(data_provider):
+    """
+        Retrieves the current protection level setting from the configuration provider.
+    """
+    global_config = data_provider.get_global_configuration()
+    protection_level = global_config.protectionLevel.lower()
+    return protection_level
 
 def get_email_sender(email_string):
-
+    """
+        Extracts the sender's name from an email string.
+        - Handles different email formats like:
+          - "From: <email@example.com>"
+          - "From: Name Surname <email@example.com>"
+          - "From: email@example.com"
+    """
     start_index = email_string.find(": ") + 2
 
     # Check if the string is in format: "Od: <email@seznam.cz>"
@@ -294,12 +345,48 @@ def get_email_sender(email_string):
             name = extracted_name.split("@")[0]
             return name
 
+def get_sender_email(email_string):
+    """
+    Extracts only the sender's email address from an email header.
+    Supports formats:
+      - "From: <email@example.com>"
+      - "From: Name Surname <email@example.com>"
+      - "From: email@example.com"
+
+    Returns:
+        str: Extracted email address.
+    """
+    start_index = email_string.find(": ") + 2
+
+    email_match = re.search(r'<([^<>@]+@[^<>@]+)>', email_string)
+    if email_match:
+        sender_email = email_match.group(1).strip()
+        return sender_email
+
+    email_match = re.search(r'[\w\.-]+@[\w\.-]+\.\w+', email_string)
+    if email_match:
+        sender_email = email_match.group(0).strip()
+        return sender_email
+
+    return "Unknown Email"
+
 def get_guardian_email(data_provider):
-     smail_config = data_provider.get_smail_configuration()
-     email = smail_config.careGiverEmail
-     return email
+    """
+       Retrieves the guardian email address from the configuration provider.
+       - Used for sending a copy of emails to a caregiver.
+    """
+    smail_config = data_provider.get_smail_configuration()
+    email = smail_config.careGiverEmail
+    return email
 
 def resend_active(data_provider):
+    """
+        Checks if the phishing warning resend feature is enabled.
+        - Returns:
+          - Boolean (True if enabled)
+          - Senior email address
+          - Guardian email address
+    """
     smail_config = data_provider.get_smail_configuration()
     active = smail_config.sendPhishingWarning
     smail = smail_config.seniorEmail

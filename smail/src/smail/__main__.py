@@ -12,8 +12,9 @@ import sconf.configuration.configuration_writer as dataWriter
 import sconf.configuration.configuration_provider as dataProvider
 
 def main():
-
-
+    """
+        Starts the email client, initializes the application window, and loads configuration.
+    """
     _dataProvider = dataProvider.ConfigurationProvider()
 
     try:
