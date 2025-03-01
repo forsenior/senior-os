@@ -115,7 +115,6 @@ class MainWindowView(QWidget):
         print(os.getcwd())
 
     def __handle_sconf_clicked(self):
-        self.label_error.setVisible(False)
         password_dialog = PasswordPopup(password=self.main_configuration.configurationPassword,
                                         initial_start_up=self.main_configuration.initialStartUp)
 
