@@ -195,32 +195,36 @@ class first_frame(QWidget):
     def image_configuration(self):
         """
             Loads and sets button icons based on the configuration.
+            If an icon is missing, it falls back to an empty QIcon().
         """
         try:
-
             BASE_DIR = Path(__file__).resolve().parents[3]
             ICONS_DIR = BASE_DIR / "sconf" / "icons"
 
             def load_icon(image_name, width=413, height=531):
+                """
+                Loads an image as an icon, or returns an empty QIcon if the image is missing.
+                """
                 image_path = ICONS_DIR / image_name
                 pixmap = QPixmap(str(image_path))
+
                 if not pixmap.isNull():
                     pixmap = pixmap.scaled(width, height, aspectRatioMode=Qt.KeepAspectRatio,
                                            transformMode=Qt.SmoothTransformation)
                     return QIcon(pixmap)
-                else:
-                    raise ValueError(f"Failed to load image at {image_path}")
 
-            # Nacteni seznamu ikon z konfigurace (prozatimni)
+                else:
+                    print(f"Warning: Image '{image_name}' not found, using empty icon.")
+
             self.img = [
-            "exit.png",
-            "smail_person_1.png",
-            "smail_person_2.png",
-            "smail_person_3.png",
-            "smail_person_4.png",
-            "smail_person_5.png",
-            "smail_person_6.png",
-        ]
+                "exit.png",
+                "smail_person_1.png",
+                "smail_person_2.png",
+                "smail_person_3.png",
+                "smail_person_4.png",
+                "smail_person_5.png",
+                "smail_person_6.png",
+            ]
 
             self.exit_image = load_icon(self.img[0])
             self.person1_image = load_icon(self.img[1])
