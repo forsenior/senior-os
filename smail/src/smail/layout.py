@@ -194,8 +194,8 @@ class first_frame(QWidget):
 
     def image_configuration(self):
         """
-            Loads and sets button icons based on the configuration.
-            If an icon is missing, it falls back to an empty QIcon().
+        Loads and sets button icons based on the configuration.
+        If an icon is missing, it falls back to an empty QIcon().
         """
         try:
             BASE_DIR = Path(__file__).resolve().parents[3]
@@ -203,18 +203,18 @@ class first_frame(QWidget):
 
             def load_icon(image_name, width=413, height=531):
                 """
-                Loads an image as an icon, or returns an empty QIcon if the image is missing.
+                Loads an icon from a file if it exists.
+                If not found, returns an empty icon to prevent UI issues.
                 """
                 image_path = ICONS_DIR / image_name
-                pixmap = QPixmap(str(image_path))
 
-                if not pixmap.isNull():
-                    pixmap = pixmap.scaled(width, height, aspectRatioMode=Qt.KeepAspectRatio,
-                                           transformMode=Qt.SmoothTransformation)
-                    return QIcon(pixmap)
-
-                else:
-                    print(f"Warning: Image '{image_name}' not found, using empty icon.")
+                if image_path.exists():
+                    pixmap = QPixmap(str(image_path))
+                    if not pixmap.isNull():
+                        pixmap = pixmap.scaled(width, height, aspectRatioMode=Qt.KeepAspectRatio,
+                                               transformMode=Qt.SmoothTransformation)
+                        return QIcon(pixmap)
+                return QIcon()
 
             self.img = [
                 "exit.png",
@@ -235,7 +235,7 @@ class first_frame(QWidget):
             self.person6_image = load_icon(self.img[6])
 
         except Exception as e:
-            print(f"Failed loading images: {e}")
+            print(f"Error: Failed loading images, application will continue without icons.\n{e}")
 
     def exit_app(self):
         """
