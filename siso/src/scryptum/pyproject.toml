@@ -1,0 +1,16 @@
+[tool.poetry]
+name = "scryptum"
+version = "0.1.0"
+description = "Python library for encrypting sconf"
+authors = ["Veronika Vojáčková <xvojac04@vutbr.cz>"]
+license = "MIT"
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.12"
+pycryptodome = "^3.21.0"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
