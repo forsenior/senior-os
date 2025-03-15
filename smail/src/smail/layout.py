@@ -181,16 +181,27 @@ class first_frame(QWidget):
 
     def alert_buttons(self, alert=True):
         """
-            Changes button colors to visually indicate an alert state.
+        Changes button colors to visually indicate an alert state.
+        Restores the original button colors after the alert ends.
         """
+        if not hasattr(self, "original_button_styles"):
+            self.original_button_styles = {}
+
         for i in range(self.button_layout.count()):
             widget = self.button_layout.itemAt(i).widget()
 
             if isinstance(widget, QPushButton):
                 if alert:
+                    # 📌 Uložíme původní styl tlačítka, pokud tam ještě není
+                    if widget not in self.original_button_styles:
+                        self.original_button_styles[widget] = widget.styleSheet()
+
+                    # 📌 Nastavíme výstražný styl (červená)
                     widget.setStyleSheet(style.get_button_style(normal=False))
                 else:
-                    widget.setStyleSheet(style.get_button_style(normal=True))
+                    # 📌 Vrátíme původní styl tlačítka
+                    if widget in self.original_button_styles:
+                        widget.setStyleSheet(self.original_button_styles[widget])
 
     def image_configuration(self):
         """
@@ -686,6 +697,8 @@ class first_frame(QWidget):
         alert_color = colors["alert_color"]
         default_color = colors["default_color"]
 
+        self.alert_buttons(alert=True)
+
         self.recipient_info_label_2.clear()
         self.recipient_info_label_4.clear()
         self.email_content_label_2.clear()
@@ -708,6 +721,7 @@ class first_frame(QWidget):
         self.email_content_label_2.setReadOnly(True)
 
         QTimer.singleShot(5000, lambda: self.clear_content_entry(default_color, 3))
+        QTimer.singleShot(4000, lambda: self.alert_buttons(alert=False))
 
     def update_recipient_content(self):
         """
@@ -916,6 +930,8 @@ class first_frame(QWidget):
 
         original_content = self.email_content_label_2.toPlainText()
 
+        self.alert_buttons(alert=True)
+
         self.email_content_label_2.setReadOnly(False)
         self.email_content_label_2.clear()
         self.email_content_label_2.setStyleSheet(style.get_email_content_label() + f"background-color: {alert_color};")
@@ -939,6 +955,7 @@ class first_frame(QWidget):
         self.email_content_label_2.setReadOnly(True)
 
         QTimer.singleShot(4000, lambda: self.restore_original_content(original_content, default_color))
+        QTimer.singleShot(4000, lambda: self.alert_buttons(alert=False))
 
     def restore_original_content(self, original_content, default_color):
         """
@@ -966,6 +983,8 @@ class first_frame(QWidget):
 
         original_content = self.email_content_label_2.toPlainText()
 
+        self.alert_buttons(alert=True)
+
         self.email_content_label_2.setReadOnly(False)
         self.email_content_label_2.clear()
         self.email_content_label_2.setStyleSheet(style.get_email_content_label() + f"background-color: {alert_color};")
@@ -989,6 +1008,7 @@ class first_frame(QWidget):
         self.email_content_label_2.setReadOnly(True)
 
         QTimer.singleShot(4000, lambda: self.restore_original_content(original_content, default_color))
+        QTimer.singleShot(4000, lambda: self.alert_buttons(alert=False))
 
     def clear_email_fields(self):
         """
