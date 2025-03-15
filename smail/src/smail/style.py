@@ -274,7 +274,7 @@ def images(data_provider):
         Retrieves the list of image filenames from the configuration provider.
     """
     smail_config = data_provider.get_smail_configuration()
-    return smail_config.emailPicturesPath
+    return smail_config.emailPictures
 
 def search_mail(id, data_provider):
     """

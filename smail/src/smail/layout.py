@@ -200,6 +200,8 @@ class first_frame(QWidget):
         try:
             BASE_DIR = Path(__file__).resolve().parents[3]
             ICONS_DIR = BASE_DIR / "sconf" / "icons"
+            self.img = style.images(self.data_provider)
+
 
             def load_icon(image_name, width=413, height=531):
                 """
@@ -216,15 +218,7 @@ class first_frame(QWidget):
                         return QIcon(pixmap)
                 return QIcon()
 
-            self.img = [
-                "exit.png",
-                "smail_person_1.png",
-                "smail_person_2.png",
-                "smail_person_3.png",
-                "smail_person_4.png",
-                "smail_person_5.png",
-                "smail_person_6.png",
-            ]
+
 
             self.exit_image = load_icon(self.img[0])
             self.person1_image = load_icon(self.img[1])

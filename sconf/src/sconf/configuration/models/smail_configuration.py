@@ -58,12 +58,12 @@ class SmailConfiguration:
     imapPort: int = "993"
     careGiverEmail: str = ""
     emailContactsV2: List[dict] = field(default_factory=lambda: [
-        {"email1": "sos.smail.person.1@gmail.com", "icon1": "../sconf/icons/smail_person_1.png"},
-        {"email2": "sos.smail.person.2@gmail.com", "icon2": "../sconf/icons/smail_person_2.png"},
-        {"email3": "sos.smail.person.3@gmail.com", "icon3": "../sconf/icons/smail_person_3.png"},
-        {"email4": "sos.smail.person.4@gmail.com", "icon4": "../sconf/icons/smail_person_4.png"},
-        {"email5": "sos.smail.person.5@gmail.com", "icon5": "../sconf/icons/smail_person_5.png"},
-        {"email6": "sos.smail.person.6@gmail.com", "icon6": "../sconf/icons/smail_person_6.png"},
+        {"email1": "sos.smail.person.1@gmail.com", "icon1": "smail_person_1.png"},
+        {"email2": "sos.smail.person.2@gmail.com", "icon2": "smail_person_2.png"},
+        {"email3": "sos.smail.person.3@gmail.com", "icon3": "smail_person_3.png"},
+        {"email4": "sos.smail.person.4@gmail.com", "icon4": "smail_person_4.png"},
+        {"email5": "sos.smail.person.5@gmail.com", "icon5": "smail_person_5.png"},
+        {"email6": "sos.smail.person.6@gmail.com", "icon6": "smail_person_6.png"},
     ])
     emailContacts: List[str] = field(default_factory=lambda: ["sos.smail.person.1@gmail.com",
                                                               "sos.smail.person.2@gmail.com",
@@ -71,13 +71,13 @@ class SmailConfiguration:
                                                               "sos.smail.person.4@gmail.com",
                                                               "sos.smail.person.5@gmail.com",
                                                               "sos.smail.person.6@gmail.com"])
-    emailPicturesPath: List[str] = field(default_factory=lambda: ["../sconf/icons/exit.png",
-                                                                  "../sconf/icons/smail_person_1.png",
-                                                                  "../sconf/icons/smail_person_2.png",
-                                                                  "../sconf/icons/smail_person_3.png",
-                                                                  "../sconf/icons/smail_person_4.png",
-                                                                  "../sconf/icons/smail_person_5.png",
-                                                                  "../sconf/icons/smail_person_6.png"])
+    emailPictures: List[str] = field(default_factory=lambda: ["exit.png",
+                                                                  "smail_person_1.png",
+                                                                  "smail_person_2.png",
+                                                                  "smail_person_3.png",
+                                                                  "smail_person_4.png",
+                                                                  "smail_person_5.png",
+                                                                  "smail_person_6.png"])
     sendPhishingWarning: bool = True
     showUrlInEmail: bool = True
     receiveWhitelistedEmailsOnly: bool = False

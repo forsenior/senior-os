@@ -2,8 +2,7 @@ import sys
 import os
 
 from PyQt5.QtCore import Qt
-from PyQt5.QtWidgets import  QApplication, QMainWindow
-
+from PyQt5.QtWidgets import QApplication, QMainWindow, QSizePolicy
 
 from smail.layout import first_frame
 
@@ -21,8 +20,10 @@ def main():
 
         app = QApplication([])
         window = QMainWindow()
-        # window.showFullScreen()
-        window.setGeometry(100, 100, 1280, 720)
+        window.showFullScreen()
+        #window.setGeometry(100, 100, 1280, 720)
+        window.setMinimumSize(1280, 720)
+        window.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
         window.setWindowFlags(Qt.FramelessWindowHint)
         layout = first_frame(window, _dataProvider)
         window.setCentralWidget(layout)
