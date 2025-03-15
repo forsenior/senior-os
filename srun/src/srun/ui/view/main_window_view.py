@@ -102,7 +102,6 @@ class MainWindowView(QWidget):
 
     def __handle_exit_timeout(self):
         print("Timeout elapsed shutting down the system")
-        sys.exit(0)
         os.system(f"poweroff")
 
     def __handle_smail_clicked(self):
