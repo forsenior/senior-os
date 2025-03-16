@@ -389,7 +389,7 @@ class MyBrowser(QMainWindow):
             QToolBar {{
             border: 0px solid transparent;
             background-color: transparent;
-            spacing: 16px;
+            spacing: 10px;
             width: {TOOLBAR_WIDTH}px;
             height: {TOOLBAR_HEIGHT}px;
             
@@ -433,7 +433,7 @@ class MyBrowser(QMainWindow):
             QToolBar {{
             border: 0px solid transparent;
             background-color: transparent;
-            spacing: 16px;
+            spacing: 10px;
             width: {TOOLBAR_WIDTH}px;
             height: {TOOLBAR_HEIGHT}px;
             }}
