@@ -4,6 +4,7 @@ from PyQt5 import QtWidgets
 from PyQt5.QtCore import pyqtSlot
 from PyQt5.QtWidgets import (QWidget, QLabel, QLineEdit, QGridLayout, QComboBox, QFileDialog, QDialog)
 
+from sconf.configuration.models.global_configuration import GlobalConfiguration
 from sconf.configuration.models.smail_configuration import SmailConfiguration
 from sconf.ui.components.ui_transformation.transformation import UiElementTransformation
 from sconf.ui.convertors.value_convertors import StringValueConvertors
@@ -19,13 +20,17 @@ from sconf.ui.view.dialog.table_input_dialog import TablePopup
 class MailSettingsView(QWidget):
     _smailViewModel: SmailViewModel
     _smailConfiguration: SmailConfiguration
+    _globalConfiguration: GlobalConfiguration
     _configurationFolder: str
 
-    def __init__(self, smail_configuration: SmailConfiguration, configurationFolder: str):
+    def __init__(self, smail_configuration: SmailConfiguration,
+                 globalConfiguration: GlobalConfiguration,
+                 configurationFolder: str):
         super().__init__()
 
         self._smailConfiguration = smail_configuration
-        self._smailViewModel = SmailViewModel(smail_configuration)
+        self._globalConfiguration = globalConfiguration
+        self._smailViewModel = SmailViewModel(smail_configuration, globalConfiguration)
         self._configurationFolder = configurationFolder
 
         grid_layout = QGridLayout()
@@ -53,7 +58,7 @@ class MailSettingsView(QWidget):
         self.senior_password.setEchoMode(QtWidgets.QLineEdit.Password)
 
         self.caregiver_email = QLineEdit(
-            f"{self._smailConfiguration.careGiverEmail if self._smailConfiguration.careGiverEmail
+            f"{self._globalConfiguration.careGiverEmail if self._globalConfiguration.careGiverEmail
                                                           != "" else "Enter email for the caregiver"}")
         self.caregiver_email.setObjectName("careGiverEmail")
 
@@ -93,7 +98,7 @@ class MailSettingsView(QWidget):
     def show_table(self, event):
         table_input = TablePopup(self._smailConfiguration.emailContactsV2)
 
-        if table_input.exec_() == QDialog.accepted:
+        if table_input.exec_() == QDialog.Accepted:
             print(table_input.get_updated_entries())
             self._smailViewModel.update_model("emailContactsV2", table_input.get_updated_entries())
 

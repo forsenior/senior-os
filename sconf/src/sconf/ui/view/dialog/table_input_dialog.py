@@ -7,9 +7,9 @@ from sconf.ui.styles.global_style_sheets import get_default_dialog_style, get_de
 
 
 class TablePopup(QDialog):
-    __upadted_entries: list[dict[str, str]]
+    __updated_entries: list[dict[str, str]]
 
-    def __init__(self, key_value_pairs, parent=None):
+    def __init__(self, key_value_pairs, parent=None, type: str = "mail"):
         super().__init__(parent)
 
         self.setWindowTitle("Add content")
@@ -21,7 +21,10 @@ class TablePopup(QDialog):
 
         # Table widget for URLs and icons (initially hidden)
         self.url_table = QTableWidget(6, 2)
-        self.url_table.setHorizontalHeaderLabels(["Email", "Icon"])
+        if type == "mail":
+            self.url_table.setHorizontalHeaderLabels(["Email", "Icon"])
+        else:
+            self.url_table.setHorizontalHeaderLabels(["Website", "Icon"])
         self.url_table.horizontalHeader().setSectionResizeMode(0, QHeaderView.Stretch)
         self.url_table.horizontalHeader().setSectionResizeMode(1, QHeaderView.Stretch)
         self.url_table.setShowGrid(True)
@@ -30,18 +33,33 @@ class TablePopup(QDialog):
 
         # Fill table with data from config model
         index = 1
-        for row, entry in enumerate(key_value_pairs):
-            url_item = QTableWidgetItem(entry[f"email{index}"])
-            self.url_table.setItem(row, 0, url_item)
 
-            icon_button = QPushButton("Select Icon")
-            icon_button.setText(entry[f"icon{index}"])
-            icon_button.setStyleSheet(f"""
-                            {get_default_settings_button_style()}
-                            """)
-            icon_button.clicked.connect(lambda _, r=row: self.__select_icon(r))
-            self.url_table.setCellWidget(row, 1, icon_button)
-            index += 1
+        if type == "mail":
+            for row, entry in enumerate(key_value_pairs):
+                url_item = QTableWidgetItem(entry[f"email{index}"])
+                self.url_table.setItem(row, 0, url_item)
+
+                icon_button = QPushButton("Select Icon")
+                icon_button.setText(entry[f"icon{index}"])
+                icon_button.setStyleSheet(f"""
+                                {get_default_settings_button_style()}
+                                """)
+                icon_button.clicked.connect(lambda _, r=row: self.__select_icon(r))
+                self.url_table.setCellWidget(row, 1, icon_button)
+                index += 1
+        else:
+            for row, entry in enumerate(key_value_pairs):
+                url_item = QTableWidgetItem(entry[f"url{index}"])
+                self.url_table.setItem(row, 0, url_item)
+
+                icon_button = QPushButton("Select Icon")
+                icon_button.setText(entry[f"icon{index}"])
+                icon_button.setStyleSheet(f"""
+                                {get_default_settings_button_style()}
+                                """)
+                icon_button.clicked.connect(lambda _, r=row: self.__select_icon(r))
+                self.url_table.setCellWidget(row, 1, icon_button)
+                index += 1
 
         # Set up save/cancel buttons
         button_container = QHBoxLayout()
@@ -85,15 +103,24 @@ class TablePopup(QDialog):
         # Save changes to model
         index = 1
         new_entries = []
-        for row in range(6):
-            url = self.url_table.item(row, 0).text() if self.url_table.item(row, 0) else ""
-            icon_path = self.url_table.cellWidget(row, 1).text() if self.url_table.cellWidget(row, 1) else ""
-            if url:  # Only save if URL is not empty
-                new_entries.append({f"email{index}": url, f"icon{index}": icon_path})
-            index += 1
 
-        self.__upadted_entries = new_entries
+        if type == "mail":
+            for row in range(6):
+                url = self.url_table.item(row, 0).text() if self.url_table.item(row, 0) else ""
+                icon_path = self.url_table.cellWidget(row, 1).text() if self.url_table.cellWidget(row, 1) else ""
+                if url:  # Only save if URL is not empty
+                    new_entries.append({f"email{index}": url, f"icon{index}": icon_path})
+                index += 1
+        else:
+            for row in range(6):
+                url = self.url_table.item(row, 0).text() if self.url_table.item(row, 0) else ""
+                icon_path = self.url_table.cellWidget(row, 1).text() if self.url_table.cellWidget(row, 1) else ""
+                if url:  # Only save if URL is not empty
+                    new_entries.append({f"url{index}": url, f"icon{index}": icon_path})
+                index += 1
+
+        self.__updated_entries = new_entries
         self.accept()
 
     def get_updated_entries(self):
-        return self.__upadted_entries
+        return self.__updated_entries

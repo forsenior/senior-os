@@ -92,7 +92,7 @@ class MainWindow(QMainWindow):
         self.credit_views = CreditsView()
         self.global_view = GlobalSettingsView(global_configuration, sweb_configuration, smail_configuration)
         self.web_view = WebSettingsView(sweb_configuration, configurationFolder)
-        self.mail_view = MailSettingsView(smail_configuration, configurationFolder)
+        self.mail_view = MailSettingsView(smail_configuration, global_configuration, configurationFolder)
 
         # Adding views to the stacked widget
         self.stacked_widget.addWidget(self.credit_views) # Index 0

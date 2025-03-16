@@ -56,7 +56,6 @@ class SmailConfiguration:
     smtpPort: int = "587"
     imapServer: str = "imap.gmail.com"
     imapPort: int = "993"
-    careGiverEmail: str = ""
     emailContactsV2: List[dict] = field(default_factory=lambda: [
         {"email1": "sos.smail.person.1@gmail.com", "icon1": "smail_person_1.png"},
         {"email2": "sos.smail.person.2@gmail.com", "icon2": "smail_person_2.png"},

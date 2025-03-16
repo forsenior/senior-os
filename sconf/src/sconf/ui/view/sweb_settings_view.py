@@ -1,19 +1,16 @@
 import os
 
-from PyQt5 import QtWidgets
 from PyQt5.QtCore import pyqtSlot
-from PyQt5.QtWidgets import QWidget, QLabel, QLineEdit, QGridLayout, QPushButton, QComboBox, QTextEdit, QFileDialog, \
-    QTableWidget, QHeaderView, QTableWidgetItem
+from PyQt5.QtWidgets import QWidget, QLabel, QLineEdit, QGridLayout, QComboBox, QFileDialog, QDialog
 
 from sconf.configuration.models.sweb_configuration import SwebConfiguration
 from sconf.ui.components.ui_transformation.transformation import UiElementTransformation
 from sconf.ui.convertors.value_convertors import StringValueConvertors
-from sconf.ui.convertors.value_validators import Validators
 from sconf.ui.styles.global_style_sheets import (get_default_input_box_style,
                                                  get_default_label_style,
                                                  get_default_dropdown_style, get_default_settings_button_style,
-                                                 get_default_settings_text_edit_style, get_error_label_style,
-                                                 get_default_table_style)
+                                                 get_default_settings_text_edit_style)
+from sconf.ui.view.dialog.table_input_dialog import TablePopup
 from sconf.ui.view_models.sweb_settings_view_model import SwebViewModel
 
 
@@ -35,10 +32,6 @@ class WebSettingsView(QWidget):
         # Labels
         label_urls_list = QLabel("Allowed URLs")
 
-        # TODO: Remove as it will be set by Protection Level
-        # label_send_phishing_warning = QLabel("Send phishing warning")
-        # label_send_phishing_form = QLabel("Phishing form")
-        # label_allow_senior_web_posting = QLabel("Senior web posting")
         label_allowed_website_posting = QLabel("Sites Approved for Senior Actions")
         label_allowed_website_posting.setWordWrap(True)
 
@@ -48,53 +41,12 @@ class WebSettingsView(QWidget):
         self.urls_list_line_edit = QLineEdit(f"Click to edit the list of base websites")
         self.urls_list_line_edit.mousePressEvent = self.show_table
 
-        # Table widget for URLs and icons (initially hidden)
-        self.url_table = QTableWidget(6, 2)
-        self.url_table.setHorizontalHeaderLabels(["URL", "Icon"])
-        self.url_table.horizontalHeader().setSectionResizeMode(QHeaderView.Stretch)
-        self.url_table.setShowGrid(False)
-        self.url_table.setSizeAdjustPolicy(
-            QtWidgets.QAbstractScrollArea.AdjustToContents)
-        self.url_table.resizeColumnsToContents()
-
-        self.url_table.verticalHeader().setVisible(False)
-        self.url_table.horizontalHeader().setVisible(False)
-
-        # Fill table with data from config model
-        index = 1
-        for row, entry in enumerate(self._swebConfiguration.swebAllowedUrlListV2):
-            url_item = QTableWidgetItem(entry[f"url{index}"])
-            self.url_table.setItem(row, 0, url_item)
-
-            icon_button = QPushButton("Select Icon")
-            icon_button.setText(entry[f"icon{index}"])
-            icon_button.setStyleSheet(get_default_settings_button_style())
-            icon_button.clicked.connect(lambda _, r=row: self.select_icon(r))
-            self.url_table.setCellWidget(row, 1, icon_button)
-            index += 1
-
-        # Buttons to save or cancel
-        self.save_button = QPushButton("Save")
-        self.cancel_button = QPushButton("Cancel")
-        self.cancel_button.setMaximumWidth(256)
-        self.save_button.setMaximumWidth(256)
-
-        # Hide table initially
-        self.url_table.hide()
-        self.cancel_button.hide()
-        self.save_button.hide()
 
         # Add widgets to the grid
         grid_layout.addWidget(label_urls_list, 0, 0)
         grid_layout.addWidget(self.urls_list_line_edit, 0, 1)
-        grid_layout.addWidget(self.url_table, 0, 1)
-        grid_layout.addWidget(self.save_button, 1, 1)
-        grid_layout.addWidget(self.cancel_button, 1, 2)
 
         grid_layout.addWidget(self.label_error, 3, 1)
-
-        self.save_button.clicked.connect(self.save_entries)
-        self.cancel_button.clicked.connect(self.cancel_entries)
 
         self.setLayout(grid_layout)
 
@@ -104,43 +56,14 @@ class WebSettingsView(QWidget):
                             {get_default_dropdown_style()}
                             {get_default_settings_button_style()}
                             {get_default_settings_text_edit_style()}
-                            {get_default_table_style()}
                             """)
 
     def show_table(self, event):
-        self.save_button.show()
-        self.cancel_button.show()
-        self.url_table.show()
+        table_input = TablePopup(self._swebConfiguration.swebAllowedUrlListV2, type="web")
 
-    def select_icon(self, row):
-        # Open file dialog to select icon and update button label to path
-        file_path, _ = QFileDialog.getOpenFileName(self, "Select Icon")
-        if file_path:
-            icon_button = self.url_table.cellWidget(row, 1)
-            icon_button.setText(file_path)  # Show path on button for preview
-
-    def save_entries(self, event):
-        # Save changes to model
-        index = 1
-        new_entries = []
-        for row in range(6):
-            url = self.url_table.item(row, 0).text() if self.url_table.item(row, 0) else ""
-            icon_path = self.url_table.cellWidget(row, 1).text() if self.url_table.cellWidget(row, 1) else ""
-            if url:  # Only save if URL is not empty
-                new_entries.append({f"email{index}": url, f"icon{index}": icon_path})
-            index += 1
-        self._swebViewModel.update_model("swebAllowedUrlListV2", new_entries)
-
-        self.save_button.hide()
-        self.cancel_button.hide()
-        self.url_table.hide()
-
-    def cancel_entries(self):
-        # Hide table without saving changes
-        self.save_button.hide()
-        self.cancel_button.hide()
-        self.url_table.hide()
-
+        if table_input.exec_() == QDialog.Accepted:
+            print(table_input.get_updated_entries())
+            self._swebViewModel.update_model("swebAllowedUrlListV2", table_input.get_updated_entries())
     @pyqtSlot()
     def __on_input_change(self):
         sender = self.sender()
