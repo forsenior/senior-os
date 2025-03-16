@@ -32,13 +32,13 @@ TOOLBAR_HEIGHT = 117
 
 class MyBrowser(QMainWindow):
     # Define the contructor for initialization 
-    def __init__(self, input_url, _dataProvider, global_dataProvider):
+    def __init__(self, input_url, sweb_dataProvider, global_dataProvider):
         super(MyBrowser,self).__init__()
         # Set window flags to customize window behavior
         # Remove standard window controls
         # Set window flags to customize window behavior
 
-        self._dataProvider = _dataProvider
+        self.sweb_dataProvider = sweb_dataProvider
         self.global_dataProvider = global_dataProvider
         self.setWindowFlags(Qt.CustomizeWindowHint)
         self.main_browser = QWebEngineView()
@@ -59,15 +59,15 @@ class MyBrowser(QMainWindow):
         else:
             self.main_browser.setUrl(QUrl("http://" + input_url))
         # Parameter for changging language on application
-        self.language_translator = Translator(_dataProvider, global_dataProvider)
+        self.language_translator = Translator(sweb_dataProvider, global_dataProvider)
         # Parameter for getting monitor heigght ad width
         self.get_monitor_height_and_width = GetMonitorHeightAndWidth()
         # Create notification when connection and input text to phishing page
-        self.notification_fill_text = NotificationFillTextToPhishing()
+        self.notification_fill_text = NotificationFillTextToPhishing(self.sweb_dataProvider.command_line_mail_script, self.global_dataProvider.careGiverEmail)
         self.my_custom_page.channel.registerObject("notification_fill_text",self.notification_fill_text)
-        self.url_blocker = URLBlocker(_dataProvider.phishingDatabase,_dataProvider.allowedURL)
+        self.url_blocker = URLBlocker(sweb_dataProvider.phishingDatabase,sweb_dataProvider.allowedURL)
         # Check if phishing database is up to date
-        phishing_database_check_update = PhishingDatabaseModificationChecker(_dataProvider)
+        phishing_database_check_update = PhishingDatabaseModificationChecker(sweb_dataProvider)
         phishing_database_check_update.check_and_update_if_needed()
         
 
@@ -81,13 +81,13 @@ class MyBrowser(QMainWindow):
         self.color_info_button_selected = "#00ff00"
         
         # Get path for images
-        self.path_to_image_exit = _dataProvider.picturePaths[0]
-        self.path_to_image_www1 = _dataProvider.picturePaths[1]
-        self.path_to_image_www2 = _dataProvider.picturePaths[2]
-        self.path_to_image_www3 = _dataProvider.picturePaths[3]
-        self.path_to_image_www4 = _dataProvider.picturePaths[4]
-        self.path_to_image_www5 = _dataProvider.picturePaths[5]
-        self.path_to_image_www6 = _dataProvider.picturePaths[6]
+        self.path_to_image_exit = sweb_dataProvider.picturePaths[0]
+        self.path_to_image_www1 = sweb_dataProvider.picturePaths[1]
+        self.path_to_image_www2 = sweb_dataProvider.picturePaths[2]
+        self.path_to_image_www3 = sweb_dataProvider.picturePaths[3]
+        self.path_to_image_www4 = sweb_dataProvider.picturePaths[4]
+        self.path_to_image_www5 = sweb_dataProvider.picturePaths[5]
+        self.path_to_image_www6 = sweb_dataProvider.picturePaths[6]
 
 
         # Create a toolbar for saving menu and buttons
@@ -96,7 +96,7 @@ class MyBrowser(QMainWindow):
         self.menu_1_toolbar.setMovable(False)
 
         # Load permitted websites from URLBlocker class
-        self.permitted_website_list = self.url_blocker.load_permitted_website_from_sconf(_dataProvider.allowedURL)
+        self.permitted_website_list = self.url_blocker.load_permitted_website_from_sconf(sweb_dataProvider.allowedURL)
 
         # Create a toolbar for saving menu and buttons
         self.menu_2_toolbar = QToolBar("MENU 2")
@@ -387,9 +387,11 @@ class MyBrowser(QMainWindow):
         
         style_string = f"""
             QToolBar {{
+            spacer_left = QSpacerItem(20, 40, QSizePolicy.Expanding, QSizePolicy.Minimum)
+            spacer_right = QSpacerItem(20, 40, QSizePolicy.Expanding, QSizePolicy.Minimum)
             border: 0px solid transparent;
             background-color: transparent;
-            spacing: 16px;
+            spacing: 10px;
             width: {TOOLBAR_WIDTH}px;
             height: {TOOLBAR_HEIGHT}px;
             
@@ -415,7 +417,7 @@ class MyBrowser(QMainWindow):
             }}
             
             QPushButton:hover {{
-                background-color: #00ff00; 
+                background-color: #48843F; 
             }}
             
             QPushButton QLabel {{
@@ -433,7 +435,7 @@ class MyBrowser(QMainWindow):
             QToolBar {{
             border: 0px solid transparent;
             background-color: transparent;
-            spacing: 16px;
+            spacing: 10px;
             width: {TOOLBAR_WIDTH}px;
             height: {TOOLBAR_HEIGHT}px;
             }}
@@ -455,7 +457,7 @@ class MyBrowser(QMainWindow):
             }}
             
             QPushButton:hover {{
-                background-color: #00ff00; 
+                background-color: #48843F; 
             }}
             
             QPushButton QLabel {{
@@ -483,7 +485,7 @@ class MyBrowser(QMainWindow):
         url_in_browser_value = self.main_browser.url().toString()
         #senior_website_posting_option = self.data_in_my_config_data["advanced_against_phishing"]["senior_website_posting"]
 
-        senior_website_posting_option = self._dataProvider.seniorWebsitePosting
+        senior_website_posting_option = self.sweb_dataProvider.seniorWebsitePosting
         
         # Get permitted websites list from sgive
         permitted_website_list = self.permitted_website_list
@@ -534,6 +536,8 @@ class MyBrowser(QMainWindow):
         };
         document.head.appendChild(script);
         """
+        def receiveData(self, data):
+            print("Captured data:", data)
         self.main_browser.page().runJavaScript(injection_javasript)
     
     # This method is used for changing font in HTML content
@@ -747,6 +751,7 @@ class MyBrowser(QMainWindow):
                 # Set red colour for connect to phishing
                 self.menu_1_toolbar.setStyleSheet(self.phishing_style_toolbar())
                 self.menu_2_toolbar.setStyleSheet(self.phishing_style_toolbar())
+                self.notification_fill_text.send_email(url_in_browser_value)
                 # Connect to URL after entering
                 self.main_browser.setUrl(QUrl(url_in_browser_value))
             else:
@@ -760,56 +765,52 @@ class MyBrowser(QMainWindow):
             if "about:blank" in url_in_browser_value:
                 self.toggle_phishing_webpage = False
                 return
-            #elif "google.com" in url_in_browser_value:
-                #self.toggle_phishing_webpage = False
-                #self.menu_1_toolbar.setStyleSheet(self.default_style_toolbar())
-                #self.menu_2_toolbar.setStyleSheet(self.default_style_toolbar())
-                # Log with level 6 INFORMATIONAL
-                #self.url_logger.log_blocked_url('WEBBROWSER', 6, 'main <security>', f'Connection to {url_in_browser_value}')
+            elif "google.com" in url_in_browser_value:
+                self.toggle_phishing_webpage = False
+                self.menu_1_toolbar.setStyleSheet(self.default_style_toolbar())
+                self.menu_2_toolbar.setStyleSheet(self.default_style_toolbar())
                 # Connect to URL after entering
-                #self.main_browser.setUrl(QUrl(url_in_browser_value))
+                self.main_browser.setUrl(QUrl(url_in_browser_value))
+
             elif self.url_blocker.is_url_blocked(url_in_browser_value):
                 self.toggle_phishing_webpage = True
-                ## My comment
-                ##self.play_sound_for_button(self.path_to_alert_phishing_music)
-                # Log with level 5 when connected to phishing
-                #self.url_logger.log_blocked_url('WEBBROWSER', 5, 'main <security>', f'Connection to Phishing server {url_in_browser_value}')
                 # Set red colour for connect to phishing
                 self.menu_1_toolbar.setStyleSheet(self.phishing_style_toolbar())
                 self.menu_2_toolbar.setStyleSheet(self.phishing_style_toolbar())
+                self.notification_fill_text.send_email(url_in_browser_value)
                 # Connect to URL after entering
                 self.main_browser.setUrl(QUrl(url_in_browser_value))
+
             else:
                 self.toggle_phishing_webpage = False
                 self.menu_1_toolbar.setStyleSheet(self.default_style_toolbar())
                 self.menu_2_toolbar.setStyleSheet(self.default_style_toolbar())
-                # Log with LEVEL 6 INFORMATIONAL
-                #self.url_logger.log_blocked_url('WEBBROWSER', 6, 'main <security>', f'Connection to {url_in_browser_value}')
+
         self.main_browser.loadFinished.connect(self.finished_load_web_page)
         
     # Method for connect to the second www2 ct24.ceskatelevize.cz
     def navigate_www1(self):
-        self.main_browser.setUrl(QUrl(self._dataProvider.urlsForWebsites[0]))
+        self.main_browser.setUrl(QUrl(self.sweb_dataProvider.urlsForWebsites[0]))
         # Set visible after navitigation
         self.url_toolbar.setVisible(False)
         self.toolbar_space.setVisible(False)
         
     # Method for connect to the irozhlas.cz
     def navigate_www2(self):
-        self.main_browser.setUrl(QUrl(self._dataProvider.urlsForWebsites[1]))
+        self.main_browser.setUrl(QUrl(self.sweb_dataProvider.urlsForWebsites[1]))
         # Set visible after navitigation
         self.url_toolbar.setVisible(False)
         self.toolbar_space.setVisible(False)
 
     # Method for connect to the vut.cz
     def navigate_www3(self):
-        self.main_browser.setUrl(QUrl(self._dataProvider.urlsForWebsites[2]))
+        self.main_browser.setUrl(QUrl(self.sweb_dataProvider.urlsForWebsites[2]))
         # Set visible after navitigation
         self.url_toolbar.setVisible(False)
         self.toolbar_space.setVisible(False)
     # Method for connect to the idnes.cz
     def navigate_www4(self):
-        self.main_browser.setUrl(QUrl(self._dataProvider.urlsForWebsites[3]))
+        self.main_browser.setUrl(QUrl(self.sweb_dataProvider.urlsForWebsites[3]))
         # Set visible after navitigation
         self.url_toolbar.setVisible(False)
         self.toolbar_space.setVisible(False)
@@ -818,14 +819,14 @@ class MyBrowser(QMainWindow):
 
     # Method for connect to the aktualne.cz
     def navigate_www5(self):
-        self.main_browser.setUrl(QUrl(self._dataProvider.urlsForWebsites[4]))
+        self.main_browser.setUrl(QUrl(self.sweb_dataProvider.urlsForWebsites[4]))
         # Set visible after navitigation
         self.url_toolbar.setVisible(False)
         self.toolbar_space.setVisible(False)
 
     # Method for connect to the denik.cz
     def navigate_www6(self):
-        self.main_browser.setUrl(QUrl(self._dataProvider.urlsForWebsites[5]))
+        self.main_browser.setUrl(QUrl(self.sweb_dataProvider.urlsForWebsites[5]))
         self.url_toolbar.setVisible(False)
         self.toolbar_space.setVisible(False)
 

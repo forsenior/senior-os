@@ -1,34 +1,41 @@
 # Go through all domains in the phishing database
 # If the domain is match, take a blocking
 class URLBlocker:
-    def __init__(self, paths_to_db, permitted_website_list):
+    def __init__(self, paths_to_phishdatabase, permitted_website_list):
         self.blocked_urls_database = set()
         self.permitted_website_list = set()
         # Load file from file path
         # For filepath in paths_to_db:
-        self.load_urls_from_phishing_database(paths_to_db)
+        self.load_urls_from_phishing_database(paths_to_phishdatabase)
         self.load_urls_from_allowed_website(permitted_website_list)
         self.find_url_with_value(permitted_website_list)
         
         
     # Read all member in phishing database
     def load_urls_from_phishing_database(self,path):
-        with open(path,"r") as openfile:
-             # Real all member from the file until the file is None
-                if openfile is not None:
-                    content  = openfile.read()
-                    reading_url = content.strip().split('\n')
-                    self.blocked_urls_database.update(reading_url)
+        try:
+            with open(path,"r") as openfile:
+                # Real all member from the file until the file is None
+                    if openfile is not None:
+                        content  = openfile.read()
+                        reading_url = content.strip().split('\n')
+                        self.blocked_urls_database.update(reading_url)
+        except FileNotFoundError:
+            print("Phishing database not found, The application will continue to run without blocking any URLs")
+            pass
 
     # Load all member in permitted website list               
     def load_urls_from_allowed_website(self, path):
-        with open(path,"r") as openfile:
-             # Real all member from the file until the file is None
-            if openfile is not None:
-                content = openfile.read()
-                reading_url = content.strip().split('\n')
-                self.permitted_website_list.update(reading_url)
-
+        try:
+            with open(path,"r") as openfile:
+                # Real all member from the file until the file is None
+                if openfile is not None:
+                    content = openfile.read()
+                    reading_url = content.strip().split('\n')
+                    self.permitted_website_list.update(reading_url)
+        except FileNotFoundError:
+            print("Permitted website list not found, The application will continue to run without blocking any URLs")
+            pass
     def find_url_with_value(self, search_value):
         
         for line in self.permitted_website_list:

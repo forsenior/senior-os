@@ -8,3 +8,4 @@ class GlobalConfiguration:
     alertColor: str = ""
     highlightColor: str = ""
     protectionLevel: int = 1
+    careGiverEmail: str = "tarikalkanan@gmail.com"
