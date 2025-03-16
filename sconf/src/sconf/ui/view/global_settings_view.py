@@ -1,5 +1,7 @@
+import siso.src.scryptum.scryptum as sisoEncryption
+
 from PyQt5.QtCore import pyqtSlot
-from PyQt5.QtWidgets import QWidget, QLabel, QComboBox, QLineEdit, QGridLayout
+from PyQt5.QtWidgets import QWidget, QLabel, QComboBox, QLineEdit, QGridLayout, QPushButton
 
 from vcolorpicker import getColor, hex2rgb, rgb2hex
 
@@ -8,7 +10,7 @@ from sconf.configuration.models.smail_configuration import SmailConfiguration
 from sconf.configuration.models.sweb_configuration import SwebConfiguration
 from sconf.ui.convertors.value_convertors import StringValueConvertors
 from sconf.ui.styles.global_style_sheets import get_default_label_style, get_default_input_box_style, \
-    get_default_dropdown_style
+    get_default_dropdown_style, get_default_config_button_style
 from sconf.ui.view_models.global_settings_view_model import GlobalViewModel
 
 
@@ -32,6 +34,7 @@ class GlobalSettingsView(QWidget):
         label_alert_color = QLabel("Alert color (in hex)")
         label_highlight_color = QLabel("Highlight color (in hex)")
         label_protection_level = QLabel("Protection Level")
+        label_current_guid = QLabel("Add current computer")
 
         # Dropdowns and Inputs
         combo_language = QComboBox()
@@ -58,6 +61,11 @@ class GlobalSettingsView(QWidget):
         combo_language.setCurrentText(f"{StringValueConvertors.int_to_protection_level(
             self._globalConfiguration.protectionLevel)}")
 
+        button_current_computer = QPushButton()
+        button_current_computer.setText(f"Add current computer int allowed")
+        button_current_computer.setObjectName("allowedComputers")
+        button_current_computer.setStyleSheet(f"""{get_default_config_button_style()}""")
+
         # Add widgets to the grid
         grid_layout.addWidget(label_language, 0, 0)
         grid_layout.addWidget(combo_language, 0, 1)
@@ -71,10 +79,14 @@ class GlobalSettingsView(QWidget):
         grid_layout.addWidget(label_protection_level, 3, 0)
         grid_layout.addWidget(combo_protection_level, 3, 1)
 
+        grid_layout.addWidget(label_current_guid, 4, 0)
+        grid_layout.addWidget(button_current_computer, 4, 1)
+
         combo_language.currentIndexChanged.connect(self.__on_input_change)
         input_alert_color.textChanged.connect(self.__on_input_change)
         input_highlight_color.textChanged.connect(self.__on_input_change)
         combo_protection_level.currentIndexChanged.connect(self.__on_input_change)
+        button_current_computer.pressed.connect(self.__on_input_change)
 
         # Set widget layout
         self.setLayout(grid_layout)
@@ -101,6 +113,8 @@ class GlobalSettingsView(QWidget):
             print(StringValueConvertors.language_to_country_code(sender.currentText()))
             self._globalViewModel.update_model(sender.objectName(),
                                                StringValueConvertors.language_to_country_code(sender.currentText()))
+
+    # def __on_guid_button_press(self):
 
     def __on_alert_color_clicked(self, event):
         picked_color = getColor(hex2rgb(self._globalConfiguration.alertColor))

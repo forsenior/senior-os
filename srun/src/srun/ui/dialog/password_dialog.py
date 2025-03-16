@@ -57,9 +57,6 @@ class PasswordPopup(QDialog):
         self.setLayout(layout)
 
     def handle_submit(self):
-
-        test = self.password_input.text()
-
         password_hash = hash_password(self.password_input.text())
         if self.is_password_setup:
             confirm_password_hash = hash_password(self.confirm_password_input.text())
