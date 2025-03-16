@@ -1,4 +1,4 @@
-import json, os, getpass, socket
+import json, os, subprocess, getpass, socket
 from datetime import datetime
 from PyQt5.QtCore import QObject, pyqtSlot
 
@@ -6,6 +6,12 @@ from PyQt5.QtCore import QObject, pyqtSlot
 # Whenever user ignore warning from connection to phishing web page
 # And fill their information in
 class NotificationFillTextToPhishing(QObject):
+    def __init__(self, command_line_mail_script, careGiverEmail):
+        super().__init__()
+        self.command_line_mail_script = command_line_mail_script  
+        self.careGiverEmail = careGiverEmail  
+
+ 
     @pyqtSlot(str)
     def receiveData(self, received_data):
         # Parse received JSON data to invidial data
@@ -35,16 +41,14 @@ class NotificationFillTextToPhishing(QObject):
      
     def send_email(self, message_to_receiver):
         # Load needed configuration from sweb_config in sconf for sending notification to authorized people
-        ##receiver_mail = _dataProvider.get_smail_configuration().emailContacts[0]
-        receiver_mail = "test@gmail.com"
-
+        message = f"Subject: Phishing Warning, Senior visited the page:\n\n{message_to_receiver}"
+     
         try:
             # Load the command line mail script
-            command_line_mail_script = os.path.join(os.path.dirname(__file__), 'command_line_mail.py')
-            with open(command_line_mail_script) as f:
-                exec(f.read())
+            subprocess.run(["python3", self.command_line_mail_script, self.careGiverEmail, message], check=True)
+            
             print("Email sent successfully!!!")
         except Exception as excep:
             print(f"Error sending email: {excep}")
-            # Log with level 2 - CRITICAL
+            
   

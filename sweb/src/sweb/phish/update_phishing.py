@@ -19,6 +19,7 @@ class PhishingDatabaseModificationChecker:
         # Returns as a datetime object.
         # Check if the file is existed
         if not os.path.exists(self.path_to_phishing_database):
+            print("Phishing database not found, The application will not update the database")
             pass
         else:
             # Get the last modificated time
@@ -33,9 +34,13 @@ class PhishingDatabaseModificationChecker:
 
     # Methoud check if the file was last modified more than 2 weeks ago
     def check_and_update_if_needed(self):
-        two_weeks_ago = datetime.now() - timedelta(weeks=2)
-        if not self.file_has_been_modified_since(two_weeks_ago):
-            self.database_updater.download_and_extract_from_github()
+        if not os.path.exists(self.path_to_phishing_database):
+            print("Phishing database not found, The application will not update the database")
+            pass
+        else:
+            two_weeks_ago = datetime.now() - timedelta(weeks=2)
+            if not self.file_has_been_modified_since(two_weeks_ago):
+                self.database_updater.download_and_extract_from_github()
 
 # Method for updating phishing database
 class FileUpdater:

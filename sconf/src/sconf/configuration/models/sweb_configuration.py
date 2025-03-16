@@ -28,6 +28,7 @@ class SwebConfiguration:
                                                              "../sconf/icons/sweb_www_6.png"])
     allowedURL: str = "../sconf/phish/sweb_allowed_url.txt"
     phishingDatabase: str = "../sconf/phish/sweb_phish.txt"
+    command_line_mail_script: str = "../smail/src/smail/connection/command_line_mail.py"
     phishingGithubDatabase: str = "https://github.com/mitchellkrogza/Phishing.Database/raw/master/ALL-phishing-domains.tar.gz/"
     sendPhishingWarning: bool = True
     phishingFormular: bool = True
