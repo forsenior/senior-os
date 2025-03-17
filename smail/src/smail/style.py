@@ -375,7 +375,7 @@ def get_guardian_email(data_provider):
        Retrieves the guardian email address from the configuration provider.
        - Used for sending a copy of emails to a caregiver.
     """
-    smail_config = data_provider.get_smail_configuration()
+    smail_config = data_provider.get_global_configuration()
     email = smail_config.careGiverEmail
     return email
 
