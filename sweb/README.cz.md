@@ -1,3 +1,9 @@
+# 📖 Choose your language / Wählen Sie Ihre Sprache / Zvolte si jazyk
+
+- [English](README.md)
+- [Deutsch](README.de.md)
+- [Čeština](README.cz.md)
+  
 # Webový prohlížeč pro seniory a osoby s mentálním postižením
 
 ## Přehled aplikací
