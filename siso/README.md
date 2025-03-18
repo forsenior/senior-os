@@ -22,6 +22,21 @@ To download and install SISO, follow these steps:
 * Configuration Tool: Allows caregivers to set up and manage the system.
 
 
+## Boot Overview
+
+These screenshots capture the process of booting the SeniorOS operating system.
+
+![Starting SeniorOS Overview](siso/screens/run1.png)
+![Starting SeniorOS Overview](siso/screens/run2.png)
+
+
+## Operating System Overview 
+
+These screenshots show the SeniorOS operating system booted with the srun application running. The srun application starts after a successful system boot.
+
+![SeniorOS Overview]((https://github.com/forsenior/senior-os/blob/f00ed76d6c36564955aeaa37cb704cd7aedac36a/siso/screens/run_success.png))
+
 ## License
 
 SISO is licensed under the MIT License. See the LICENSE file for more details.
+
