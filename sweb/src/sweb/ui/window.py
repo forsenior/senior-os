@@ -22,7 +22,7 @@ os.environ["QTWEBENGINE_DISABLE_SANDBOX"] = "1"
 # My main browser contains all GUI in this class (Toolbar, Buttons, URLbar)
 
 ## static size of the button
-BUTTON_WIDTH = 240
+BUTTON_WIDTH = 238
 BUTTON_HEIGHT = 107
 BUTTON_SPACE = 10
 BUTTON_NUMBER = 5
@@ -190,7 +190,7 @@ class MyBrowser(QMainWindow):
 
         
         spacer = QWidget()
-        spacer.setFixedWidth(20)  # Set space before the first button
+        spacer.setFixedWidth(0)  # Set space before the first button
         self.menu_1_toolbar.addWidget(spacer)  # Add spacer to the toolbar
        
         # Create first Menu
@@ -277,7 +277,7 @@ class MyBrowser(QMainWindow):
         """
         # Calculate the left and right spacers to center the toolbar
         spacer = QWidget()
-        spacer.setFixedWidth(20)  # Set space before the first button
+        spacer.setFixedWidth(0)  # Set space before the first button
         self.menu_2_toolbar.addWidget(spacer)  # Add spacer to the toolbar
        
      
