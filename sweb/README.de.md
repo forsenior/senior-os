@@ -27,7 +27,7 @@ Tasten-Aktionen:
 ## MENU2 Überblick
 MENU2 enthält fünf Schaltflächen mit den folgenden Funktionen:
 
-<img src=„screens/sweb_screen_2.png“ width=„900“ />
+<img src="screens/sweb_screen_2.png" width="900" />
 
 Tasten-Aktionen:
 
@@ -38,7 +38,7 @@ Tasten-Aktionen:
 ## Erkennung von Phishing-Websites
 Diese Funktion ist das Herzstück unserer App. Sie warnt Nutzer, wenn eine Website möglicherweise eine Phishing-Website ist.
 
-<img src=„screens/sweb_screen_3.png“ width=„900“ />
+<img src="screens/sweb_screen_3.png" width="900" />
 
 - Phishing-Warnung: Wenn der Benutzer eine bekannte Phishing-URL eingibt, färbt sich der Hintergrund der Symbolleiste rot, um insbesondere für ältere Menschen gut sichtbar zu sein.
 
