@@ -16,7 +16,7 @@ Nachstehend finden Sie das Designkonzept für den Webbrowser:
 ## MENU1 Überblick
 MENU1 bietet eine benutzerfreundliche Oberfläche mit vier großen Schaltflächen fester Größe, die eine einfache Navigation, insbesondere für Senioren, ermöglichen.
 
-<img src=„screens/sweb_screen_1.png“ width=„900“ />
+<img src="screens/sweb_screen_1.png" width="900" />
 
 Tasten-Aktionen:
 
