@@ -41,7 +41,7 @@ class NotificationFillTextToPhishing(QObject):
      
     def send_email(self, message_to_receiver):
         # Load needed configuration from sweb_config in sconf for sending notification to authorized people
-        message = f"Subject: Phishing Warning, Senior visited the page:\n\n{message_to_receiver}"
+        message = f"Subject: Phishing Warning, Senior visited the page:\n\n{message_to_receiver} \n\nPlease check the website and take necessary action."
      
         try:
             # Load the command line mail script
