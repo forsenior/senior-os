@@ -4,8 +4,6 @@
 - [Deutsch](README.de.md)
 - [Čeština](README.cz.md)
 
-  ---------------------
-  ---------------------
 
 # Web browser for the elderly and mentally disabled
 
