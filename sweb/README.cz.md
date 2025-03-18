@@ -13,10 +13,10 @@ Jeho cílem je vytvořit uživatelsky přívětivější prostředí pro seniory
 podpora zvuku, vícejazyčné možnosti a robustní bezpečnostní opatření na ochranu před podvodnými webovými stránkami. 
 Níže je uveden koncept designu webového prohlížeče:
 
-## MENU1 Přehled
+## Přehled MENU1 
 MENU1 poskytuje uživatelsky přívětivé rozhraní se čtyřmi velkými tlačítky pevné velikosti, navrženými pro snadnou navigaci zejména pro seniory.
 
-<img src=„screens/sweb_screen_1.png“ width=„900“ />
+<img src="screens/sweb_screen_1.png" width="900" />
 
 Akce tlačítek:
 
@@ -24,10 +24,10 @@ Akce tlačítek:
 2. Tlačítko Exit: Zavře aplikaci.
 3. Tlačítka webových stránek (3): Tlačítka pro spuštění aplikace: Otevírají odkazy na předdefinované webové stránky.
    
-## MENU2 Přehled
+## Přehled MENU2 
 MENU2 obsahuje pět tlačítek s následujícími funkcemi:
 
-<img src=„screens/sweb_screen_2.png“ width=„900“ />
+<img src="screens/sweb_screen_2.png" width="900" />
 
 Akce tlačítek:
 
@@ -38,7 +38,7 @@ Akce tlačítek:
 ## Detekce phishingových webových stránek
 Tato funkce je jádrem naší aplikace a upozorňuje uživatele, pokud je webová stránka potenciálně phishingová.
 
-<img src=„screens/sweb_screen_3.png“ width=„900“ />
+<img src="screens/sweb_screen_3.png" width="900" />
 
 - Upozornění na phishing: Pokud uživatel zadá známou phishingovou adresu URL, pozadí panelu nástrojů se změní na červené, aby bylo snadno viditelné, zejména pro seniory.
 
