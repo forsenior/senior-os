@@ -209,10 +209,9 @@ class first_frame(QWidget):
         If an icon is missing, it falls back to an empty QIcon().
         """
         try:
-            BASE_DIR = Path(__file__).resolve().parents[3]
-            ICONS_DIR = BASE_DIR / "sconf" / "icons"
+            BASE_DIR = Path.home().parents[1]
+            ICONS_DIR = BASE_DIR / "run" / "archiso" / "airootfs" / "usr" / "lib" / "python3.13" / "site-packages" / "icons"
             self.img = style.images(self.data_provider)
-
 
             def load_icon(image_name, width=413, height=531):
                 """
@@ -228,8 +227,6 @@ class first_frame(QWidget):
                                                transformMode=Qt.SmoothTransformation)
                         return QIcon(pixmap)
                 return QIcon()
-
-
 
             self.exit_image = load_icon(self.img[0])
             self.person1_image = load_icon(self.img[1])
