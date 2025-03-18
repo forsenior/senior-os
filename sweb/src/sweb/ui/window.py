@@ -22,12 +22,13 @@ os.environ["QTWEBENGINE_DISABLE_SANDBOX"] = "1"
 # My main browser contains all GUI in this class (Toolbar, Buttons, URLbar)
 
 ## static size of the button
-BUTTON_WIDTH = 244
+BUTTON_WIDTH = 240
 BUTTON_HEIGHT = 107
+BUTTON_SPACE = 10
+BUTTON_NUMBER = 5
 
 # static size of the toolbar
-TOOLBAR_WIDTH = 1340
-TOOLBAR_HEIGHT = 117
+TOOLBAR_WIDTH = BUTTON_WIDTH * BUTTON_NUMBER + BUTTON_SPACE * (BUTTON_NUMBER + 1) + 80
 
 
 class MyBrowser(QMainWindow):
@@ -40,10 +41,12 @@ class MyBrowser(QMainWindow):
 
         self.sweb_dataProvider = sweb_dataProvider
         self.global_dataProvider = global_dataProvider
+
         self.setWindowFlags(Qt.CustomizeWindowHint)
         self.main_browser = QWebEngineView()
         # Set cutstom page to open new page in the same browser
         self.my_custom_page = MyWebEnginePage(self.main_browser)
+        
         self.my_custom_page.urlChangedSignal.connect(self.on_url_changed_my_custom_page)
         # Configuration for open in Mobile
         # Value for mobile user agent
@@ -89,31 +92,34 @@ class MyBrowser(QMainWindow):
         self.path_to_image_www5 = sweb_dataProvider.picturePaths[5]
         self.path_to_image_www6 = sweb_dataProvider.picturePaths[6]
 
+        # Load permitted websites from URLBlocker class
+        self.permitted_website_list = self.url_blocker.load_permitted_website_from_sconf(sweb_dataProvider.allowedURL)
 
         # Create a toolbar for saving menu and buttons
         self.menu_1_toolbar = QToolBar("MENU 1")
         self.addToolBar(self.menu_1_toolbar)
         self.menu_1_toolbar.setMovable(False)
+        # Calculate the left and right spacers to center the toolbar
+        total_screen_width = self.get_monitor_height_and_width.get_width_screen()
+        left_spacer_width = (total_screen_width - TOOLBAR_WIDTH) // 2
 
-        # Load permitted websites from URLBlocker class
-        self.permitted_website_list = self.url_blocker.load_permitted_website_from_sconf(sweb_dataProvider.allowedURL)
+        left_spacer = QWidget()
+        left_spacer.setFixedWidth(left_spacer_width)
+        self.menu_1_toolbar.addWidget(left_spacer)
 
+        
         # Create a toolbar for saving menu and buttons
         self.menu_2_toolbar = QToolBar("MENU 2")
         self.addToolBar(self.menu_2_toolbar)
         self.menu_2_toolbar.setMovable(False)
+        total_screen_width = self.get_monitor_height_and_width.get_width_screen()
+        left_spacer_width = (total_screen_width - TOOLBAR_WIDTH) // 2
 
-        # Add the buttons to the toolbar
-        #self.setup_initial_menu_2()
-       
-
-        """
-        # Add a spacer to the left of the toolbar
         left_spacer = QWidget()
         left_spacer.setFixedWidth(left_spacer_width)
         self.menu_2_toolbar.addWidget(left_spacer)
-        self.addToolBarBreak()
-        """
+        
+       
         self.toolbar_space = QToolBar("Spacer")
         # Set the spacer height
 
@@ -181,21 +187,11 @@ class MyBrowser(QMainWindow):
         self.main_browser.setUrl(url)
         
     def setup_initial_menu_1(self):
-        """
-        Sets up the initial configuration for the first menu, including buttons 
-        for various web navigation and a search feature. Configures button 
-        properties, layouts, icons, and click events.
-        """
 
-        # Calculate the left and right spacers to center the toolbar
-        total_screen_width = self.get_monitor_height_and_width.get_width_screen()
-        left_spacer_width = (total_screen_width - TOOLBAR_WIDTH) // 2
-      
-
-        left_spacer = QWidget()
-        left_spacer.setFixedWidth(left_spacer_width)
-        self.menu_1_toolbar.addWidget(left_spacer)
         
+        spacer = QWidget()
+        spacer.setFixedWidth(20)  # Set space before the first button
+        self.menu_1_toolbar.addWidget(spacer)  # Add spacer to the toolbar
        
         # Create first Menu
         self.menu1_button = QPushButton(self)
@@ -280,12 +276,11 @@ class MyBrowser(QMainWindow):
         properties, layouts, icons, and click events.
         """
         # Calculate the left and right spacers to center the toolbar
-        total_screen_width = self.get_monitor_height_and_width.get_width_screen()
-        left_spacer_width = (total_screen_width - TOOLBAR_WIDTH) // 2
-
-        left_spacer = QWidget()
-        left_spacer.setFixedWidth(left_spacer_width)
-        self.menu_2_toolbar.addWidget(left_spacer)
+        spacer = QWidget()
+        spacer.setFixedWidth(20)  # Set space before the first button
+        self.menu_2_toolbar.addWidget(spacer)  # Add spacer to the toolbar
+       
+     
         # Create second Menu2
         self.menu2_button = QPushButton(self)
         # Create Home QvBoxLayout
@@ -365,37 +360,13 @@ class MyBrowser(QMainWindow):
     # Set default style for Toolbar
     def default_style_toolbar(self):
 
-        """
-        Generates a CSS style string for customizing the appearance of a QToolBar and its child widgets.
-        The style string includes:
-        - Transparent background and border for QToolBar.
-        - White text color for QPushButton and QLabel.
-        - Custom styling for QPushButton, including:
-        - Rounded corners with a 3px radius.
-        - 1px solid border with color #797979.
-        - Background color #949494.
-        - Margins of 10px on top, bottom, and left, and 12px on the right.
-        - Font size of 40px, regular weight, and 'Google Sans' font family.
-        - Width of 244px and height of 107px.
-        - Hover effect for QPushButton with a background color change to #00ff00.
-        - Custom font styling for QPushButton QLabel with a font size of 40px, regular weight, and 'Google Sans' font family.
-        Returns:
-            str: A CSS style string for the QToolBar and its child widgets.
-        """
-
        ## toolbar_text_config = MenuBarTextConfiguration()
-        
+
         style_string = f"""
-            QToolBar {{
-            spacer_left = QSpacerItem(20, 40, QSizePolicy.Expanding, QSizePolicy.Minimum)
-            spacer_right = QSpacerItem(20, 40, QSizePolicy.Expanding, QSizePolicy.Minimum)
+            QToolBar {{    
             border: 0px solid transparent;
             background-color: transparent;
             spacing: 10px;
-            width: {TOOLBAR_WIDTH}px;
-            height: {TOOLBAR_HEIGHT}px;
-            
-            
             
             }}
             QPushButton QLabel {{
@@ -406,14 +377,12 @@ class MyBrowser(QMainWindow):
                 border-radius: 3px;
                 border: 1px solid #797979;
                 background-color: #949494 ; 
-                margin: 10px 0px 10px 0px;                 
+                margin: 20px 0px 20px 0px;                 
                 font-size: 40px;
                 font-weight: 'Regular';
-                
-            
                 font-family: 'Inter';
-                width: 244px;
-                height: 107px;
+                width: {BUTTON_WIDTH}px;
+                height: {BUTTON_HEIGHT}px;
             }}
             
             QPushButton:hover {{
@@ -436,8 +405,8 @@ class MyBrowser(QMainWindow):
             border: 0px solid transparent;
             background-color: transparent;
             spacing: 10px;
-            width: {TOOLBAR_WIDTH}px;
-            height: {TOOLBAR_HEIGHT}px;
+
+            
             }}
             QPushButton QLabel {{
                 color: #FFFFFF;
@@ -447,13 +416,12 @@ class MyBrowser(QMainWindow):
                 border-radius: 3px;
                 border: 1px solid #797979;
                 background-color: #F90000;   
-                margin: 10px 0px 10px 0px;                 
+                margin: 20px 0px 20px 0px;                 
                 font-size: 40px;
                 font-weight: 'Regular';
                 font-family: 'Inter';
-                width: 244px;
-                height: 107px;
-                
+                width: {BUTTON_WIDTH}px;
+                height: {BUTTON_HEIGHT}px;      
             }}
             
             QPushButton:hover {{
