@@ -26,15 +26,15 @@ To download and install SISO, follow these steps:
 
 These screenshots capture the process of booting the SeniorOS operating system.
 
-![Starting SeniorOS Overview](siso/screens/run1.png)
-![Starting SeniorOS Overview](siso/screens/run2.png)
+![Starting SeniorOS Overview](https://github.com/forsenior/senior-os/blob/f00ed76d6c36564955aeaa37cb704cd7aedac36a/siso/screens/run1.png)
+![Starting SeniorOS Overview](https://github.com/forsenior/senior-os/blob/f00ed76d6c36564955aeaa37cb704cd7aedac36a/siso/screens/run2.png)
 
 
 ## Operating System Overview 
 
 These screenshots show the SeniorOS operating system booted with the srun application running. The srun application starts after a successful system boot.
 
-![SeniorOS Overview]((https://github.com/forsenior/senior-os/blob/f00ed76d6c36564955aeaa37cb704cd7aedac36a/siso/screens/run_success.png))
+![SeniorOS Overview](https://github.com/forsenior/senior-os/blob/e7534c8b3de77a267d1f80ae0cbe6e5d8da477b4/siso/screens/run_success.png)
 
 ## License
 
