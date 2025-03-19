@@ -67,7 +67,7 @@ class MainWindow(QMainWindow):
         for name, button in self.menu_buttons.items():
             button.setFixedSize(230, 80)  # Updated size to match Figma
             if name == "X":
-                pixmap_icon = QPixmap("../sconf/icons/exit.png").scaled(40, 40, Qt.KeepAspectRatio,
+                pixmap_icon = QPixmap("/run/archiso/airootfs/usr/lib/python3.13/site-packages/icons/exit.png").scaled(40, 40, Qt.KeepAspectRatio,
                                                                         Qt.SmoothTransformation)
                 button.setIconSize(QSize(40, 40))
                 button.setIcon(QIcon(pixmap_icon))
