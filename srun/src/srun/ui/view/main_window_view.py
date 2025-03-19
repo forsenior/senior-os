@@ -59,7 +59,7 @@ class MainWindowView(QWidget):
         button_sweb.setStyleSheet(get_default_start_button_style())
         button_sconf.setStyleSheet(get_default_start_button_style())
 
-        pixmap_icon = QPixmap(r"../sconf/icons/exit.png").scaled(100, 100)
+        pixmap_icon = QPixmap(r"/run/archiso/airootfs/usr/lib/python3.13/site-packages/icons/exit.png").scaled(100, 100)
         button_exit.setIconSize(QSize(100, 100))
         button_exit.setIcon(QIcon(pixmap_icon))
 
