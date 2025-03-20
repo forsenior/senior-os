@@ -25,7 +25,7 @@ class first_frame(QWidget):
         self.language, self.text_configuration = style.get_language(self.data_provider)
         self.protection_level = style.get_protection_level(self.data_provider)
         #self.protection_level = 1
-        self.color_scheme = style.get_color_scheme()
+        self.color_scheme = style.get_color_scheme(self.data_provider)
         self.guardian_email = style.get_guardian_email(self.data_provider)
         self.last_selected_index = None
         self.last_selected_email = None
@@ -115,10 +115,11 @@ class first_frame(QWidget):
         for index, text in enumerate(current_menu):
             button = QPushButton(text, self.button_frame)
 
+            #This was used to change the color of the "To/Komu" button to make it stand out, but it is now set to the same color.
             if not self.menu1 and index == 4:
-                button.setStyleSheet(style.get_button_style(green=True))
+                button.setStyleSheet(style.get_button_style(self.data_provider))
             else:
-                button.setStyleSheet(style.get_button_style())
+                button.setStyleSheet(style.get_button_style(self.data_provider))
 
             self.button_layout.addWidget(button, alignment=Qt.AlignCenter)
 
@@ -192,14 +193,11 @@ class first_frame(QWidget):
 
             if isinstance(widget, QPushButton):
                 if alert:
-                    # 📌 Uložíme původní styl tlačítka, pokud tam ještě není
                     if widget not in self.original_button_styles:
                         self.original_button_styles[widget] = widget.styleSheet()
 
-                    # 📌 Nastavíme výstražný styl (červená)
-                    widget.setStyleSheet(style.get_button_style(normal=False))
+                    widget.setStyleSheet(style.get_button_style(self.data_provider, normal=False))
                 else:
-                    # 📌 Vrátíme původní styl tlačítka
                     if widget in self.original_button_styles:
                         widget.setStyleSheet(self.original_button_styles[widget])
 
@@ -440,7 +438,7 @@ class first_frame(QWidget):
 
         if hasattr(self, 'last_selected_button') and self.last_selected_button is not None:
             if not sip.isdeleted(self.last_selected_button):
-                self.last_selected_button.setStyleSheet(style.get_button_style())
+                self.last_selected_button.setStyleSheet(style.get_button_style(self.data_provider))
             self.last_selected_button = None
 
         selected_items = self.inbox_list.selectedItems()
@@ -555,11 +553,11 @@ class first_frame(QWidget):
         try:
             if hasattr(self, 'last_selected_button') and self.last_selected_button is not None:
                 if not sip.isdeleted(self.last_selected_button):
-                    self.last_selected_button.setStyleSheet(style.get_button_style())
+                    self.last_selected_button.setStyleSheet(style.get_button_style(self.data_provider))
             sender = self.sender()
 
             if sender is not None and not sip.isdeleted(sender):
-                sender.setStyleSheet(style.get_button_style(green=True))
+                sender.setStyleSheet(style.get_button_style(self.data_provider, highlight=True))
                 self.last_selected_button = sender
             recipient_email = ""
             if 1 <= index <= 6:
@@ -659,7 +657,7 @@ class first_frame(QWidget):
         """
         self.sensitive_content_warning_displayed = False
         colors = self.color_scheme
-        green_color = colors["green_color"]
+        highlight_color = colors["highlight_color"]
         default_color = colors["default_color"]
 
 
@@ -677,7 +675,7 @@ class first_frame(QWidget):
         self.email_content_label_2.setAlignment(Qt.AlignCenter)
         current_style = style.get_email_content_label()
         self.email_content_label_2.setStyleSheet(current_style + f"""
-                background-color: {green_color};
+                background-color: {highlight_color};
                 font-size: 32px;  
                 font-weight: bold;  
             """)

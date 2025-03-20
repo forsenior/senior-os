@@ -8,22 +8,23 @@ script_directory = Path(__file__).parent
 parent_directory = script_directory.parent
 sys.path.append(str(parent_directory))
 
-def get_button_style(normal=True, green=False):
+def get_button_style(data_provider=None, normal=True, highlight=False):
     """
         Returns style for buttons based on their state:
         - Normal (grey)
-        - Green (confirmation)
+        - Highlight(confirmation)
         - Red (alert)
     """
     button_width, button_height = 244, 107
     button_position = "center"
 
-    if green:
-        background_color = "#48843F"
+    colors = get_color_scheme(data_provider)
+    if highlight:
+        background_color = colors["highlight_color"]
     elif normal:
-        background_color = "#949494"
+        background_color = colors["dark_grey_color"]
     else:
-        background_color = "#F90000"
+        background_color = colors["alert_color"]
 
     return f"""
           QPushButton {{
@@ -38,24 +39,47 @@ def get_button_style(normal=True, green=False):
               height: {button_height}px;
           }}
           QPushButton:pressed {{
-              background-color: #48843F;
+              background-color: {colors["highlight_color"]};
           }}
           QPushButton::icon {{
               alignment: {button_position};
           }}
       """
 
-def get_color_scheme():
+
+def get_color_scheme(data_provider=None):
     """
-        Returns the application's color scheme.
+    Returns the application's color scheme, using values from global_config if available.
+    If the values are empty ("") or "000000", it falls back to default colors.
     """
-    return {
+    default_colors = {
         "default_color": "#FFFFFF",
-        "green_color": "#48843F",
+        "highlight_color": "#48843F",
         "alert_color": "#F90000",
         "dark_grey_color": "#949494",
         "grey_color": "#D3D3D3"
     }
+
+    if data_provider is None:
+        return default_colors
+
+    try:
+        global_config = data_provider.get_global_configuration()
+        highlight_color = global_config.highlightColor.strip() if global_config.highlightColor else ""
+        alert_color = global_config.alertColor.strip() if global_config.alertColor else ""
+
+        return {
+            "default_color": default_colors["default_color"],
+            "highlight_color": highlight_color if highlight_color and highlight_color != "000000" else default_colors["highlight_color"],
+            "alert_color": alert_color if alert_color and alert_color != "000000" else default_colors["alert_color"],
+            "dark_grey_color": default_colors["dark_grey_color"],
+            "grey_color": default_colors["grey_color"]
+        }
+
+    except Exception as e:
+        print(f"⚠️ Error loading color scheme: {e}. Using default colors.")
+        return default_colors
+
 
 def get_button_frame_style():
     """
