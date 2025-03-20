@@ -41,6 +41,9 @@ def get_button_style(data_provider=None, normal=True, highlight=False):
           QPushButton:pressed {{
               background-color: {colors["highlight_color"]};
           }}
+          QPushButton:hover {{
+              background-color: {colors["highlight_color"]};  
+          }}
           QPushButton::icon {{
               alignment: {button_position};
           }}
