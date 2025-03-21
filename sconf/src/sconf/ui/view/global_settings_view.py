@@ -12,7 +12,6 @@ from sconf.ui.styles.global_style_sheets import get_default_label_style, get_def
 from sconf.ui.view_models.global_settings_view_model import GlobalViewModel
 
 
-# TODO: Once initial presentation is done change this to correct binding with the view model
 class GlobalSettingsView(QWidget):
     _globalViewModel: GlobalViewModel
     _globalConfiguration: GlobalConfiguration
