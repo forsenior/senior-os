@@ -9,7 +9,7 @@ from sconf.ui.styles.global_style_sheets import get_default_dialog_style, get_de
 class TablePopup(QDialog):
     __updated_entries: list[dict[str, str]]
 
-    def __init__(self, key_value_pairs, parent=None, type: str = "mail"):
+    def __init__(self, key_value_pairs, parent=None, type: str = "mail", highlight_color: str = "#48843F"):
         super().__init__(parent)
 
         self.setWindowTitle("Add content")
@@ -42,7 +42,7 @@ class TablePopup(QDialog):
                 icon_button = QPushButton("Select Icon")
                 icon_button.setText(entry[f"icon{index}"])
                 icon_button.setStyleSheet(f"""
-                                {get_default_settings_button_style()}
+                                {get_default_settings_button_style(highlight_color)}
                                 """)
                 icon_button.clicked.connect(lambda _, r=row: self.__select_icon(r))
                 self.url_table.setCellWidget(row, 1, icon_button)
@@ -55,7 +55,7 @@ class TablePopup(QDialog):
                 icon_button = QPushButton("Select Icon")
                 icon_button.setText(entry[f"icon{index}"])
                 icon_button.setStyleSheet(f"""
-                                {get_default_settings_button_style()}
+                                {get_default_settings_button_style(highlight_color)}
                                 """)
                 icon_button.clicked.connect(lambda _, r=row: self.__select_icon(r))
                 self.url_table.setCellWidget(row, 1, icon_button)
@@ -66,13 +66,13 @@ class TablePopup(QDialog):
         self.save_button = QPushButton("Save")
         self.save_button.setStyleSheet(f"""
                             margin: 5px;
-                            {get_default_settings_button_style()}
+                            {get_default_settings_button_style(highlight_color)}
                             """)
 
         self.cancel_button = QPushButton("Cancel")
         self.cancel_button.setStyleSheet(f"""
                             margin: 5px;
-                            {get_default_settings_button_style()}
+                            {get_default_settings_button_style(highlight_color)}
                             """)
 
         self.save_button.setMinimumWidth(150)
@@ -88,7 +88,7 @@ class TablePopup(QDialog):
         self.setLayout(layout)
 
         self.setStyleSheet(f"""
-                    {get_default_settings_button_style()}
+                    {get_default_settings_button_style(highlight_color)}
                     {get_default_input_box_style()}
                     {get_default_table_style()}""")
 

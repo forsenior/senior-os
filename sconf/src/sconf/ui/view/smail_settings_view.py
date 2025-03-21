@@ -25,13 +25,15 @@ class MailSettingsView(QWidget):
 
     def __init__(self, smail_configuration: SmailConfiguration,
                  globalConfiguration: GlobalConfiguration,
-                 configurationFolder: str):
+                 configurationFolder: str,
+                 highlight_color: str):
         super().__init__()
 
         self._smailConfiguration = smail_configuration
         self._globalConfiguration = globalConfiguration
         self._smailViewModel = SmailViewModel(smail_configuration, globalConfiguration)
         self._configurationFolder = configurationFolder
+        self.highlight_color = highlight_color
 
         grid_layout = QGridLayout()
         grid_layout.setColumnMinimumWidth(0, 261)
@@ -90,13 +92,13 @@ class MailSettingsView(QWidget):
                     {get_default_label_style()}
                     {get_default_input_box_style()}
                     {get_default_dropdown_style()}
-                    {get_default_settings_button_style()}
+                    {get_default_settings_button_style(self.highlight_color)}
                     {get_default_settings_text_edit_style()}
                     {get_default_table_style()}
                     """)
 
     def show_table(self, event):
-        table_input = TablePopup(self._smailConfiguration.emailContactsV2)
+        table_input = TablePopup(self._smailConfiguration.emailContactsV2, highlight_color=self.highlight_color)
 
         if table_input.exec_() == QDialog.Accepted:
             print(table_input.get_updated_entries())

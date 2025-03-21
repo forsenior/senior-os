@@ -22,12 +22,13 @@ class WebSettingsView(QWidget):
     _configurationFolder: str
     _errorInTextInput: bool
 
-    def __init__(self, sweb_configuration: SwebConfiguration, configurationFolder: str):
+    def __init__(self, sweb_configuration: SwebConfiguration, configurationFolder: str, highlight_color: str):
         super().__init__()
         grid_layout = QGridLayout()
         self._swebConfiguration = sweb_configuration
         self._swebViewModel = SwebViewModel(sweb_configuration)
         self._configurationFolder = configurationFolder
+        self.highlight_color = highlight_color
 
         # Labels
         label_urls_list = QLabel("Allowed URLs")
@@ -54,12 +55,12 @@ class WebSettingsView(QWidget):
                             {get_default_label_style()}
                             {get_default_input_box_style()}
                             {get_default_dropdown_style()}
-                            {get_default_settings_button_style()}
+                            {get_default_settings_button_style(self.highlight_color)}
                             {get_default_settings_text_edit_style()}
                             """)
 
     def show_table(self, event):
-        table_input = TablePopup(self._swebConfiguration.swebAllowedUrlListV2, type="web")
+        table_input = TablePopup(self._swebConfiguration.swebAllowedUrlListV2, type="web", highlight_color=self.highlight_color)
 
         if table_input.exec_() == QDialog.Accepted:
             print(table_input.get_updated_entries())

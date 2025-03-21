@@ -24,7 +24,7 @@ class MainWindow(QMainWindow):
         self._configurationWriter = configurationWriter
         self._configurationFolder = configurationFolder
 
-        global_configuration = configurationProvider.get_global_configuration()
+        self.global_configuration = configurationProvider.get_global_configuration()
         sweb_configuration = configurationProvider.get_sweb_configuration()
         smail_configuration = configurationProvider.get_smail_configuration()
 
@@ -39,7 +39,7 @@ class MainWindow(QMainWindow):
         container.setFixedSize(1280, 800)  # Fixed size to match Figma
         container.setStyleSheet(f"""
                     {get_main_window_style()}
-                    {get_default_menu_button_style()}
+                    {get_default_menu_button_style(self.global_configuration.highlightColor)}
                     border: 2px solid #000000;
                     border-radius: 8px;
                     margin: 40px;
@@ -90,9 +90,9 @@ class MainWindow(QMainWindow):
 
         # Creating views for different sections
         self.credit_views = CreditsView()
-        self.global_view = GlobalSettingsView(global_configuration, sweb_configuration, smail_configuration)
-        self.web_view = WebSettingsView(sweb_configuration, configurationFolder)
-        self.mail_view = MailSettingsView(smail_configuration, global_configuration, configurationFolder)
+        self.global_view = GlobalSettingsView(self.global_configuration, sweb_configuration, smail_configuration)
+        self.web_view = WebSettingsView(sweb_configuration, configurationFolder, self.global_configuration.highlightColor)
+        self.mail_view = MailSettingsView(smail_configuration, self.global_configuration, configurationFolder, self.global_configuration.highlightColor)
 
         # Adding views to the stacked widget
         self.stacked_widget.addWidget(self.credit_views) # Index 0
@@ -121,10 +121,10 @@ class MainWindow(QMainWindow):
         self.show_global_view()
 
     def show_credits_view(self):
-        self.menu_buttons["Credits"].setStyleSheet(get_active_menu_button_style())
-        self.menu_buttons["Global"].setStyleSheet(get_default_menu_button_style())
-        self.menu_buttons["Web"].setStyleSheet(get_default_menu_button_style())
-        self.menu_buttons["Mail"].setStyleSheet(get_default_menu_button_style())
+        self.menu_buttons["Credits"].setStyleSheet(get_active_menu_button_style(self.global_configuration.highlightColor))
+        self.menu_buttons["Global"].setStyleSheet(get_default_menu_button_style(self.global_configuration.highlightColor))
+        self.menu_buttons["Web"].setStyleSheet(get_default_menu_button_style(self.global_configuration.highlightColor))
+        self.menu_buttons["Mail"].setStyleSheet(get_default_menu_button_style(self.global_configuration.highlightColor))
         self.stacked_widget.setCurrentIndex(0)
 
     def terminate_shelp(self):
@@ -134,22 +134,22 @@ class MainWindow(QMainWindow):
         sys.exit(0)
 
     def show_global_view(self):
-        self.menu_buttons["Credits"].setStyleSheet(get_default_menu_button_style())
-        self.menu_buttons["Global"].setStyleSheet(get_active_menu_button_style())
-        self.menu_buttons["Web"].setStyleSheet(get_default_menu_button_style())
-        self.menu_buttons["Mail"].setStyleSheet(get_default_menu_button_style())
+        self.menu_buttons["Credits"].setStyleSheet(get_default_menu_button_style(self.global_configuration.highlightColor))
+        self.menu_buttons["Global"].setStyleSheet(get_active_menu_button_style(self.global_configuration.highlightColor))
+        self.menu_buttons["Web"].setStyleSheet(get_default_menu_button_style(self.global_configuration.highlightColor))
+        self.menu_buttons["Mail"].setStyleSheet(get_default_menu_button_style(self.global_configuration.highlightColor))
         self.stacked_widget.setCurrentIndex(1)
 
     def show_web_view(self):
-        self.menu_buttons["Credits"].setStyleSheet(get_default_menu_button_style())
-        self.menu_buttons["Global"].setStyleSheet(get_default_menu_button_style())
-        self.menu_buttons["Web"].setStyleSheet(get_active_menu_button_style())
-        self.menu_buttons["Mail"].setStyleSheet(get_default_menu_button_style())
+        self.menu_buttons["Credits"].setStyleSheet(get_default_menu_button_style(self.global_configuration.highlightColor))
+        self.menu_buttons["Global"].setStyleSheet(get_default_menu_button_style(self.global_configuration.highlightColor))
+        self.menu_buttons["Web"].setStyleSheet(get_active_menu_button_style(self.global_configuration.highlightColor))
+        self.menu_buttons["Mail"].setStyleSheet(get_default_menu_button_style(self.global_configuration.highlightColor))
         self.stacked_widget.setCurrentIndex(2)
 
     def show_mail_view(self):
-        self.menu_buttons["Credits"].setStyleSheet(get_default_menu_button_style())
-        self.menu_buttons["Global"].setStyleSheet(get_default_menu_button_style())
-        self.menu_buttons["Web"].setStyleSheet(get_default_menu_button_style())
-        self.menu_buttons["Mail"].setStyleSheet(get_active_menu_button_style())
+        self.menu_buttons["Credits"].setStyleSheet(get_default_menu_button_style(self.global_configuration.highlightColor))
+        self.menu_buttons["Global"].setStyleSheet(get_default_menu_button_style(self.global_configuration.highlightColor))
+        self.menu_buttons["Web"].setStyleSheet(get_default_menu_button_style(self.global_configuration.highlightColor))
+        self.menu_buttons["Mail"].setStyleSheet(get_active_menu_button_style(self.global_configuration.highlightColor))
         self.stacked_widget.setCurrentIndex(3)

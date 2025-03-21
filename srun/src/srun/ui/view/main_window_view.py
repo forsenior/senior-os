@@ -122,7 +122,8 @@ class MainWindowView(QWidget):
 
     def __handle_sconf_clicked(self):
         password_dialog = PasswordPopup(password=self.main_configuration.configurationPassword,
-                                        initial_start_up=self.main_configuration.initialStartUp)
+                                        initial_start_up=self.main_configuration.initialStartUp,
+                                        parent=self)
 
         is_initial_start_up = True if (self.main_configuration.configurationPassword == ""
                                        and self.main_configuration.initialStartUp) else False

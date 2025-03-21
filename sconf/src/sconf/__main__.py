@@ -29,7 +29,7 @@ def main():
         print(window.size())
         sys.exit(app.exec_())
     except Exception as e:
-       print(f"Exception occurred {e}")
+        print(f"Exception occurred {e}")
 
 
 if __name__ == '__main__':

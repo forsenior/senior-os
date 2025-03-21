@@ -11,9 +11,9 @@ def get_main_window_style():
     """
 
 
-def get_default_menu_button_style():
-    return """
-        QPushButton {
+def get_default_menu_button_style(highlight_color):
+    return f"""
+        QPushButton {{
             text-align: center;
             font-family: Inter;
             font-size: 40px;
@@ -23,16 +23,16 @@ def get_default_menu_button_style():
             color: #FFFFFF;
             margin: 1px;
             box-sizing: border-box;
-        }
-        QPushButton:hover {
-            background-color: #48843F;
-        }
+        }}
+        QPushButton:hover {{
+            background-color: #{highlight_color};
+        }}
     """
 
 
-def get_active_menu_button_style():
-    return """
-        QPushButton {
+def get_active_menu_button_style(highlight_color):
+    return f"""
+        QPushButton {{
             background-color: #48843F;
             border: 1px solid #797979;
             border-radius: 8px;
@@ -42,10 +42,10 @@ def get_active_menu_button_style():
             font-family: Inter;
             font-size: 40px;
             box-sizing: border-box;
-        }
-        QPushButton:hover {
-            background-color: #48843F;
-        }
+        }}
+        QPushButton:hover {{
+            background-color: #{highlight_color};
+        }}
     """
 
 
@@ -117,9 +117,9 @@ def get_default_input_box_style():
     """
 
 
-def get_default_settings_button_style():
-    return """
-        QPushButton {
+def get_default_settings_button_style(highlight_color):
+    return f"""
+        QPushButton {{
             font-family: Inter;
             font-size: 12px;
             text-align: center;
@@ -129,10 +129,10 @@ def get_default_settings_button_style():
             background-color: #D9D9D9;
             max-height: 20px;
             max-width: 500px;
-        }
-        QPushButton:hover {
-            background-color: #48843F;
-        }
+        }}
+        QPushButton:hover {{
+            background-color: #{highlight_color};
+        }}
     """
 
 
