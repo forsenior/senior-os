@@ -2,7 +2,8 @@ import sys
 
 from PyQt5.QtCore import QSize, Qt
 from PyQt5.QtGui import QFont, QPixmap, QIcon
-from PyQt5.QtWidgets import QWidget, QVBoxLayout, QHBoxLayout, QPushButton, QStackedWidget, QApplication, QMainWindow
+from PyQt5.QtWidgets import QWidget, QVBoxLayout, QHBoxLayout, QPushButton, QStackedWidget, QApplication, QMainWindow, \
+    QSpacerItem, QSizePolicy
 
 from sconf.ui.styles.global_style_sheets import get_main_window_style, get_default_menu_button_style, \
     get_active_menu_button_style
@@ -52,7 +53,8 @@ class MainWindow(QMainWindow):
 
         # Menu layout
         self.menu_layout = QHBoxLayout(container)
-        self.menu_layout.setSpacing(1)  # Consistent spacing between buttons
+        self.menu_layout.setContentsMargins(10, 12, 10, 1)
+        self.menu_layout.addItem(QSpacerItem(20, 40, QSizePolicy.Expanding, QSizePolicy.Minimum))  # Consistent spacing between buttons
 
         # Creating the menu buttons
         self.menu_buttons = {
@@ -65,15 +67,15 @@ class MainWindow(QMainWindow):
 
         # Set up each button with proper sizing and styling
         for name, button in self.menu_buttons.items():
-            button.setFixedSize(230, 80)  # Updated size to match Figma
+            button.setFixedSize(244, 107)  # Updated size to match Figma
             if name == "X":
                 pixmap_icon = QPixmap("/run/archiso/airootfs/usr/lib/python3.13/site-packages/icons/exit.png").scaled(40, 40, Qt.KeepAspectRatio,
                                                                         Qt.SmoothTransformation)
                 button.setIconSize(QSize(40, 40))
                 button.setIcon(QIcon(pixmap_icon))
-            button.setFont(QFont('Inter', 40))  # Larger font size
-            self.menu_layout.addWidget(button)
+            self.menu_layout.addWidget(button, alignment=Qt.AlignCenter)
 
+        self.menu_layout.addItem(QSpacerItem(20, 40, QSizePolicy.Expanding, QSizePolicy.Minimum))
         self.main_layout.addLayout(self.menu_layout)
 
         # Stack for holding multiple views (screens)

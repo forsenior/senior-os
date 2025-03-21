@@ -60,9 +60,9 @@ class GlobalSettingsView(QWidget):
             self._globalConfiguration.protectionLevel)}")
 
         button_current_computer = QPushButton()
-        button_current_computer.setText(f"Add current computer int allowed")
+        button_current_computer.setText(f"Add computer to allowed")
         button_current_computer.setObjectName("allowedComputers")
-        button_current_computer.setStyleSheet(f"""{get_default_config_button_style()}""")
+        button_current_computer.setStyleSheet(f"""{get_default_config_button_style(self._globalConfiguration.highlightColor)}""")
 
         # Add widgets to the grid
         grid_layout.addWidget(label_language, 0, 0)

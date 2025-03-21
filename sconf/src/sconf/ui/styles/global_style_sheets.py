@@ -23,6 +23,8 @@ def get_default_menu_button_style(highlight_color):
             color: #FFFFFF;
             margin: 1px;
             box-sizing: border-box;
+            width: 244px;
+            height: 107px;
         }}
         QPushButton:hover {{
             background-color: #{highlight_color};
@@ -42,6 +44,8 @@ def get_active_menu_button_style(highlight_color):
             font-family: Inter;
             font-size: 40px;
             box-sizing: border-box;
+            width: 244px;
+            height: 107px;
         }}
         QPushButton:hover {{
             background-color: #{highlight_color};
@@ -149,22 +153,26 @@ def get_default_settings_text_edit_style():
     """
 
 
-def get_default_config_button_style():
-    return """
-        QPushButton {
+def get_default_config_button_style(highlight_color):
+    return f"""
+        QPushButton {{
             font-family: Inter;
-            font-size: 16px;
+            font-size: 20px;
             text-align: center;
             color: #000000;
+            margin-top: 15px;
+            margin-left: 40px;
+            margin-right: 40px;
             border: 1px solid #000000;
             border-radius: 4px;
             background-color: #D9D9D9;
-            min-height: 40px;
-            max-width: 500px;
-        }
-        QPushButton:hover {
-            background-color: #48843F;
-        }
+            min-width: 240px;
+            height: 50px;
+
+        }}
+        QPushButton:hover {{
+            background-color: #{highlight_color};
+        }}
     """
 
 
