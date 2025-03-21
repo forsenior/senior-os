@@ -12,7 +12,7 @@ protection_level_conversion = {
 
 full_language_name_conversion = {
     "German": "De",
-    "English": "Dn",
+    "English": "En",
     "Czech": "Cz"
 }
 
