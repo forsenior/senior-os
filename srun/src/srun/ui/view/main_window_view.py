@@ -1,12 +1,14 @@
 import os.path
 import sys
 
+from PyQt5 import QtCore
 from PyQt5.QtCore import Qt, QSize, QTimer
 from PyQt5.QtGui import QPixmap, QIcon
-from PyQt5.QtWidgets import QWidget, QGridLayout, QPushButton, QHBoxLayout, QVBoxLayout, QDialog
+from PyQt5.QtWidgets import QWidget, QGridLayout, QPushButton, QHBoxLayout, QVBoxLayout, QDialog, QToolButton, QLabel
 from srun.data.executables import SosExecutables
 from srun.ui.dialog.password_dialog import PasswordPopup
-from srun.ui.styles.srun_style_sheets import get_default_start_button_style, get_default_center_widget_style
+from srun.ui.styles.srun_style_sheets import get_default_start_button_style, get_default_center_widget_style, \
+    get_default_tool_button_style, get_transparent_label_style
 from sconf.configuration.configuration_provider import ConfigurationProvider
 from sconf.configuration.configuration_writer import ConfigurationWriter
 
@@ -48,18 +50,22 @@ class MainWindowView(QWidget):
         # Grid layout for buttons within the central widget
         grid_layout = QGridLayout(central_widget)
 
+        label_exit = QLabel("Press and hold to shutdown")
+        label_exit.setAlignment(QtCore.Qt.AlignCenter | QtCore.Qt.AlignBottom)
+        label_exit.setStyleSheet(get_transparent_label_style())
+
         # Create buttons
-        button_exit = QPushButton("")
-        button_smail = QPushButton("MAIL")
-        button_sweb = QPushButton("WEB")
-        button_sconf = QPushButton("CONF")
+        button_exit = QPushButton()
+        button_smail = QPushButton("SMAIL")
+        button_sweb = QPushButton("SWEB")
+        button_sconf = QPushButton("SCONF")
 
         button_exit.setStyleSheet(get_default_start_button_style())
         button_smail.setStyleSheet(get_default_start_button_style())
         button_sweb.setStyleSheet(get_default_start_button_style())
         button_sconf.setStyleSheet(get_default_start_button_style())
 
-        pixmap_icon = QPixmap(r"/run/archiso/airootfs/usr/lib/python3.13/site-packages/icons/exit.png").scaled(100, 100)
+        pixmap_icon = QPixmap(r"C:\Users\stepa\Documents\GitHub\senior-os\sconf\icons\exit.png").scaled(100, 100)
         button_exit.setIconSize(QSize(100, 100))
         button_exit.setIcon(QIcon(pixmap_icon))
 
@@ -67,6 +73,7 @@ class MainWindowView(QWidget):
         grid_layout.addWidget(button_sweb, 0, 1)
         grid_layout.addWidget(button_sconf, 1, 0)
         grid_layout.addWidget(button_exit, 1, 1)
+        grid_layout.addWidget(label_exit, 1, 1)
 
         button_exit.pressed.connect(self.__start_timer)
         button_exit.released.connect(self.__stop_timer)

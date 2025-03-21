@@ -46,12 +46,12 @@ class PasswordPopup(QDialog):
 
         # Add to layout
         layout.addWidget(message)
+        layout.addWidget(self.password_input)
         if self.is_password_setup:
             self.confirm_password_input = QLineEdit()
             self.confirm_password_input.setEchoMode(QLineEdit.Password)
             self.confirm_password_input.setPlaceholderText("Confirm Password")
             layout.addWidget(self.confirm_password_input)
-        layout.addWidget(self.password_input)
         layout.addWidget(submit_button)
         layout.addWidget(cancel_button)
         self.setLayout(layout)
