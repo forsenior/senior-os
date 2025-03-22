@@ -129,19 +129,19 @@ class MainWindowView(QWidget):
         password_dialog = PasswordPopup(password=self.main_configuration.configurationPassword,
                                         initial_start_up=self.main_configuration.initialStartUp)
 
-        if password_dialog.exec_() == QDialog.Accepted:
-            bs = scryptum.machine_key_exists()
-
-            if self._is_initial_startup and scryptum.machine_key_exists():
-                self.main_configuration.configurationPassword = password_dialog.get_confirmed_password()
-                self.main_configuration.initialStartUp = False
-                scryptum.create_master_key(self.main_configuration.configurationPassword)
-                scryptum.create_machine_key(self.main_configuration.configurationPassword)
-                self.data_writer.update_configuration(self.main_configuration)
-
-            os.system(f"{self.__executables.sconf}")
-        elif password_dialog.exec_() == QDialog.rejected:
-            print("Given password is either empty or incorrect. Please try again.")
-        else:
-            # Handle the case where the dialog was canceled if needed
-            print("Password setup canceled.")
+        match password_dialog.exec_():
+            case QDialog.Accepted:
+                if self._is_initial_startup and scryptum.machine_key_exists():
+                    self.main_configuration.configurationPassword = password_dialog.get_confirmed_password()
+                    self.main_configuration.initialStartUp = False
+                    scryptum.create_master_key(self.main_configuration.configurationPassword)
+                    scryptum.create_machine_key(self.main_configuration.configurationPassword)
+                    self.data_writer.update_configuration(self.main_configuration)
+                os.system(f"{self.__executables.sconf}")
+                return
+            case QDialog.Rejected:
+                print("Given password is either empty or incorrect. Please try again.")
+                return
+            case _:
+                print("Password setup canceled.")
+                return

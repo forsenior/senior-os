@@ -20,7 +20,7 @@ class PasswordPopup(QDialog):
         self.setWindowTitle("Password Setup" if self.is_password_setup else "Enter Password")
         self.setFixedSize(400, 200)
         self.setWindowFlag(Qt.FramelessWindowHint)
-
+        self.center()
         # Use consistent style with the main application
         self.setStyleSheet(get_default_dialog_style())
 
@@ -55,6 +55,12 @@ class PasswordPopup(QDialog):
         layout.addWidget(submit_button)
         layout.addWidget(cancel_button)
         self.setLayout(layout)
+
+    def center(self):
+        qr = self.frameGeometry()
+        cp = QDesktopWidget().availableGeometry().center()
+        qr.moveCenter(cp)
+        self.move(qr.topLeft())
 
     def handle_submit(self):
         password_hash = hash_password(self.password_input.text())

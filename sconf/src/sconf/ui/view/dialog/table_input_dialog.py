@@ -1,6 +1,6 @@
 from PyQt5.QtCore import Qt
 from PyQt5.QtWidgets import QDialog, QWidget, QTableWidget, QHeaderView, QTableWidgetItem, QPushButton, QHBoxLayout, \
-    QGridLayout, QFileDialog
+    QGridLayout, QFileDialog, QDesktopWidget
 
 from sconf.ui.styles.global_style_sheets import get_default_dialog_style, get_default_settings_button_style, \
     get_default_table_style, get_default_input_box_style
@@ -15,6 +15,7 @@ class TablePopup(QDialog):
         self.setWindowTitle("Add content")
         self.setFixedSize(600, 400)
         self.setWindowFlag(Qt.FramelessWindowHint)
+        self.center()
         self.setStyleSheet(get_default_dialog_style())
 
         layout = QGridLayout()
@@ -91,6 +92,12 @@ class TablePopup(QDialog):
                     {get_default_settings_button_style(highlight_color)}
                     {get_default_input_box_style()}
                     {get_default_table_style()}""")
+
+    def center(self):
+        qr = self.frameGeometry()
+        cp = QDesktopWidget().availableGeometry().center()
+        qr.moveCenter(cp)
+        self.move(qr.topLeft())
 
     def __select_icon(self, row):
         # Open file dialog to select icon and update button label to path
