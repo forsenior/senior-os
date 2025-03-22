@@ -1,3 +1,5 @@
+import scryptum
+
 from PyQt5.QtCore import pyqtSlot
 from PyQt5.QtWidgets import QWidget, QLabel, QComboBox, QLineEdit, QGridLayout, QPushButton
 
@@ -5,6 +7,7 @@ from vcolorpicker import getColor, hex2rgb, rgb2hex
 
 from sconf.configuration.models.global_configuration import GlobalConfiguration
 from sconf.configuration.models.smail_configuration import SmailConfiguration
+from sconf.configuration.models.sos_configuration import SOSConfiguration
 from sconf.configuration.models.sweb_configuration import SwebConfiguration
 from sconf.ui.convertors.value_convertors import StringValueConvertors
 from sconf.ui.styles.global_style_sheets import get_default_label_style, get_default_input_box_style, \
@@ -15,15 +18,18 @@ from sconf.ui.view_models.global_settings_view_model import GlobalViewModel
 class GlobalSettingsView(QWidget):
     _globalViewModel: GlobalViewModel
     _globalConfiguration: GlobalConfiguration
+    _sosConfiguration: SOSConfiguration
 
     def __init__(self, global_configuration: GlobalConfiguration,
                  sweb_configuration: SwebConfiguration,
-                 smail_configuration: SmailConfiguration
+                 smail_configuration: SmailConfiguration,
+                 sos_configuration: SOSConfiguration
                  ):
         super().__init__()
         # Create layout for labels and input fields
         grid_layout = QGridLayout()
         self._globalConfiguration = global_configuration
+        self._sosConfiguration = sos_configuration
         self._globalViewModel = GlobalViewModel(global_configuration, sweb_configuration, smail_configuration)
 
         # Labels
@@ -83,7 +89,7 @@ class GlobalSettingsView(QWidget):
         input_alert_color.textChanged.connect(self.__on_input_change)
         input_highlight_color.textChanged.connect(self.__on_input_change)
         combo_protection_level.currentIndexChanged.connect(self.__on_input_change)
-        button_current_computer.pressed.connect(self.__on_input_change)
+        button_current_computer.clicked.connect(self.__on_guid_button_press)
 
         # Set widget layout
         self.setLayout(grid_layout)
@@ -111,7 +117,10 @@ class GlobalSettingsView(QWidget):
             self._globalViewModel.update_model(sender.objectName(),
                                                StringValueConvertors.language_to_country_code(sender.currentText()))
 
-    # def __on_guid_button_press(self):
+    def __on_guid_button_press(self, event):
+        # if scryptum.machine_key_exists():
+        #     return
+        scryptum.create_machine_key(self._sosConfiguration.configurationPassword)
 
     def __on_alert_color_clicked(self, event):
         picked_color = getColor(hex2rgb(self._globalConfiguration.alertColor))

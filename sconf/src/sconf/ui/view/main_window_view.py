@@ -28,6 +28,7 @@ class MainWindow(QMainWindow):
         self.global_configuration = configurationProvider.get_global_configuration()
         sweb_configuration = configurationProvider.get_sweb_configuration()
         smail_configuration = configurationProvider.get_smail_configuration()
+        sos_configuration = configurationProvider.get_main_configuration()
 
         # Set main window properties
         self.setWindowTitle("SCONF")
@@ -92,7 +93,7 @@ class MainWindow(QMainWindow):
 
         # Creating views for different sections
         self.credit_views = CreditsView()
-        self.global_view = GlobalSettingsView(self.global_configuration, sweb_configuration, smail_configuration)
+        self.global_view = GlobalSettingsView(self.global_configuration, sweb_configuration, smail_configuration, sos_configuration=sos_configuration)
         self.web_view = WebSettingsView(sweb_configuration, configurationFolder, self.global_configuration.highlightColor)
         self.mail_view = MailSettingsView(smail_configuration, self.global_configuration, configurationFolder, self.global_configuration.highlightColor)
 

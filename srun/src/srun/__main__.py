@@ -9,7 +9,7 @@ import sconf.configuration.configuration_writer as dw
 
 
 def main():
-    try:
+    # try:
         data_writer = dw.ConfigurationWriter()
         data_provider = dp.ConfigurationProvider()
 
@@ -20,8 +20,8 @@ def main():
         window.show()
         sys.exit(app.exec_())
 
-    except Exception as e:
-        print(f"Exception occurred {e}")
+    # except Exception as e:
+    #     print(f"Exception occurred {e}")
 
 
 if __name__ == '__main__':

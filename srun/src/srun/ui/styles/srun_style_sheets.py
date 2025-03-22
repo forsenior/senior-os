@@ -1,6 +1,6 @@
-def get_default_start_button_style():
-    return """
-            QPushButton {
+def get_default_start_button_style(highlight_color):
+    return f"""
+            QPushButton {{
                 text-align:center;
                 font-family: Inter;
                 font-size: 40px;
@@ -13,13 +13,13 @@ def get_default_start_button_style():
                 margin-right: 5px;
                 min-height:250;
                 min-width: 520
-            }
-            QPushButton:hover {
-                background-color: #48843F;
-            }
-            QPushButton:open {
-                background-color: #48843F;
-            }
+            }}
+            QPushButton:hover {{
+                background-color: #{highlight_color};
+            }}
+            QPushButton:open {{
+                background-color: #{highlight_color};
+            }}
         """
 
 

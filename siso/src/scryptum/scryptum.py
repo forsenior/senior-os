@@ -13,11 +13,13 @@ import random
 
 KEY_DIR = "/", "persistence", "keys"
 
+# Check existance of keydir storage
 def keydir_exist():
     if pathlib.Path(os.path.join(*KEY_DIR)).exists():
         return True
     return False
 
+# Checks whether the machine key exists
 def machine_key_exists():
     mac = uuid.getnode().to_bytes(6)
     h = hashlib.sha3_384()
@@ -27,6 +29,7 @@ def machine_key_exists():
         return True
     return False
 
+# Creates the keys dir
 def create_keys_dir():
     if not keydir_exist():
         os.makedirs(os.path.join(*KEY_DIR))
@@ -67,6 +70,7 @@ def read_master_key(password):
         return None
     return plaintext
 
+# Allows adding new machine keys into the config file
 def create_machine_key(password):
     master_key = read_master_key(password)
     salt = secrets.token_bytes(4)
@@ -84,6 +88,7 @@ def create_machine_key(password):
         master_key_file.write(packed)
         master_key_file.flush()
 
+# Injects key into config read and config write
 def read_machine_key():
     if not machine_key_exists():
         raise KeyError("Machine key not found. Create new!")
@@ -104,6 +109,7 @@ def read_machine_key():
         return None
     return plaintext
 
+# Reads and decrypts the configuration file
 def read_config():
     key = read_machine_key()
     with open(os.path.join('/','persistence','config'), "rb") as config_file:
@@ -120,6 +126,7 @@ def read_config():
         return None
     return str(plaintext, 'utf-8')
 
+# Writes and encrypts the configuration
 def write_config(config: str):
     key = read_machine_key()
     cipher = AES.new(key, AES.MODE_EAX)
