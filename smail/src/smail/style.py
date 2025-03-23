@@ -68,19 +68,26 @@ def get_color_scheme(data_provider=None):
 
     try:
         global_config = data_provider.get_global_configuration()
-        highlight_color = global_config.highlightColor.strip() if global_config.highlightColor else ""
-        alert_color = global_config.alertColor.strip() if global_config.alertColor else ""
+        highlight_raw = global_config.highlightColor.strip() if global_config.highlightColor else ""
+        alert_raw = global_config.alertColor.strip() if global_config.alertColor else ""
+
+        def format_color(color_value, default):
+            if not color_value or color_value == "000000":
+                return default
+            if not color_value.startswith("#"):
+                color_value = "#" + color_value
+            return color_value
 
         return {
             "default_color": default_colors["default_color"],
-            "highlight_color": highlight_color if highlight_color and highlight_color != "000000" else default_colors["highlight_color"],
-            "alert_color": alert_color if alert_color and alert_color != "000000" else default_colors["alert_color"],
+            "highlight_color": format_color(highlight_raw, default_colors["highlight_color"]),
+            "alert_color": format_color(alert_raw, default_colors["alert_color"]),
             "dark_grey_color": default_colors["dark_grey_color"],
             "grey_color": default_colors["grey_color"]
         }
 
     except Exception as e:
-        print(f"⚠️ Error loading color scheme: {e}. Using default colors.")
+        print(f"Error loading color scheme: {e}. Using default colors.")
         return default_colors
 
 
