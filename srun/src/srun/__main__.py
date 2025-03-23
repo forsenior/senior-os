@@ -2,14 +2,13 @@ import sys
 
 from PyQt5.QtWidgets import QApplication
 
-
 from srun.ui.view.main_window_view import MainWindowView
 import sconf.configuration.configuration_provider as dp
 import sconf.configuration.configuration_writer as dw
 
 
 def main():
-    # try:
+    try:
         data_writer = dw.ConfigurationWriter()
         data_provider = dp.ConfigurationProvider()
 
@@ -20,8 +19,8 @@ def main():
         window.show()
         sys.exit(app.exec_())
 
-    # except Exception as e:
-    #     print(f"Exception occurred {e}")
+    except Exception as e:
+        print(f"Exception occurred {e}")
 
 
 if __name__ == '__main__':

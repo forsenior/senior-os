@@ -118,8 +118,8 @@ class GlobalSettingsView(QWidget):
                                                StringValueConvertors.language_to_country_code(sender.currentText()))
 
     def __on_guid_button_press(self, event):
-        # if scryptum.machine_key_exists():
-        #     return
+        if scryptum.machine_key_exists():
+            return
         scryptum.create_machine_key(self._sosConfiguration.configurationPassword)
 
     def __on_alert_color_clicked(self, event):
