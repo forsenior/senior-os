@@ -8,4 +8,4 @@ class GlobalConfiguration:
     alertColor: str = "F90000"
     highlightColor: str = "48843F"
     protectionLevel: int = 1
-    careGiverEmail: str = "tarikalkanan@gmail.com"
+    careGiverEmail: str = "ai.pythonbot@gmail.com"

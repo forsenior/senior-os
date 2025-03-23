@@ -20,12 +20,13 @@ import os
 # Set QT Environment Variables
 os.environ["QTWEBENGINE_DISABLE_SANDBOX"] = "1"
 # My main browser contains all GUI in this class (Toolbar, Buttons, URLbar)
-
+Debug = False
 ## static size of the button
 BUTTON_WIDTH = 238
 BUTTON_HEIGHT = 107
 BUTTON_SPACE = 10
 BUTTON_NUMBER = 5
+
 
 # static size of the toolbar
 TOOLBAR_WIDTH = BUTTON_WIDTH * BUTTON_NUMBER + BUTTON_SPACE * (BUTTON_NUMBER + 1) + 80
@@ -35,9 +36,6 @@ class MyBrowser(QMainWindow):
     # Define the contructor for initialization 
     def __init__(self, input_url, sweb_dataProvider, global_dataProvider):
         super(MyBrowser,self).__init__()
-        # Set window flags to customize window behavior
-        # Remove standard window controls
-        # Set window flags to customize window behavior
 
         self.sweb_dataProvider = sweb_dataProvider
         self.global_dataProvider = global_dataProvider
@@ -80,17 +78,31 @@ class MyBrowser(QMainWindow):
         # Get my parametr from file
         self.color_info_menu = "#e5e5e5"
         self.color_info_app = "#FFFFFF"
-        self.color_info_button_unselected = "#797979"
-        self.color_info_button_selected = "#00ff00"
+        
         
         # Get path for images
+        for entry in self.sweb_dataProvider.swebAllowedUrlListV2:
+            for key, value in entry.items():
+                if key.startswith("url"):
+                    setattr(self, f"url_www{key[-1]}", value)
+                elif key.startswith("icon"):
+                    setattr(self, f"path_to_image_www{key[-1]}", value)
+
         self.path_to_image_exit = sweb_dataProvider.picturePaths[0]
-        self.path_to_image_www1 = sweb_dataProvider.picturePaths[1]
-        self.path_to_image_www2 = sweb_dataProvider.picturePaths[2]
-        self.path_to_image_www3 = sweb_dataProvider.picturePaths[3]
-        self.path_to_image_www4 = sweb_dataProvider.picturePaths[4]
-        self.path_to_image_www5 = sweb_dataProvider.picturePaths[5]
-        self.path_to_image_www6 = sweb_dataProvider.picturePaths[6]
+
+        if Debug:
+            print("Debugging MyBrowser")
+            
+            print("The websites URLs are: ")
+            for i in range(1, 7):  # Loop from 1 to 6 (matching attribute numbering)
+                print(f"URL {i} : {getattr(self, f'url_www{i}', 'N/A')}")
+
+            print("The website icons are: ")
+            print("Exit icon: ", self.path_to_image_exit)
+            for i in range(1, 7):  # Loop from 1 to 6 to match the URLs
+                print(f"Path {i} : {getattr(self, f'path_to_image_www{i}', 'N/A')}")
+        
+
 
         # Load permitted websites from URLBlocker class
         self.permitted_website_list = self.url_blocker.load_permitted_website_from_sconf(sweb_dataProvider.allowedURL)
@@ -353,12 +365,28 @@ class MyBrowser(QMainWindow):
         self.menu2Address.clicked.connect(self.toggle_url_toolbar)
         self.menu2Address.setCursor(Qt.PointingHandCursor)
         self.menu_2_toolbar.addWidget(self.menu2Address)
-        
+    
+    def is_hex_color(self, value):
+        """
+        Checks if the given value is a valid hex color code.
+        Args:
+            value (str): The value to check.
+        Returns:
+            bool: True if the value is a valid hex color code, False otherwise.
+        """
+        if isinstance(value, str) and len(value) in (4, 7) and value.startswith('#'):
+            hex_digits = '0123456789ABCDEFabcdef'
+            return all(c in hex_digits for c in value[1:])
+        return False
     
 
 
     # Set default style for Toolbar
     def default_style_toolbar(self):
+        if self.is_hex_color(self.global_dataProvider.highlightColor):
+            HIGHLIGHTCOLOR = self.global_dataProvider.highlightColor
+        else:
+            HIGHLIGHTCOLOR = "#48843F"
 
        ## toolbar_text_config = MenuBarTextConfiguration()
 
@@ -367,7 +395,6 @@ class MyBrowser(QMainWindow):
             border: 0px solid transparent;
             background-color: transparent;
             spacing: 10px;
-            
             }}
             QPushButton QLabel {{
                 color: #FFFFFF;
@@ -384,29 +411,36 @@ class MyBrowser(QMainWindow):
                 width: {BUTTON_WIDTH}px;
                 height: {BUTTON_HEIGHT}px;
             }}
-            
             QPushButton:hover {{
-                background-color: #48843F; 
-            }}
-            
+                background-color: {HIGHLIGHTCOLOR}; 
+            }} 
             QPushButton QLabel {{
                 font-size: 40px;
                 font-weight: 'Regular';
                 font-family: 'Inter';
             }}
         """
-        
+        if Debug:
+            print("The Default Style : ", style_string)
+
         return style_string
     
     # Set default style for Toolbar
     def phishing_style_toolbar(self):
+        if self.is_hex_color(self.global_dataProvider.alertColor):
+            ALERCOLOR = self.global_dataProvider.alertColor 
+        else:
+            ALERCOLOR = "#F90000" 
+        if self.is_hex_color(self.global_dataProvider.highlightColor):
+            HIGHLIGHTCOLOR = self.global_dataProvider.highlightColor
+        else:
+            HIGHLIGHTCOLOR = "#48843F"
+
         alert_style_string = f"""
             QToolBar {{
             border: 0px solid transparent;
             background-color: transparent;
             spacing: 10px;
-
-            
             }}
             QPushButton QLabel {{
                 color: #FFFFFF;
@@ -415,7 +449,7 @@ class MyBrowser(QMainWindow):
             QPushButton {{
                 border-radius: 3px;
                 border: 1px solid #797979;
-                background-color: #F90000;   
+                background-color: {ALERCOLOR};   
                 margin: 20px 0px 20px 0px;                 
                 font-size: 40px;
                 font-weight: 'Regular';
@@ -423,17 +457,17 @@ class MyBrowser(QMainWindow):
                 width: {BUTTON_WIDTH}px;
                 height: {BUTTON_HEIGHT}px;      
             }}
-            
             QPushButton:hover {{
-                background-color: #48843F; 
+                background-color: {HIGHLIGHTCOLOR}; 
             }}
-            
             QPushButton QLabel {{
                 font-size: 40px;
                 font-weight: 'Regular';
                 font-family: 'Inter';
             }}
         """
+        if Debug:
+            print("The Alert Style: ", alert_style_string)
         
         return alert_style_string
     
@@ -758,27 +792,27 @@ class MyBrowser(QMainWindow):
         
     # Method for connect to the second www2 ct24.ceskatelevize.cz
     def navigate_www1(self):
-        self.main_browser.setUrl(QUrl(self.sweb_dataProvider.urlsForWebsites[0]))
+        self.main_browser.setUrl(QUrl(self.url_www1))
         # Set visible after navitigation
         self.url_toolbar.setVisible(False)
         self.toolbar_space.setVisible(False)
         
     # Method for connect to the irozhlas.cz
     def navigate_www2(self):
-        self.main_browser.setUrl(QUrl(self.sweb_dataProvider.urlsForWebsites[1]))
+        self.main_browser.setUrl(QUrl(self.url_www2))
         # Set visible after navitigation
         self.url_toolbar.setVisible(False)
         self.toolbar_space.setVisible(False)
 
     # Method for connect to the vut.cz
     def navigate_www3(self):
-        self.main_browser.setUrl(QUrl(self.sweb_dataProvider.urlsForWebsites[2]))
+        self.main_browser.setUrl(QUrl(self.url_www3))
         # Set visible after navitigation
         self.url_toolbar.setVisible(False)
         self.toolbar_space.setVisible(False)
     # Method for connect to the idnes.cz
     def navigate_www4(self):
-        self.main_browser.setUrl(QUrl(self.sweb_dataProvider.urlsForWebsites[3]))
+        self.main_browser.setUrl(QUrl(self.url_www4))
         # Set visible after navitigation
         self.url_toolbar.setVisible(False)
         self.toolbar_space.setVisible(False)
@@ -787,14 +821,14 @@ class MyBrowser(QMainWindow):
 
     # Method for connect to the aktualne.cz
     def navigate_www5(self):
-        self.main_browser.setUrl(QUrl(self.sweb_dataProvider.urlsForWebsites[4]))
+        self.main_browser.setUrl(QUrl(self.url_www5))
         # Set visible after navitigation
         self.url_toolbar.setVisible(False)
         self.toolbar_space.setVisible(False)
 
     # Method for connect to the denik.cz
     def navigate_www6(self):
-        self.main_browser.setUrl(QUrl(self.sweb_dataProvider.urlsForWebsites[5]))
+        self.main_browser.setUrl(QUrl(self.url_www6))
         self.url_toolbar.setVisible(False)
         self.toolbar_space.setVisible(False)
 
