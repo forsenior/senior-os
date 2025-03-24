@@ -1,6 +1,6 @@
 import os.path
 
-import sconf.ui.utilities.scryptum as scryptum
+import srun.ui.helpers.scryptum as scryptum
 
 from PyQt5 import QtCore
 from PyQt5.QtCore import Qt, QSize, QTimer
