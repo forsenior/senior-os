@@ -5,6 +5,7 @@ from PyQt5.QtCore import QObject, pyqtSlot
 # This class is used for notification to authorized people
 # Whenever user ignore warning from connection to phishing web page
 # And fill their information in
+Debug = False
 class NotificationFillTextToPhishing(QObject):
     def __init__(self, command_line_mail_script, careGiverEmail):
         super().__init__()
@@ -42,7 +43,13 @@ class NotificationFillTextToPhishing(QObject):
     def send_email(self, message_to_receiver):
         # Load needed configuration from sweb_config in sconf for sending notification to authorized people
         message = f"Subject: Phishing Warning, Senior visited the page:\n\n{message_to_receiver} \n\nPlease check the website and take necessary action."
-     
+        if Debug:
+            print("Debugging NotificationFillTextToPhishing")
+            print("Command line mail script: ", self.command_line_mail_script)
+            print("Care giver email: ", self.careGiverEmail)
+            print("Message to receiver: ", message)
+            
+            
         try:
             # Load the command line mail script
             subprocess.run(["python3", self.command_line_mail_script, self.careGiverEmail, message], check=True)

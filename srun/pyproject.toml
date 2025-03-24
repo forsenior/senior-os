@@ -12,7 +12,7 @@ PyQt5-Qt5 = "5.15.2"
 PyQt5 = "^5.15.11"
 dataclass-wizard = "^0.26.0"
 sconf = {path = "../sconf", develop = true }
-scryptum = {path = "../siso/src/scryptum", develop = false }
+scryptum = {path = "../siso/src/scryptum", develop = true }
 
 [tool.poetry.scripts]
 srun = "srun.__main__:main"

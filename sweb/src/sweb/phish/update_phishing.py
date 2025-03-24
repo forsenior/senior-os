@@ -1,7 +1,7 @@
 import os, sys, time, tarfile, requests
 from datetime import datetime, timedelta
 
-
+Deubg = False
 
 # This method will check if the phishing database is up to date
 class PhishingDatabaseModificationChecker:
@@ -13,6 +13,11 @@ class PhishingDatabaseModificationChecker:
         url_to_tar_github = sweb_config_data.phishingGithubDatabase
 
         self.database_updater = FileUpdater(url_to_tar_github, self.path_to_phishing_database)
+
+        if Deubg:
+            print("Debugging PhishingDatabaseModificationChecker")
+            print("Path to phishing database: ", self.path_to_phishing_database)
+            print("URL to tar GitHub: ", url_to_tar_github)
     
     # Get the last modified time of the phishing database
     def get_last_modification_time(self):
