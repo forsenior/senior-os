@@ -20,7 +20,7 @@ import os
 # Set QT Environment Variables
 os.environ["QTWEBENGINE_DISABLE_SANDBOX"] = "1"
 # My main browser contains all GUI in this class (Toolbar, Buttons, URLbar)
-Debug = True
+Debug = False
 ## static size of the button
 BUTTON_WIDTH = 238
 BUTTON_HEIGHT = 107
