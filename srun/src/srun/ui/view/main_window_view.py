@@ -1,13 +1,16 @@
 import os.path
-import scryptum
+
+import sconf.ui.utilities.scryptum as scryptum
 
 from PyQt5 import QtCore
 from PyQt5.QtCore import Qt, QSize, QTimer
 from PyQt5.QtGui import QPixmap, QIcon
 from PyQt5.QtWidgets import QWidget, QGridLayout, QPushButton, QHBoxLayout, QVBoxLayout, QDialog, QLabel
+
 from srun.data.executables import SosExecutables
 from srun.ui.dialog.password_dialog import PasswordPopup
 from srun.ui.styles.srun_style_sheets import get_default_start_button_style, get_default_center_widget_style, get_transparent_label_style
+
 from sconf.configuration.configuration_provider import ConfigurationProvider
 from sconf.configuration.configuration_writer import ConfigurationWriter
 

@@ -1,9 +1,9 @@
-import scryptum
-
 from PyQt5.QtCore import pyqtSlot
 from PyQt5.QtWidgets import QWidget, QLabel, QComboBox, QLineEdit, QGridLayout, QPushButton
 
 from vcolorpicker import getColor, hex2rgb, rgb2hex
+
+import sconf.ui.utilities.scryptum as scryptum
 
 from sconf.configuration.models.global_configuration import GlobalConfiguration
 from sconf.configuration.models.smail_configuration import SmailConfiguration
