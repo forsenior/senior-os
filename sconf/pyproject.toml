@@ -24,7 +24,6 @@ setuptools = "75.3.0"
 vcolorpicker = "1.4.4"
 qtpy = "^2.4.2"
 pycryptodome = "^3.21.0"
-crypto = "^1.4.1"
 
 [tool.poetry.scripts]
 sconf = "sconf.__main__:main"

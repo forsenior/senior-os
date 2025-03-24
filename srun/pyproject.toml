@@ -13,7 +13,6 @@ PyQt5 = "^5.15.11"
 dataclass-wizard = "^0.26.0"
 pycryptodome = "^3.21.0"
 sconf = {path = "../sconf", develop = true }
-crypto = "^1.4.1"
 
 [tool.poetry.scripts]
 srun = "srun.__main__:main"
