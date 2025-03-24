@@ -20,7 +20,7 @@ import os
 # Set QT Environment Variables
 os.environ["QTWEBENGINE_DISABLE_SANDBOX"] = "1"
 # My main browser contains all GUI in this class (Toolbar, Buttons, URLbar)
-Debug = False
+Debug = True
 ## static size of the button
 BUTTON_WIDTH = 238
 BUTTON_HEIGHT = 107
@@ -374,17 +374,27 @@ class MyBrowser(QMainWindow):
         Returns:
             bool: True if the value is a valid hex color code, False otherwise.
         """
-        if isinstance(value, str) and len(value) in (4, 7) and value.startswith('#'):
-            hex_digits = '0123456789ABCDEFabcdef'
-            return all(c in hex_digits for c in value[1:])
+        if isinstance(value, str):
+            if not value.startswith('#'):
+                value = '#' + value
+                if Debug:
+                    print("Value of color is: ", value)  
+                if len(value) in (4, 7):
+                    hex_digits = '0123456789ABCDEFabcdef'
+                    if all(c in hex_digits for c in value[1:]):
+                        return value 
+            if isinstance(value, str) and len(value) in (4, 7) and value.startswith('#'):
+                hex_digits = '0123456789ABCDEFabcdef'
+                if all(c in hex_digits for c in value[1:]):
+                    return value
+            
         return False
-    
 
 
     # Set default style for Toolbar
     def default_style_toolbar(self):
-        if self.is_hex_color(self.global_dataProvider.highlightColor):
-            HIGHLIGHTCOLOR = self.global_dataProvider.highlightColor
+        if self.is_hex_color(self.global_dataProvider.highlightColor) != False:
+            HIGHLIGHTCOLOR = self.is_hex_color(self.global_dataProvider.highlightColor)
         else:
             HIGHLIGHTCOLOR = "#48843F"
 
@@ -427,12 +437,12 @@ class MyBrowser(QMainWindow):
     
     # Set default style for Toolbar
     def phishing_style_toolbar(self):
-        if self.is_hex_color(self.global_dataProvider.alertColor):
-            ALERCOLOR = self.global_dataProvider.alertColor 
+        if self.is_hex_color(self.global_dataProvider.alertColor)!= False:
+            ALERCOLOR = self.is_hex_color(self.global_dataProvider.alertColor)
         else:
             ALERCOLOR = "#F90000" 
-        if self.is_hex_color(self.global_dataProvider.highlightColor):
-            HIGHLIGHTCOLOR = self.global_dataProvider.highlightColor
+        if self.is_hex_color(self.global_dataProvider.highlightColor)!= False:
+            HIGHLIGHTCOLOR = self.is_hex_color(self.global_dataProvider.highlightColor)
         else:
             HIGHLIGHTCOLOR = "#48843F"
 
