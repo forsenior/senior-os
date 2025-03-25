@@ -3,7 +3,7 @@ from PyQt5.QtWidgets import QWidget, QLabel, QComboBox, QLineEdit, QGridLayout, 
 
 from vcolorpicker import getColor, hex2rgb, rgb2hex
 
-import sconf.ui.utilities.scryptum as scryptum
+import scryptum
 
 from sconf.configuration.models.global_configuration import GlobalConfiguration
 from sconf.configuration.models.smail_configuration import SmailConfiguration
