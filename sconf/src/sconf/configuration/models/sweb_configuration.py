@@ -16,6 +16,8 @@ class SwebConfiguration:
     picturePaths: List[str] = field(default_factory=lambda: ["/run/archiso/airootfs/usr/lib/python3.13/site-packages/icons/exit.png"])
     allowedURL: str = "/run/archiso/airootfs/usr/lib/python3.13/site-packages/phish/sweb_allowed_url.txt"
     phishingDatabase: str = "/run/archiso/airootfs/usr/lib/python3.13/site-packages/phish/sweb_phish.txt"
+    phishingDetectionModel: str = "/run/archiso/airootfs/usr/lib/python3.13/site-packages/sweb/ml/phishing_detection_model.pkl"
+    phishingVectorizer: str = "/run/archiso/airootfs/usr/lib/python3.13/site-packages/sweb/ml/tfidf_vectorizer.pkl"
     command_line_mail_script: str = "/run/archiso/airootfs/usr/lib/python3.13/site-packages/smail/connection/command_line_mail.py"
     phishingGithubDatabase: str = "https://github.com/mitchellkrogza/Phishing.Database/raw/master/ALL-phishing-domains.tar.gz/"
     sendPhishingWarning: bool = True
