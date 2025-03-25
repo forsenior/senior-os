@@ -16,6 +16,7 @@ from sweb.language.language_translator import Translator
 from sweb.utils.monitor_provider import GetMonitorHeightAndWidth
 from sweb.phish.notification_email import NotificationFillTextToPhishing
 from sweb.browser.browser_core import MyWebEnginePage
+from sweb.ml.ml_check_url import PhishingURLDetector
 import os
 # Set QT Environment Variables
 os.environ["QTWEBENGINE_DISABLE_SANDBOX"] = "1"
@@ -42,6 +43,7 @@ class MyBrowser(QMainWindow):
 
         self.setWindowFlags(Qt.CustomizeWindowHint)
         self.main_browser = QWebEngineView()
+        self.ml_phishing_url_detector = PhishingURLDetector(sweb_dataProvider.phishingDetectionModel, sweb_dataProvider.phishingVectorizer)
         # Set cutstom page to open new page in the same browser
         self.my_custom_page = MyWebEnginePage(self.main_browser)
         
@@ -757,6 +759,9 @@ class MyBrowser(QMainWindow):
         """
         # Get url from QURL
         url_in_browser_value = qurl.toString()
+        if Debug:
+            print("URL in Browser: ", url_in_browser_value)
+
         if url_in_browser_value.endswith('/'):
             if self.url_blocker.is_url_blocked(url_in_browser_value):
                 self.toggle_phishing_webpage = True                   
@@ -767,12 +772,22 @@ class MyBrowser(QMainWindow):
                 # Connect to URL after entering
                 self.main_browser.setUrl(QUrl(url_in_browser_value))
             else:
-                self.toggle_phishing_webpage = False
-                # Set default style for toolbar
-                self.menu_1_toolbar.setStyleSheet(self.default_style_toolbar())
-                self.menu_2_toolbar.setStyleSheet(self.default_style_toolbar())
-                # Connect to URL after entering
-                self.main_browser.setUrl(QUrl(url_in_browser_value))
+                if url_in_browser_value.startswith("https://www.") or url_in_browser_value.startswith("http://www."):
+                    if self.ml_phishing_url_detector.is_phishing_url(url_in_browser_value):
+                        self.toggle_phishing_webpage = True
+                        # Set red colour for connect to phishing
+                        self.menu_1_toolbar.setStyleSheet(self.phishing_style_toolbar())
+                        self.menu_2_toolbar.setStyleSheet(self.phishing_style_toolbar())
+                        self.notification_fill_text.send_email(url_in_browser_value)
+                        # Connect to URL after entering
+                        self.main_browser.setUrl(QUrl(url_in_browser_value))
+                    else:
+                        self.toggle_phishing_webpage = False
+                        # Set default style for toolbar
+                        self.menu_1_toolbar.setStyleSheet(self.default_style_toolbar())
+                        self.menu_2_toolbar.setStyleSheet(self.default_style_toolbar())
+                        # Connect to URL after entering
+                        self.main_browser.setUrl(QUrl(url_in_browser_value))
         elif not url_in_browser_value.endswith('/'):
             if "about:blank" in url_in_browser_value:
                 self.toggle_phishing_webpage = False
@@ -794,9 +809,19 @@ class MyBrowser(QMainWindow):
                 self.main_browser.setUrl(QUrl(url_in_browser_value))
 
             else:
-                self.toggle_phishing_webpage = False
-                self.menu_1_toolbar.setStyleSheet(self.default_style_toolbar())
-                self.menu_2_toolbar.setStyleSheet(self.default_style_toolbar())
+                if url_in_browser_value.startswith("https://www.") or url_in_browser_value.startswith("http://www."):
+                    if self.ml_phishing_url_detector.is_phishing_url(url_in_browser_value):
+                        self.toggle_phishing_webpage = True
+                        # Set red colour for connect to phishing
+                        self.menu_1_toolbar.setStyleSheet(self.phishing_style_toolbar())
+                        self.menu_2_toolbar.setStyleSheet(self.phishing_style_toolbar())
+                        self.notification_fill_text.send_email(url_in_browser_value)
+                        # Connect to URL after entering
+                        self.main_browser.setUrl(QUrl(url_in_browser_value))
+                    else:
+                        self.toggle_phishing_webpage = False
+                        self.menu_1_toolbar.setStyleSheet(self.default_style_toolbar())
+                        self.menu_2_toolbar.setStyleSheet(self.default_style_toolbar())
 
         self.main_browser.loadFinished.connect(self.finished_load_web_page)
         
