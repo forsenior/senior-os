@@ -1,6 +1,6 @@
 import os.path
 
-# import srun.ui.helpers.scryptum as scryptum
+import srun.ui.helpers.scryptum as scryptum
 
 from PyQt5 import QtCore
 from PyQt5.QtCore import Qt, QSize, QTimer
@@ -29,7 +29,7 @@ class MainWindowView(QWidget):
 
         self._is_initial_startup = True if (self.main_configuration.configurationPassword == ""
                                             and self.main_configuration.initialStartUp) else False
-        #self._machine_key_state = scryptum.machine_key_exists()
+        self._machine_key_state = scryptum.machine_key_exists()
 
         self.timer = QTimer()
         self.timer.setInterval(30)
@@ -99,8 +99,8 @@ class MainWindowView(QWidget):
         main_layout.addLayout(h_layout)
         main_layout.addStretch(1)  # Add space below the central widget
 
-        #if not self._machine_key_state or self._is_initial_startup:
-        #    self.__handle_sconf_clicked()
+        if not self._machine_key_state or self._is_initial_startup:
+            self.__handle_sconf_clicked()
 
     def __start_timer(self):
         self.elapsed_time = 0
@@ -134,12 +134,11 @@ class MainWindowView(QWidget):
 
         match password_dialog.exec_():
             case QDialog.Accepted:
-                if self._is_initial_startup :
-                    # and scryptum.machine_key_exists():
+                if self._is_initial_startup and scryptum.machine_key_exists():
                     self.main_configuration.configurationPassword = password_dialog.get_confirmed_password()
                     self.main_configuration.initialStartUp = False
-                    # scryptum.create_master_key(self.main_configuration.configurationPassword)
-                    # scryptum.create_machine_key(self.main_configuration.configurationPassword)
+                    scryptum.create_master_key(self.main_configuration.configurationPassword)
+                    scryptum.create_machine_key(self.main_configuration.configurationPassword)
                     self.data_writer.update_configuration(self.main_configuration)
                 os.system(f"{self.__executables.sconf}")
                 return

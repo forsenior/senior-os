@@ -12,6 +12,7 @@ PyQt5-Qt5 = "^5.15.16"
 PyQt5 = "^5.15.11"
 dataclass-wizard = "^0.26.0"
 sconf = {path = "../sconf", develop = true }
+pycryptodome = "^3.21.0"
 scryptum = {path = "../siso/src/scryptum"}
 
 [tool.poetry.scripts]
