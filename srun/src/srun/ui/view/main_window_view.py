@@ -29,7 +29,7 @@ class MainWindowView(QWidget):
 
         self._is_initial_startup = True if (self.main_configuration.configurationPassword == ""
                                             and self.main_configuration.initialStartUp) else False
-        self._machine_key_state = scryptum.machine_key_exists()
+        self._machine_key_state = False
 
         self.timer = QTimer()
         self.timer.setInterval(30)
@@ -98,9 +98,6 @@ class MainWindowView(QWidget):
         h_layout.addStretch(1)  # Add space to the right
         main_layout.addLayout(h_layout)
         main_layout.addStretch(1)  # Add space below the central widget
-
-        if not self._machine_key_state or self._is_initial_startup:
-            self.__handle_sconf_clicked()
 
     def __start_timer(self):
         self.elapsed_time = 0
