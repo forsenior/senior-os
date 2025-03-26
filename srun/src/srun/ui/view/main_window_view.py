@@ -5,11 +5,13 @@ import srun.ui.helpers.scryptum as scryptum
 from PyQt5 import QtCore
 from PyQt5.QtCore import Qt, QSize, QTimer
 from PyQt5.QtGui import QPixmap, QIcon
-from PyQt5.QtWidgets import QWidget, QGridLayout, QPushButton, QHBoxLayout, QVBoxLayout, QDialog, QLabel
+from PyQt5.QtWidgets import QWidget, QGridLayout, QPushButton, QHBoxLayout, QVBoxLayout, QDialog, QLabel, \
+    QStackedWidget, QToolButton
 
 from srun.data.executables import SosExecutables
 from srun.ui.dialog.password_dialog import PasswordPopup
-from srun.ui.styles.srun_style_sheets import get_default_start_button_style, get_default_center_widget_style, get_transparent_label_style
+from srun.ui.styles.srun_style_sheets import get_default_start_button_style, get_default_center_widget_style, \
+    get_transparent_label_style, get_default_start_toolbutton_style
 
 from sconf.configuration.configuration_provider import ConfigurationProvider
 from sconf.configuration.configuration_writer import ConfigurationWriter
@@ -58,30 +60,30 @@ class MainWindowView(QWidget):
         # Grid layout for buttons within the central widget
         grid_layout = QGridLayout(central_widget)
 
-        label_exit = QLabel("Press and hold to shutdown")
-        label_exit.setAlignment(QtCore.Qt.AlignCenter | QtCore.Qt.AlignBottom)
-        label_exit.setStyleSheet(get_transparent_label_style())
-
         # Create buttons
-        button_exit = QPushButton()
+        button_exit = QToolButton()
         button_smail = QPushButton("SMAIL")
         button_sweb = QPushButton("SWEB")
         button_sconf = QPushButton("SCONF")
 
-        button_exit.setStyleSheet(get_default_start_button_style(self.global_configuration.highlightColor))
+        button_exit.setText("Press and hold to shutdown")
+        button_exit.setStyleSheet(f"""{get_default_start_toolbutton_style(self.global_configuration.highlightColor)}
+                                    text-align: bottom;
+                                """)
+        button_exit.setLayoutDirection(QtCore.Qt.LayoutDirection.LayoutDirectionAuto)
         button_smail.setStyleSheet(get_default_start_button_style(self.global_configuration.highlightColor))
         button_sweb.setStyleSheet(get_default_start_button_style(self.global_configuration.highlightColor))
         button_sconf.setStyleSheet(get_default_start_button_style(self.global_configuration.highlightColor))
 
-        pixmap_icon = QPixmap(r"/run/archiso/airootfs/usr/lib/python3.13/site-packages/icons/exit.png").scaled(100, 100)
+        pixmap_icon = QPixmap(r"/Users/stepan.pijacek/Documents/Github/senior-os/sconf/icons/exit.png").scaled(100, 100)
         button_exit.setIconSize(QSize(100, 100))
         button_exit.setIcon(QIcon(pixmap_icon))
+        button_exit.setToolButtonStyle(Qt.ToolButtonStyle.ToolButtonTextUnderIcon)
 
         grid_layout.addWidget(button_smail, 0, 0)
         grid_layout.addWidget(button_sweb, 0, 1)
         grid_layout.addWidget(button_sconf, 1, 0)
         grid_layout.addWidget(button_exit, 1, 1)
-        grid_layout.addWidget(label_exit, 1, 1)
 
         button_exit.pressed.connect(self.__start_timer)
         button_exit.released.connect(self.__stop_timer)
@@ -99,8 +101,8 @@ class MainWindowView(QWidget):
         main_layout.addLayout(h_layout)
         main_layout.addStretch(1)  # Add space below the central widget
 
-        if not self._machine_key_state or self._is_initial_startup:
-            self.__handle_sconf_clicked()
+        #if not self._machine_key_state or self._is_initial_startup:
+        #    self.__handle_sconf_clicked()
 
     def __start_timer(self):
         self.elapsed_time = 0
@@ -134,7 +136,7 @@ class MainWindowView(QWidget):
 
         match password_dialog.exec_():
             case QDialog.Accepted:
-                if self._is_initial_startup and scryptum.machine_key_exists():
+                if self._is_initial_startup:
                     self.main_configuration.configurationPassword = password_dialog.get_confirmed_password()
                     self.main_configuration.initialStartUp = False
                     scryptum.create_master_key(self.main_configuration.configurationPassword)
