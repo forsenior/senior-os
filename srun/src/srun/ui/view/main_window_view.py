@@ -99,6 +99,9 @@ class MainWindowView(QWidget):
         main_layout.addLayout(h_layout)
         main_layout.addStretch(1)  # Add space below the central widget
 
+        if not self._machine_key_state or self._is_initial_startup:
+            self.__handle_sconf_clicked()
+
     def __start_timer(self):
         self.elapsed_time = 0
         self.timer.start()
