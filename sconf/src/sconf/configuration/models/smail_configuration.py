@@ -5,6 +5,7 @@ from typing import List, Tuple
 @dataclass
 class LanguageSet:
     smailEnSendToButton: str = "Send To"
+    smailEnSendToButtonDisabled: str = "Disabled"
     smailEnInboxLabel: str = "Inbox:"
     smailEnLoadingInbox: str= "Loading..."
     smailEnRecipientLabel: str = "To: "
@@ -20,6 +21,7 @@ class LanguageSet:
 
 
     smailCzSendToButton: str = "Komu"
+    smailCzSendToButtonDisabled: str = "Uzamčeno"
     smailCzInboxLabel: str = "Doručená pošta: "
     smailCzLoadingInbox: str=  "Načítám..."
     smailCzRecipientLabel: str = "Příjemce: "
@@ -34,6 +36,7 @@ class LanguageSet:
     smailCzUnconfirmedEmailWarning: str = "Varování: \nRozpracovaný email nebyl potvrzen. \nDalším stisknutím dojde k jeho zrušení."
 
     smailDeSendToButton: str = "Senden An"
+    smailDeSendToButtonDisabled: str = "Aus"
     smailDeInboxLabel: str = "Posteingang: "
     smailDeLoadingInbox: str= "Laden..."
     smailDeRecipientLabel: str = "An: "
@@ -57,6 +60,7 @@ class SmailConfiguration:
     imapServer: str = "imap.gmail.com"
     imapPort: int = "993"
     emailContactsV2: List[dict] = field(default_factory=lambda: [
+        {"email0": "", "icon0": "/run/archiso/airootfs/usr/lib/python3.13/site-packages/icons/exit.png"},
         {"email1": "sos.smail.person.1@gmail.com", "icon1": "/run/archiso/airootfs/usr/lib/python3.13/site-packages/icons/smail_person_1.png"},
         {"email2": "sos.smail.person.2@gmail.com", "icon2": "/run/archiso/airootfs/usr/lib/python3.13/site-packages/icons/smail_person_2.png"},
         {"email3": "sos.smail.person.3@gmail.com", "icon3": "/run/archiso/airootfs/usr/lib/python3.13/site-packages/icons/smail_person_3.png"},
@@ -64,19 +68,7 @@ class SmailConfiguration:
         {"email5": "sos.smail.person.5@gmail.com", "icon5": "/run/archiso/airootfs/usr/lib/python3.13/site-packages/icons/smail_person_5.png"},
         {"email6": "sos.smail.person.6@gmail.com", "icon6": "/run/archiso/airootfs/usr/lib/python3.13/site-packages/icons/smail_person_6.png"},
     ])
-    emailContacts: List[str] = field(default_factory=lambda: ["sos.smail.person.1@gmail.com",
-                                                              "sos.smail.person.2@gmail.com",
-                                                              "sos.smail.person.3@gmail.com",
-                                                              "sos.smail.person.4@gmail.com",
-                                                              "sos.smail.person.5@gmail.com",
-                                                              "sos.smail.person.6@gmail.com"])
-    emailPictures: List[str] = field(default_factory=lambda: ["exit.png",
-                                                                  "smail_person_1.png",
-                                                                  "smail_person_2.png",
-                                                                  "smail_person_3.png",
-                                                                  "smail_person_4.png",
-                                                                  "smail_person_5.png",
-                                                                  "smail_person_6.png"])
+
     sendPhishingWarning: bool = True
     showUrlInEmail: bool = True
     receiveWhitelistedEmailsOnly: bool = False

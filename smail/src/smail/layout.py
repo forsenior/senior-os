@@ -173,8 +173,14 @@ class first_frame(QWidget):
                     button.setIcon(self.person6_image)
                     button.clicked.connect(lambda _, btn=button, nb=6: self.decide_action_for_button(btn, nb))
 
+
                 elif index == 4:
-                    button.clicked.connect(lambda _, btn=button, nb=7: self.decide_action_for_button(btn, nb))
+                    if self.protection_level == 3:
+                        disabled_text = getattr(self.text_configuration,f"smail{self.language.capitalize()}SendToButtonDisabled")
+                        button.setText(disabled_text)
+                        button.setEnabled(False)
+                    else:
+                        button.clicked.connect(lambda _, btn=button, nb=7: self.decide_action_for_button(btn, nb))
 
         self.button_layout.setSpacing(10)
         self.button_layout.addItem(spacer_right)
@@ -207,16 +213,14 @@ class first_frame(QWidget):
         If an icon is missing, it falls back to an empty QIcon().
         """
         try:
-            BASE_DIR = Path.home().parents[1]
-            ICONS_DIR = BASE_DIR / "run" / "archiso" / "airootfs" / "usr" / "lib" / "python3.13" / "site-packages" / "icons"
             self.img = style.images(self.data_provider)
 
-            def load_icon(image_name, width=413, height=531):
+            def load_icon(image_path_str, width=413, height=531):
                 """
-                Loads an icon from a file if it exists.
+                Loads an icon from an absolute file path.
                 If not found, returns an empty icon to prevent UI issues.
                 """
-                image_path = ICONS_DIR / image_name
+                image_path = Path(image_path_str)
 
                 if image_path.exists():
                     pixmap = QPixmap(str(image_path))

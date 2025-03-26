@@ -308,7 +308,15 @@ def images(data_provider):
         Retrieves the list of image filenames from the configuration provider.
     """
     smail_config = data_provider.get_smail_configuration()
-    return smail_config.emailPictures
+    contacts = smail_config.emailContactsV2
+    icons = []
+
+    for contact in contacts:
+        for key, value in contact.items():
+            if key.startswith("icon"):
+                icons.append(value)
+
+    return icons
 
 def search_mail(id, data_provider):
     """
@@ -316,11 +324,13 @@ def search_mail(id, data_provider):
         - Ensures the ID is within the valid range.
     """
     smail_config = data_provider.get_smail_configuration()
-    email_contacts = smail_config.emailContacts
-    if 1 <= id <= len(email_contacts):
-        return email_contacts[id - 1]
-    else:
-        raise ValueError(f"Invalid id: {id}. Valid range is 1 to {len(email_contacts)}.")
+    email_contacts = smail_config.emailContactsV2
+    key = f"email{id}"
+    for contact in email_contacts:
+        if key in contact:
+            return contact[key]
+
+    raise ValueError(f"Invalid id: {id}. Email with key '{key}' not found in contacts.")
 
 def get_language(data_provider):
     """
