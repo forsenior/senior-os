@@ -404,8 +404,13 @@ class first_frame(QWidget):
         - PL2: Blocks emails from unknown contacts.
         """
         protection_level = self.protection_level
-        approved_contacts = self.data_provider.get_smail_configuration().emailContacts
-        approved_contacts = [email.lower().strip() for email in approved_contacts]
+        approved_contacts_raw = self.data_provider.get_smail_configuration().emailContactsV2
+        approved_contacts = []
+
+        for entry in approved_contacts_raw:
+            for key, value in entry.items():
+                if key.startswith("email"):
+                    approved_contacts.append(value.lower().strip())
 
         filtered_emails = []
         filtered_subjects = []
