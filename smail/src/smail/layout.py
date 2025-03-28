@@ -606,8 +606,14 @@ class first_frame(QWidget):
         recipient = self.recipient_info_label_2.toPlainText().strip()
         subject = self.recipient_info_label_4.toPlainText().strip()
         content = self.email_content_label_2.toPlainText().strip()
-        approved_contacts = self.data_provider.get_smail_configuration().emailContacts
-        approved_contacts = [email.lower().strip() for email in approved_contacts]
+        approved_contacts = self.data_provider.get_smail_configuration().emailContactsV2
+        approved_contacts_raw = self.data_provider.get_smail_configuration().emailContactsV2
+
+        approved_contacts = []
+        for entry in approved_contacts_raw:
+            for key, value in entry.items():
+                if key.startswith("email"):
+                    approved_contacts.append(value.lower().strip())
 
         if self.protection_level >= 3 and recipient.lower() not in approved_contacts:
             self.alert_missing_text(self.recipient_info_label_2, default_color, alert_color)
