@@ -19,7 +19,3 @@ Vývoj konfigurační aplikace pro opatrovníka seniora. Konfigurační aplikace
 ## Binární obraz operačního systému Linux 
 
 Navazující práce pro vytvoření obrazu operačního systému Linux v režimu Live ISO. Operační systém obsahuje emailového klienta, webový prohlížeč a konfigurační aplikaci pro opatrovníka seniora. Současný stav vývoje včetně vizuálních ukázek je [zde](https://github.com/forsenior/senior-os/tree/main/siso).
-
-## Testování aplikací operačního systému pro seniory 
-
-Automatické testování aplikací operačního systému pro seniory: emailového klienta, webového prohlížeče a konfigurační aplikace. Testy budou na repozitáři GitHub. Práce nenavazuje na předchozí.
