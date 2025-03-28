@@ -214,6 +214,7 @@ class first_frame(QWidget):
         """
         try:
             self.img = style.images(self.data_provider)
+            exitPath =  "/run/archiso/airootfs/usr/lib/python3.13/site-packages/icons/exit.png"
 
             def load_icon(image_path_str, width=413, height=531):
                 """
@@ -230,13 +231,13 @@ class first_frame(QWidget):
                         return QIcon(pixmap)
                 return QIcon()
 
-            self.exit_image = load_icon(self.img[0])
-            self.person1_image = load_icon(self.img[1])
-            self.person2_image = load_icon(self.img[2])
-            self.person3_image = load_icon(self.img[3])
-            self.person4_image = load_icon(self.img[4])
-            self.person5_image = load_icon(self.img[5])
-            self.person6_image = load_icon(self.img[6])
+            self.exit_image = load_icon(exitPath)
+            self.person1_image = load_icon(self.img[0])
+            self.person2_image = load_icon(self.img[1])
+            self.person3_image = load_icon(self.img[2])
+            self.person4_image = load_icon(self.img[3])
+            self.person5_image = load_icon(self.img[4])
+            self.person6_image = load_icon(self.img[5])
 
         except Exception as e:
             print(f"Error: Failed loading images, application will continue without icons.\n{e}")
