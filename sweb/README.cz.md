@@ -118,7 +118,7 @@ Tento program je testován a optimalizován pro **Python 3.12**.
 
 ## Demonstracní video
 
-https://github.com/user-attachments/assets/88fbb138-6467-47d3-ad12-a0fb98515719
+https://github.com/user-attachments/assets/585b063b-6611-45bb-9ea5-cf20d50a5477
 
 # Jak přispět
 Můžete zasílat pull requesty nebo hlásit chyby a návrhy na vylepšení.
