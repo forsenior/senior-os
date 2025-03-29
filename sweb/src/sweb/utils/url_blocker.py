@@ -42,7 +42,7 @@ class URLBlocker:
             line = line.strip()
             if search_value in line:
                 return line
-        return None
+        return False
     
       
     # Control that if the url is Block

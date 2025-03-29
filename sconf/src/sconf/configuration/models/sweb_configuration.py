@@ -29,9 +29,12 @@ class SwebConfiguration:
     text: List[str] = field(default_factory=lambda: ["MENU 1",
                                                      "MENU 2",
                                                      "Search",
+                                                     "Disabled",
                                                      "MENU 1",
                                                      "MENU 2",
                                                      "Vyhledávání",
+                                                     "Vypnuté",
                                                      "MENU 1",
                                                      "MENU 2",
-                                                     "Suche", ])
+                                                     "Suche",
+                                                     "Deaktiviert"])

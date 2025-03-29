@@ -178,6 +178,10 @@ class MyBrowser(QMainWindow):
         }}        
         """)
         
+   
+
+
+
         # When text of URL is changed, check for URL Phishing
         self.url_bar.returnPressed.connect(self.navigate_to_url)
         self.url_toolbar.addWidget(self.url_bar)
@@ -714,8 +718,9 @@ class MyBrowser(QMainWindow):
         if self.global_dataProvider.protectionLevel == 2:
             web_url = self.url_blocker.find_url_with_value(url_in_bar_value)
             
-            if web_url != "None":
-
+            if web_url:
+                if Debug:
+                    print(f"The website {url_in_bar_value} is allowed")
                 # Set default style for toolbar
                 self.menu_1_toolbar.setStyleSheet(self.default_style_toolbar())
                 self.menu_2_toolbar.setStyleSheet(self.default_style_toolbar())
@@ -728,7 +733,39 @@ class MyBrowser(QMainWindow):
                 # Connect to URL after entering
                 self.main_browser.setUrl(QUrl(web_url)) 
             else:
-                print("URL is not permitted")
+                warning_style = """
+                <style>
+                    h1 {
+                        text-align: center;
+                        font-size: 50px;
+                        color: blue;
+                        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+                        animation: blink 1s infinite alternate;
+                    }
+                    @keyframes blink {
+                        0% { opacity: 1; }
+                        100% { opacity: 0.6; }
+                    }
+                </style>
+                """
+                if Debug:
+                    print(f"The website {self.url_blocker.find_url_with_value(url_in_bar_value)} is not allowed")
+                self.menu_1_toolbar.setStyleSheet(self.default_style_toolbar())
+                self.menu_2_toolbar.setStyleSheet(self.default_style_toolbar())
+                self.url_bar.clear()
+                self.url_toolbar.setVisible(True)
+                language = self.language_translator.get_current_language()
+                if language == "cz": 
+                    self.main_browser.setHtml(f"<html><head>{warning_style}</head><body><h1>Webová stránka ({url_in_bar_value}) není povolena</h1></body></html>")
+                elif language == "de":
+                    self.main_browser.setHtml(f"<html><head>{warning_style}</head><body><h1>Die Website ({url_in_bar_value}) ist nicht erlaubt</h1></body></html>")
+                else:
+                    self.main_browser.setHtml(f"<html><head>{warning_style}</head><body><h1>The website ({url_in_bar_value}) is not allowed</h1></body></html>")
+                                
+                
+
+           
+                
                     
         else:
             #If "." is not contained in URL
