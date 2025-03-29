@@ -404,8 +404,6 @@ class MyBrowser(QMainWindow):
         else:
             HIGHLIGHTCOLOR = "#48843F"
 
-       ## toolbar_text_config = MenuBarTextConfiguration()
-
         style_string = f"""
             QToolBar {{    
             border: 0px solid transparent;
