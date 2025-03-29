@@ -4,75 +4,125 @@
 - [Deutsch](README.de.md)
 - [Čeština](README.cz.md)
 
-# Webbrowser für Senioren und geistig Behinderte
+# Webbrowser für Senioren und geistig behinderte Menschen
 
-## Anwendungsübersicht
+## Überblick über die Anwendung
 
-Bei diesem Projekt handelt es sich um einen auf Senioren zugeschnittenen Webbrowser, der mit PyQt5 entwickelt wurde und dessen Schwerpunkt auf Barrierefreiheit, Einfachheit und Sicherheit liegt. 
-Sein Ziel ist es, eine benutzerfreundlichere Umgebung für ältere Erwachsene zu schaffen, indem er Funktionen wie verbesserte Textlesbarkeit, intuitive Navigation, 
-Audiounterstützung, mehrsprachige Optionen und robuste Sicherheitsmaßnahmen zum Schutz vor Phishing-Websites. 
-Nachstehend finden Sie das Designkonzept für den Webbrowser:
+Dieses Projekt ist ein speziell für Senioren entwickelter Webbrowser, der mit PyQt5 erstellt wurde und besonderen Wert auf Barrierefreiheit, Einfachheit und Sicherheit legt.
+Das Ziel ist es, eine benutzerfreundliche Umgebung für ältere Menschen zu schaffen, indem Funktionen wie verbesserte Lesbarkeit von Texten, intuitive Navigation,
+Audio-Unterstützung, mehrsprachige Optionen und robuste Sicherheitsmaßnahmen gegen Phishing-Websites bereitgestellt werden.
+Nachfolgend finden Sie das Designkonzept des Webbrowsers:
 
-## MENU1 Überblick
-MENU1 bietet eine benutzerfreundliche Oberfläche mit vier großen Schaltflächen fester Größe, die eine einfache Navigation, insbesondere für Senioren, ermöglichen.
+## Überblick MENU1
+MENU1 bietet eine benutzerfreundliche Oberfläche mit fünf  großen, festen Schaltflächen, die speziell für eine einfache Navigation konzipiert wurden.
 
 <img src="screens/sweb_screen_1.png" width="900" />
 
-Tasten-Aktionen:
+Funktionen der Schaltflächen:
 
-1. MENU1-Taste: Schaltet die Menüleiste auf MENU2 um.
-2. Schaltfläche „Beenden“: Schließt die Anwendung.
-3. Website-Schaltflächen (3): Öffnen Links zu vordefinierten Websites.
+1. MENU1-Schaltfläche: Wechselt die Menüleiste zu MENU2.
+2. Beenden-Schaltfläche: Schließt die Anwendung.
+3. Webseiten-Schaltflächen (3): Öffnen vordefinierte Websites.
    
-## MENU2 Überblick
-MENU2 enthält fünf Schaltflächen mit den folgenden Funktionen:
+## Überblick MENU2
+MENU2 enthält fünf Schaltflächen mit folgenden Funktionen:
 
 <img src="screens/sweb_screen_2.png" width="900" />
 
-Tasten-Aktionen:
+Funktionen der Schaltflächen:
 
-1. MENU2-Taste: Schaltet die Menüleiste zurück zu MENU1.
-2. Website-Schaltflächen (3): Öffnen Links zu vordefinierten Websites.
-3. Schaltfläche Suchen: Öffnet eine Suchleiste für Benutzeranfragen.
+1. MENU2-Schaltfläche: Wechselt die Menüleiste zurück zu MENU1.
+2. Webseiten-Schaltflächen (3): Öffnen vordefinierte Websites.
+3. Such-Schaltfläche: Öffnet eine Suchleiste für Benutzeranfragen.
 
 ## Erkennung von Phishing-Websites
-Diese Funktion ist das Herzstück unserer App. Sie warnt Nutzer, wenn eine Website möglicherweise eine Phishing-Website ist.
+Diese Funktion ist das Herzstück unserer Anwendung und warnt Benutzer, wenn eine Website möglicherweise eine Phishing-Seite ist.
 
 <img src="screens/sweb_screen_3.png" width="900" />
 
-- Phishing-Warnung: Wenn der Benutzer eine bekannte Phishing-URL eingibt, färbt sich der Hintergrund der Symbolleiste rot, um insbesondere für ältere Menschen gut sichtbar zu sein.
-
+- Phishing-Warnung: Wenn der Benutzer eine bekannte Phishing-URL eingibt, ändert sich der Hintergrund der Symbolleiste auf Rot, um eine einfache Erkennbarkeit zu gewährleisten, insbesondere für Senioren.
+- Nachfolgend ist ein Diagramm dargestellt, das den Prozess zur Erkennung von Phishing-URLs zeigt.
+<p align="center">
+  <img src="screens/sweb_phishing.gif" width="70%" />
+</p>
 Weitere Details zur Funktionsweise des Phishing-Detektors finden Sie in der Dokumentation.
 
 ## Installation
 
-Stellen Sie sicher, dass Sie Python3 oder pip auf Ihrem System installiert haben.
-Folgen Sie diesen Schritten, um den Webbrowser im FEDORA-Betriebssystem einzurichten:
+### Starten der Anwendung  
 
-```bash
-## Installieren Sie die erforderlichen Python-Pakete mit dnf, wenn Sie Fedora verwenden
-sudo dnf install python3
+Um die Anwendung zu starten, gehen Sie wie folgt vor:  
 
+1. Laden Sie die neueste ISO aus dem Repository [hier](https://github.com/forsenior/senior-os/releases) herunter.  
+2. Erstellen Sie eine neue virtuelle Maschine in Ihrer bevorzugten Virtualisierungssoftware (z. B. VirtualBox, VMware oder QEMU).  
+3. Hängen Sie die heruntergeladene ISO an die virtuelle Maschine an oder erstellen Sie einen bootfähigen USB-Stick. Die ISO basiert auf einer Linux-Distribution (Archie).  
+4. Starten Sie die virtuelle Maschine. Falls die Anwendung nicht automatisch startet, öffnen Sie das Terminal und führen Sie folgenden Befehl aus:  
+
+   ```sh
+   srun
+   ```  
+
+---
+
+### Installation und Entwicklungsumgebung  
+
+Für einfachere Modifikationen und eine bessere Übersicht der Anwendung folgen Sie diesen Schritten:  
+
+#### Schritt 1: Installation von Poetry  
+
+SWEB verwendet [Poetry](https://python-poetry.org/) für das Abhängigkeitsmanagement und die Paketierung. Falls Sie Poetry noch nicht installiert haben, folgen Sie der offiziellen [Installationsanleitung](https://python-poetry.org/docs/#installation).  
+
+#### Schritt 2: Repository klonen und Abhängigkeiten installieren  
+
+Sobald Poetry installiert ist, fahren Sie wie folgt fort:  
+
+```sh
 # Projekt-Repository klonen
-git clone https://github.com/forsenior/senior-os
+git clone https://github.com/forsenior/senior-os  
 
-# Installiere die Anforderungen aus der requirements.txt im sweb-Verzeichnis
-py -m pip install -r anforderungen.txt
+# In das Projektverzeichnis wechseln
+cd sweb  
 
-```
-      
+# Abhängigkeiten installieren
+poetry build  
+poetry install  
+```  
 
-## Das Demonstrationsvideo
+Wiederholen Sie diese Schritte für die Verzeichnisse `sconf` und `srun`:  
+
+```sh
+cd ..  
+cd sconf  
+poetry build  
+poetry install  
+
+cd ..  
+cd srun  
+poetry build  
+poetry install  
+```  
+
+#### Starten der Anwendung  
+
+Um SWEB zu starten, verwenden Sie:  
+
+```sh
+poetry run sweb  
+```  
+
+**Unterstützte Python-Versionen:**  
+Dieses Programm wurde für **Python 3.12** getestet und optimiert.  
+> [!NOTE]  
+> Falls Sie versuchen, die SWEB-Anwendung eigenständig auszuführen, können Fehler aufgrund des Konfigurationsdateipfads auftreten. Standardmäßig sollte sich die Datei config.json hier befinden:  
+> "$HOME/$USER/.sconf/config.json"
+
+## Demonstrationsvideo
 
 https://github.com/user-attachments/assets/88fbb138-6467-47d3-ad12-a0fb98515719
 
-
-
-
-# Wie man etwas beiträgt
-Fühlen Sie sich frei, Pull-Requests einzureichen oder Fragen zu stellen, wenn Sie auf Probleme stoßen oder Vorschläge für Verbesserungen haben.
+# So können Sie beitragen
+Fühlen Sie sich frei, Pull Requests einzureichen oder Probleme zu melden, falls Sie Fehler finden oder Verbesserungsvorschläge haben.
 
 ## Lizenz
 Dieses Projekt ist unter der MIT-Lizenz lizenziert.
 
-Übersetzt mit DeepL.com (kostenlose Version)
