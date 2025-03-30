@@ -1,6 +1,6 @@
 import os
 
-from PyQt5.QtCore import pyqtSlot
+from PyQt5.QtCore import pyqtSlot, pyqtSignal, Qt, QEvent
 from PyQt5.QtWidgets import QWidget, QLabel, QLineEdit, QGridLayout, QComboBox, QFileDialog, QDialog
 
 from sconf.configuration.models.sweb_configuration import SwebConfiguration
@@ -60,11 +60,16 @@ class WebSettingsView(QWidget):
                             """)
 
     def show_table(self, event):
-        table_input = TablePopup(self._swebConfiguration.swebAllowedUrlListV2, entry_type="web", highlight_color=self.highlight_color)
+        table_input = TablePopup(
+            self._swebConfiguration.swebAllowedUrlListV2,
+            entry_type="web",
+            highlight_color=self.highlight_color
+        )
 
         if table_input.exec_() == QDialog.Accepted:
             print(table_input.get_updated_entries())
             self._swebViewModel.update_model("swebAllowedUrlListV2", table_input.get_updated_entries())
+
     @pyqtSlot()
     def __on_input_change(self):
         sender = self.sender()

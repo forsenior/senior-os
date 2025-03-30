@@ -3,7 +3,7 @@ def get_main_window_style():
         QMainWindow {
             background-color: #FFFFFF;
             border: 2px solid #000000;
-            border-radius: 8px;
+            border-radius: 3px;
             margin: 20px;
             padding: 20px;
             box-sizing: border-box;
@@ -19,7 +19,7 @@ def get_default_menu_button_style(highlight_color):
             font-size: 40px;
             background-color: #949494;
             border: 1px solid #797979;
-            border-radius: 8px;
+            border-radius: 3px;
             color: #FFFFFF;
             margin: 1px;
             box-sizing: border-box;
@@ -35,9 +35,9 @@ def get_default_menu_button_style(highlight_color):
 def get_active_menu_button_style(highlight_color):
     return f"""
         QPushButton {{
-            background-color: #48843F;
+            background-color: #{highlight_color};
             border: 1px solid #797979;
-            border-radius: 8px;
+            border-radius: 3px;
             color: #FFFFFF;
             margin: 1px;
             text-align: center;

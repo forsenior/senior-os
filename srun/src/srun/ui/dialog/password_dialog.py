@@ -1,5 +1,5 @@
 from PyQt5.QtWidgets import (QLabel, QLineEdit, QPushButton, QVBoxLayout, QDialog, QDesktopWidget)
-from PyQt5.QtCore import Qt
+from PyQt5.QtCore import Qt, QEvent
 from PyQt5.QtGui import QFont
 
 from srun.ui.helpers.password_helper import hash_password
@@ -44,6 +44,7 @@ class PasswordPopup(QDialog):
         cancel_button = QPushButton("Cancel")
         cancel_button.clicked.connect(self.reject)
 
+        self.focusOutEvent = self.event
         # Add to layout
         layout.addWidget(message)
         layout.addWidget(self.password_input)
@@ -55,6 +56,12 @@ class PasswordPopup(QDialog):
         layout.addWidget(submit_button)
         layout.addWidget(cancel_button)
         self.setLayout(layout)
+
+    def event(self, event):
+        if event.type() == QEvent.WindowDeactivate:  # Detect when the dialog loses focus
+            print("Focus out event detected, closing dialog")
+            self.reject()  # Close the dialog properly
+        return super().event(event)
 
     def center(self):
         qr = self.frameGeometry()

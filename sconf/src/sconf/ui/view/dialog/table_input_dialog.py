@@ -1,4 +1,4 @@
-from PyQt5.QtCore import Qt
+from PyQt5.QtCore import Qt, pyqtSignal, QEvent
 from PyQt5.QtWidgets import QDialog, QWidget, QTableWidget, QHeaderView, QTableWidgetItem, QPushButton, QHBoxLayout, \
     QGridLayout, QFileDialog, QDesktopWidget, QAbstractItemView
 
@@ -24,6 +24,9 @@ class TablePopup(QDialog):
         """
         super().__init__(parent)
 
+        self.setWindowModality(Qt.ApplicationModal)  # Ensure it behaves as a modal dialog
+        self.setAttribute(Qt.WA_DeleteOnClose)
+
         # Store parameters
         self.entry_type = entry_type.lower()  # Normalize to lowercase
         self.highlight_color = highlight_color
@@ -45,6 +48,8 @@ class TablePopup(QDialog):
         self.setWindowFlag(Qt.FramelessWindowHint)
         self.center()
         self.setStyleSheet(get_default_dialog_style())
+
+        self.focusOutEvent = self.event
 
         # Create layout
         self._setup_ui()
@@ -198,6 +203,12 @@ class TablePopup(QDialog):
         # Store result and accept dialog
         self.entries_result = updated_entries
         self.accept()
+
+    def event(self, event):
+        if event.type() == QEvent.WindowDeactivate:  # Detect when the dialog loses focus
+            print("Focus out event detected, closing dialog")
+            self.reject()  # Close the dialog properly
+        return super().event(event)
 
     def center(self):
         """Center the dialog on the screen."""
