@@ -60,7 +60,7 @@ class WebSettingsView(QWidget):
                             """)
 
     def show_table(self, event):
-        table_input = TablePopup(self._swebConfiguration.swebAllowedUrlListV2, type="web", highlight_color=self.highlight_color)
+        table_input = TablePopup(self._swebConfiguration.swebAllowedUrlListV2, entry_type="web", highlight_color=self.highlight_color)
 
         if table_input.exec_() == QDialog.Accepted:
             print(table_input.get_updated_entries())
