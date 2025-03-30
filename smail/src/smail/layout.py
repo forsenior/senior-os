@@ -24,7 +24,6 @@ class first_frame(QWidget):
         self.image_configuration()
         self.language, self.text_configuration = style.get_language(self.data_provider)
         self.protection_level = style.get_protection_level(self.data_provider)
-        #self.protection_level = 1
         self.color_scheme = style.get_color_scheme(self.data_provider)
         self.guardian_email = style.get_guardian_email(self.data_provider)
         self.last_selected_index = None
@@ -175,7 +174,7 @@ class first_frame(QWidget):
 
 
                 elif index == 4:
-                    if self.protection_level == 3:
+                    if self.protection_level >= 2:
                         disabled_text = getattr(self.text_configuration,f"smail{self.language.capitalize()}SendToButtonDisabled")
                         button.setText(disabled_text)
                         button.setEnabled(False)
@@ -446,6 +445,7 @@ class first_frame(QWidget):
                 print("Rozpracovaný email byl zrušen.")
                 self.clear_email_fields()
 
+
         if hasattr(self, 'last_selected_button') and self.last_selected_button is not None:
             if not sip.isdeleted(self.last_selected_button):
                 self.last_selected_button.setStyleSheet(style.get_button_style(self.data_provider))
@@ -534,7 +534,7 @@ class first_frame(QWidget):
 
             if self.last_selected_button == button:
                 if self.cancel_email:
-                    self.cancel_email = False  # Reset cancel flag
+                    self.cancel_email = False
                 self.disable_fields_for_sending()
                 QTimer.singleShot(100, self.send_email_status)
                 return
@@ -615,7 +615,7 @@ class first_frame(QWidget):
                 if key.startswith("email"):
                     approved_contacts.append(value.lower().strip())
 
-        if self.protection_level >= 3 and recipient.lower() not in approved_contacts:
+        if self.protection_level >= 2 and recipient.lower() not in approved_contacts:
             self.alert_missing_text(self.recipient_info_label_2, default_color, alert_color)
             return
 
@@ -788,7 +788,7 @@ class first_frame(QWidget):
 
     def disable_fields_for_sending(self):
         """
-            Disables text fields after sending an email to prevent further edits.
+        Disables text fields and buttons after sending an email to prevent further edits.
         """
         colors = self.color_scheme
         grey_color = colors["grey_color"]
@@ -797,9 +797,18 @@ class first_frame(QWidget):
         self.recipient_info_label_4.setReadOnly(True)
         self.email_content_label_2.setReadOnly(True)
 
-        self.recipient_info_label_2.setStyleSheet(style.get_label_style() +f"background-color: {grey_color};")
-        self.recipient_info_label_4.setStyleSheet(style.get_label_style() +f"background-color: {grey_color};")
-        self.email_content_label_2.setStyleSheet(style.get_email_content_label() +f"background-color: {grey_color};")
+        self.recipient_info_label_2.setStyleSheet(style.get_label_style() + f"background-color: {grey_color};")
+        self.recipient_info_label_4.setStyleSheet(style.get_label_style() + f"background-color: {grey_color};")
+        self.email_content_label_2.setStyleSheet(style.get_email_content_label() + f"background-color: {grey_color};")
+
+        self.set_buttons_enabled(False)
+        QTimer.singleShot(4000, lambda: self.set_buttons_enabled(True))
+
+    def set_buttons_enabled(self, enabled: bool):
+        for i in range(self.button_layout.count()):
+            widget = self.button_layout.itemAt(i).widget()
+            if isinstance(widget, QPushButton):
+                widget.setEnabled(enabled)
 
     def contains_sensitive_data(self, content):
         """
@@ -967,6 +976,9 @@ class first_frame(QWidget):
 
         QTimer.singleShot(4000, lambda: self.restore_original_content(original_content, default_color))
         QTimer.singleShot(4000, lambda: self.alert_buttons(alert=False))
+        self.cancel_email = True
+        self.set_buttons_enabled(False)
+        QTimer.singleShot(4000, lambda: self.set_buttons_enabled(True))
 
     def restore_original_content(self, original_content, default_color):
         """
@@ -1020,6 +1032,9 @@ class first_frame(QWidget):
 
         QTimer.singleShot(4000, lambda: self.restore_original_content(original_content, default_color))
         QTimer.singleShot(4000, lambda: self.alert_buttons(alert=False))
+        self.sensitive_content_warning_displayed = False
+        self.set_buttons_enabled(False)
+        QTimer.singleShot(4000, lambda: self.set_buttons_enabled(True))
 
     def clear_email_fields(self):
         """
