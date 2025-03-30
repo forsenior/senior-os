@@ -8,7 +8,7 @@ from PyQt5.QtCore import Qt, QTimer, QUrl, QSize
 from PyQt5.QtGui import QTextCharFormat, QTextCursor, QDesktopServices, QIcon, QPixmap
 from PyQt5.QtWidgets import QWidget, QVBoxLayout, QFrame, QLabel, QTextEdit, \
     QApplication, QListWidget, QPushButton, QHBoxLayout, QSizePolicy, QSpacerItem, QAbstractItemView, QScrollBar
-
+from PyQt5.QtCore import QObject, pyqtSignal, QThread
 from smail import style
 from smail.connection.mail_connection import send_email, read_mail, send_email_with_guardian_copy
 
@@ -24,7 +24,6 @@ class first_frame(QWidget):
         self.image_configuration()
         self.language, self.text_configuration = style.get_language(self.data_provider)
         self.protection_level = style.get_protection_level(self.data_provider)
-        #self.protection_level = 1
         self.color_scheme = style.get_color_scheme(self.data_provider)
         self.guardian_email = style.get_guardian_email(self.data_provider)
         self.last_selected_index = None
@@ -38,7 +37,9 @@ class first_frame(QWidget):
         self.menu1= True
         self.red_state = False
         self.cancel_email = False
+        self.first_email_load = True
         self.is_viewing_inbox_email = False
+
         main_layout = QVBoxLayout()
 
         # 1. Top strip (button frame)
@@ -68,8 +69,10 @@ class first_frame(QWidget):
         self.setLayout(main_layout)
 
         # 6. Load emails
-        self.loading_emails = threading.Thread(target=self.periodic_email_loading)
-        self.loading_emails.start()
+        self.insert_emails()
+        self.email_timer = QTimer(self)
+        self.email_timer.timeout.connect(self.insert_emails)
+        self.email_timer.start(10000)
         self.allow_show_email = True
 
     def toggle_menu1(self):
@@ -77,7 +80,7 @@ class first_frame(QWidget):
             Toggles between two main menus (MENU 1 and MENU 2) and updates buttons.
         """
         self.menu1 = not self.menu1
-        print(f"menu1 toggled to: {self.menu1}")
+        # print(f"menu1 toggled to: {self.menu1}")
         self.clear_buttons()
         self.buttons_setup()
 
@@ -175,7 +178,7 @@ class first_frame(QWidget):
 
 
                 elif index == 4:
-                    if self.protection_level == 3:
+                    if self.protection_level >= 2:
                         disabled_text = getattr(self.text_configuration,f"smail{self.language.capitalize()}SendToButtonDisabled")
                         button.setText(disabled_text)
                         button.setEnabled(False)
@@ -254,7 +257,7 @@ class first_frame(QWidget):
         """
             Forces the application to close if it doesn't exit properly.
         """
-        print("Force quitting the application after timeout...")
+        # print("Force quitting the application after timeout...")
         subprocess.run(["kill", "-9", str(os.getpid())])
 
     def left_panel_setup(self):
@@ -346,19 +349,6 @@ class first_frame(QWidget):
             self.right_panel.layout().addWidget(self.email_content_label_1)
             self.right_panel.layout().addWidget(self.email_content_label_2)
 
-    def load_emails(self):
-        """
-            Starts loading emails into the email list.
-        """
-        self.insert_emails()
-
-    def periodic_email_loading(self):
-        """
-            Automatically refreshes the email list at regular intervals.
-        """
-        self.load_emails()
-        QTimer.singleShot(10000, self.periodic_email_loading)
-
     def activate_show_email(self, event):
         """
             Enables email viewing when an email is clicked.
@@ -367,37 +357,51 @@ class first_frame(QWidget):
 
     def insert_emails(self):
         """
-        Loads emails and filters them based on the protection level.
+        Starts a background thread to load and insert emails into the inbox list.
         """
+
+        if self.first_email_load:
+            language, _ = style.get_language(self.data_provider)
+            loading_inbox_text = getattr(self.text_configuration, f"smail{language.capitalize()}LoadingInbox",
+                                         "Loading inbox...")
+            self.inbox_list.clear()
+            self.inbox_list.addItem(loading_inbox_text)
+
+        self.thread = QThread()
+        self.worker = EmailLoaderWorker(self.data_provider, self.text_configuration)
+        self.worker.moveToThread(self.thread)
+
+        # Připojení signálů
+        self.thread.started.connect(self.worker.run)
+        self.worker.emails_loaded.connect(self.on_emails_loaded)
+        self.worker.error_occurred.connect(self.on_email_error)
+        self.worker.emails_loaded.connect(lambda *_: self.thread.quit())
+        self.worker.emails_loaded.connect(self.worker.deleteLater)
+        self.thread.finished.connect(self.thread.deleteLater)
+
+        self.thread.start()
+
+    def on_emails_loaded(self, emails, subjects):
         previous_emails = getattr(self, "reversed_list", [])
-        (login, password, smtp_server, smtp_port, imap_server, imap_port) = style.load_credentials(self.data_provider)
-        language, text = style.get_language(self.data_provider)
-        loading_inbox_text = getattr(self.text_configuration, f"smail{language.capitalize()}LoadingInbox")
-        self.inbox_list.addItem(loading_inbox_text)
 
-        self.emails, self.subjects = read_mail(login, password, imap_server, imap_port, language, text,
-                                               self.data_provider)
-        if self.emails is None or self.subjects is None:
-            print("Failed to load emails.")
-            return
-
-        self.emails, self.subjects = self.filter_unapproved_emails(self.emails, self.subjects)
-
+        self.emails, self.subjects = self.filter_unapproved_emails(emails, subjects)
         self.reversed_list = list(zip(self.emails[::-1], self.subjects[::-1]))
 
         if previous_emails != self.reversed_list:
             self.inbox_list.clear()
-            print("Clearing the listbox")
-
+            # print("Clearing the listbox")
             self.all_emails = [(email_content, subject, "safe") for email_content, subject in self.reversed_list]
 
             for email_content, subject, _ in self.all_emails:
-                name = style.get_email_sender(email_content.split("\n")[1])  # Extract name
+                name = style.get_email_sender(email_content.split("\n")[1])
                 self.inbox_list.addItem(f"{name} - {subject}")
 
-            # noinspection PyUnresolvedReferences
             self.inbox_list.itemSelectionChanged.connect(self.show_email)
             self.allow_show_email = True
+            self.first_email_load = False
+
+    def on_email_error(self, message):
+        print(f"Email load error: {message}")
 
     def filter_unapproved_emails(self, emails, subjects):
         """
@@ -443,8 +447,9 @@ class first_frame(QWidget):
                 return
             else:
                 self.cancel_email = False
-                print("Rozpracovaný email byl zrušen.")
+                # print("Rozpracovaný email byl zrušen.")
                 self.clear_email_fields()
+
 
         if hasattr(self, 'last_selected_button') and self.last_selected_button is not None:
             if not sip.isdeleted(self.last_selected_button):
@@ -458,7 +463,7 @@ class first_frame(QWidget):
         try:
             selected_index = self.inbox_list.currentRow()
         except IndexError:
-            print("Index out of range.")
+            # print("Index out of range.")
             return
 
         selected_email = self.all_emails[selected_index]
@@ -534,7 +539,7 @@ class first_frame(QWidget):
 
             if self.last_selected_button == button:
                 if self.cancel_email:
-                    self.cancel_email = False  # Reset cancel flag
+                    self.cancel_email = False
                 self.disable_fields_for_sending()
                 QTimer.singleShot(100, self.send_email_status)
                 return
@@ -615,28 +620,28 @@ class first_frame(QWidget):
                 if key.startswith("email"):
                     approved_contacts.append(value.lower().strip())
 
-        if self.protection_level >= 3 and recipient.lower() not in approved_contacts:
+        if self.protection_level >= 2 and recipient.lower() not in approved_contacts:
             self.alert_missing_text(self.recipient_info_label_2, default_color, alert_color)
             return
 
         if not recipient:
-            print("Recipient was not specified.")
+            # print("Recipient was not specified.")
             self.alert_missing_text(self.recipient_info_label_2, default_color, alert_color)
             missing_info = True
 
         elif not self.is_valid_email(recipient):
-            print("Invalid recipient email address.")
+            # print("Invalid recipient email address.")
             self.alert_missing_text(self.recipient_info_label_2, default_color, alert_color)
             missing_info = True
 
         if not subject:
-            print("Email subject is missing.")
+            # print("Email subject is missing.")
             # self.alert_missing_text(self.recipient_info_label_4, default_color, alert_color)
             missing_info = False
 
 
         if not content:
-            print("Email content is missing.")
+            # print("Email content is missing.")
             self.alert_missing_text(self.email_content_label_2, default_color, alert_color)
             missing_info = True
 
@@ -649,14 +654,15 @@ class first_frame(QWidget):
                 self.sensitive_content_warning_displayed = True
                 return
             else:
-                print("Sensitive content warning acknowledged. Proceeding with email send.")
+                # print("Sensitive content warning acknowledged. Proceeding with email send.")
+                pass
 
 
         if self.sensitive_content_warning_displayed:
             success = send_email_with_guardian_copy(
                 recipient, subject, content, login, password, smtp_server, smtp_port, self.guardian_email
             )
-            print(f"Poslano i pro guardiana: {self.guardian_email}")
+            # print(f"Poslano i pro guardiana: {self.guardian_email}")
         else:
             success = send_email(
                 recipient, subject, content, login, password, smtp_server, smtp_port
@@ -740,7 +746,7 @@ class first_frame(QWidget):
         """
         try:
             if not hasattr(self, 'last_selected_button_index') or self.last_selected_button_index is None:
-                print("No valid last selected button index found.")
+                # print("No valid last selected button index found.")
                 return
             if not (1 <= self.last_selected_button_index <= 6):
                 return
@@ -788,7 +794,7 @@ class first_frame(QWidget):
 
     def disable_fields_for_sending(self):
         """
-            Disables text fields after sending an email to prevent further edits.
+        Disables text fields and buttons after sending an email to prevent further edits.
         """
         colors = self.color_scheme
         grey_color = colors["grey_color"]
@@ -797,9 +803,18 @@ class first_frame(QWidget):
         self.recipient_info_label_4.setReadOnly(True)
         self.email_content_label_2.setReadOnly(True)
 
-        self.recipient_info_label_2.setStyleSheet(style.get_label_style() +f"background-color: {grey_color};")
-        self.recipient_info_label_4.setStyleSheet(style.get_label_style() +f"background-color: {grey_color};")
-        self.email_content_label_2.setStyleSheet(style.get_email_content_label() +f"background-color: {grey_color};")
+        self.recipient_info_label_2.setStyleSheet(style.get_label_style() + f"background-color: {grey_color};")
+        self.recipient_info_label_4.setStyleSheet(style.get_label_style() + f"background-color: {grey_color};")
+        self.email_content_label_2.setStyleSheet(style.get_email_content_label() + f"background-color: {grey_color};")
+
+        self.set_buttons_enabled(False)
+        QTimer.singleShot(4000, lambda: self.set_buttons_enabled(True))
+
+    def set_buttons_enabled(self, enabled: bool):
+        for i in range(self.button_layout.count()):
+            widget = self.button_layout.itemAt(i).widget()
+            if isinstance(widget, QPushButton):
+                widget.setEnabled(enabled)
 
     def contains_sensitive_data(self, content):
         """
@@ -967,6 +982,9 @@ class first_frame(QWidget):
 
         QTimer.singleShot(4000, lambda: self.restore_original_content(original_content, default_color))
         QTimer.singleShot(4000, lambda: self.alert_buttons(alert=False))
+        self.cancel_email = True
+        self.set_buttons_enabled(False)
+        QTimer.singleShot(4000, lambda: self.set_buttons_enabled(True))
 
     def restore_original_content(self, original_content, default_color):
         """
@@ -1020,6 +1038,9 @@ class first_frame(QWidget):
 
         QTimer.singleShot(4000, lambda: self.restore_original_content(original_content, default_color))
         QTimer.singleShot(4000, lambda: self.alert_buttons(alert=False))
+        self.sensitive_content_warning_displayed = False
+        self.set_buttons_enabled(False)
+        QTimer.singleShot(4000, lambda: self.set_buttons_enabled(True))
 
     def clear_email_fields(self):
         """
@@ -1028,3 +1049,29 @@ class first_frame(QWidget):
         self.recipient_info_label_2.clear()
         self.recipient_info_label_4.clear()
         self.email_content_label_2.clear()
+
+class EmailLoaderWorker(QObject):
+    emails_loaded = pyqtSignal(list, list)
+    error_occurred = pyqtSignal(str)
+
+    def __init__(self, data_provider, text_configuration):
+        super().__init__()
+        self.data_provider = data_provider
+        self.text_configuration = text_configuration
+
+    def run(self):
+
+        try:
+            login, password, smtp_server, smtp_port, imap_server, imap_port = style.load_credentials(self.data_provider)
+            language, text = style.get_language(self.data_provider)
+
+            emails, subjects = read_mail(login, password, imap_server, imap_port, language, text, self.data_provider)
+
+            if emails is None or subjects is None:
+                self.error_occurred.emit("Failed to load emails.")
+                return
+
+            self.emails_loaded.emit(emails, subjects)
+
+        except Exception as e:
+            self.error_occurred.emit(str(e))
