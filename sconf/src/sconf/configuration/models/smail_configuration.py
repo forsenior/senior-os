@@ -60,7 +60,7 @@ class SmailConfiguration:
     imapServer: str = "imap.gmail.com"
     imapPort: int = "993"
     emailContactsV2: List[dict] = field(default_factory=lambda: [
-        {"email1": "sos.smail.person.1@gmail.com", "icon1": "/run/archiso/airootfs/usr/lib/python3.13/site-packages/icons/smail_person_1.png"},
+        {"email1": "sos.smail.person.1@gmail.com", "icon1": "/run/archiso/airootfs/usr/lib/python3.13/site-packages/icons/smail_person_0.png"},
         {"email2": "sos.smail.person.2@gmail.com", "icon2": "/run/archiso/airootfs/usr/lib/python3.13/site-packages/icons/smail_person_2.png"},
         {"email3": "sos.smail.person.3@gmail.com", "icon3": "/run/archiso/airootfs/usr/lib/python3.13/site-packages/icons/smail_person_3.png"},
         {"email4": "sos.smail.person.4@gmail.com", "icon4": "/run/archiso/airootfs/usr/lib/python3.13/site-packages/icons/smail_person_4.png"},
