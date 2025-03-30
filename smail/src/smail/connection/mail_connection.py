@@ -37,17 +37,17 @@ def send_email(recipient, subject, content, login, password, smtp_server, smtp_p
             server.login(login, password)
             server.sendmail(login, recipient, msg.as_string())
 
-        print(f"An email has been sent to {recipient}.")
+        # print(f"An email has been sent to {recipient}.")
         # Returning 1 if email was send successfully
         return 1
     except smtplib.SMTPAuthenticationError:
-        print("Authentication error. Check your email and password.")
+        # print("Authentication error. Check your email and password.")
         return -1
     except smtplib.SMTPConnectError:
-        print("SMTP connection error. Check your SMTP server and port.")
+        # print("SMTP connection error. Check your SMTP server and port.")
         return 0
     except Exception as e:
-        print(f"Error occurred when trying to send email: {e}")
+        # print(f"Error occurred when trying to send email: {e}")
         return -2
 
 
@@ -69,17 +69,17 @@ def send_email_with_guardian_copy(recipient, subject, content, login, password, 
             server.login(login, password)
             server.sendmail(login, to_addresses, msg.as_string())
 
-        print(f"An email has been sent to {recipient}.")
+        # print(f"An email has been sent to {recipient}.")
         # Returning 1 if email was send successfully
         return 1
     except smtplib.SMTPAuthenticationError:
-        print("Authentication error. Check your email and password.")
+        # print("Authentication error. Check your email and password.")
         return -1
     except smtplib.SMTPConnectError:
-        print("SMTP connection error. Check your SMTP server and port.")
+        # print("SMTP connection error. Check your SMTP server and port.")
         return 0
     except Exception as e:
-        print(f"Error occurred when trying to send email: {e}")
+        # print(f"Error occurred when trying to send email: {e}")
         return -2
 
 
@@ -90,17 +90,17 @@ def imap_connection(login, password, imap_server, imap_port):
             imap_server, imap_port, ssl_context=ssl.create_default_context()
         )
         mail.login(login, password)
-        print("Successful connection to IMAP server.")
+        # print("Successful connection to IMAP server.")
         return mail
 
     except imaplib.IMAP4.error:
-        print("IMAP Error: Failed to connect to the IMAP server.")
+        # print("IMAP Error: Failed to connect to the IMAP server.")
         return 0
     except ConnectionError:
-        print("Connection Error: Failed to establish a connection to the IMAP server.")
+        # print("Connection Error: Failed to establish a connection to the IMAP server.")
         return -1
     except Exception as error:
-        print(f"An unexpected error occurred: {error}")
+        # print(f"An unexpected error occurred: {error}")
         return -2
 
 def read_mail(login, password, imap_server, imap_port, language, text, data_provider):
@@ -111,7 +111,7 @@ def read_mail(login, password, imap_server, imap_port, language, text, data_prov
     lang_message = getattr(text, f"smail{language.capitalize()}MessageLabel", None)
 
     if None in [lang_subject, lang_from, lang_date, lang_message]:
-        print("Error: Missing language keys")
+        # print("Error: Missing language keys")
         return None
 
     mail = imap_connection(login, password, imap_server, imap_port)
@@ -184,7 +184,7 @@ def read_mail(login, password, imap_server, imap_port, language, text, data_prov
             # resend_mail_to_guardian(emails, data_provider)
             resend_emails_g = True
 
-        print(f"{len(emails)} emails successfully loaded")
+        # print(f"{len(emails)} emails successfully loaded")
         return emails, subjects
 
     except Exception as error:
@@ -193,22 +193,7 @@ def read_mail(login, password, imap_server, imap_port, language, text, data_prov
         mail.close()
         mail.logout()
 
-# def resend_mail_to_guardian(emails, data_provider):
-#     from smail.src.smail.style import resend_active, load_credentials, get_path
-#     active, smail, gmail = resend_active(data_provider)
-#     if active:
-#         date = datetime.now().strftime("%d.%m.%Y")
-#         email_subject = f"Email report from {smail}, date: {date}"
-#         email_content = ""
-#         print(f"Sending emails from senior's address {smail} to guardian's email address {gmail}.")
-#         for e in emails:
-#             email_content += e
-#
-#         (login, password, smtp_server,
-#          smtp_port, imap_server, imap_port) = (
-#             load_credentials(data_provider))
-#
-#         send_email(gmail, email_subject, email_content, login, password, smtp_server, smtp_port)
+
 
 
 
