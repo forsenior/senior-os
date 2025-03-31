@@ -9,6 +9,7 @@ class Translator:
         
         self.current_language_in_browser = global_dataProvider.language
         self.current_language_in_browser = self.current_language_in_browser.lower()
+        self.protection_level = global_dataProvider.protectionLevel
        
         if Debug:
             print("Debugging Translator")
@@ -52,19 +53,27 @@ class Translator:
         if key_text == "sweb_en_menu2":
             return self.text[1]
         if key_text == "sweb_en_menu2Address":
+            if self.protection_level == 3:
+                return self.text[3]
             return self.text[2]
+        
         if key_text == "sweb_cz_menu1":
-            return self.text[3]
-        if key_text == "sweb_cz_menu2":
             return self.text[4]
-        if key_text == "sweb_cz_menu2Address":
+        if key_text == "sweb_cz_menu2":
             return self.text[5]
-        if key_text == "sweb_de_menu1":
+        if key_text == "sweb_cz_menu2Address":
+            if self.protection_level == 3:
+                return self.text[7]
             return self.text[6]
-        if key_text == "sweb_de_menu2":
-            return self.text[7]
-        if key_text == "sweb_de_menu2Address":
+        
+        if key_text == "sweb_de_menu1":
             return self.text[8]
+        if key_text == "sweb_de_menu2":
+            return self.text[9]
+        if key_text == "sweb_de_menu2Address":
+            if self.protection_level == 3:
+                return self.text[11]
+            return self.text[10]
 
     # Get state of current language
     def get_current_language(self):
