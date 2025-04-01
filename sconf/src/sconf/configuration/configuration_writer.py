@@ -47,7 +47,7 @@ class ConfigurationWriter:
         configuration_json = json.dumps(configuration)
         self.__save_configuration(configuration_json)
 
-    def save_password(self, password: str):
+    def save_password(self, password):
         with open(os.path.join(os.path.join('/','parsistence','password')), "wb", encoding='utf-8') as outfile:
             outfile.write(password)
 

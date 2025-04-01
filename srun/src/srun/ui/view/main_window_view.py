@@ -138,9 +138,9 @@ class MainWindowView(QWidget):
                 if self._is_initial_startup:
                     self.main_configuration.configurationPassword = password_dialog.get_confirmed_password()
                     self.main_configuration.initialStartUp = False
+                    self.data_writer.save_password(self.main_configuration.configurationPassword)
                     scryptum.create_master_key(self.main_configuration.configurationPassword)
                     scryptum.create_machine_key(self.main_configuration.configurationPassword)
-                    self.data_writer.save_password(self.main_configuration.configurationPassword)
                 os.system(f"{self.__executables.sconf}")
                 return
             case QDialog.Rejected:

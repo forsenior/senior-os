@@ -110,8 +110,8 @@ def read_machine_key():
     return plaintext
 
 # Reads and decrypts the configuration file
-def read_config():
-    key = read_machine_key()
+def read_config(password):
+    key = read_master_key(password)
     with open(os.path.join('/','persistence','config'), "rb") as config_file:
         nonce = config_file.read(16)
         tag = config_file.read(16)
@@ -127,8 +127,8 @@ def read_config():
     return str(plaintext, 'utf-8')
 
 # Writes and encrypts the configuration
-def write_config(config: str):
-    key = read_machine_key()
+def write_config(config: str, password):
+    key = read_master_key(password)
     cipher = AES.new(key, AES.MODE_EAX)
     nonce = cipher.nonce
     ciphertext, tag = cipher.encrypt_and_digest(bytes(config, 'utf-8'))
