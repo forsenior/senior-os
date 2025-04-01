@@ -4,6 +4,7 @@ from pathlib import Path
 
 from dataclass_wizard import fromdict
 
+import sconf.ui.utilities.scryptum as scryptum
 from sconf.configuration.models.global_configuration import GlobalConfiguration
 from sconf.configuration.models.smail_configuration import SmailConfiguration
 from sconf.configuration.models.sos_configuration import SOSConfiguration
@@ -24,12 +25,20 @@ class ConfigurationProvider:
         :param configFileName: Name of the SOS configuration file
         :param configStoragePath: Expected folder path from which the configuration can be loaded into memory
         """
-        self.__load_configuration()
+
+        if not os.path.exists(os.path.join('/','persistence','config')) and not self.password_exists():
+            self.__load_configuration()
+        else:
+            self.__load_encrypted_configuration(self.get_password())
 
     def __load_configuration(self):
         config_file = os.path.join(self._configStoragePath, self._configFileName)
         with open(config_file, 'r') as sourceFile:
             self._sosConfiguration: SOSConfiguration = fromdict(SOSConfiguration, json.load(sourceFile))
+
+    def __load_encrypted_configuration(self, password: str):
+        config = scryptum.read_config(password)
+        self._sosConfiguration: SOSConfiguration = fromdict(SOSConfiguration, json.load(config))
 
     def update_memory_configuration(self, configuration):
         if isinstance(configuration, SOSConfiguration):
@@ -73,3 +82,15 @@ class ConfigurationProvider:
         :return: `SmailConfiguration`
         """
         return self._sosConfiguration.smailConfiguration
+
+    def password_exists(self) -> bool:
+        return True if os.path.exists("/persistence/password") else False
+
+    def get_password(self) -> str:
+        try:
+            with open(os.path.join(os.path.join('/','persistence','password')), "r", encoding='utf-8') as readfile:
+                password = readfile.read()
+
+            return password
+        except Exception as e:
+            return ""

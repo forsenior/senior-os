@@ -12,6 +12,8 @@ from sconf.ui.view.global_settings_view import GlobalSettingsView
 from sconf.ui.view.smail_settings_view import MailSettingsView
 from sconf.ui.view.sweb_settings_view import WebSettingsView
 
+import sconf.ui.utilities.scryptum as scryptum
+
 
 class MainWindow(QMainWindow):
     _configurationFolder: str
@@ -131,8 +133,9 @@ class MainWindow(QMainWindow):
         self.stacked_widget.setCurrentIndex(0)
 
     def terminate_shelp(self):
-        self._configurationWriter.update_configuration(
-            configuration=self._configurationProvider.get_main_configuration()
+        scryptum.write_config(
+            config=self._configurationProvider.get_main_configuration(),
+            password=self._configurationProvider.get_password()
         )
         sys.exit(0)
 

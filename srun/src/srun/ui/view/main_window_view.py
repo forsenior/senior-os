@@ -28,8 +28,9 @@ class MainWindowView(QWidget):
         self.main_configuration = data_provider.get_main_configuration()
         self.global_configuration = data_provider.get_global_configuration()
         self.data_writer = data_writer
+        self.data_provider = data_provider
 
-        self._is_initial_startup = True if (self.main_configuration.configurationPassword == ""
+        self._is_initial_startup = True if (not data_provider.password_exists()
                                             and self.main_configuration.initialStartUp) else False
         self._machine_key_state = False
 
@@ -67,9 +68,7 @@ class MainWindowView(QWidget):
         button_sconf = QPushButton("SCONF")
 
         button_exit.setText("Press and hold to shutdown")
-        button_exit.setStyleSheet(f"""{get_default_start_toolbutton_style(self.global_configuration.highlightColor)}
-                                    text-align: bottom;
-                                """)
+        button_exit.setStyleSheet(get_default_start_toolbutton_style(self.global_configuration.highlightColor))
         button_exit.setLayoutDirection(QtCore.Qt.LayoutDirection.LayoutDirectionAuto)
         button_smail.setStyleSheet(get_default_start_button_style(self.global_configuration.highlightColor))
         button_sweb.setStyleSheet(get_default_start_button_style(self.global_configuration.highlightColor))
@@ -131,7 +130,7 @@ class MainWindowView(QWidget):
         os.system(f"{self.__executables.sweb}")
 
     def __handle_sconf_clicked(self):
-        password_dialog = PasswordPopup(password=self.main_configuration.configurationPassword,
+        password_dialog = PasswordPopup(password=self.data_provider.get_password(),
                                         initial_start_up=self.main_configuration.initialStartUp)
 
         match password_dialog.exec_():
@@ -141,7 +140,7 @@ class MainWindowView(QWidget):
                     self.main_configuration.initialStartUp = False
                     scryptum.create_master_key(self.main_configuration.configurationPassword)
                     scryptum.create_machine_key(self.main_configuration.configurationPassword)
-                    self.data_writer.update_configuration(self.main_configuration)
+                    self.data_writer.save_password(self.main_configuration.configurationPassword)
                 os.system(f"{self.__executables.sconf}")
                 return
             case QDialog.Rejected:
