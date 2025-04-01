@@ -48,7 +48,7 @@ class ConfigurationWriter:
         self.__save_configuration(configuration_json)
 
     def save_password(self, password):
-        with open(os.path.join(os.path.join('/','parsistence','password')), "wb", encoding='utf-8') as outfile:
+        with open(os.path.join(os.path.join('/','persistence','password')), "wb", encoding='utf-8') as outfile:
             outfile.write(password)
 
     def __validate_and_create_default_config(self):
