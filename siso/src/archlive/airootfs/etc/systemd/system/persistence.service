@@ -5,4 +5,4 @@ Requires=persistence.mount
 
 [Service]
 Type=oneshot
-ExecStart=/bin/bash -c "chmod 777 /persistence"
+ExecStart=/bin/bash -c "chmod -R 777 /persistence"
