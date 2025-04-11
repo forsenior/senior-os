@@ -52,9 +52,9 @@ class NotificationFillTextToPhishing(QObject):
             
         try:
             # Load the command line mail script
-            subprocess.run(["python3", self.command_line_mail_script, self.careGiverEmail, message], check=True)
+            # Send email using the command line mail script, it runs in the background
+            subprocess.Popen(["python3", self.command_line_mail_script, self.careGiverEmail, message], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
             
-            print("Email sent successfully!!!")
         except Exception as excep:
             print(f"Error sending email: {excep}")
             
