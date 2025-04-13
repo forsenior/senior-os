@@ -43,7 +43,7 @@ Tato funkce je klíčovou součástí naší aplikace a upozorňuje uživatele, 
 - Varování před phishingem: Pokud uživatel zadá známou phishingovou URL adresu, změní se pozadí panelu nástrojů na červenou, aby byla snadno viditelná, zejména pro seniory.
 - Níže je znázorněn diagram znázorňující proces detekce phishingových URL adres.
 <p align="center">
-  <img src="screens/sweb_phishing.gif" width="70%" />
+  <img src="screens/sweb_phishing_diagram.gif" width="70%" />
 </p>
 Podrobnější informace o fungování detekce phishingu budou uvedeny v dokumentaci.
 
