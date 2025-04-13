@@ -43,7 +43,7 @@ Diese Funktion ist das Herzstück unserer Anwendung und warnt Benutzer, wenn ein
 - Phishing-Warnung: Wenn der Benutzer eine bekannte Phishing-URL eingibt, ändert sich der Hintergrund der Symbolleiste auf Rot, um eine einfache Erkennbarkeit zu gewährleisten, insbesondere für Senioren.
 - Nachfolgend ist ein Diagramm dargestellt, das den Prozess zur Erkennung von Phishing-URLs zeigt.
 <p align="center">
-  <img src="screens/sweb_phishing.gif" width="70%" />
+  <img src="screens/sweb_phishing_diagram.gif" width="70%" />
 </p>
 Weitere Details zur Funktionsweise des Phishing-Detektors finden Sie in der Dokumentation.
 
