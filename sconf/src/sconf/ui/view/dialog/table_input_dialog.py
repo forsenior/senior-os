@@ -24,6 +24,7 @@ class TablePopup(QDialog):
         """
         super().__init__(parent)
 
+        self._accepting = False
         self.setWindowModality(Qt.ApplicationModal)  # Ensure it behaves as a modal dialog
         self.setAttribute(Qt.WA_DeleteOnClose)
 
@@ -202,12 +203,15 @@ class TablePopup(QDialog):
 
         # Store result and accept dialog
         self.entries_result = updated_entries
+        self._accepting = True
         self.accept()
 
     def event(self, event):
-        if event.type() == QEvent.WindowDeactivate:  # Detect when the dialog loses focus
-            print("Focus out event detected, closing dialog")
-            self.reject()  # Close the dialog properly
+        if event.type() == QEvent.WindowDeactivate:
+            # Only reject if not in the process of accepting
+            if not hasattr(self, '_accepting') or not self._accepting:
+                print("Focus out event detected, closing dialog")
+                self.reject()
         return super().event(event)
 
     def center(self):
