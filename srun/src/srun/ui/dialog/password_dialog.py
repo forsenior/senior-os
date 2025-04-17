@@ -11,6 +11,7 @@ class PasswordPopup(QDialog):
 
     def __init__(self, password, initial_start_up, parent=None):
         super().__init__(parent)
+        self._accepting = False
         self.password_from_config = password
         initial_start_up = initial_start_up
         is_password_set = False if password == "" else True
@@ -58,9 +59,11 @@ class PasswordPopup(QDialog):
         self.setLayout(layout)
 
     def event(self, event):
-        if event.type() == QEvent.WindowDeactivate:  # Detect when the dialog loses focus
-            print("Focus out event detected, closing dialog")
-            self.reject()  # Close the dialog properly
+        if event.type() == QEvent.WindowDeactivate:
+            # Only reject if not in the process of accepting
+            if not hasattr(self, '_accepting') or not self._accepting:
+                print("Focus out event detected, closing dialog")
+                self.reject()
         return super().event(event)
 
     def center(self):
@@ -79,11 +82,13 @@ class PasswordPopup(QDialog):
                 and self.is_password_setup
                 and password_hash.hexdigest() == confirm_password_hash.hexdigest()):
             self.__confirmed_password_hash = password_hash.hexdigest()
+            self._accepting = True
             self.accept()
         # Regular application login
         elif ((self.password_input.text() != "")
                 and not self.is_password_setup
                 and password_hash.hexdigest() == self.password_from_config):
+            self._accepting = True
             self.accept()
         else:
             self.reject()

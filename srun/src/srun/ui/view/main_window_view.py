@@ -31,7 +31,6 @@ class MainWindowView(QWidget):
 
         self._is_initial_startup = True if (self.main_configuration.configurationPassword == ""
                                             and self.main_configuration.initialStartUp) else False
-        self._machine_key_state = False
 
         self.timer = QTimer()
         self.timer.setInterval(30)
@@ -73,7 +72,7 @@ class MainWindowView(QWidget):
         button_sweb.setStyleSheet(get_default_start_button_style(self.global_configuration.highlightColor))
         button_sconf.setStyleSheet(get_default_start_button_style(self.global_configuration.highlightColor))
 
-        pixmap_icon = QPixmap(r"/Users/stepan.pijacek/Documents/Github/senior-os/sconf/icons/exit.png").scaled(100, 100)
+        pixmap_icon = QPixmap(r"/run/archiso/airootfs/usr/lib/python3.13/site-packages/icons/exit.png").scaled(100, 100)
         button_exit.setIconSize(QSize(100, 100))
         button_exit.setIcon(QIcon(pixmap_icon))
         button_exit.setToolButtonStyle(Qt.ToolButtonStyle.ToolButtonTextUnderIcon)
@@ -98,9 +97,6 @@ class MainWindowView(QWidget):
         h_layout.addStretch(1)  # Add space to the right
         main_layout.addLayout(h_layout)
         main_layout.addStretch(1)  # Add space below the central widget
-
-        #if not self._machine_key_state or self._is_initial_startup:
-        #    self.__handle_sconf_clicked()
 
     def __start_timer(self):
         self.elapsed_time = 0
@@ -137,8 +133,6 @@ class MainWindowView(QWidget):
                 if self._is_initial_startup:
                     self.main_configuration.configurationPassword = password_dialog.get_confirmed_password()
                     self.main_configuration.initialStartUp = False
-                    scryptum.create_master_key(self.main_configuration.configurationPassword)
-                    scryptum.create_machine_key(self.main_configuration.configurationPassword)
                     self.data_writer.update_configuration(self.main_configuration)
                 os.system(f"{self.__executables.sconf}")
                 return

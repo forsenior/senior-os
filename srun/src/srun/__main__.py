@@ -11,6 +11,7 @@ def main():
     try:
         data_writer = dw.ConfigurationWriter()
         data_provider = dp.ConfigurationProvider()
+        example_configuration = data_provider.get_sweb_configuration().swebAllowedUrlListV2
 
         print(data_provider.get_main_configuration())
 
