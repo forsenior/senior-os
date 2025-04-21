@@ -1,4 +1,4 @@
-# SHELP
+# SCONF
 ## Running the Application in ISO
 
     Download the latest ISO from the repository.
