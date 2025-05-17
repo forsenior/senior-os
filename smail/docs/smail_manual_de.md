@@ -10,7 +10,7 @@ Die Anwendung hat ein Hauptbedienfeld, das 5 Tasten für ein Menü enthält (ins
 4. **"An"-Schaltfläche** – funktioniert ähnlich wie die Personenschaltflächen, ist jedoch zum Eingeben einer beliebigen E-Mail-Adresse vorgesehen, wenn keine bestimmte Person ausgewählt ist. Diese Schaltfläche kann aus Sicherheitsgründen deaktiviert sein.
 
 ## Anzeigen von E-Mails:
-• Durch Klicken auf eine beliebige E-Mail in der Liste der empfangenen Nachrichten (Posteingang) wird die ausgewählte Nachricht im Fenster **Information und Nachricht** auf der rechten Seite der Anwendung angezeigt.
+Durch Klicken auf eine beliebige E-Mail in der Liste der empfangenen Nachrichten (Posteingang) wird die ausgewählte Nachricht im Fenster **Information und Nachricht** auf der rechten Seite der Anwendung angezeigt.
 ![Email_content](https://github.com/forsenior/senior-os/blob/97586ee86b71fae30ec5496450bd3b763537ad5b/smail/screens/smail_email_content_de.png)
 
 ## Schreiben einer E-Mail:

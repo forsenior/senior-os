@@ -10,7 +10,7 @@ The application has a main control panel that contains 5 buttons for one menu (a
 4. **"To" button** – works similarly to the person buttons but is intended for entering any email address if no specific person is selected. This button may be disabled for security reasons.
 
 ## Viewing Emails:
-• Clicking on any email in the list of received messages (Inbox) will display the selected message in the **Information and Message** window on the right side of the application.
+Clicking on any email in the list of received messages (Inbox) will display the selected message in the **Information and Message** window on the right side of the application.
 ![Email_content](https://github.com/forsenior/senior-os/blob/97586ee86b71fae30ec5496450bd3b763537ad5b/smail/screens/smail_email_content_en.png)
 
 ## Writing an Email:
