@@ -1,127 +1,127 @@
 
-# SMAIL – E-mailovı klient pro seniory
+# SMAIL â€“ E-mailovÃ½ klient pro seniory
 
-Tento e-mailovı klient je pøizpùsoben pro seniory ve vìkové skupinì 90 let a více.  
-Vyvinutı klient je snadno ovladatelnı a obsahuje pouze funkce, které mùe senior potøebovat.
+Tento e-mailovÃ½ klient je pÅ™izpÅ¯soben pro seniory ve vÄ›kovÃ© skupinÄ› 90 let a vÃ­ce.  
+VyvinutÃ½ klient je snadno ovladatelnÃ½ a obsahuje pouze funkce, kterÃ© mÅ¯Å¾e senior potÅ™ebovat.
 
-## Prostøedí pro ètení e-mailovıch zpráv
-SMAIL má prostøedí speciálnì navrené pro ètení e-mailù pøívìtivou formou, s velkımi a pøehlednımi tlaèítky a textem.  
-![menu1](https://github.com/forsenior/senior-os/blob/9651ba7d8c7fbd04c794c4344ed667deeb5b5458/smail/screens/smail_screen1_cz.png)
+## ProstÅ™edÃ­ pro ÄtenÃ­ e-mailovÃ½ch zprÃ¡v
+SMAIL mÃ¡ prostÅ™edÃ­ speciÃ¡lnÄ› navrÅ¾enÃ© pro ÄtenÃ­ e-mailÅ¯ pÅ™Ã­vÄ›tivou formou, s velkÃ½mi a pÅ™ehlednÃ½mi tlaÄÃ­tky a textem.  
+![menu1](https://github.com/forsenior/senior-os/blob/6eb5618b83e951d328ce9a7cb85962fc49fd6fa3/smail/screens/smail_screen1_cz.png)
 
-## Prostøedí pro psaní e-mailovıch zpráv
-Prostøedí pro psaní e-mailù je co nejjednodušší, s pøeddefinovanımi kontakty pro snadné odesílání.  
-![menu2](https://github.com/forsenior/senior-os/blob/9651ba7d8c7fbd04c794c4344ed667deeb5b5458/smail/screens/smail_screen2_cz_.png)
+## ProstÅ™edÃ­ pro psanÃ­ e-mailovÃ½ch zprÃ¡v
+ProstÅ™edÃ­ pro psanÃ­ e-mailÅ¯ je co nejjednoduÅ¡Å¡Ã­, s pÅ™eddefinovanÃ½mi kontakty pro snadnÃ© odesÃ­lÃ¡nÃ­.  
+![menu2](https://github.com/forsenior/senior-os/blob/6eb5618b83e951d328ce9a7cb85962fc49fd6fa3/smail/screens/smail_screen2_cz.png)
 
-## Potvrzení úspìšného odeslání e-mailu
-Po úspìšném odeslání e-mailu zobrazí aplikace potvrzovací zprávu, e e-mail byl odeslán.  
-![alert](https://github.com/forsenior/senior-os/blob/b772ef10bc80c3467e30be05966db91266d85aa3/smail/screens/smail_email_send_cz_.png)
+## PotvrzenÃ­ ÃºspÄ›Å¡nÃ©ho odeslÃ¡nÃ­ e-mailu
+Po ÃºspÄ›Å¡nÃ©m odeslÃ¡nÃ­ e-mailu zobrazÃ­ aplikace potvrzovacÃ­ zprÃ¡vu, Å¾e e-mail byl odeslÃ¡n.  
+![alert](https://github.com/forsenior/senior-os/blob/6eb5618b83e951d328ce9a7cb85962fc49fd6fa3/smail/screens/smail_email_send_cz.png)
 
-## Varování pøi odesílání citlivıch údajù
-Aplikace upozorní uivatele, kdy se chystá odeslat citlivé informace, èím pøidává další vrstvu zabezpeèení.  
-![alert1](https://github.com/forsenior/senior-os/blob/b772ef10bc80c3467e30be05966db91266d85aa3/smail/screens/smail_sensitive_data_alert_cz.png)
+## VarovÃ¡nÃ­ pÅ™i odesÃ­lÃ¡nÃ­ citlivÃ½ch ÃºdajÅ¯
+Aplikace upozornÃ­ uÅ¾ivatele, kdyÅ¾ se chystÃ¡ odeslat citlivÃ© informace, ÄÃ­mÅ¾ pÅ™idÃ¡vÃ¡ dalÅ¡Ã­ vrstvu zabezpeÄenÃ­.  
+![alert1](https://github.com/forsenior/senior-os/blob/6eb5618b83e951d328ce9a7cb85962fc49fd6fa3/smail/screens/smail_sensitive_data_alert_cz.png)
 
-## Varování pøi opuštìní neuloeného e-mailu
-Aplikace varuje uivatele pøi pokusu o opuštìní rozepsané zprávy. Uivatel je vyzván k potvrzení, zda si pøeje e-mail zrušit.  
-![alert2](https://github.com/forsenior/senior-os/blob/b772ef10bc80c3467e30be05966db91266d85aa3/smail/screens/smail_unconfirmed_email_cz.png)
+## VarovÃ¡nÃ­ pÅ™i opuÅ¡tÄ›nÃ­ neuloÅ¾enÃ©ho e-mailu
+Aplikace varuje uÅ¾ivatele pÅ™i pokusu o opuÅ¡tÄ›nÃ­ rozepsanÃ© zprÃ¡vy. UÅ¾ivatel je vyzvÃ¡n k potvrzenÃ­, zda si pÅ™eje e-mail zruÅ¡it.  
+![alert2](hhttps://github.com/forsenior/senior-os/blob/6eb5618b83e951d328ce9a7cb85962fc49fd6fa3/smail/screens/smail_unconfirmed_email_cz.png)
 
-## 1) Spuštìní aplikace – pouijte následující postup:
-Stáhnìte si nejnovìjší ISO z [repozitáøe](https://github.com/forsenior/senior-os/releases).  
-Vytvoøte novı virtuální stroj ve vámi zvoleném virtualizaèním prostøedí (napø. VirtualBox, VMware nebo QEMU) a pøidejte staené ISO.  
-Toto ISO je distribuováno jako systém zaloenı na Linuxu.  
-Spuste virtuální prostøedí a pokud se aplikace nespustí automaticky, spuste následující pøíkaz v terminálu:
+## 1) SpuÅ¡tÄ›nÃ­ aplikace â€“ pouÅ¾ijte nÃ¡sledujÃ­cÃ­ postup:
+StÃ¡hnÄ›te si nejnovÄ›jÅ¡Ã­ ISO z [repozitÃ¡Å™e](https://github.com/forsenior/senior-os/releases).  
+VytvoÅ™te novÃ½ virtuÃ¡lnÃ­ stroj ve vÃ¡mi zvolenÃ©m virtualizaÄnÃ­m prostÅ™edÃ­ (napÅ™. VirtualBox, VMware nebo QEMU) a pÅ™idejte staÅ¾enÃ© ISO.  
+Toto ISO je distribuovÃ¡no jako systÃ©m zaloÅ¾enÃ½ na Linuxu.  
+SpusÅ¥te virtuÃ¡lnÃ­ prostÅ™edÃ­ a pokud se aplikace nespustÃ­ automaticky, spusÅ¥te nÃ¡sledujÃ­cÃ­ pÅ™Ã­kaz v terminÃ¡lu:
 ```bash
 srun
 ```
 
-## 2) Pro snadnìjší úpravy a pøehled o aplikaci postupujte následovnì:
+## 2) Pro snadnÄ›jÅ¡Ã­ Ãºpravy a pÅ™ehled o aplikaci postupujte nÃ¡sledovnÄ›:
 
 ## Instalace
-Pro spuštìní SMAIL postupujte podle následujících krokù pro naklonování repozitáøe a instalaci závislostí:
+Pro spuÅ¡tÄ›nÃ­ SMAIL postupujte podle nÃ¡sledujÃ­cÃ­ch krokÅ¯ pro naklonovÃ¡nÃ­ repozitÃ¡Å™e a instalaci zÃ¡vislostÃ­:
 
 ### Krok 1: Instalace Poetry
-SMAIL pouívá Poetry pro správu závislostí a balení.  
-Pokud nemáte Poetry nainstalované, nejprve jej nainstalujte.  
-Mùete postupovat podle tohoto [podrobného návodu k instalaci Poetry](https://gist.github.com/Isfhan/b8b104c8095d8475eb377230300de9b0).
+SMAIL pouÅ¾Ã­vÃ¡ Poetry pro sprÃ¡vu zÃ¡vislostÃ­ a balenÃ­.  
+Pokud nemÃ¡te Poetry nainstalovanÃ©, nejprve jej nainstalujte.  
+MÅ¯Å¾ete postupovat podle tohoto [podrobnÃ©ho nÃ¡vodu k instalaci Poetry](https://gist.github.com/Isfhan/b8b104c8095d8475eb377230300de9b0).
 
-### Krok 2: Klonování repozitáøe a instalace závislostí
-Po instalaci Poetry pokraèujte tìmito kroky:
+### Krok 2: KlonovÃ¡nÃ­ repozitÃ¡Å™e a instalace zÃ¡vislostÃ­
+Po instalaci Poetry pokraÄujte tÄ›mito kroky:
 
 ```bash
-# Klonování repozitáøe
+# KlonovÃ¡nÃ­ repozitÃ¡Å™e
 git clone https://github.com/forsenior/senior-os
 
-# Pøejdìte do sloky projektu
+# PÅ™ejdÄ›te do sloÅ¾ky projektu
 cd smail
 
-# Sestavení a instalace závislostí pomocí Poetry
+# SestavenÃ­ a instalace zÃ¡vislostÃ­ pomocÃ­ Poetry
 poetry build
 
 poetry install
 ```
 
-Tyto kroky opakujte i pro sloky *sconf* a *srun* (cd .. -> cd sconf -> poetry build -> poetry install):  
+Tyto kroky opakujte i pro sloÅ¾ky *sconf* a *srun* (cd .. -> cd sconf -> poetry build -> poetry install):  
 ```bash
-#Spuste tento pøíkaz ve sloce se stejnım názvem:
+#SpusÅ¥te tento pÅ™Ã­kaz ve sloÅ¾ce se stejnÃ½m nÃ¡zvem:
 poetry run srun
-#Nebo mùete pouít tento pøíkaz po nastavení konfiguraèního souboru:
+#Nebo mÅ¯Å¾ete pouÅ¾Ã­t tento pÅ™Ã­kaz po nastavenÃ­ konfiguraÄnÃ­ho souboru:
 poetry run smail
 ```
 
-Podporované verze Pythonu: Tento program je testován a optimalizován pro Python 3.12.
+PodporovanÃ© verze Pythonu: Tento program je testovÃ¡n a optimalizovÃ¡n pro Python 3.12.
 
-## Poadovaná konfigurace pro SMAIL
+## PoÅ¾adovanÃ¡ konfigurace pro SMAIL
 
-Pro správné fungování e-mailového klienta SMAIL se doporuèuje nejprve upravit konfiguraèní soubory.  
-Pro doèasnou konfiguraci mùete upravit hlavní konfiguraèní soubor config.json, kterı se nachází v domovském adresáøi (napø. C:\Users\user\.sconf\config.json).  
-Pokud není pøítomen, zkopírujte nebo vytvoøte soubor config.json (soubor se automaticky vytvoøí po spuštìní *srun*).  
-Pro trvalé nastavení, které bude fungovat kontinuálnì, je tøeba upravit soubor `smail_configuration.py`, kterı se nachází v `sconf/src/sconf/models/`.  
-Bìhem tohoto procesu zadejte svou vlastní e-mailovou adresu a heslo pro personalizaci aplikace.  
-Vıchozí nastavení jsou k dispozici, ale pro lepší zabezpeèení a pøizpùsobení se doporuèuje pouít vlastní údaje.
+Pro sprÃ¡vnÃ© fungovÃ¡nÃ­ e-mailovÃ©ho klienta SMAIL se doporuÄuje nejprve upravit konfiguraÄnÃ­ soubory.  
+Pro doÄasnou konfiguraci mÅ¯Å¾ete upravit hlavnÃ­ konfiguraÄnÃ­ soubor config.json, kterÃ½ se nachÃ¡zÃ­ v domovskÃ©m adresÃ¡Å™i (napÅ™. C:\Users\user\.sconf\config.json).  
+Pokud nenÃ­ pÅ™Ã­tomen, zkopÃ­rujte nebo vytvoÅ™te soubor config.json (soubor se automaticky vytvoÅ™Ã­ po spuÅ¡tÄ›nÃ­ *srun*).  
+Pro trvalÃ© nastavenÃ­, kterÃ© bude fungovat kontinuÃ¡lnÄ›, je tÅ™eba upravit soubor `smail_configuration.py`, kterÃ½ se nachÃ¡zÃ­ v `sconf/src/sconf/models/`.  
+BÄ›hem tohoto procesu zadejte svou vlastnÃ­ e-mailovou adresu a heslo pro personalizaci aplikace.  
+VÃ½chozÃ­ nastavenÃ­ jsou k dispozici, ale pro lepÅ¡Ã­ zabezpeÄenÃ­ a pÅ™izpÅ¯sobenÃ­ se doporuÄuje pouÅ¾Ã­t vlastnÃ­ Ãºdaje.
 
-### Generování hesla pro SMAIL
+### GenerovÃ¡nÃ­ hesla pro SMAIL
 
-Pro pøipojení ke svému Gmail úètu z newebového prostøedí, jako je aplikace SMAIL, je potøeba vygenerovat heslo pro aplikaci.  
-Postupujte následovnì:
+Pro pÅ™ipojenÃ­ ke svÃ©mu Gmail ÃºÄtu z newebovÃ©ho prostÅ™edÃ­, jako je aplikace SMAIL, je potÅ™eba vygenerovat heslo pro aplikaci.  
+Postupujte nÃ¡sledovnÄ›:
 
-1. Pøejdìte do nastavení úètu Google na stránce *Google úèet*.
+1. PÅ™ejdÄ›te do nastavenÃ­ ÃºÄtu Google na strÃ¡nce *Google ÃºÄet*.
 
-2. Otevøete záloku „Zabezpeèení“.
+2. OtevÅ™ete zÃ¡loÅ¾ku â€ZabezpeÄenÃ­â€œ.
 
-3. V èásti „Pøihlášení do Googlu“ vyhledejte a vyberte „Dvoufázové ovìøení“.
+3. V ÄÃ¡sti â€PÅ™ihlÃ¡Å¡enÃ­ do Googluâ€œ vyhledejte a vyberte â€DvoufÃ¡zovÃ© ovÄ›Å™enÃ­â€œ.
 
-4. Po ovìøení identity pøejdìte dolù do èásti „Hesla pro aplikace“.
+4. Po ovÄ›Å™enÃ­ identity pÅ™ejdÄ›te dolÅ¯ do ÄÃ¡sti â€Hesla pro aplikaceâ€œ.
 
-5. Vyberte monost pro vytvoøení nového hesla pro aplikaci.
+5. Vyberte moÅ¾nost pro vytvoÅ™enÃ­ novÃ©ho hesla pro aplikaci.
 
-6. Zvolte aplikaci nebo zaøízení, pro které heslo vytváøíte.
+6. Zvolte aplikaci nebo zaÅ™Ã­zenÃ­, pro kterÃ© heslo vytvÃ¡Å™Ã­te.
 
-7. Postupujte podle pokynù pro vygenerování hesla.
+7. Postupujte podle pokynÅ¯ pro vygenerovÃ¡nÃ­ hesla.
 
-8. Zkopírujte vygenerované heslo a pouijte ho v aplikaci SGIVE pro bezpeèné pøipojení e-mailového klienta k vašemu Gmail úètu.
+8. ZkopÃ­rujte vygenerovanÃ© heslo a pouÅ¾ijte ho v aplikaci SGIVE pro bezpeÄnÃ© pÅ™ipojenÃ­ e-mailovÃ©ho klienta k vaÅ¡emu Gmail ÃºÄtu.
 
-Pokud nemùete najít správnou sekci, pouijte tento odkaz: [Hesla pro aplikace](https://myaccount.google.com/apppasswords)
+Pokud nemÅ¯Å¾ete najÃ­t sprÃ¡vnou sekci, pouÅ¾ijte tento odkaz: [Hesla pro aplikace](https://myaccount.google.com/apppasswords)
 
-## Spuštìní aplikace SMAIL
+## SpuÅ¡tÄ›nÃ­ aplikace SMAIL
 
-Pro spuštìní aplikace postupujte následovnì:
+Pro spuÅ¡tÄ›nÃ­ aplikace postupujte nÃ¡sledovnÄ›:
 
-1. **Otevøete své preferované IDE**  
-   Spuste vámi zvolené vıvojové prostøedí, napøíklad PyCharm nebo jiné.
+1. **OtevÅ™ete svÃ© preferovanÃ© IDE**  
+   SpusÅ¥te vÃ¡mi zvolenÃ© vÃ½vojovÃ© prostÅ™edÃ­, napÅ™Ã­klad PyCharm nebo jinÃ©.
 
-2. **Pøejdìte do adresáøe smail**  
-   Pomocí správce souborù v IDE otevøete sloku `smail` v rámci naklonovaného repozitáøe.
+2. **PÅ™ejdÄ›te do adresÃ¡Å™e smail**  
+   PomocÃ­ sprÃ¡vce souborÅ¯ v IDE otevÅ™ete sloÅ¾ku `smail` v rÃ¡mci naklonovanÃ©ho repozitÃ¡Å™e.
 
-3. **Otevøete terminál v této sloce**  
-   Ujistìte se, e máte aktivní terminálovou relaci ve sloce `smail`.
+3. **OtevÅ™ete terminÃ¡l v tÃ©to sloÅ¾ce**  
+   UjistÄ›te se, Å¾e mÃ¡te aktivnÃ­ terminÃ¡lovou relaci ve sloÅ¾ce `smail`.
 
-4. **Ujistìte se, e jsou nainstalovány všechny potøebné závislosti**  
-   Ovìøte, e jsou všechny závislosti správnì nainstalovány. Mùete postupovat dle sekce [Instalace](#instalace).
+4. **UjistÄ›te se, Å¾e jsou nainstalovÃ¡ny vÅ¡echny potÅ™ebnÃ© zÃ¡vislosti**  
+   OvÄ›Å™te, Å¾e jsou vÅ¡echny zÃ¡vislosti sprÃ¡vnÄ› nainstalovÃ¡ny. MÅ¯Å¾ete postupovat dle sekce [Instalace](#instalace).
 
 5. **Nastavte konfiguraci a heslo pro aplikaci**  
-   Pøed spuštìním aplikace nastavte konfiguraci a vygenerujte heslo dle sekce [Generování hesla](#generovani-hesla-pro-smail).
+   PÅ™ed spuÅ¡tÄ›nÃ­m aplikace nastavte konfiguraci a vygenerujte heslo dle sekce [GenerovÃ¡nÃ­ hesla](#generovani-hesla-pro-smail).
 
-6. **Spuste aplikaci**  
-   Jakmile je vše pøipraveno, spuste aplikaci tímto pøíkazem:
+6. **SpusÅ¥te aplikaci**  
+   Jakmile je vÅ¡e pÅ™ipraveno, spusÅ¥te aplikaci tÃ­mto pÅ™Ã­kazem:
 ```bash
 cd smail
 poetry run smail
