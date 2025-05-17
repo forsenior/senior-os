@@ -22,7 +22,7 @@ Aplikace upozorní uživatele, když se chystá odeslat citlivé informace, čí
 
 ## Varování při opuštění neuloženého e-mailu
 Aplikace varuje uživatele při pokusu o opuštění rozepsané zprávy. Uživatel je vyzván k potvrzení, zda si přeje e-mail zrušit.  
-![alert2](hhttps://github.com/forsenior/senior-os/blob/6eb5618b83e951d328ce9a7cb85962fc49fd6fa3/smail/screens/smail_unconfirmed_email_cz.png)
+![alert2](https://github.com/forsenior/senior-os/blob/6eb5618b83e951d328ce9a7cb85962fc49fd6fa3/smail/screens/smail_unconfirmed_email_cz.png)
 
 ## 1) Spuštění aplikace – použijte následující postup:
 Stáhněte si nejnovější ISO z [repozitáře](https://github.com/forsenior/senior-os/releases).  
