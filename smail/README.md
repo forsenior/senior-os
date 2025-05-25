@@ -5,23 +5,23 @@ The developed email client is easy to use and contains only features that a seni
 
 ## Environment for reading email messages
 SMAIL has an environment specifically designed for reading email messages in a user-friendly way, with large, clear buttons and text.
-![menu1](https://github.com/forsenior/senior-os/blob/9651ba7d8c7fbd04c794c4344ed667deeb5b5458/smail/screens/smail_screen_1.png)
+![menu1](https://github.com/forsenior/senior-os/blob/f69c6886a6b1b831bbf55c9c162af55fd61f8e0e/smail/screens/smail_screen1_en.png)
 
 ## Environment for writing email messages
 The environment for writing emails is as easy as possible, with predefined contacts available for convenience.
-![menu2](https://github.com/forsenior/senior-os/blob/9651ba7d8c7fbd04c794c4344ed667deeb5b5458/smail/screens/smail_screen_2.png)
+![menu2](https://github.com/forsenior/senior-os/blob/f69c6886a6b1b831bbf55c9c162af55fd61f8e0e/smail/screens/smail_screen2_en.png)
 
 ## Confirmation of Successful Email Sending
 After successfully sending an email, the application displays a confirmation message to inform the user that their email has been sent.
-![alert](https://github.com/forsenior/senior-os/blob/b772ef10bc80c3467e30be05966db91266d85aa3/smail/screens/smail_email_sent_en.png)
+![alert](https://github.com/forsenior/senior-os/blob/f69c6886a6b1b831bbf55c9c162af55fd61f8e0e/smail/screens/smail_email_send_en.png)
 
 ## Warning when sending sensitive data
 The application warns users when they are about to send sensitive information, adding an additional layer of security.
-![alert1](https://github.com/forsenior/senior-os/blob/b772ef10bc80c3467e30be05966db91266d85aa3/smail/screens/smail_sensitive_information_alert_en.png)
+![alert1](https://github.com/forsenior/senior-os/blob/f69c6886a6b1b831bbf55c9c162af55fd61f8e0e/smail/screens/smail_sensitive_data_alert_en.png)
 
 ## Warning when leaving unconfirmed email
 The application warns users when they attempt to leave an unfinished email draft. Users are prompted to confirm whether they want to discard the email before proceeding.
-![alert2](https://github.com/forsenior/senior-os/blob/b772ef10bc80c3467e30be05966db91266d85aa3/smail/screens/smail_unconfirmed-email_alert_en.png)
+![alert2](https://github.com/forsenior/senior-os/blob/f69c6886a6b1b831bbf55c9c162af55fd61f8e0e/smail/screens/smail_unconfirmed_email_en.png)
 
 ## 1) For launching the application, use the following procedure.
 Download the latest ISO from the [repository](https://github.com/forsenior/senior-os/releases).
