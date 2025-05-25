@@ -10,8 +10,7 @@ import uuid
 import random
 
 
-
-KEY_DIR = "/", "persistence", "keys"
+KEY_DIR = f"{pathlib.Path.home()}", ".sconf", "keys"
 
 # Check existance of keydir storage
 def keydir_exist():
@@ -112,7 +111,7 @@ def read_machine_key():
 # Reads and decrypts the configuration file
 def read_config(password):
     key = read_master_key(password)
-    with open(os.path.join('/','persistence','config'), "rb") as config_file:
+    with open(os.path.join(pathlib.Path.home(),'config'), "rb") as config_file:
         nonce = config_file.read(16)
         tag = config_file.read(16)
         cryptogram = config_file.read()
@@ -132,7 +131,7 @@ def write_config(config: str, password):
     cipher = AES.new(key, AES.MODE_EAX)
     nonce = cipher.nonce
     ciphertext, tag = cipher.encrypt_and_digest(bytes(config, 'utf-8'))
-    with open(os.path.join('/','persistence','config'), "wb") as config_file:
+    with open(os.path.join(pathlib.Path.home(),'config'), "wb") as config_file:
         config_file.write(nonce)
         config_file.write(tag)
         config_file.write(ciphertext)

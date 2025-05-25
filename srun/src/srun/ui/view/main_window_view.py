@@ -98,6 +98,9 @@ class MainWindowView(QWidget):
         main_layout.addLayout(h_layout)
         main_layout.addStretch(1)  # Add space below the central widget
 
+        if not scryptum.machine_key_exists() or self._is_initial_startup:
+            self.__handle_sconf_clicked()
+
     def __start_timer(self):
         self.elapsed_time = 0
         self.timer.start()
@@ -133,6 +136,8 @@ class MainWindowView(QWidget):
                 if self._is_initial_startup:
                     self.main_configuration.configurationPassword = password_dialog.get_confirmed_password()
                     self.main_configuration.initialStartUp = False
+                    scryptum.create_master_key(self.main_configuration.configurationPassword)
+                    scryptum.create_machine_key(self.main_configuration.configurationPassword)
                     self.data_writer.update_configuration(self.main_configuration)
                 os.system(f"{self.__executables.sconf}")
                 return
