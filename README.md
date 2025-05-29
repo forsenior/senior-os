@@ -31,11 +31,11 @@ Download the latest [release](https://github.com/forsenior/senior-os/releases) a
 
 ## Manuals and source code 
 
-- Email client for senior [manual](https://github.com/forsenior/senior-os/tree/main/smail/docs) and [source code](https://github.com/forsenior/senior-os/tree/main/smail)
-- Web browser for senior [manual](https://github.com/forsenior/senior-os/tree/main/sweb/docs) and [source code](https://github.com/forsenior/senior-os/tree/main/sweb)
-- Application runner for senior [manual](https://github.com/forsenior/senior-os/tree/main/srun/docs) and [source code](https://github.com/forsenior/senior-os/tree/main/srun)
-- Configuration application for senior caregiver [manual](https://github.com/forsenior/senior-os/tree/main/sconf/docs) and [source code](https://github.com/forsenior/senior-os/tree/main/sconf)
-- Live OS builder for developers [source code](https://github.com/forsenior/senior-os/tree/main/siso)
+- Email client for senior [manual](https://github.com/forsenior/senior-os/tree/main/smail/docs) and [code](https://github.com/forsenior/senior-os/tree/main/smail)
+- Web browser for senior [manual](https://github.com/forsenior/senior-os/tree/main/sweb/docs) and [code](https://github.com/forsenior/senior-os/tree/main/sweb)
+- Application runner for senior [manual](https://github.com/forsenior/senior-os/tree/main/srun/docs) and [code](https://github.com/forsenior/senior-os/tree/main/srun)
+- Configuration application for senior caregiver [manual](https://github.com/forsenior/senior-os/tree/main/sconf/docs) and [code](https://github.com/forsenior/senior-os/tree/main/sconf)
+- Live OS builder for developers [code](https://github.com/forsenior/senior-os/tree/main/siso)
 
 ## Contribution
 
@@ -45,10 +45,16 @@ Anybody is welcome to contribute [contact](https://www.vut.cz/en/people/dan-komo
 
 ## Visual examples
 
+Email client for senior
+
+![Email client  for senior ](https://github.com/forsenior/senior-os/blob/main/smail/screens/smail_sensitive_data_alert_en.png)
+
+![Email client for senior ](https://github.com/forsenior/senior-os/blob/main/smail/screens/smail_screen1_en.png)
+
+![Email client for senior ](https://github.com/forsenior/senior-os/blob/main/smail/screens/smail_email_send_en.png)
+
 Web browser for senior
 
 ![Web browser for senior ](https://github.com/forsenior/senior-os/blob/main/sweb/screens/sweb_screen_1.png)
 
-Email client for senior
-
-![Web browser for senior ](https://github.com/forsenior/senior-os/blob/main/smail/screens/smail_sensitive_information_alert_en.png)
+![Web browser for senior ](https://github.com/forsenior/senior-os/blob/main/sweb/screens/sweb_screen_3.png)
