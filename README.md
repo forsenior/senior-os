@@ -4,6 +4,8 @@
 
 **This is a work in progress and for testing purposes only**
 
+Promoting digital independence for cognitively challenged users through a specially designed email client
+
 Cognitively challenged users often encounter difficulties when using standard desktop systems, frequently requiring assistance from caregivers to send and read emails. They are also vulnerable targets for cyber criminals due to their tendency to believe deceptive emails. This project aims to provide a secure and accessible platform for basic online communication, tailored to the needs of these users.
 
 ## Key features
