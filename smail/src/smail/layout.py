@@ -5,12 +5,17 @@ import threading
 from pathlib import Path
 from PyQt5 import sip
 from PyQt5.QtCore import Qt, QTimer, QUrl, QSize
-from PyQt5.QtGui import QTextCharFormat, QTextCursor, QDesktopServices, QIcon, QPixmap
+from PyQt5.QtGui import QTextCharFormat, QTextCursor, QDesktopServices, QIcon, QPixmap, QKeySequence
 from PyQt5.QtWidgets import QWidget, QVBoxLayout, QFrame, QLabel, QTextEdit, \
-    QApplication, QListWidget, QPushButton, QHBoxLayout, QSizePolicy, QSpacerItem, QAbstractItemView, QScrollBar
+    QApplication, QListWidget, QPushButton, QHBoxLayout, QSizePolicy, QSpacerItem, QAbstractItemView, QScrollBar, QShortcut
 from PyQt5.QtCore import QObject, pyqtSignal, QThread
 from smail import style
 from smail.connection.mail_connection import send_email, read_mail, send_email_with_guardian_copy
+from smail_confview import MainWindow
+import sconf.configuration.configuration_writer as data_writer
+import sconf.configuration.configuration_provider as data_provider
+
+CONFIG_FILE_NAME = 'config.json'
 
 
 class first_frame(QWidget):
@@ -39,6 +44,8 @@ class first_frame(QWidget):
         self.cancel_email = False
         self.first_email_load = True
         self.is_viewing_inbox_email = False
+        self.shortcut = QShortcut(QKeySequence("Ctrl+O"), self)
+        self.shortcut.activated.connect(self.smail_conf)
 
         main_layout = QVBoxLayout()
 
@@ -244,7 +251,9 @@ class first_frame(QWidget):
 
         except Exception as e:
             print(f"Error: Failed loading images, application will continue without icons.\n{e}")
-
+    
+    def smail_conf(self):
+        window = MainWindow(screen, _dataProvider, _dataWriter, config_folder)
     def exit_app(self):
         """
             Closes the application.

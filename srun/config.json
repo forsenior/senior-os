@@ -1,0 +1,150 @@
+{
+    "initialStartUp": true,
+    "configurationPassword": "",
+    "globalConfiguration": {
+        "language": "en",
+        "colorMode": "light",
+        "alertColor": "F90000",
+        "highlightColor": "48843F",
+        "protectionLevel": 1,
+        "careGiverEmail": "ai.pythonbot@gmail.com"
+    },
+    "swebConfiguration": {
+        "swebAllowedUrlListV2": [
+            {
+                "url1": "https://irozhlas.cz/",
+                "icon1": "/run/archiso/airootfs/usr/lib/python3.13/site-packages/icons/sweb_www_1.png"
+            },
+            {
+                "url2": "https://edition.cnn.com/",
+                "icon2": "/run/archiso/airootfs/usr/lib/python3.13/site-packages/icons/sweb_www_2.png"
+            },
+            {
+                "url3": "https://www.vut.cz/",
+                "icon3": "/run/archiso/airootfs/usr/lib/python3.13/site-packages/icons/sweb_www_3.png"
+            },
+            {
+                "url4": "https://www.info-zdravi.cz/",
+                "icon4": "/run/archiso/airootfs/usr/lib/python3.13/site-packages/icons/sweb_www_4.png"
+            },
+            {
+                "url5": "https://www.aktualne.cz/",
+                "icon5": "/run/archiso/airootfs/usr/lib/python3.13/site-packages/icons/sweb_www_5.png"
+            },
+            {
+                "url6": "https://www.denik.cz/",
+                "icon6": "/run/archiso/airootfs/usr/lib/python3.13/site-packages/icons/sweb_www_6.png"
+            }
+        ],
+        "picturePaths": [
+            "/run/archiso/airootfs/usr/lib/python3.13/site-packages/icons/exit.png"
+        ],
+        "allowedURL": "/run/archiso/airootfs/usr/lib/python3.13/site-packages/phish/sweb_allowed_url.txt",
+        "phishingDatabase": "/run/archiso/airootfs/usr/lib/python3.13/site-packages/phish/sweb_phish.txt",
+        "phishingDetectionModel": "/run/archiso/airootfs/usr/lib/python3.13/site-packages/sweb/ml/phishing_detection_model.pkl",
+        "phishingVectorizer": "/run/archiso/airootfs/usr/lib/python3.13/site-packages/sweb/ml/tfidf_vectorizer.pkl",
+        "command_line_mail_script": "/run/archiso/airootfs/usr/lib/python3.13/site-packages/smail/connection/command_line_mail.py",
+        "phishingGithubDatabase": "https://github.com/mitchellkrogza/Phishing.Database/raw/master/ALL-phishing-domains.tar.gz/",
+        "sendPhishingWarning": true,
+        "phishingFormular": true,
+        "seniorWebsitePosting": true,
+        "whiteListedWebsitesOnly": false,
+        "allowWebSearch": true,
+        "text": [
+            "MENU 1",
+            "MENU 2",
+            "Search",
+            "Disabled",
+            "MENU 1",
+            "MENU 2",
+            "Vyhled\u00e1v\u00e1n\u00ed",
+            "Vypnut\u00e9",
+            "MENU 1",
+            "MENU 2",
+            "Suche",
+            "Deaktiviert"
+        ]
+    },
+    "smailConfiguration": {
+        "seniorEmail": "chlajan8@gmail.com",
+        "seniorPassword": "lslyvsuvdqcbsycn",
+        "smtpServer": "smtp.gmail.com",
+        "smtpPort": "587",
+        "imapServer": "imap.gmail.com",
+        "imapPort": "993",
+        "emailContactsV2": [
+            {
+                "email1": "sos.smail.person.1@gmail.com",
+                "icon1": "/run/archiso/airootfs/usr/lib/python3.13/site-packages/icons/smail_person_0.png"
+            },
+            {
+                "email2": "sos.smail.person.2@gmail.com",
+                "icon2": "/run/archiso/airootfs/usr/lib/python3.13/site-packages/icons/smail_person_2.png"
+            },
+            {
+                "email3": "sos.smail.person.3@gmail.com",
+                "icon3": "/run/archiso/airootfs/usr/lib/python3.13/site-packages/icons/smail_person_3.png"
+            },
+            {
+                "email4": "sos.smail.person.4@gmail.com",
+                "icon4": "/run/archiso/airootfs/usr/lib/python3.13/site-packages/icons/smail_person_4.png"
+            },
+            {
+                "email5": "sos.smail.person.5@gmail.com",
+                "icon5": "/run/archiso/airootfs/usr/lib/python3.13/site-packages/icons/smail_person_5.png"
+            },
+            {
+                "email6": "sos.smail.person.6@gmail.com",
+                "icon6": "/run/archiso/airootfs/usr/lib/python3.13/site-packages/icons/smail_person_6.png"
+            }
+        ],
+        "sendPhishingWarning": true,
+        "showUrlInEmail": true,
+        "receiveWhitelistedEmailsOnly": false,
+        "sendWhitelistedEmailsOnly": false,
+        "languageSet": {
+            "smailEnSendToButton": "Send To",
+            "smailEnSendToButtonDisabled": "Disabled",
+            "smailEnInboxLabel": "Inbox:",
+            "smailEnLoadingInbox": "Loading...",
+            "smailEnRecipientLabel": "To: ",
+            "smailEnSubjectLabel": "Subject: ",
+            "smailEnMessageLabel": "Message: ",
+            "smailEnFrom": "Information: ",
+            "smailEnDate": "Date: ",
+            "smailEnEmailSent": "Email has been sent.",
+            "smailEnEmailFail": "Email has not been sent.",
+            "smailEnUndeliveredEmail": "The email was not delivered to the address {recipient_email}.",
+            "smailEnSensitiveContentWarning": "Warning: \nThe email contains sensitive information. \nPress the button a second time to send the email.",
+            "smailEnUnconfirmedEmailWarning": "Warning: \nUnconfirmed email in progress. \nPress the button again to cancel.",
+            "smailCzSendToButton": "Komu",
+            "smailCzSendToButtonDisabled": "Uzam\u010deno",
+            "smailCzInboxLabel": "Doru\u010den\u00e1 po\u0161ta: ",
+            "smailCzLoadingInbox": "Na\u010d\u00edt\u00e1m...",
+            "smailCzRecipientLabel": "P\u0159\u00edjemce: ",
+            "smailCzSubjectLabel": "P\u0159edm\u011bt: ",
+            "smailCzMessageLabel": "Zpr\u00e1va: ",
+            "smailCzFrom": "Informace: ",
+            "smailCzDate": "Datum: ",
+            "smailCzEmailSent": "E-mail byl \u00fasp\u011b\u0161n\u011b odesl\u00e1n.",
+            "smailCzEmailFail": "E-mail nebyl odesl\u00e1n.",
+            "smailCzUndeliveredEmail": "Email nebyl doru\u010den na adresu {recipient_email}.",
+            "smailCzSensitiveContentWarning": "Varov\u00e1n\u00ed: \nEmail obsahuje citliv\u00e9 \u00fadaje. \nStisknut\u00edm tla\u010d\u00edtka podruh\u00e9 email ode\u0161lete.",
+            "smailCzUnconfirmedEmailWarning": "Varov\u00e1n\u00ed: \nRozpracovan\u00fd email nebyl potvrzen. \nDal\u0161\u00edm stisknut\u00edm dojde k jeho zru\u0161en\u00ed.",
+            "smailDeSendToButton": "Senden An",
+            "smailDeSendToButtonDisabled": "Aus",
+            "smailDeInboxLabel": "Posteingang: ",
+            "smailDeLoadingInbox": "Laden...",
+            "smailDeRecipientLabel": "An: ",
+            "smailDeSubjectLabel": "Betreff: ",
+            "smailDeMessageLabel": "Nachricht: ",
+            "smailDeFrom": "Information: ",
+            "smailDeDate": "Datum: ",
+            "smailDeEmailSent": "Die E-Mail wurde erfolgreich gesendet.",
+            "smailDeEmailFail": "Die E-Mail wurde nicht gesendet.",
+            "smailDeUndeliveredEmail": "Die E-Mail wurde nicht an die Adresse {recipient_email} zugestellt.",
+            "smailDeSensitiveContentWarning": "Warnung: \nDie E-Mail enth\u00e4lt sensible Daten. \nDurch erneutes Dr\u00fccken der Taste wird die E-Mail gesendet.",
+            "smailDeUnconfirmedEmailWarning": "Warnung: \nUnbest\u00e4tigte E-Mail in Bearbeitung. \nDr\u00fccken Sie die Taste erneut, um sie abzubrechen."
+        }
+    }
+}

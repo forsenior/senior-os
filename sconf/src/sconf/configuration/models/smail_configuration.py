@@ -53,8 +53,8 @@ class LanguageSet:
 
 @dataclass
 class SmailConfiguration:
-    seniorEmail: str = "xfiala59@gmail.com"
-    seniorPassword: str = "pafotbpfrrlwvund"
+    seniorEmail: str = "chlajan8@gmail.com"
+    seniorPassword: str = "pxarhlgsqpaihkme"
     smtpServer: str = "smtp.gmail.com"
     smtpPort: int = "587"
     imapServer: str = "imap.gmail.com"
