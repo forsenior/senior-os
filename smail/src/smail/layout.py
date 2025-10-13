@@ -1,5 +1,6 @@
 import os
 import re
+import sys
 import subprocess
 import threading
 from pathlib import Path
@@ -11,7 +12,7 @@ from PyQt5.QtWidgets import QWidget, QVBoxLayout, QFrame, QLabel, QTextEdit, \
 from PyQt5.QtCore import QObject, pyqtSignal, QThread
 from smail import style
 from smail.connection.mail_connection import send_email, read_mail, send_email_with_guardian_copy
-from smail_confview import MainWindow
+
 import sconf.configuration.configuration_writer as data_writer
 import sconf.configuration.configuration_provider as data_provider
 
@@ -252,8 +253,15 @@ class first_frame(QWidget):
         except Exception as e:
             print(f"Error: Failed loading images, application will continue without icons.\n{e}")
     
-    def smail_conf(self):
-        window = MainWindow(screen, _dataProvider, _dataWriter, config_folder)
+    def smail_conf(self): 
+        """
+            Opens the smail configuration window.
+        """
+        try:
+            subprocess.Popen([sys.executable, "/home/vboxuser/senior-os/smail/src/smail/smailconf_main.py"])
+        except Exception as e:
+            print(f"Error: Could not open smail configuration window.\n{e}")
+
     def exit_app(self):
         """
             Closes the application.
