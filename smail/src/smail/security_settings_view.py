@@ -1,8 +1,6 @@
 from PyQt5.QtCore import pyqtSlot
 from PyQt5.QtWidgets import QWidget, QLabel, QComboBox, QLineEdit, QGridLayout, QPushButton
 
-from vcolorpicker import getColor, hex2rgb, rgb2hex
-
 from sconf.configuration.models.global_configuration import GlobalConfiguration
 from sconf.configuration.models.smail_configuration import SmailConfiguration
 from sconf.configuration.models.sos_configuration import SOSConfiguration
@@ -52,7 +50,7 @@ class SecuritySettingsView(QWidget):
 
         combo_protection_level.currentIndexChanged.connect(self.__on_input_change)
         button_current_computer.clicked.connect(self.__on_guid_button_press)
-
+        
         # Set widget layout
         self.setLayout(grid_layout)
 
@@ -73,8 +71,3 @@ class SecuritySettingsView(QWidget):
         if sender.objectName() == "protectionLevel" and isinstance(sender, QComboBox):
             self._globalViewModel.update_model(sender.objectName(),
                                                StringValueConvertors.protection_level_to_int(sender.currentText()))
-
-    def __on_guid_button_press(self, event):
-        if scryptum.machine_key_exists():
-            return
-        scryptum.create_machine_key(self._sosConfiguration.configurationPassword)

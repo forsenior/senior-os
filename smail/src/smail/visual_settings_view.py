@@ -1,7 +1,7 @@
 from PyQt5.QtCore import pyqtSlot
 from PyQt5.QtWidgets import QWidget, QLabel, QComboBox, QLineEdit, QGridLayout, QPushButton
 
-from vcolorpicker import getColor, hex2rgb, rgb2hex
+from PyQt5.QtWidgets import QColorDialog as getColor
 
 from sconf.configuration.models.global_configuration import GlobalConfiguration
 from sconf.configuration.models.sos_configuration import SOSConfiguration
@@ -40,17 +40,17 @@ class VisualSettingsView(QWidget):
         combo_language.setCurrentText(
             StringValueConvertors.country_code_to_language(self._globalConfiguration.language))
 
-        input_alert_color = QLineEdit()
-        input_alert_color.setPlaceholderText(f"Select value of the alert in hex values (current is #"
-                                             f"{self._globalConfiguration.alertColor})")
-        input_alert_color.setObjectName("alertColor")
-        input_alert_color.mousePressEvent = self.__on_alert_color_clicked
+       # input_alert_color = QLineEdit()
+        #input_alert_color.setPlaceholderText(f"Select value of the alert in hex values (current is #"
+         #                                    f"{self._globalConfiguration.alertColor})")
+        #input_alert_color.setObjectName("alertColor")
+       # input_alert_color.mousePressEvent = self.__on_alert_color_clicked
 
-        input_highlight_color = QLineEdit()
-        input_highlight_color.setPlaceholderText(f"Select value of the highlight in hex values (current is #"
-                                                 f"{self._globalConfiguration.highlightColor})")
-        input_highlight_color.setObjectName("highlightColor")
-        input_highlight_color.mousePressEvent = self.__on_highlight_color_clicked
+        #input_highlight_color = QLineEdit()
+        #input_highlight_color.setPlaceholderText(f"Select value of the highlight in hex values (current is #"
+        #                                         f"{self._globalConfiguration.highlightColor})")
+        #input_highlight_color.setObjectName("highlightColor")
+        #input_highlight_color.mousePressEvent = self.__on_highlight_color_clicked
 
         # Add widgets to the grid
         grid_layout.addWidget(label_language, 0, 0)
@@ -76,26 +76,26 @@ class VisualSettingsView(QWidget):
                             {get_default_dropdown_style()}
                         """)
 
-    @pyqtSlot()
-    def __on_input_change(self):
-        sender = self.sender()
+   # @pyqtSlot()
+   # def __on_input_change(self):
+   #     sender = self.sender()
+#
+    #    if sender.objectName() == "language" and isinstance(sender, QComboBox):
+      #      print(StringValueConvertors.language_to_country_code(sender.currentText()))
+      #      self._globalViewModel.update_model(sender.objectName(),
+       #                                        StringValueConvertors.language_to_country_code(sender.currentText()))
 
-        if sender.objectName() == "language" and isinstance(sender, QComboBox):
-            print(StringValueConvertors.language_to_country_code(sender.currentText()))
-            self._globalViewModel.update_model(sender.objectName(),
-                                               StringValueConvertors.language_to_country_code(sender.currentText()))
 
+    #def __on_alert_color_clicked(self, event):
+   #     picked_color = getColor(hex2rgb(self._globalConfiguration.alertColor))
+    #    print(rgb2hex(picked_color))
 
-    def __on_alert_color_clicked(self, event):
-        picked_color = getColor(hex2rgb(self._globalConfiguration.alertColor))
-        print(rgb2hex(picked_color))
+    #    self._globalViewModel.update_model("alertColor",
+   #                                        rgb2hex(picked_color))
 
-        self._globalViewModel.update_model("alertColor",
-                                           rgb2hex(picked_color))
+   #def __on_highlight_color_clicked(self, event):
+    #    picked_color = getColor(hex2rgb(self._globalConfiguration.highlightColor))
+    #    print(rgb2hex(picked_color))
 
-    def __on_highlight_color_clicked(self, event):
-        picked_color = getColor(hex2rgb(self._globalConfiguration.highlightColor))
-        print(rgb2hex(picked_color))
-
-        self._globalViewModel.update_model("highlightColor",
-                                           rgb2hex(picked_color))
+      #  self._globalViewModel.update_model("highlightColor",
+       #                                    rgb2hex(picked_color))
