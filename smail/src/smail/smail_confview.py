@@ -36,7 +36,7 @@ class MainWindow(QMainWindow):
 
         # Create fixed-size container that will hold everything
         container = QWidget(self)
-        container.setFixedSize(1280, 800)  # Fixed size to match Figma
+        container.setFixedSize(1200, 800)
         container.setStyleSheet(f"""
                     {get_main_window_style()}
                     {get_default_menu_button_style(self.global_configuration.highlightColor)}
@@ -44,7 +44,13 @@ class MainWindow(QMainWindow):
                     border-radius: 8px;
                     margin: 40px;
                 """)
-        
+
+
+        # Main layout inside the container
+        self.main_layout = QVBoxLayout(container)
+        self.main_layout.setContentsMargins(20, 20, 20, 20)
+        self.main_layout.setSpacing(16)
+
         # Stack for holding multiple views (screens)
         self.stacked_widget = QStackedWidget(container)
         self.stacked_widget.setStyleSheet("""
@@ -59,6 +65,7 @@ class MainWindow(QMainWindow):
         self.setCentralWidget(self.stacked_widget)
         # Creating views for different sections
         self.first_frame = first_frame(self, configurationProvider, self.stacked_widget)
+
         self.security_view = SecuritySettingsView(self.global_configuration,  smail_configuration, sos_configuration, 
                                                  configurationProvider, configurationWriter, self.stacked_widget)
         self.visual_view = VisualSettingsView(self.global_configuration, smail_configuration, sos_configuration, 
@@ -66,30 +73,20 @@ class MainWindow(QMainWindow):
         self.mail_view = MailSettingsView(smail_configuration, self.global_configuration, configurationFolder, self.global_configuration.highlightColor, 
                                          configurationProvider, configurationWriter, self.stacked_widget)
 
-        # Adding views to the stacked widget just that works now
+        # Adding views to the stacked widget
         self.stacked_widget.addWidget(self.first_frame) # Index 0
         self.stacked_widget.addWidget(self.security_view)  # Index 1
         self.stacked_widget.addWidget(self.visual_view)  # Index 2
         self.stacked_widget.addWidget(self.mail_view)  # Index 3
 
-       
 
+        # Adding the stacked widget to the main layout
+        self.main_layout.addWidget(self.stacked_widget)
+        self.main_layout.addStretch() 
+        # Adds space at the bottom
         screenGeometry = screen.geometry()
         container.move(
              (screenGeometry.width() - container.width()) // 2,
              (screenGeometry.height() - container.height()) // 2
         )
 
-        
-
-    def terminate_shelp(self):
-        self.configurationWriter.update_configuration(
-            configuration=self.configurationProvider.get_main_configuration()
-        )
-        self.stacked_widget.setCurrentIndex(0)
-    def show_security_view(self):
-        self.stacked_widget.setCurrentIndex(1)
-    def show_visual_view(self):
-        self.stacked_widget.setCurrentIndex(2)
-    def show_mail_view(self):
-        self.stacked_widget.setCurrentIndex(3)

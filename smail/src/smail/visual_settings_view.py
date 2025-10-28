@@ -108,6 +108,7 @@ class VisualSettingsView(QWidget):
         # Set widget layout
 
         self.main_layout.addLayout(grid_layout)
+        self.main_layout.addStretch()
         self.setLayout(self.main_layout)
 
         # Apply styling

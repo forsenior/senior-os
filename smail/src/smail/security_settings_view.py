@@ -1,9 +1,11 @@
+
 from PyQt5.QtGui import QPixmap, QIcon
 from PyQt5.QtCore import pyqtSlot, QSize, Qt
 from PyQt5.QtWidgets import QWidget, QLabel, QComboBox, QLineEdit, QGridLayout, QPushButton, QVBoxLayout, QSpacerItem, \
     QSizePolicy, QFrame, QHBoxLayout
 
 from smail import style
+
 from sconf.configuration.models.global_configuration import GlobalConfiguration
 from sconf.configuration.models.smail_configuration import SmailConfiguration
 from sconf.configuration.models.sos_configuration import SOSConfiguration
@@ -96,8 +98,11 @@ class SecuritySettingsView(QWidget):
 
         combo_protection_level.currentIndexChanged.connect(self.__on_input_change)
         
+
+        
         # Set widget layout
         self.main_layout.addLayout(grid_layout)
+        self.main_layout.addStretch()
         self.setLayout(self.main_layout)
 
         # Apply styling

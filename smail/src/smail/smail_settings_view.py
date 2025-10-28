@@ -114,13 +114,13 @@ class MailSettingsView(QWidget):
         grid_layout.addWidget(self.label_email_contacts, 2, 0)
         grid_layout.addWidget(self.email_contacts, 2, 1)
 
-        grid_layout.addWidget(self.label_error, 3, 1)
 
         self.senior_mail.textChanged.connect(self.__on_input_change)
         self.senior_password.textChanged.connect(self.__on_input_change)
 
         
         self.main_layout.addLayout(grid_layout)
+        self.main_layout.addStretch()
         self.setLayout(self.main_layout)
 
         self.setStyleSheet(f"""
