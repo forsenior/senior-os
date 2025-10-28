@@ -1,9 +1,11 @@
 import os
 
 from PyQt5 import QtWidgets
-from PyQt5.QtCore import pyqtSlot
-from PyQt5.QtWidgets import (QWidget, QLabel, QLineEdit, QGridLayout, QComboBox, QFileDialog, QDialog)
+from PyQt5.QtCore import pyqtSlot, Qt, QSize
+from PyQt5.QtGui import QPixmap, QIcon
+from PyQt5.QtWidgets import (QWidget, QLabel, QLineEdit, QGridLayout, QComboBox, QFileDialog, QDialog, QVBoxLayout, QHBoxLayout, QSpacerItem, QSizePolicy, QFrame, QPushButton)
 
+from smail import style
 from sconf.configuration.models.global_configuration import GlobalConfiguration
 from sconf.configuration.models.smail_configuration import SmailConfiguration
 from sconf.ui.components.ui_transformation.transformation import UiElementTransformation
@@ -26,16 +28,57 @@ class MailSettingsView(QWidget):
     def __init__(self, smail_configuration: SmailConfiguration,
                  globalConfiguration: GlobalConfiguration,
                  configurationFolder: str,
-                 highlight_color: str):
+                 highlight_color: str,
+                    data_provider, configuration_writer, stacked_widget
+                ):
         super().__init__()
 
+        self.highlight_color = highlight_color
         self._smailConfiguration = smail_configuration
         self._globalConfiguration = globalConfiguration
         self._smailViewModel = SmailViewModel(smail_configuration, globalConfiguration)
         self._configurationFolder = configurationFolder
-        self.highlight_color = highlight_color
+
+        self.main_layout = QVBoxLayout()
+        self.data_provider = data_provider
+        self.configuration_writer = configuration_writer
+        self.stacked_widget = stacked_widget
+        # Create layout for labels and input fields
+        self.button_frame = QFrame(self)
+        self.button_frame.setStyleSheet(style.get_button_frame_style())
+        self.button_frame.setFrameShape(QFrame.StyledPanel)
+        self.button_frame.setFixedHeight(130)
+        self.button_layout = QHBoxLayout(self.button_frame)
+        spacer_left = QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
+        spacer_right = QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
+        self.button_layout.addItem(spacer_left)
+        # Creating the menu buttons
+        self.menu_buttons = {
+            "Menu1": QPushButton("Menu1"),
+            "X": QPushButton(""),
+            "Security": QPushButton("Security"),
+            "Visual": QPushButton("Visual"),
+            "Mail": QPushButton("Mail")
+        }
+
+        # Set up each button with proper sizing and styling
+        for name, button in self.menu_buttons.items():
+            button.setFixedSize(244, 107) # Updated size to match Figma
+            if name == "X":
+                pixmap_icon = QPixmap("/home/vboxuser/senior-os/sconf/icons/exit.png").scaled(40, 40, Qt.KeepAspectRatio,
+                                                                        Qt.SmoothTransformation)
+                button.setIconSize(QSize(40, 40))
+                button.setIcon(QIcon(pixmap_icon))
+            self.button_layout.addWidget(button, alignment=Qt.AlignCenter)
+            button.setStyleSheet(style.get_button_style(self.data_provider))
+
+        self.button_layout.setSpacing(10)
+        self.button_layout.addItem(spacer_right)
+        self.button_frame.setStyleSheet(style.get_button_frame_style())
+        self.main_layout.addWidget(self.button_frame)
 
         grid_layout = QGridLayout()
+        grid_layout.setSpacing(0)
         grid_layout.setColumnMinimumWidth(0, 261)
         grid_layout.setRowStretch(4, 0)
 
@@ -76,7 +119,9 @@ class MailSettingsView(QWidget):
         self.senior_mail.textChanged.connect(self.__on_input_change)
         self.senior_password.textChanged.connect(self.__on_input_change)
 
-        self.setLayout(grid_layout)
+        
+        self.main_layout.addLayout(grid_layout)
+        self.setLayout(self.main_layout)
 
         self.setStyleSheet(f"""
                     {get_default_label_style()}
@@ -86,6 +131,32 @@ class MailSettingsView(QWidget):
                     {get_default_settings_text_edit_style()}
                     {get_default_table_style()}
                     """)
+        self.button_frame.setStyleSheet(style.get_button_frame_style())
+        self.menu_buttons["Menu1"].setStyleSheet(style.get_button_style(self.data_provider))
+        self.menu_buttons["X"].setStyleSheet(style.get_button_style(self.data_provider))
+        self.menu_buttons["Security"].setStyleSheet(style.get_button_style(self.data_provider))
+        self.menu_buttons["Visual"].setStyleSheet(style.get_button_style(self.data_provider))
+        self.menu_buttons["Mail"].setStyleSheet(style.get_button_style(self.data_provider))
+
+        self.menu_buttons["X"].clicked.connect(self.terminate_shelp)
+        self.menu_buttons["Menu1"].clicked.connect(self.terminate_shelp)
+        self.menu_buttons["Security"].clicked.connect(self.show_security_view)
+        self.menu_buttons["Visual"].clicked.connect(self.show_visual_view)
+        self.menu_buttons["Mail"].clicked.connect(self.show_mail_view)
+
+
+    def terminate_shelp(self):
+        self.configuration_writer.update_configuration(
+            configuration=self.data_provider.get_main_configuration()
+        )
+        self.stacked_widget.setCurrentIndex(0)
+    def show_security_view(self):
+        self.stacked_widget.setCurrentIndex(1)
+    def show_visual_view(self):
+        self.stacked_widget.setCurrentIndex(2)
+    def show_mail_view(self):
+        self.stacked_widget.setCurrentIndex(3)
+
 
     def show_table(self, event):
         table_input = TablePopup(self._smailConfiguration.emailContactsV2, highlight_color=self.highlight_color)

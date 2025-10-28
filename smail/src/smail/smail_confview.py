@@ -9,9 +9,10 @@ from sconf.ui.styles.global_style_sheets import get_main_window_style, get_defau
     get_active_menu_button_style
 import sconf.configuration.configuration_writer as configurationWriter
 import sconf.configuration.configuration_provider as configurationProvider
-from visual_settings_view import VisualSettingsView
-from security_settings_view import SecuritySettingsView
-from smail_settings_view import MailSettingsView
+from smail.visual_settings_view import VisualSettingsView
+from smail.security_settings_view import SecuritySettingsView
+from smail.smail_settings_view import MailSettingsView
+from smail.layout import first_frame
 
 class MainWindow(QMainWindow):
     _configurationFolder: str
@@ -21,16 +22,14 @@ class MainWindow(QMainWindow):
                  configurationFolder: str):
         super().__init__()
 
-        self._configurationProvider = configurationProvider
-        self._configurationWriter = configurationWriter
-        self._configurationFolder = configurationFolder
+        
 
         self.global_configuration = configurationProvider.get_global_configuration()
         smail_configuration = configurationProvider.get_smail_configuration()
         sos_configuration = configurationProvider.get_main_configuration()
 
         # Set main window properties
-        self.setWindowTitle("MailCONF")
+        self.setWindowTitle("MainMail")
         self.setMinimumSize(1280, 800)
         self.setWindowFlag(Qt.FramelessWindowHint)
         self.setStyleSheet("background-color: #FFFFFF;")
@@ -45,39 +44,7 @@ class MainWindow(QMainWindow):
                     border-radius: 8px;
                     margin: 40px;
                 """)
-
-        # Main layout inside the container
-        self.main_layout = QVBoxLayout(container)
-        self.main_layout.setContentsMargins(20, 20, 20, 20)
-        self.main_layout.setSpacing(16)
-
-        # Menu layout
-        self.menu_layout = QHBoxLayout(container)
-        self.menu_layout.setContentsMargins(10, 12, 10, 1)
-        self.menu_layout.addItem(QSpacerItem(20, 40, QSizePolicy.Expanding, QSizePolicy.Minimum))  # Consistent spacing between buttons
-
-        # Creating the menu buttons
-        self.menu_buttons = {
-            "Menu1": QPushButton("Menu1"),
-            "X": QPushButton(""),
-            "Vizual": QPushButton("Visual"),
-            "Security": QPushButton("Security"),
-            "Mail": QPushButton("Mail")
-        }
-
-        # Set up each button with proper sizing and styling
-        for name, button in self.menu_buttons.items():
-            button.setFixedSize(244, 107)  # Updated size to match Figma
-            if name == "X":
-                pixmap_icon = QPixmap("/run/archiso/airootfs/usr/lib/python3.13/site-packages/icons/exit.png").scaled(40, 40, Qt.KeepAspectRatio,
-                                                                        Qt.SmoothTransformation)
-                button.setIconSize(QSize(40, 40))
-                button.setIcon(QIcon(pixmap_icon))
-            self.menu_layout.addWidget(button, alignment=Qt.AlignCenter)
-
-        self.menu_layout.addItem(QSpacerItem(20, 40, QSizePolicy.Expanding, QSizePolicy.Minimum))
-        self.main_layout.addLayout(self.menu_layout)
-
+        
         # Stack for holding multiple views (screens)
         self.stacked_widget = QStackedWidget(container)
         self.stacked_widget.setStyleSheet("""
@@ -89,29 +56,23 @@ class MainWindow(QMainWindow):
                         position: relative
                     }
                 """)
-
+        self.setCentralWidget(self.stacked_widget)
         # Creating views for different sections
-        self.credit_views = CreditsView()
-        self.visual_view = SecuritySettingsView(self.global_configuration, mail_configuration, sos_configuration=sos_configuration)
-        self.visual_view = VisualSettingsView(self.global_configuration, sos_configuration=sos_configuration)
-        self.mail_view = MailSettingsView(smail_configuration, self.global_configuration, configurationFolder, self.global_configuration.highlightColor)
+        self.first_frame = first_frame(self, configurationProvider, self.stacked_widget)
+        self.security_view = SecuritySettingsView(self.global_configuration,  smail_configuration, sos_configuration, 
+                                                 configurationProvider, configurationWriter, self.stacked_widget)
+        self.visual_view = VisualSettingsView(self.global_configuration, smail_configuration, sos_configuration, 
+                                             configurationProvider, configurationWriter, self.stacked_widget)
+        self.mail_view = MailSettingsView(smail_configuration, self.global_configuration, configurationFolder, self.global_configuration.highlightColor, 
+                                         configurationProvider, configurationWriter, self.stacked_widget)
 
-        # Adding views to the stacked widget
-        self.stacked_widget.addWidget(self.credit_views) # Index 0
-        self.stacked_widget.addWidget(self.global_view)  # Index 1
-        self.stacked_widget.addWidget(self.global_view)  # Index 2
+        # Adding views to the stacked widget just that works now
+        self.stacked_widget.addWidget(self.first_frame) # Index 0
+        self.stacked_widget.addWidget(self.security_view)  # Index 1
+        self.stacked_widget.addWidget(self.visual_view)  # Index 2
         self.stacked_widget.addWidget(self.mail_view)  # Index 3
 
-        # Adding the stacked widget to the main layout
-        self.main_layout.addWidget(self.stacked_widget)
-        self.main_layout.addStretch()  # Adds space at the bottom
-
-        # Connecting menu buttons to their respective actions
-        self.menu_buttons["Menu1"].clicked.connect(self.show_credits_view)
-        self.menu_buttons["X"].clicked.connect(self.terminate_shelp)
-        self.menu_buttons["Visual"].clicked.connect(self.show_global_view)
-        self.menu_buttons["Security"].clicked.connect(self.show_global_view)
-        self.menu_buttons["Mail"].clicked.connect(self.show_mail_view)
+       
 
         screenGeometry = screen.geometry()
         container.move(
@@ -119,39 +80,16 @@ class MainWindow(QMainWindow):
              (screenGeometry.height() - container.height()) // 2
         )
 
-        # Set initial active view
-        self.show_global_view()
-
-    def show_credits_view(self):
-        self.menu_buttons["Menu1"].setStyleSheet(get_active_menu_button_style(self.global_configuration.highlightColor))
-        self.menu_buttons["Visual"].setStyleSheet(get_default_menu_button_style(self.global_configuration.highlightColor))
-        self.menu_buttons["Security"].setStyleSheet(get_default_menu_button_style(self.global_configuration.highlightColor))
-        self.menu_buttons["Mail"].setStyleSheet(get_default_menu_button_style(self.global_configuration.highlightColor))
-        self.stacked_widget.setCurrentIndex(0)
+        
 
     def terminate_shelp(self):
-        self._configurationWriter.update_configuration(
-            configuration=self._configurationProvider.get_main_configuration()
+        self.configurationWriter.update_configuration(
+            configuration=self.configurationProvider.get_main_configuration()
         )
-        sys.exit(0)
-
-    def show_global_view(self):
-        self.menu_buttons["Menu1"].setStyleSheet(get_active_menu_button_style(self.global_configuration.highlightColor))
-        self.menu_buttons["Visual"].setStyleSheet(get_default_menu_button_style(self.global_configuration.highlightColor))
-        self.menu_buttons["Security"].setStyleSheet(get_default_menu_button_style(self.global_configuration.highlightColor))
-        self.menu_buttons["Mail"].setStyleSheet(get_default_menu_button_style(self.global_configuration.highlightColor))
+        self.stacked_widget.setCurrentIndex(0)
+    def show_security_view(self):
         self.stacked_widget.setCurrentIndex(1)
-
-    def show_web_view(self):
-        self.menu_buttons["Menu1"].setStyleSheet(get_active_menu_button_style(self.global_configuration.highlightColor))
-        self.menu_buttons["Visual"].setStyleSheet(get_default_menu_button_style(self.global_configuration.highlightColor))
-        self.menu_buttons["Security"].setStyleSheet(get_default_menu_button_style(self.global_configuration.highlightColor))
-        self.menu_buttons["Mail"].setStyleSheet(get_default_menu_button_style(self.global_configuration.highlightColor))
+    def show_visual_view(self):
         self.stacked_widget.setCurrentIndex(2)
-
     def show_mail_view(self):
-        self.menu_buttons["Menu1"].setStyleSheet(get_active_menu_button_style(self.global_configuration.highlightColor))
-        self.menu_buttons["Visual"].setStyleSheet(get_default_menu_button_style(self.global_configuration.highlightColor))
-        self.menu_buttons["Security"].setStyleSheet(get_default_menu_button_style(self.global_configuration.highlightColor))
-        self.menu_buttons["Mail"].setStyleSheet(get_default_menu_button_style(self.global_configuration.highlightColor))
         self.stacked_widget.setCurrentIndex(3)

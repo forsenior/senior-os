@@ -8,7 +8,7 @@ from PyQt5 import sip
 from PyQt5.QtCore import Qt, QTimer, QUrl, QSize
 from PyQt5.QtGui import QTextCharFormat, QTextCursor, QDesktopServices, QIcon, QPixmap, QKeySequence
 from PyQt5.QtWidgets import QWidget, QVBoxLayout, QFrame, QLabel, QTextEdit, \
-    QApplication, QListWidget, QPushButton, QHBoxLayout, QSizePolicy, QSpacerItem, QAbstractItemView, QScrollBar, QShortcut
+    QApplication, QListWidget, QPushButton, QHBoxLayout, QSizePolicy, QSpacerItem, QAbstractItemView, QScrollBar, QShortcut, QStackedWidget
 from PyQt5.QtCore import QObject, pyqtSignal, QThread
 from smail import style
 from smail.connection.mail_connection import send_email, read_mail, send_email_with_guardian_copy
@@ -20,12 +20,13 @@ CONFIG_FILE_NAME = 'config.json'
 
 
 class first_frame(QWidget):
-    def __init__(self, parent, data_provider):
+    def __init__(self, parent, data_provider, stacked_widget):
         """
             Initializes the main window of the email client, sets language, colors,
             buttons, panels, and starts loading emails.
         """
         super().__init__(parent)
+        self.stacked_widget = stacked_widget
         self.data_provider = data_provider
         self.image_configuration()
         self.language, self.text_configuration = style.get_language(self.data_provider)
@@ -225,7 +226,7 @@ class first_frame(QWidget):
         """
         try:
             self.img = style.images(self.data_provider)
-            exitPath =  "/run/archiso/airootfs/usr/lib/python3.13/site-packages/icons/exit.png"
+            exitPath =  "/home/vboxuser/senior-os/sconf/icons/exit.png"
 
             def load_icon(image_path_str, width=413, height=531):
                 """
@@ -254,14 +255,7 @@ class first_frame(QWidget):
             print(f"Error: Failed loading images, application will continue without icons.\n{e}")
     
     def smail_conf(self): 
-        """
-            Opens the smail configuration window.
-        """
-        try:
-            subprocess.Popen([sys.executable, "/home/vboxuser/senior-os/smail/src/smail/smailconf_main.py"])
-        except Exception as e:
-            print(f"Error: Could not open smail configuration window.\n{e}")
-
+        self.stacked_widget.setCurrentIndex(2)
     def exit_app(self):
         """
             Closes the application.

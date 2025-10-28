@@ -7,11 +7,9 @@ from sconf.configuration.models.sweb_configuration import SwebConfiguration
 class GlobalViewModel:
 
     def __init__(self, global_configuration: GlobalConfiguration,
-                 sweb_configuration: SwebConfiguration,
                  smail_configuration: SmailConfiguration):
         super().__init__()
         self._global_configuration = global_configuration
-        self._sweb_configuration = sweb_configuration
         self._smail_configuration = smail_configuration
 
     def update_model(self, attribute_name, value):
@@ -34,24 +32,16 @@ class GlobalViewModel:
         match protection_level:
             case '1':
                 self._smail_configuration.sendPhishingWarning = True
-                self._sweb_configuration.sendPhishingWarning = True
             case '2':
                 self._smail_configuration.sendPhishingWarning = True
                 self._smail_configuration.receiveWhitelistedEmailsOnly = True
                 self._smail_configuration.showUrlInEmail = False
 
-                self._sweb_configuration.sendPhishingWarning = True
-                self._sweb_configuration.seniorWebsitePosting = False
             case '3':
                 self._smail_configuration.sendPhishingWarning = True
                 self._smail_configuration.receiveWhitelistedEmailsOnly = True
                 self._smail_configuration.sendWhitelistedEmailsOnly = True
                 self._smail_configuration.showUrlInEmail = False
-
-                self._sweb_configuration.sendPhishingWarning = True
-                self._sweb_configuration.seniorWebsitePosting = False
-                self._sweb_configuration.allowWebSearch = False
-                self._sweb_configuration.whiteListedWebsitesOnly = True
             case _:
                 raise AttributeError("Setting protection level was attempted but value of "
                                      "protection level didn't match any case")
